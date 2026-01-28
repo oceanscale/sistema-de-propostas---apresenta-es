@@ -14,8 +14,9 @@ export interface TimelinePhase {
 
 export interface CompetitorItem {
   name: string
-  strength: string
-  weakness: string
+  website: string
+  presence: string
+  strengths: string[]
 }
 
 export interface Proposal {

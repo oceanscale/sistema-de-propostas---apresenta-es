@@ -26,17 +26,21 @@ export const DEFAULT_PROPOSAL: Proposal = {
   competitorsData: [
     {
       name: 'Concorrente A',
-      strength: 'Preço baixo',
-      weakness: 'Atendimento ruim',
+      website: 'www.concorrente-a.com.br',
+      presence:
+        'Forte presença no Instagram com influenciadores, mas site lento e sem otimização mobile.',
+      strengths: ['Preço Competitivo', 'Entrega Rápida'],
     },
     {
       name: 'Concorrente B',
-      strength: 'Marca forte',
-      weakness: 'Tecnologia obsoleta',
+      website: 'www.concorrente-b.com',
+      presence:
+        'Investe pesado em Google Ads, porém com criativos genéricos e baixa retenção.',
+      strengths: ['Marca Forte', 'Variedade de Produtos'],
     },
   ],
   marketBenchmarking:
-    'O mercado apresenta saturação em canais tradicionais, abrindo oportunidade para estratégias de tráfego pago segmentado.',
+    'O mercado apresenta saturação em canais tradicionais, abrindo oportunidade para estratégias de tráfego pago segmentado focadas em experiência do usuário.',
 
   channels: ['Google Ads', 'Meta Ads (Facebook/Instagram)'],
   addons: ['Landing Page High-Convert', 'Triagem com IA'],
