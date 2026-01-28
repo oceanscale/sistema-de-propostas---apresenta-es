@@ -4,6 +4,7 @@ import { SlideSummary } from './SlideSummary'
 import { SlideEcosystem } from './SlideEcosystem'
 import { SlideDiagnosis } from './SlideDiagnosis'
 import { SlideTimeline } from './SlideTimeline'
+import { SlideMethodology } from './SlideMethodology'
 import { SlideProjection } from './SlideProjection'
 import { SlideInvestment } from './SlideInvestment'
 import { SlideROI } from './SlideROI'
@@ -17,6 +18,7 @@ export function FullDeck({ proposal }: { proposal: Proposal }) {
       <SlideEcosystem proposal={proposal} />
       <SlideDiagnosis proposal={proposal} />
       <SlideTimeline proposal={proposal} />
+      <SlideMethodology proposal={proposal} />
       <SlideProjection proposal={proposal} />
       <SlideInvestment proposal={proposal} />
       <SlideROI proposal={proposal} />

@@ -35,6 +35,18 @@ export function WizardStepClient() {
         </div>
 
         <div>
+          <Label>Link do CTA (Botão Final)</Label>
+          <Input
+            value={proposal.ctaUrl}
+            onChange={(e) => updateProposal({ ctaUrl: e.target.value })}
+            placeholder="Ex: https://wa.me/55..."
+          />
+          <p className="text-xs text-slate-500 mt-1">
+            Link de destino para o botão "Aprovar" no último slide.
+          </p>
+        </div>
+
+        <div>
           <Label>Setor de Atuação</Label>
           <Select
             value={proposal.sector}

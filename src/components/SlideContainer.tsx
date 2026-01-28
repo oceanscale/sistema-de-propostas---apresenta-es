@@ -25,24 +25,21 @@ export function SlideContainer({
           'shadow-2xl rounded-sm', // Visual style for screen
           className,
         )}
-        style={
-          {
-            // aspect ratio 297/210 is approx 1.414. 16:9 is 1.77.
-            // The spec asks for 16:9 aspect ratio contained in A4.
-            // But also says "series of slides... contained in A4 Landscape container".
-            // A4 landscape is 297mm x 210mm.
-            // If I use aspect-video (16:9), it won't fill A4 perfectly (A4 is ~√2 aspect).
-            // I will stick to the 297mm x 210mm (A4) dimensions as priority for printing,
-            // but design contents to look good.
-            // Actually, 1123px x 794px is a good proxy for A4 at screen resolution.
-          }
-        }
       >
         <div className="absolute inset-0 flex flex-col p-12">{children}</div>
 
         {/* Watermark / Footer */}
-        <div className="absolute bottom-4 right-8 text-xs opacity-50 font-medium">
-          GrowthProposal OS • Confidential
+        <div className="absolute bottom-4 left-12 right-12 flex justify-between items-center border-t border-slate-200/20 pt-2">
+          <div className="text-[10px] uppercase tracking-widest font-bold opacity-40">
+            GrowthProposal OS
+          </div>
+          <div className="flex gap-4 text-[10px] uppercase tracking-wider font-medium opacity-40">
+            <span>Time Sênior</span>
+            <span>•</span>
+            <span>APIs Oficiais</span>
+            <span>•</span>
+            <span>Transparência de Dados</span>
+          </div>
         </div>
       </div>
     </div>

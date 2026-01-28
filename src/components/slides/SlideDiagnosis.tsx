@@ -1,6 +1,6 @@
 import { SlideContainer } from '@/components/SlideContainer'
 import { Proposal } from '@/types/proposal'
-import { AlertTriangle, CheckCircle2 } from 'lucide-react'
+import { AlertTriangle, CheckCircle2, Search, XCircle } from 'lucide-react'
 
 export function SlideDiagnosis({ proposal }: { proposal: Proposal }) {
   return (
@@ -16,60 +16,89 @@ export function SlideDiagnosis({ proposal }: { proposal: Proposal }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-12">
+      <div className="grid grid-cols-2 gap-12 h-full">
         {/* Gaps (Weaknesses) */}
-        <div className="bg-red-50/50 rounded-2xl p-8 border border-red-100">
-          <h3 className="flex items-center gap-3 text-red-600 font-bold text-xl mb-6">
-            <AlertTriangle className="w-6 h-6" />
-            Pontos de Atenção (GAPs)
-          </h3>
+        <div className="bg-red-50/30 rounded-2xl p-8 border border-red-100 h-full">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="p-3 bg-red-100 rounded-xl">
+              <AlertTriangle className="w-8 h-8 text-red-600" />
+            </div>
+            <div>
+              <h3 className="text-red-700 font-bold text-xl">
+                Pontos de Atenção
+              </h3>
+              <p className="text-red-400 text-sm">
+                Lacunas identificadas no processo atual
+              </p>
+            </div>
+          </div>
+
           <ul className="space-y-4">
             {proposal.gaps.length > 0 ? (
               proposal.gaps.map((gap, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 bg-red-400 rounded-full mt-2 shrink-0"></span>
+                <li
+                  key={i}
+                  className="flex items-start gap-4 p-4 bg-white rounded-xl border border-red-100 shadow-sm"
+                >
+                  <XCircle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
                   <span className="text-slate-700 font-medium">{gap}</span>
                 </li>
               ))
             ) : (
-              <li className="text-slate-500 italic">
-                Nenhum ponto crítico identificado.
+              <li className="text-slate-500 italic p-4">
+                Nenhum ponto crítico listado manualmente.
               </li>
             )}
-            <li className="flex items-start gap-3">
-              <span className="w-1.5 h-1.5 bg-red-400 rounded-full mt-2 shrink-0"></span>
+            <li className="flex items-start gap-4 p-4 bg-white rounded-xl border border-red-100 shadow-sm">
+              <XCircle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
               <span className="text-slate-700 font-medium">
-                Dependência de canais orgânicos sem escala previsível
+                Falta de rastreamento avançado de conversões
               </span>
             </li>
           </ul>
         </div>
 
         {/* Opportunities (Strengths) */}
-        <div className="bg-emerald-50/50 rounded-2xl p-8 border border-emerald-100">
-          <h3 className="flex items-center gap-3 text-emerald-600 font-bold text-xl mb-6">
-            <CheckCircle2 className="w-6 h-6" />
-            Alavancas de Crescimento
-          </h3>
+        <div className="bg-emerald-50/30 rounded-2xl p-8 border border-emerald-100 h-full">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="p-3 bg-emerald-100 rounded-xl">
+              <Search className="w-8 h-8 text-emerald-600" />
+            </div>
+            <div>
+              <h3 className="text-emerald-700 font-bold text-xl">
+                Alavancas de Crescimento
+              </h3>
+              <p className="text-emerald-500 text-sm">
+                Oportunidades de escala imediata
+              </p>
+            </div>
+          </div>
+
           <ul className="space-y-4">
-            {proposal.channels.map((channel, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full mt-2 shrink-0"></span>
+            {proposal.channels.slice(0, 2).map((channel, i) => (
+              <li
+                key={i}
+                className="flex items-start gap-4 p-4 bg-white rounded-xl border border-emerald-100 shadow-sm"
+              >
+                <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" />
                 <span className="text-slate-700 font-medium">
                   Exploração agressiva de {channel}
                 </span>
               </li>
             ))}
-            {proposal.addons.map((addon, i) => (
-              <li key={`add-${i}`} className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full mt-2 shrink-0"></span>
+            {proposal.addons.slice(0, 2).map((addon, i) => (
+              <li
+                key={`add-${i}`}
+                className="flex items-start gap-4 p-4 bg-white rounded-xl border border-emerald-100 shadow-sm"
+              >
+                <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" />
                 <span className="text-slate-700 font-medium">
                   Implementação de {addon}
                 </span>
               </li>
             ))}
-            <li className="flex items-start gap-3">
-              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full mt-2 shrink-0"></span>
+            <li className="flex items-start gap-4 p-4 bg-white rounded-xl border border-emerald-100 shadow-sm">
+              <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" />
               <span className="text-slate-700 font-medium">
                 Otimização de Taxa de Conversão (CRO)
               </span>

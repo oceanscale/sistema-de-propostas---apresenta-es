@@ -4,6 +4,7 @@ export const DEFAULT_PROPOSAL: Proposal = {
   id: 'new',
   clientName: 'Cliente Exemplo',
   clientUrl: 'www.exemplo.com.br',
+  ctaUrl: 'https://wa.me/5511999999999',
   sector: 'Imóveis de Alto Padrão',
   location: 'São Paulo, SP',
   competitors: 'Concorrente A, Concorrente B',
@@ -18,9 +19,9 @@ export const DEFAULT_PROPOSAL: Proposal = {
   mediaBudget: 20000,
   softwareCost: 1500,
   strategyText:
-    'Foco total em captura de demanda existente via Google Ads e remarketing agressivo no Meta Ads.',
+    'Nossa abordagem integra captação de Fundo de Funil com Google Ads e Geração de Demanda visual via Meta Ads, suportada por nossa Tecnologia Proprietária de Triagem com IA.',
   executiveSummary:
-    'O objetivo principal é escalar a geração de leads qualificados reduzindo o CAC atual em 20% nos primeiros 90 dias.',
+    'O objetivo principal é escalar a geração de leads qualificados reduzindo o CAC atual em 20% nos primeiros 90 dias, utilizando inteligência de dados para maximizar o ROI.',
   createdAt: new Date().toISOString(),
   status: 'draft',
 }

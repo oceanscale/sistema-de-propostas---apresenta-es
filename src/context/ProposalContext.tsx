@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react'
-import { Proposal, SECTORS, CHANNELS } from '@/types/proposal'
+import { Proposal } from '@/types/proposal'
 import { DEFAULT_PROPOSAL } from '@/lib/constants'
 
 interface ProposalContextType {
@@ -27,38 +27,46 @@ export const ProposalProvider = ({ children }: { children: ReactNode }) => {
       let strategy = ''
       let summary = ''
 
-      // Mock AI Logic
-      if (proposal.channels.includes('Google Ads')) {
+      // Mock AI Logic based on channels
+      const hasGoogle = proposal.channels.includes('Google Ads')
+      const hasSocial =
+        proposal.channels.includes('Meta Ads (Facebook/Instagram)') ||
+        proposal.channels.includes('TikTok Ads')
+      const hasLinkedIn = proposal.channels.includes('LinkedIn Ads')
+
+      strategy += 'Estratégia Full-Funnel focada em performance. '
+
+      if (hasGoogle) {
         strategy +=
-          'Prioridade em capturar intenção de compra (Fundo de Funil) através de campanhas de Pesquisa e Shopping. '
-        summary += 'Consolidar liderança nas buscas transacionais. '
+          'Prioridade em capturar a intenção de compra (Fundo de Funil) através de campanhas de Pesquisa de alta relevância. '
       }
 
-      if (proposal.channels.includes('Meta Ads (Facebook/Instagram)')) {
+      if (hasSocial) {
         strategy +=
-          'Utilização de criativos de alto impacto visual para gerar demanda e nutrir audiências frias. '
+          'Foco em Geração de Demanda e nutrição de audiências frias utilizando Criativos de Alto Impacto visual. '
       }
 
-      if (proposal.channels.includes('LinkedIn Ads')) {
+      if (hasLinkedIn) {
         strategy +=
-          'Abordagem Account-Based Marketing (ABM) para decisores B2B. '
-        summary += 'Posicionamento de autoridade no nicho corporativo. '
+          'Abordagem Account-Based Marketing (ABM) para atingir decisores B2B com precisão cirúrgica. '
       }
+
+      strategy +=
+        'Todo o ecossistema será monitorado por nossa tecnologia de Dashboards em Tempo Real e Triagem com IA, garantindo que apenas leads qualificados cheguem ao comercial.'
+
+      // Summary Logic
+      summary = `Plano de aceleração para ${proposal.clientName} focado em transformar o investimento de mídia em receita previsível. `
 
       if (proposal.sector === 'Imóveis de Alto Padrão') {
         summary +=
-          'Foco na qualificação do lead para maximizar o VGV e otimizar o tempo do time comercial.'
+          'Iremos qualificar drasticamente o lead para maximizar o VGV e otimizar o tempo dos corretores.'
       } else if (proposal.sector === 'E-commerce Varejo') {
-        summary += 'Maximizar o ROAS mantendo um volume de vendas constante.'
+        summary +=
+          'Foco total em maximizar o ROAS e escalar o volume de vendas mantendo a margem de contribuição.'
       } else {
-        summary += 'Crescimento sustentável focado em ROI positivo.'
+        summary +=
+          'O objetivo é construir uma máquina de vendas previsível e escalável nos próximos 90 dias.'
       }
-
-      if (!strategy)
-        strategy = 'Estratégia multicanal focada em performance e dados.'
-      if (!summary)
-        summary =
-          'Acelerar o crescimento digital da marca através de mídia paga inteligente.'
 
       updateProposal({
         strategyText: strategy,

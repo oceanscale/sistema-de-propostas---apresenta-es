@@ -2,6 +2,7 @@ export interface Proposal {
   id: string
   clientName: string
   clientUrl: string
+  ctaUrl: string
   sector: string
   location: string
   competitors: string
