@@ -20,7 +20,8 @@ export function SlideClosing({ proposal }: { proposal: Proposal }) {
         </h2>
 
         <p className="text-2xl text-slate-300 font-light max-w-2xl mx-auto">
-          "Do tráfego à venda real. Essa é a promessa da nossa parceria."
+          "Do tráfego à venda real. Essa é a promessa da{' '}
+          <span className="font-bold text-white">{proposal.agencyName}</span>."
         </p>
 
         <div className="pt-8">
@@ -55,11 +56,12 @@ export function SlideClosing({ proposal }: { proposal: Proposal }) {
           </div>
           <div className="text-right">
             <p className="text-slate-500 text-xs uppercase font-bold mb-1">
-              Data da Proposta
+              Agência
             </p>
             <p className="text-white text-xl font-medium">
-              {new Date().toLocaleDateString('pt-BR')}
+              {proposal.agencyName}
             </p>
+            <p className="text-slate-500 text-xs">{proposal.agencyCnpj}</p>
           </div>
         </div>
       </div>

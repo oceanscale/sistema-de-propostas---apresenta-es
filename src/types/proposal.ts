@@ -1,11 +1,40 @@
+export interface InvestmentTier {
+  name: string
+  fee: number
+  description: string
+  features: string[]
+  recommended?: boolean
+}
+
+export interface TimelinePhase {
+  title: string
+  month: string
+  items: string[]
+}
+
+export interface CompetitorItem {
+  name: string
+  strength: string
+  weakness: string
+}
+
 export interface Proposal {
   id: string
+  // Agency
+  agencyName: string
+  agencyCnpj: string
+  agencyRep: string
+
+  // Client
   clientName: string
   clientUrl: string
   ctaUrl: string
   sector: string
   location: string
-  competitors: string
+
+  // Images
+  coverImage: string
+  summaryImage: string
 
   // Diagnosis
   currentInvestment: number
@@ -14,18 +43,42 @@ export interface Proposal {
   currentLeads: number
   gaps: string[]
 
+  // Competitors
+  competitorsData: CompetitorItem[]
+  marketBenchmarking: string
+
   // Strategy
   channels: string[]
   addons: string[]
 
+  // Timeline
+  timelinePhases: TimelinePhase[]
+
+  // Funnel
+  funnelCurrent: {
+    clicks: number
+    leads: number
+    mql: number
+    sql: number
+    sales: number
+  }
+  funnelProjected: {
+    clicks: number
+    leads: number
+    mql: number
+    sql: number
+    sales: number
+  }
+
   // Financials
-  agencyFee: number
   mediaBudget: number
   softwareCost: number
+  investmentTiers: InvestmentTier[]
 
-  // AI Generated / Calculated
+  // Text
   strategyText: string
   executiveSummary: string
+  methodologyText: string
 
   createdAt: string
   status: 'draft' | 'sent' | 'approved'

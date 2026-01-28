@@ -7,7 +7,7 @@ export function SlideCover({ proposal }: { proposal: Proposal }) {
       {/* Background Image Overlay */}
       <div className="absolute inset-0 z-0 opacity-40">
         <img
-          src={`https://img.usecurling.com/p/1200/800?q=modern%20skyscrapers%20corporate&color=black`}
+          src={proposal.coverImage}
           alt="Background"
           className="w-full h-full object-cover grayscale mix-blend-overlay"
         />
@@ -18,7 +18,7 @@ export function SlideCover({ proposal }: { proposal: Proposal }) {
           <div className="flex items-center space-x-3">
             <div className="h-1 w-12 bg-sky-400 rounded-full"></div>
             <p className="text-sky-400 font-bold tracking-widest text-sm uppercase">
-              Growth Marketing Agency
+              {proposal.agencyName}
             </p>
           </div>
 
@@ -46,11 +46,9 @@ export function SlideCover({ proposal }: { proposal: Proposal }) {
           </div>
           <div>
             <p className="text-slate-400 text-sm font-semibold uppercase tracking-wider mb-1">
-              Objetivo Estratégico
+              Desenvolvido por
             </p>
-            <p className="text-white text-lg">
-              Escala de Receita & Otimização de ROI
-            </p>
+            <p className="text-white text-lg">{proposal.agencyRep}</p>
           </div>
         </div>
       </div>

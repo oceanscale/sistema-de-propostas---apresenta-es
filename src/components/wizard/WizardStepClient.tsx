@@ -75,11 +75,20 @@ export function WizardStepClient() {
         </div>
 
         <div>
-          <Label>Principais Concorrentes</Label>
+          <Label>Imagem de Capa (URL)</Label>
           <Input
-            value={proposal.competitors}
-            onChange={(e) => updateProposal({ competitors: e.target.value })}
-            placeholder="Separe por vírgula"
+            value={proposal.coverImage}
+            onChange={(e) => updateProposal({ coverImage: e.target.value })}
+            placeholder="https://..."
+          />
+        </div>
+
+        <div>
+          <Label>Imagem do Sumário (URL)</Label>
+          <Input
+            value={proposal.summaryImage}
+            onChange={(e) => updateProposal({ summaryImage: e.target.value })}
+            placeholder="https://..."
           />
         </div>
       </div>

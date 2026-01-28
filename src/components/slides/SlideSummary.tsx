@@ -64,7 +64,15 @@ export function SlideSummary({ proposal }: { proposal: Proposal }) {
 
         <div className="col-span-8 flex flex-col justify-between">
           <div className="bg-slate-900 text-white p-8 rounded-2xl mb-8 flex-grow relative overflow-hidden">
+            <div className="absolute inset-0 opacity-20">
+              <img
+                src={proposal.summaryImage}
+                className="w-full h-full object-cover mix-blend-overlay"
+                alt="Summary Bg"
+              />
+            </div>
             <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
+
             <h3 className="text-2xl font-bold mb-4 relative z-10 flex items-center gap-2">
               <Zap className="w-6 h-6 text-yellow-400" />
               Estratégia e Foco

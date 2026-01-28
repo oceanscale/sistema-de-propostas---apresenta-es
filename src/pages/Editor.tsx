@@ -3,10 +3,14 @@ import { ProposalProvider } from '@/context/ProposalContext'
 import { FullDeck } from '@/components/slides/FullDeck'
 import { useProposal } from '@/context/ProposalContext'
 import { Button } from '@/components/ui/button'
+import { WizardStepAgency } from '@/components/wizard/WizardStepAgency'
 import { WizardStepClient } from '@/components/wizard/WizardStepClient'
+import { WizardStepCompetitors } from '@/components/wizard/WizardStepCompetitors'
 import { WizardStepDiagnosis } from '@/components/wizard/WizardStepDiagnosis'
 import { WizardStepScope } from '@/components/wizard/WizardStepScope'
-import { WizardStepFinancials } from '@/components/wizard/WizardStepFinancials'
+import { WizardStepTimeline } from '@/components/wizard/WizardStepTimeline'
+import { WizardStepFunnel } from '@/components/wizard/WizardStepFunnel'
+import { WizardStepInvestment } from '@/components/wizard/WizardStepInvestment'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Link } from 'react-router-dom'
 import {
@@ -14,9 +18,13 @@ import {
   Printer,
   Share2,
   Save,
-  LayoutTemplate,
-  LineChart,
+  Building2,
+  User,
+  Users,
+  AlertTriangle,
   Target,
+  Calendar,
+  Filter,
   DollarSign,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -24,7 +32,7 @@ import { useToast } from '@/hooks/use-toast'
 
 function EditorContent() {
   const { proposal } = useProposal()
-  const [step, setStep] = useState(1)
+  const [activeTab, setActiveTab] = useState('agency')
   const { toast } = useToast()
 
   const handlePrint = () => {
@@ -38,35 +46,54 @@ function EditorContent() {
     })
   }
 
-  const steps = [
+  const tabs = [
     {
-      id: 1,
-      label: 'Cliente & Contexto',
-      icon: LayoutTemplate,
-      component: WizardStepClient,
+      id: 'agency',
+      label: 'Agência',
+      icon: Building2,
+      component: WizardStepAgency,
+    },
+    { id: 'client', label: 'Cliente', icon: User, component: WizardStepClient },
+    {
+      id: 'competitors',
+      label: 'Concorrência',
+      icon: Users,
+      component: WizardStepCompetitors,
     },
     {
-      id: 2,
+      id: 'diagnosis',
       label: 'Diagnóstico',
-      icon: LineChart,
+      icon: AlertTriangle,
       component: WizardStepDiagnosis,
     },
     {
-      id: 3,
-      label: 'Escopo & Estratégia',
+      id: 'scope',
+      label: 'Estratégia',
       icon: Target,
       component: WizardStepScope,
     },
     {
-      id: 4,
-      label: 'Financeiro',
+      id: 'timeline',
+      label: 'Cronograma',
+      icon: Calendar,
+      component: WizardStepTimeline,
+    },
+    {
+      id: 'funnel',
+      label: 'Funil/Metas',
+      icon: Filter,
+      component: WizardStepFunnel,
+    },
+    {
+      id: 'financials',
+      label: 'Investimento',
       icon: DollarSign,
-      component: WizardStepFinancials,
+      component: WizardStepInvestment,
     },
   ]
 
-  const CurrentStepComponent =
-    steps.find((s) => s.id === step)?.component || WizardStepClient
+  const ActiveComponent =
+    tabs.find((t) => t.id === activeTab)?.component || WizardStepAgency
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-50 font-sans">
@@ -94,21 +121,21 @@ function EditorContent() {
           </div>
         </div>
 
-        {/* Steps Navigation */}
+        {/* Tabs Navigation */}
         <div className="flex border-b border-slate-100 overflow-x-auto scrollbar-hide">
-          {steps.map((s) => (
+          {tabs.map((t) => (
             <button
-              key={s.id}
-              onClick={() => setStep(s.id)}
+              key={t.id}
+              onClick={() => setActiveTab(t.id)}
               className={cn(
                 'flex-1 py-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-colors flex flex-col items-center gap-2 min-w-[80px]',
-                step === s.id
+                activeTab === t.id
                   ? 'border-sky-500 text-sky-600 bg-sky-50/50'
                   : 'border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50',
               )}
             >
-              <s.icon className="w-5 h-5" />
-              {s.id}. {s.label.split(' ')[0]}
+              <t.icon className="w-5 h-5" />
+              {t.label}
             </button>
           ))}
         </div>
@@ -116,9 +143,9 @@ function EditorContent() {
         <ScrollArea className="flex-1 p-6">
           <div className="max-w-md mx-auto">
             <h2 className="text-xl font-bold text-slate-900 mb-6">
-              {steps.find((s) => s.id === step)?.label}
+              {tabs.find((t) => t.id === activeTab)?.label}
             </h2>
-            <CurrentStepComponent />
+            <ActiveComponent />
           </div>
         </ScrollArea>
 
