@@ -1,0 +1,2 @@
+ALTER TABLE public.templates ADD COLUMN IF NOT EXISTS tags TEXT[] DEFAULT '{}';
+ALTER TABLE public.proposals ADD COLUMN IF NOT EXISTS tags TEXT[] DEFAULT '{}';

@@ -1,6 +1,14 @@
 import { SlideContainer } from '@/components/SlideContainer'
 import { Proposal } from '@/types/proposal'
-import { Target, TrendingUp, Users, Zap, ExternalLink } from 'lucide-react'
+import {
+  Target,
+  TrendingUp,
+  Users,
+  Zap,
+  ExternalLink,
+  Brain,
+  Briefcase,
+} from 'lucide-react'
 
 export function SlideSummary({ proposal }: { proposal: Proposal }) {
   const getIcon = (name: string) => {
@@ -16,6 +24,12 @@ export function SlideSummary({ proposal }: { proposal: Proposal }) {
     }
   }
 
+  const triad = proposal.summaryTriad || {
+    marketing: '',
+    ai: '',
+    commercial: '',
+  }
+
   return (
     <SlideContainer id="summary">
       {proposal.summaryPageImage && (
@@ -28,9 +42,9 @@ export function SlideSummary({ proposal }: { proposal: Proposal }) {
         </div>
       )}
 
-      <div className="relative z-10 flex justify-between items-end mb-12 border-b border-slate-100 pb-6">
+      <div className="relative z-10 flex justify-between items-end mb-8 border-b border-slate-100 pb-4">
         <div>
-          <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-2">
+          <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-1">
             {proposal.summarySubtitle}
           </p>
           <h2 className="text-4xl font-heading font-bold text-slate-900">
@@ -43,8 +57,8 @@ export function SlideSummary({ proposal }: { proposal: Proposal }) {
         </div>
       </div>
 
-      <div className="relative z-10 grid grid-cols-12 gap-12 h-full">
-        <div className="col-span-4 bg-slate-50 rounded-2xl p-8 border border-slate-200 h-fit shadow-sm">
+      <div className="relative z-10 grid grid-cols-12 gap-8 h-full">
+        <div className="col-span-4 bg-slate-50 rounded-2xl p-6 border border-slate-200 h-fit shadow-sm">
           <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
             <Users className="w-5 h-5 text-sky-500" /> Perfil do Cliente
           </h3>
@@ -104,7 +118,7 @@ export function SlideSummary({ proposal }: { proposal: Proposal }) {
         </div>
 
         <div className="col-span-8 flex flex-col justify-between">
-          <div className="bg-slate-900 text-white p-8 rounded-2xl mb-8 flex-grow relative overflow-hidden shadow-xl">
+          <div className="bg-slate-900 text-white p-6 rounded-2xl mb-8 flex-grow relative overflow-hidden shadow-xl">
             <div
               className="absolute inset-0 transition-all z-0"
               style={{
@@ -124,30 +138,44 @@ export function SlideSummary({ proposal }: { proposal: Proposal }) {
                 }}
               ></div>
             </div>
-            <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
 
-            <h3 className="text-2xl font-bold mb-4 relative z-10 flex items-center gap-2">
-              <Zap className="w-6 h-6 text-yellow-400" />
-              Estratégia e Foco
-            </h3>
-            <p className="text-slate-300 text-lg leading-relaxed relative z-10">
-              {proposal.executiveSummary}
-            </p>
+            <div className="relative z-10 h-full flex flex-col">
+              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                <Zap className="w-6 h-6 text-yellow-400" />
+                Estratégia e Foco
+              </h3>
 
-            <div className="mt-8 grid grid-cols-1 gap-4 relative z-10">
-              <div className="bg-white/5 p-4 rounded-lg backdrop-blur-sm border border-white/10">
-                <div className="flex items-start gap-4">
-                  <div className="bg-emerald-500/20 p-2 rounded-lg">
-                    <TrendingUp className="w-6 h-6 text-emerald-400" />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1">
+                <div className="bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
+                  <div className="bg-sky-500/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+                    <Target className="w-5 h-5 text-sky-400" />
                   </div>
-                  <div>
-                    <h4 className="font-bold text-emerald-400 text-lg">
-                      Objetivo Principal
-                    </h4>
-                    <p className="text-slate-300 text-sm mt-1">
-                      Construir uma máquina de vendas previsível e escalável.
-                    </p>
+                  <h4 className="font-bold text-sky-200 mb-2">Marketing</h4>
+                  <p className="text-sm text-slate-300 leading-snug">
+                    {triad.marketing}
+                  </p>
+                </div>
+
+                <div className="bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
+                  <div className="bg-purple-500/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+                    <Brain className="w-5 h-5 text-purple-400" />
                   </div>
+                  <h4 className="font-bold text-purple-200 mb-2">
+                    Inteligência (IA)
+                  </h4>
+                  <p className="text-sm text-slate-300 leading-snug">
+                    {triad.ai}
+                  </p>
+                </div>
+
+                <div className="bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
+                  <div className="bg-emerald-500/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+                    <Briefcase className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <h4 className="font-bold text-emerald-200 mb-2">Comercial</h4>
+                  <p className="text-sm text-slate-300 leading-snug">
+                    {triad.commercial}
+                  </p>
                 </div>
               </div>
             </div>

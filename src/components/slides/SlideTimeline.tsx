@@ -27,9 +27,9 @@ export function SlideTimeline({ proposal }: { proposal: Proposal }) {
 
   return (
     <SlideContainer id="timeline">
-      <div className="flex justify-between items-end mb-12 border-b border-slate-100 pb-6">
+      <div className="flex justify-between items-end mb-8 border-b border-slate-100 pb-4">
         <div>
-          <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-2">
+          <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-1">
             {proposal.timelineSubtitle}
           </p>
           <h2 className="text-4xl font-heading font-bold text-slate-900">
@@ -38,38 +38,38 @@ export function SlideTimeline({ proposal }: { proposal: Proposal }) {
         </div>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-6 pt-2">
         {proposal.timelinePhases.map((phase, index) => {
           const Icon = icons[index] || Calendar
           const style = colors[index] || colors[0]
 
           return (
-            <div key={index} className="grid grid-cols-12 gap-6">
-              <div
-                className={`col-span-3 flex flex-col justify-center items-end pr-6 border-r-2 ${style.border} relative`}
-              >
+            <div key={index} className="flex gap-4 items-start">
+              {/* Month Column */}
+              <div className={`w-24 shrink-0 pt-2`}>
                 <div
-                  className={`absolute right-[-9px] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full ${style.line} border-2 border-white z-10`}
-                ></div>
-                <h3 className={`text-xl font-bold ${style.text}`}>
+                  className={`px-3 py-1 rounded-full text-center text-sm font-bold border-2 ${style.border} ${style.bg} ${style.text}`}
+                >
                   {phase.month}
-                </h3>
-              </div>
-              <div
-                className={`col-span-9 ${style.bg} border ${style.border} p-6 rounded-xl relative overflow-hidden`}
-              >
-                <div
-                  className={`absolute right-0 top-0 bottom-0 w-2 ${style.line}`}
-                ></div>
-                <div className="flex items-center gap-3 mb-4 -mt-2">
-                  <Icon className={`w-5 h-5 ${style.text}`} />
-                  <h4 className={`font-bold ${style.text}`}>{phase.title}</h4>
                 </div>
-                <div className="grid grid-cols-3 gap-4">
-                  {phase.items.slice(0, 6).map((item, i) => (
+              </div>
+
+              {/* Content Box */}
+              <div
+                className={`flex-1 ${style.bg} border ${style.border} p-6 rounded-xl relative overflow-hidden`}
+              >
+                <div className="flex items-center gap-2 mb-4">
+                  <Icon className={`w-5 h-5 ${style.text}`} />
+                  <h4 className={`font-bold text-lg ${style.text}`}>
+                    {phase.title}
+                  </h4>
+                </div>
+
+                <div className="grid grid-cols-4 gap-4">
+                  {phase.items.map((item, i) => (
                     <div
                       key={i}
-                      className="bg-white p-3 rounded-lg shadow-sm text-sm text-slate-600 font-medium border border-slate-100"
+                      className="bg-white p-3 rounded-lg shadow-sm text-sm text-slate-600 font-medium border border-slate-100 flex items-center justify-center text-center h-full min-h-[50px]"
                     >
                       {item}
                     </div>

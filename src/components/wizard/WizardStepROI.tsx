@@ -6,7 +6,7 @@ export function WizardStepROI() {
   const { proposal, updateProposal } = useProposal()
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in pb-10">
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label>Título da Página</Label>
@@ -25,32 +25,46 @@ export function WizardStepROI() {
       </div>
 
       <div className="border-t border-slate-200 pt-4">
-        <h3 className="font-bold text-slate-800 mb-2">Base de Cálculo</h3>
+        <h3 className="font-bold text-slate-800 mb-2">
+          Base de Cálculo (Receita)
+        </h3>
         <div className="space-y-4">
-          <div>
-            <Label>Receita Atual do Cliente (R$)</Label>
-            <Input
-              type="number"
-              value={proposal.currentRevenue}
-              onChange={(e) =>
-                updateProposal({ currentRevenue: Number(e.target.value) })
-              }
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label>Receita Mensal Atual (R$)</Label>
+              <Input
+                type="number"
+                value={proposal.currentRevenue}
+                onChange={(e) =>
+                  updateProposal({ currentRevenue: Number(e.target.value) })
+                }
+              />
+            </div>
+            <div>
+              <Label>Vendas Mensais Atuais (Qtd)</Label>
+              <Input
+                type="number"
+                value={proposal.currentSales}
+                onChange={(e) =>
+                  updateProposal({ currentSales: Number(e.target.value) })
+                }
+              />
+            </div>
           </div>
-          <div>
-            <Label>Vendas Mensais Atuais (Qtd)</Label>
-            <Input
-              type="number"
-              value={proposal.currentSales}
-              onChange={(e) =>
-                updateProposal({ currentSales: Number(e.target.value) })
-              }
-            />
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label>Vendas Projetadas (Funil)</Label>
+              <Input
+                disabled
+                value={proposal.funnelProjected.sales}
+                className="bg-slate-100"
+              />
+              <span className="text-xs text-slate-500">
+                Editável na etapa de Funil
+              </span>
+            </div>
           </div>
-          <p className="text-xs text-slate-500">
-            * O cálculo de ROI usa a Receita e Vendas atuais para estimar o
-            Ticket Médio.
-          </p>
         </div>
       </div>
     </div>

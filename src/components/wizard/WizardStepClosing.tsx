@@ -27,13 +27,25 @@ export function WizardStepClosing() {
         </div>
       </div>
 
-      <div className="border-t border-slate-200 pt-4">
-        <Label>Link do CTA (Botão de Aprovação)</Label>
-        <Input
-          value={proposal.ctaUrl}
-          onChange={(e) => updateProposal({ ctaUrl: e.target.value })}
-          placeholder="https://..."
-        />
+      <div className="border-t border-slate-200 pt-4 space-y-4">
+        <div>
+          <Label>Link do CTA (Botão de Aprovação)</Label>
+          <Input
+            value={proposal.ctaUrl}
+            onChange={(e) => updateProposal({ ctaUrl: e.target.value })}
+            placeholder="https://..."
+          />
+        </div>
+        <div>
+          <Label>Texto do Botão</Label>
+          <Input
+            value={proposal.closingButtonText}
+            onChange={(e) =>
+              updateProposal({ closingButtonText: e.target.value })
+            }
+            placeholder="APROVAR PLANO ESTRATÉGICO"
+          />
+        </div>
       </div>
 
       <div className="border-t border-slate-200 pt-4 space-y-4">

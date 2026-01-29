@@ -33,6 +33,15 @@ export function WizardStepSummary() {
     updateProposal({ summaryMetrics: newMetrics })
   }
 
+  const updateTriad = (field: string, value: string) => {
+    updateProposal({
+      summaryTriad: {
+        ...proposal.summaryTriad,
+        [field]: value,
+      },
+    })
+  }
+
   return (
     <div className="space-y-6 animate-fade-in pb-10">
       <div className="space-y-4">
@@ -52,14 +61,29 @@ export function WizardStepSummary() {
             }
           />
         </div>
+      </div>
+
+      <div className="border-t border-slate-200 pt-4 space-y-4">
+        <h3 className="font-bold text-slate-800">Tríade Estratégica</h3>
         <div>
-          <Label>Texto do Sumário Executivo</Label>
+          <Label className="text-sky-600">Marketing (Pilar 1)</Label>
           <Textarea
-            value={proposal.executiveSummary}
-            onChange={(e) =>
-              updateProposal({ executiveSummary: e.target.value })
-            }
-            className="h-32"
+            value={proposal.summaryTriad?.marketing}
+            onChange={(e) => updateTriad('marketing', e.target.value)}
+          />
+        </div>
+        <div>
+          <Label className="text-purple-600">Inteligência IA (Pilar 2)</Label>
+          <Textarea
+            value={proposal.summaryTriad?.ai}
+            onChange={(e) => updateTriad('ai', e.target.value)}
+          />
+        </div>
+        <div>
+          <Label className="text-emerald-600">Comercial (Pilar 3)</Label>
+          <Textarea
+            value={proposal.summaryTriad?.commercial}
+            onChange={(e) => updateTriad('commercial', e.target.value)}
           />
         </div>
       </div>

@@ -16,6 +16,12 @@ export function WizardStepTimeline() {
     updateProposal({ timelinePhases: newPhases })
   }
 
+  const updatePhaseMonth = (index: number, month: string) => {
+    const newPhases = [...proposal.timelinePhases]
+    newPhases[index].month = month
+    updateProposal({ timelinePhases: newPhases })
+  }
+
   const addItem = (phaseIndex: number) => {
     if (newItemText) {
       const newPhases = [...proposal.timelinePhases]
@@ -32,7 +38,7 @@ export function WizardStepTimeline() {
   }
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in pb-10">
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label>Título da Página</Label>
@@ -53,12 +59,12 @@ export function WizardStepTimeline() {
       </div>
 
       <div className="border-t border-slate-200 pt-4">
-        <div className="flex space-x-2 border-b border-slate-200 pb-2 mb-4">
+        <div className="flex space-x-2 border-b border-slate-200 pb-2 mb-4 overflow-x-auto">
           {proposal.timelinePhases.map((phase, i) => (
             <button
               key={i}
               onClick={() => setActivePhaseIndex(i)}
-              className={`px-3 py-1 text-sm font-medium rounded-full transition-colors ${
+              className={`px-3 py-1 text-sm font-medium rounded-full transition-colors whitespace-nowrap ${
                 activePhaseIndex === i
                   ? 'bg-sky-100 text-sky-700'
                   : 'text-slate-500 hover:bg-slate-100'
@@ -70,18 +76,29 @@ export function WizardStepTimeline() {
         </div>
 
         <div className="space-y-4">
-          <div>
-            <Label>Título da Fase</Label>
-            <Input
-              value={proposal.timelinePhases[activePhaseIndex].title}
-              onChange={(e) =>
-                updatePhaseTitle(activePhaseIndex, e.target.value)
-              }
-            />
+          <div className="grid grid-cols-3 gap-4">
+            <div className="col-span-1">
+              <Label>Mês (ex: Mês 1)</Label>
+              <Input
+                value={proposal.timelinePhases[activePhaseIndex].month}
+                onChange={(e) =>
+                  updatePhaseMonth(activePhaseIndex, e.target.value)
+                }
+              />
+            </div>
+            <div className="col-span-2">
+              <Label>Título da Fase</Label>
+              <Input
+                value={proposal.timelinePhases[activePhaseIndex].title}
+                onChange={(e) =>
+                  updatePhaseTitle(activePhaseIndex, e.target.value)
+                }
+              />
+            </div>
           </div>
 
           <div>
-            <Label>Ações / Entregáveis</Label>
+            <Label>Ações / Entregáveis (Grid de 4)</Label>
             <div className="flex gap-2 mb-2">
               <Input
                 value={newItemText}
@@ -99,12 +116,12 @@ export function WizardStepTimeline() {
                 <Plus className="w-4 h-4" />
               </Button>
             </div>
-            <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-2">
               {proposal.timelinePhases[activePhaseIndex].items.map(
                 (item, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between bg-slate-50 p-2 rounded border border-slate-100 text-sm"
+                    className="flex items-center justify-between bg-slate-50 p-2 rounded border border-slate-100 text-xs"
                   >
                     <span>{item}</span>
                     <button

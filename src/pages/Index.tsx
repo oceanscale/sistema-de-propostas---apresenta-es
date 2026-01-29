@@ -16,41 +16,142 @@ import {
   User,
   LayoutTemplate,
   Users,
+  UserCircle,
 } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useAuth } from '@/hooks/use-auth'
+import { supabase } from '@/lib/supabase/client'
+import { useToast } from '@/hooks/use-toast'
+import { Label } from '@/components/ui/label'
+import { Proposal } from '@/types/proposal'
+import { useProposal } from '@/context/ProposalContext'
 
-const INITIAL_PROJECTS = [
-  {
-    id: '1',
-    name: 'Tyrreno Imóveis',
-    date: '27 jan 2026',
-    status: 'Em andamento',
-  },
-  { id: '2', name: 'Varejo Xperience', date: '25 jan 2026', status: 'Enviado' },
-  { id: '3', name: 'Dr. Consultoria', date: '20 jan 2026', status: 'Aprovado' },
-]
+// Need to access context, but Index is outside ProposalProvider in App.tsx structure.
+// However, I can wrap Index content or fetch/create logic directly here or move logic to ProposalContext and wrap App.
+// For simplicity and since ProposalContext manages active proposal, I will use local logic to create the row in DB and then Editor will load it.
+// Or even simpler: pass tag to Editor via state/url? No, user story says "New Proposal Modal".
+// I will create the proposal in DB here and redirect to editor with ID.
 
-const Index = () => {
-  const [projects, setProjects] = useState(INITIAL_PROJECTS)
+export default function Index() {
+  const [projects, setProjects] = useState<any[]>([])
   const { signOut, user } = useAuth()
   const navigate = useNavigate()
+  const { toast } = useToast()
 
-  const deleteProject = (id: string) => {
-    setProjects(projects.filter((p) => p.id !== id))
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [newProposalTag, setNewProposalTag] = useState('')
+  const [creating, setCreating] = useState(false)
+  const [search, setSearch] = useState('')
+
+  useEffect(() => {
+    if (user) {
+      fetchProposals()
+    }
+  }, [user])
+
+  const fetchProposals = async () => {
+    const { data, error } = await supabase
+      .from('proposals')
+      .select('id, client_name, created_at, updated_at, content')
+      .order('updated_at', { ascending: false })
+
+    if (error) {
+      console.error(error)
+      return
+    }
+
+    const formatted = data.map((p) => {
+      const content = p.content as any
+      return {
+        id: p.id,
+        name: p.client_name || content?.clientName || 'Sem título',
+        date: new Date(p.created_at).toLocaleDateString(),
+        updatedAt:
+          new Date(p.updated_at).toLocaleDateString() +
+          ' ' +
+          new Date(p.updated_at).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          }),
+        status: content?.status || 'draft',
+        tags: content?.tags || [],
+      }
+    })
+    setProjects(formatted)
+  }
+
+  const deleteProject = async (id: string) => {
+    if (!confirm('Tem certeza?')) return
+    const { error } = await supabase.from('proposals').delete().eq('id', id)
+    if (!error) {
+      setProjects(projects.filter((p) => p.id !== id))
+      toast({ title: 'Proposta excluída.' })
+    }
   }
 
   const handleSignOut = async () => {
     await signOut()
     navigate('/login')
   }
+
+  const handleCreateProposal = async () => {
+    if (!newProposalTag) {
+      toast({ title: 'Selecione uma tag', variant: 'destructive' })
+      return
+    }
+    setCreating(true)
+    // Create new proposal in DB
+    try {
+      const { data, error } = await supabase
+        .from('proposals')
+        .insert({
+          client_name: 'Nova Proposta',
+          title: 'Plano de Aceleração',
+          content: { tags: [newProposalTag] },
+          updated_at: new Date().toISOString(),
+        })
+        .select()
+        .single()
+
+      if (error) throw error
+
+      navigate('/editor', { state: { proposalId: data.id } })
+    } catch (e: any) {
+      toast({
+        title: 'Erro ao criar',
+        description: e.message,
+        variant: 'destructive',
+      })
+    } finally {
+      setCreating(false)
+    }
+  }
+
+  const filteredProjects = projects.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase()),
+  )
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
@@ -67,7 +168,12 @@ const Index = () => {
           <div className="flex items-center gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <Input className="pl-9 w-64" placeholder="Buscar projetos..." />
+              <Input
+                className="pl-9 w-64"
+                placeholder="Buscar projetos..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
             </div>
 
             <DropdownMenu>
@@ -82,6 +188,11 @@ const Index = () => {
                 <DropdownMenuItem disabled>
                   <User className="w-4 h-4 mr-2" /> {user?.email}
                 </DropdownMenuItem>
+                <Link to="/perfil">
+                  <DropdownMenuItem>
+                    <UserCircle className="w-4 h-4 mr-2" /> Perfil
+                  </DropdownMenuItem>
+                </Link>
                 <Link to="/biblioteca">
                   <DropdownMenuItem>
                     <LayoutTemplate className="w-4 h-4 mr-2" /> Biblioteca
@@ -109,18 +220,19 @@ const Index = () => {
           <h2 className="text-xl font-bold text-slate-800">
             Propostas Recentes
           </h2>
-          <Link to="/editor">
-            <Button className="bg-sky-500 hover:bg-sky-600 text-white">
-              <Plus className="w-4 h-4 mr-2" /> Nova Proposta
-            </Button>
-          </Link>
+          <Button
+            className="bg-sky-500 hover:bg-sky-600 text-white"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <Plus className="w-4 h-4 mr-2" /> Nova Proposta
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
+          {filteredProjects.map((project) => (
             <Card
               key={project.id}
-              className="hover:shadow-lg transition-shadow border-slate-200 group"
+              className="hover:shadow-lg transition-shadow border-slate-200 group flex flex-col"
             >
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500">
@@ -135,11 +247,29 @@ const Index = () => {
                   <Trash2 className="w-4 h-4" />
                 </Button>
               </CardHeader>
-              <CardContent>
-                <CardTitle className="text-lg mb-1">{project.name}</CardTitle>
-                <p className="text-sm text-slate-500">
-                  Criado em {project.date}
-                </p>
+              <CardContent className="flex-1">
+                <CardTitle
+                  className="text-lg mb-1 truncate"
+                  title={project.name}
+                >
+                  {project.name}
+                </CardTitle>
+                <div className="text-xs text-slate-500 space-y-1">
+                  <p>Criado em: {project.date}</p>
+                  <p className="font-medium text-slate-600">
+                    Última atualização: {project.updatedAt}
+                  </p>
+                </div>
+                <div className="flex gap-1 mt-3">
+                  {project.tags?.map((t: string) => (
+                    <span
+                      key={t}
+                      className="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </CardContent>
               <CardFooter className="pt-0 flex justify-between items-center">
                 <span
@@ -151,31 +281,68 @@ const Index = () => {
                         : 'bg-slate-100 text-slate-600'
                   }`}
                 >
-                  {project.status}
+                  {project.status === 'draft' ? 'Rascunho' : project.status}
                 </span>
-                <Link to="/editor">
-                  <Button variant="link" className="text-sky-500 p-0 h-auto">
-                    Abrir Editor &rarr;
-                  </Button>
-                </Link>
+                <Button
+                  variant="link"
+                  className="text-sky-500 p-0 h-auto"
+                  onClick={() =>
+                    navigate('/editor', { state: { proposalId: project.id } })
+                  }
+                >
+                  Abrir Editor &rarr;
+                </Button>
               </CardFooter>
             </Card>
           ))}
 
-          {projects.length === 0 && (
+          {filteredProjects.length === 0 && (
             <div className="col-span-full py-12 text-center text-slate-400 bg-slate-50 rounded-lg border border-dashed border-slate-300">
               <p>Nenhuma proposta encontrada.</p>
-              <Link to="/editor">
-                <Button variant="link" className="text-sky-500">
-                  Criar primeira proposta
-                </Button>
-              </Link>
+              <Button
+                variant="link"
+                className="text-sky-500"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Criar primeira proposta
+              </Button>
             </div>
           )}
         </div>
       </main>
+
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Nova Proposta</DialogTitle>
+            <DialogDescription>
+              Selecione a categoria da proposta para iniciar.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <Label>Tag da Proposta</Label>
+            <Select value={newProposalTag} onValueChange={setNewProposalTag}>
+              <SelectTrigger className="mt-2">
+                <SelectValue placeholder="Selecione..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Marketing">Marketing</SelectItem>
+                <SelectItem value="Comercial">Comercial</SelectItem>
+                <SelectItem value="CS">CS (Customer Success)</SelectItem>
+                <SelectItem value="Personalizada">Personalizada</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+              Cancelar
+            </Button>
+            <Button onClick={handleCreateProposal} disabled={creating}>
+              {creating ? 'Criando...' : 'Criar Proposta'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
-
-export default Index

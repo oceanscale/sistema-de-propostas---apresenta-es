@@ -10,6 +10,7 @@ export const DEFAULT_PROPOSAL: Proposal = {
   clientUrl: 'www.exemplo.com.br',
   sector: 'Imóveis de Alto Padrão',
   location: 'São Paulo, SP',
+  tags: [],
 
   profile: {
     name: 'Seu Nome',
@@ -22,13 +23,20 @@ export const DEFAULT_PROPOSAL: Proposal = {
   // Images
   coverImage:
     'https://img.usecurling.com/p/1200/800?q=modern%20skyscrapers%20corporate&color=black',
-  overlayColor: '#000000',
-  overlayOpacity: 40,
+  coverOverlayColor: '#000000',
+  coverOverlayOpacity: 40,
 
   summaryPageImage:
     'https://img.usecurling.com/p/1200/800?q=white%20minimalist%20office&color=white',
   summaryBoxImage:
     'https://img.usecurling.com/p/1200/800?q=abstract%20technology%20network&color=blue',
+  summaryOverlayColor: '#000000',
+  summaryOverlayOpacity: 30,
+
+  closingImage:
+    'https://img.usecurling.com/p/1200/800?q=handshake%20business%20deal%20close&color=black',
+  closingOverlayColor: '#000000',
+  closingOverlayOpacity: 20,
 
   // Titles
   coverTitle: 'Plano de Aceleração & Performance',
@@ -65,6 +73,7 @@ export const DEFAULT_PROPOSAL: Proposal = {
   closingSubtitle: 'Do tráfego à venda real.',
 
   ctaUrl: 'https://wa.me/5511999999999',
+  closingButtonText: 'APROVAR PLANO ESTRATÉGICO',
 
   // Data
   currentInvestment: 15000,
@@ -123,6 +132,7 @@ export const DEFAULT_PROPOSAL: Proposal = {
         'Testes A/B de Criativos',
         'Otimização de Públicos',
         'Refinamento de Keywords',
+        'Análise de Métricas',
       ],
     },
     {
@@ -225,8 +235,11 @@ export const DEFAULT_PROPOSAL: Proposal = {
     },
   ],
 
-  mediaBudget: 20000,
-  softwareCost: 1500,
+  operationalCosts: [
+    { id: '1', name: 'Verba Mídia (Sug.)', value: 20000 },
+    { id: '2', name: 'Software/Tech', value: 1500 },
+  ],
+
   investmentTiers: [
     {
       name: 'Essencial',
@@ -265,6 +278,13 @@ export const DEFAULT_PROPOSAL: Proposal = {
     'Nossa abordagem integra captação de Fundo de Funil com Google Ads e Geração de Demanda visual via Meta Ads.',
   executiveSummary:
     'O objetivo principal é escalar a geração de leads qualificados reduzindo o CAC atual em 20%.',
+
+  summaryTriad: {
+    marketing: 'Estratégia Full-Funnel focada em performance.',
+    ai: 'Tecnologia de ponta para análise preditiva.',
+    commercial: 'Foco total em vendas e receita.',
+  },
+
   methodologyText: 'Utilizamos uma metodologia proprietária baseada em dados.',
   summaryLinks: [{ title: 'Ver Site', url: 'https://example.com' }],
 
@@ -343,5 +363,6 @@ export const DEFAULT_PROPOSAL: Proposal = {
   library: [],
 
   createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
   status: 'draft',
 }

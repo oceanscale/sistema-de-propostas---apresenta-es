@@ -3,6 +3,12 @@ import { Proposal } from '@/types/proposal'
 import { Check, Star } from 'lucide-react'
 
 export function SlideInvestment({ proposal }: { proposal: Proposal }) {
+  // Backwards compatibility if operationalCosts is missing
+  const costs = proposal.operationalCosts || [
+    { id: '1', name: 'Verba Mídia', value: proposal.mediaBudget },
+    { id: '2', name: 'Software/Tech', value: proposal.softwareCost },
+  ]
+
   return (
     <SlideContainer>
       <div className="flex justify-between items-end mb-8 border-b border-slate-100 pb-4">
@@ -20,39 +26,30 @@ export function SlideInvestment({ proposal }: { proposal: Proposal }) {
         {/* Left Sidebar - Costs Context */}
         <div className="col-span-3 bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-center space-y-8">
           <div>
-            <h4 className="font-bold text-slate-900 text-lg mb-2">
-              Custos de Terceiros
+            <h4 className="font-bold text-slate-900 text-lg mb-4">
+              Custos Operacionais
             </h4>
-            <p className="text-xs text-slate-500 mb-4">
-              Pagos diretamente às plataformas.
-            </p>
             <div className="space-y-4">
-              <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-                <p className="text-xs font-bold text-slate-500 uppercase">
-                  Verba Mídia (Sug.)
-                </p>
-                <p className="text-xl font-bold text-slate-900">
-                  {new Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                  }).format(proposal.mediaBudget)}
-                </p>
-              </div>
-              <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-                <p className="text-xs font-bold text-slate-500 uppercase">
-                  Softwares/Tech
-                </p>
-                <p className="text-xl font-bold text-slate-900">
-                  {new Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                  }).format(proposal.softwareCost)}
-                </p>
-              </div>
+              {costs.map((cost, i) => (
+                <div
+                  key={i}
+                  className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm"
+                >
+                  <p className="text-xs font-bold text-slate-500 uppercase">
+                    {cost.name}
+                  </p>
+                  <p className="text-xl font-bold text-slate-900">
+                    {new Intl.NumberFormat('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
+                    }).format(cost.value)}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
           <div className="text-xs text-slate-400 italic">
-            * Valores de mídia podem ser ajustados conforme a estratégia.
+            * Valores pagos diretamente às plataformas ou fornecedores.
           </div>
         </div>
 

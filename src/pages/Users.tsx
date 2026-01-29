@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabase/client'
 import {
   Table,
@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useToast } from '@/hooks/use-toast'
+import { useAuth } from '@/hooks/use-auth'
 import { ArrowLeft, Search, Loader2, Users as UsersIcon } from 'lucide-react'
 
 interface Profile {
@@ -34,10 +35,32 @@ export default function Users() {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const { toast } = useToast()
+  const { user } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    fetchUsers()
-  }, [])
+    checkPermission()
+  }, [user])
+
+  const checkPermission = async () => {
+    if (!user) return
+    const { data } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    if (data?.role !== 'admin') {
+      toast({
+        title: 'Acesso Negado',
+        description: 'Você não tem permissão para acessar esta página.',
+        variant: 'destructive',
+      })
+      navigate('/')
+    } else {
+      fetchUsers()
+    }
+  }
 
   const fetchUsers = async () => {
     setLoading(true)

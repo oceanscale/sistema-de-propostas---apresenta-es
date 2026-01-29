@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/select'
 import { Plus, Trash2 } from 'lucide-react'
 import { GanttPage, GanttTask } from '@/types/proposal'
-import { v4 as uuidv4 } from 'uuid'
 
 export function WizardStepGantt({ pageId }: { pageId: string }) {
   const { proposal, updateProposal } = useProposal()
@@ -29,7 +28,7 @@ export function WizardStepGantt({ pageId }: { pageId: string }) {
   }
 
   const addTask = () => {
-    if (page.tasks.length >= 6) return
+    if (page.tasks.length >= 8) return
     const newTask: GanttTask = {
       name: 'Nova Ação',
       s1: false,
@@ -82,9 +81,9 @@ export function WizardStepGantt({ pageId }: { pageId: string }) {
       <div className="border-t border-slate-200 pt-4 space-y-4">
         <div className="flex justify-between items-center">
           <h3 className="font-bold text-slate-800">
-            Cronograma (Max 6 linhas)
+            Cronograma (Max 8 linhas)
           </h3>
-          <Button size="sm" onClick={addTask} disabled={page.tasks.length >= 6}>
+          <Button size="sm" onClick={addTask} disabled={page.tasks.length >= 8}>
             <Plus className="w-4 h-4 mr-2" /> Adicionar Linha
           </Button>
         </div>

@@ -2,11 +2,37 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Search, Trash2, Copy, LayoutTemplate, ArrowLeft } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import {
+  Search,
+  Trash2,
+  Copy,
+  LayoutTemplate,
+  ArrowLeft,
+  Edit2,
+  UserCircle,
+  LogOut,
+  Users,
+} from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabase/client'
 import { useToast } from '@/hooks/use-toast'
 import { useAuth } from '@/hooks/use-auth'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { Badge } from '@/components/ui/badge'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
 
 interface Template {
   id: string
@@ -15,6 +41,7 @@ interface Template {
   thumbnail_url: string
   content: any
   type: string
+  tags: string[]
   created_at: string
 }
 
@@ -22,8 +49,10 @@ export default function Library() {
   const [templates, setTemplates] = useState<Template[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const [editingTemplate, setEditingTemplate] = useState<Template | null>(null)
   const { toast } = useToast()
-  const { user } = useAuth()
+  const { user, signOut } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchTemplates()
@@ -90,37 +119,106 @@ export default function Library() {
     }
   }
 
-  const filteredTemplates = templates.filter((t) =>
-    t.name.toLowerCase().includes(search.toLowerCase()),
+  const handleUpdateTemplate = async () => {
+    if (!editingTemplate) return
+    try {
+      const { error } = await supabase
+        .from('templates')
+        .update({
+          name: editingTemplate.name,
+          tags: editingTemplate.tags,
+        })
+        .eq('id', editingTemplate.id)
+
+      if (error) throw error
+
+      setTemplates(
+        templates.map((t) =>
+          t.id === editingTemplate.id ? editingTemplate : t,
+        ),
+      )
+      setEditingTemplate(null)
+      toast({ title: 'Modelo atualizado!' })
+    } catch (error: any) {
+      toast({
+        title: 'Erro ao atualizar',
+        description: error.message,
+        variant: 'destructive',
+      })
+    }
+  }
+
+  const handleSignOut = async () => {
+    await signOut()
+    navigate('/login')
+  }
+
+  const filteredTemplates = templates.filter(
+    (t) =>
+      t.name.toLowerCase().includes(search.toLowerCase()) ||
+      t.tags?.some((tag) => tag.toLowerCase().includes(search.toLowerCase())),
   )
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
       <header className="bg-white border-b border-slate-200 py-6 px-8">
-        <div className="max-w-7xl mx-auto flex items-center gap-4">
-          <Link
-            to="/"
-            className="p-2 hover:bg-slate-100 rounded-full transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 text-slate-500" />
-          </Link>
-          <div className="flex-1">
-            <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-              <LayoutTemplate className="w-6 h-6 text-sky-500" />
-              Biblioteca de Modelos
-            </h1>
-            <p className="text-slate-500">
-              Gerencie seus slides e templates reutilizáveis
-            </p>
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-4 flex-1">
+            <Link
+              to="/"
+              className="p-2 hover:bg-slate-100 rounded-full transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5 text-slate-500" />
+            </Link>
+            <div>
+              <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                <LayoutTemplate className="w-6 h-6 text-sky-500" />
+                Biblioteca de Modelos
+              </h1>
+              <p className="text-slate-500">
+                Gerencie seus slides e templates reutilizáveis
+              </p>
+            </div>
           </div>
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <Input
-              className="pl-9 w-64"
-              placeholder="Buscar modelos..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Input
+                className="pl-9 w-64"
+                placeholder="Buscar modelos ou tags..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="w-10 h-10 rounded-full bg-slate-200 overflow-hidden outline-none ring-offset-2 focus:ring-2 focus:ring-slate-400 transition-all flex items-center justify-center">
+                  {user?.email?.charAt(0).toUpperCase() || (
+                    <UserCircle className="w-5 h-5 text-slate-500" />
+                  )}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <Link to="/perfil">
+                  <DropdownMenuItem>
+                    <UserCircle className="w-4 h-4 mr-2" /> Perfil
+                  </DropdownMenuItem>
+                </Link>
+                <Link to="/usuarios">
+                  <DropdownMenuItem>
+                    <Users className="w-4 h-4 mr-2" /> Usuários
+                  </DropdownMenuItem>
+                </Link>
+                <DropdownMenuItem
+                  className="text-red-600"
+                  onClick={handleSignOut}
+                >
+                  <LogOut className="w-4 h-4 mr-2" /> Sair
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </header>
@@ -135,7 +233,7 @@ export default function Library() {
             {filteredTemplates.map((template) => (
               <Card
                 key={template.id}
-                className="group overflow-hidden border-slate-200 hover:shadow-lg transition-all"
+                className="group overflow-hidden border-slate-200 hover:shadow-lg transition-all flex flex-col"
               >
                 <div className="aspect-video bg-slate-100 relative overflow-hidden border-b border-slate-100">
                   {template.thumbnail_url ? (
@@ -149,16 +247,38 @@ export default function Library() {
                       <LayoutTemplate className="w-12 h-12 opacity-50" />
                     </div>
                   )}
+                  {/* Overlay for quick actions */}
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => setEditingTemplate(template)}
+                    >
+                      <Edit2 className="w-4 h-4 mr-1" /> Editar
+                    </Button>
+                  </div>
                 </div>
-                <CardHeader className="p-4 pb-2">
+                <CardHeader className="p-4 pb-2 flex-1">
                   <CardTitle
                     className="text-base font-bold truncate"
                     title={template.name}
                   >
                     {template.name}
                   </CardTitle>
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {template.tags &&
+                      template.tags.map((tag) => (
+                        <Badge
+                          key={tag}
+                          variant="secondary"
+                          className="text-[10px] px-1 py-0"
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                  </div>
                 </CardHeader>
-                <CardFooter className="p-4 pt-0 flex justify-between items-center">
+                <CardFooter className="p-4 pt-0 flex justify-between items-center mt-auto">
                   <span className="text-xs text-slate-500 capitalize">
                     {template.type || 'Slide'}
                   </span>
@@ -197,6 +317,59 @@ export default function Library() {
           </div>
         )}
       </main>
+
+      {/* Edit Template Modal */}
+      <Dialog
+        open={!!editingTemplate}
+        onOpenChange={(open) => !open && setEditingTemplate(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Editar Modelo</DialogTitle>
+            <DialogDescription>
+              Atualize as informações do modelo.
+            </DialogDescription>
+          </DialogHeader>
+          {editingTemplate && (
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label>Nome do Modelo</Label>
+                <Input
+                  value={editingTemplate.name}
+                  onChange={(e) =>
+                    setEditingTemplate({
+                      ...editingTemplate,
+                      name: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Tags (separadas por vírgula)</Label>
+                <Input
+                  value={editingTemplate.tags?.join(', ') || ''}
+                  onChange={(e) =>
+                    setEditingTemplate({
+                      ...editingTemplate,
+                      tags: e.target.value
+                        .split(',')
+                        .map((t) => t.trim())
+                        .filter(Boolean),
+                    })
+                  }
+                  placeholder="Ex: Marketing, Vendas, Q1"
+                />
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditingTemplate(null)}>
+              Cancelar
+            </Button>
+            <Button onClick={handleUpdateTemplate}>Salvar</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

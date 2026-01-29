@@ -6,6 +6,12 @@ export interface InvestmentTier {
   recommended?: boolean
 }
 
+export interface OperationalCost {
+  id: string
+  name: string
+  value: number
+}
+
 export interface TimelinePhase {
   title: string
   month: string
@@ -70,6 +76,12 @@ export interface ProfileData {
   logo: string
 }
 
+export interface SummaryTriad {
+  marketing: string
+  ai: string
+  commercial: string
+}
+
 export interface Proposal {
   id: string
   // Agency & Client (Parts)
@@ -80,6 +92,9 @@ export interface Proposal {
   clientUrl: string
   sector: string
   location: string
+
+  // Meta
+  tags: string[]
 
   // Profile
   profile: ProfileData
@@ -137,6 +152,7 @@ export interface Proposal {
 
   // Closing
   ctaUrl: string
+  closingButtonText: string
 
   // Diagnosis Data
   gaps: string[]
@@ -183,14 +199,14 @@ export interface Proposal {
   projectionCards: ProjectionCard[]
 
   // Financials
-  mediaBudget: number
-  softwareCost: number
+  operationalCosts: OperationalCost[]
   investmentTiers: InvestmentTier[]
 
   // Text Content
   strategyText: string
-  executiveSummary: string
-  methodologyText: string // Used for quote/guarantee text
+  executiveSummary: string // Kept for backward compatibility or simple layout
+  summaryTriad: SummaryTriad
+  methodologyText: string
   summaryLinks: SummaryLink[]
 
   // Methodology Details

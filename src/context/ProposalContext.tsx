@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useAuth } from '@/hooks/use-auth'
 import { supabase } from '@/lib/supabase/client'
 import { useToast } from '@/hooks/use-toast'
+import { useLocation } from 'react-router-dom'
 
 interface ProposalContextType {
   proposal: Proposal
@@ -36,6 +37,7 @@ export const ProposalProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false)
   const { user } = useAuth()
   const { toast } = useToast()
+  const location = useLocation()
 
   // Load user profile on mount
   useEffect(() => {
@@ -69,6 +71,43 @@ export const ProposalProvider = ({ children }: { children: ReactNode }) => {
     loadProfile()
   }, [user])
 
+  // Check for proposal ID in location state (passed from Index)
+  useEffect(() => {
+    const state = location.state as { proposalId?: string }
+    if (state?.proposalId) {
+      loadProposal(state.proposalId)
+    }
+  }, [location.state])
+
+  const loadProposal = async (id: string) => {
+    setIsLoading(true)
+    try {
+      const { data, error } = await supabase
+        .from('proposals')
+        .select('*')
+        .eq('id', id)
+        .single()
+      if (error) throw error
+      if (data && data.content) {
+        // Merge loaded content with default structure to ensure new fields exist
+        setProposal((prev) => ({
+          ...prev,
+          ...(data.content as any),
+          id: data.id,
+        }))
+      }
+    } catch (e: any) {
+      console.error(e)
+      toast({
+        title: 'Erro ao carregar',
+        description: e.message,
+        variant: 'destructive',
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const updateProposal = (data: Partial<Proposal>) => {
     setProposal((prev) => ({ ...prev, ...data }))
   }
@@ -87,7 +126,6 @@ export const ProposalProvider = ({ children }: { children: ReactNode }) => {
 
     try {
       const { id, content, ...rest } = proposal
-      // If ID is 'new', we let supabase generate one or we generate one
       const proposalId = proposal.id === 'new' ? undefined : proposal.id
 
       const payload = {
@@ -95,7 +133,7 @@ export const ProposalProvider = ({ children }: { children: ReactNode }) => {
         title: proposal.coverTitle,
         content: proposal as any, // Store full JSON
         updated_at: new Date().toISOString(),
-        lead_id: null, // Assuming no lead relation strictly required for now
+        lead_id: null,
       }
 
       let result
@@ -117,7 +155,11 @@ export const ProposalProvider = ({ children }: { children: ReactNode }) => {
 
       if (result.data && result.data[0]) {
         const savedId = result.data[0].id
-        setProposal((prev) => ({ ...prev, id: savedId }))
+        setProposal((prev) => ({
+          ...prev,
+          id: savedId,
+          updatedAt: new Date().toISOString(),
+        }))
         toast({
           title: 'Proposta salva!',
           description: 'Suas alterações foram sincronizadas.',
@@ -208,6 +250,7 @@ export const ProposalProvider = ({ children }: { children: ReactNode }) => {
         description: `Salvo em ${new Date().toLocaleString()}`,
         content: slideData,
         type: type,
+        tags: proposal.tags, // Auto-tag with proposal tags
         thumbnail_url: null,
       })
 
@@ -271,11 +314,13 @@ export const ProposalProvider = ({ children }: { children: ReactNode }) => {
             summaryLinks: snapshot.summaryLinks,
             summaryPageImage: snapshot.summaryPageImage,
             summaryBoxImage: snapshot.summaryBoxImage,
+            summaryTriad: snapshot.summaryTriad,
           })
           if (!proposal.pageOrder.includes('summary')) {
             updateProposal({ pageOrder: [...proposal.pageOrder, 'summary'] })
           }
         } else {
+          // Generic fallback
           updateProposal(snapshot)
         }
 
@@ -322,17 +367,6 @@ export const ProposalProvider = ({ children }: { children: ReactNode }) => {
         'Todo o ecossistema será monitorado por nossa tecnologia de Dashboards em Tempo Real e Triagem com IA, garantindo que apenas leads qualificados cheguem ao comercial.'
 
       summary = `Plano de aceleração para ${proposal.clientName} focado em transformar o investimento de mídia em receita previsível. `
-
-      if (proposal.sector === 'Imóveis de Alto Padrão') {
-        summary +=
-          'Iremos qualificar drasticamente o lead para maximizar o VGV e otimizar o tempo dos corretores.'
-      } else if (proposal.sector === 'E-commerce Varejo') {
-        summary +=
-          'Foco total em maximizar o ROAS e escalar o volume de vendas mantendo a margem de contribuição.'
-      } else {
-        summary +=
-          'O objetivo é construir uma máquina de vendas previsível e escalável nos próximos 90 dias.'
-      }
 
       updateProposal({
         strategyText: strategy,

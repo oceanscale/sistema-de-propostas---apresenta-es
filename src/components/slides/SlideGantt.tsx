@@ -69,10 +69,10 @@ export function SlideGantt({ page }: { page: GanttPage }) {
             Ação / Entregável
           </div>
           <div className="col-span-6 grid grid-cols-4 gap-1">
-            {['SEMANA 1', 'SEMANA 2', 'SEMANA 3', 'SEMANA 4'].map((w, i) => (
+            {['S1', 'S2', 'S3', 'S4'].map((w, i) => (
               <div
                 key={i}
-                className="bg-slate-100 text-slate-500 text-[10px] font-bold py-1 text-center rounded"
+                className="bg-slate-100 text-slate-500 text-[12px] font-bold py-1 text-center rounded"
               >
                 {w}
               </div>
@@ -82,21 +82,24 @@ export function SlideGantt({ page }: { page: GanttPage }) {
 
         {/* Rows */}
         <div className="space-y-3">
-          {page.tasks?.slice(0, 6).map((task, i) => (
+          {page.tasks?.slice(0, 8).map((task, i) => (
             <div
               key={i}
-              className="grid grid-cols-12 gap-1 items-center bg-white p-2 rounded-lg border border-slate-100 shadow-sm min-h-[60px]"
+              className="grid grid-cols-12 gap-1 items-center bg-white p-2 rounded-lg border border-slate-100 shadow-sm min-h-[50px]"
             >
-              <div className="col-span-6 px-4 font-medium text-slate-800">
+              <div className="col-span-6 px-4 font-medium text-slate-800 text-sm">
                 {task.name}
               </div>
               <div className="col-span-6 grid grid-cols-4 gap-1 h-8">
                 {[task.s1, task.s2, task.s3, task.s4].map((active, idx) => (
-                  <div key={idx} className="relative h-full">
+                  <div
+                    key={idx}
+                    className="relative h-full flex items-center justify-center"
+                  >
                     {active && (
                       <div
                         className={cn(
-                          'absolute inset-0 rounded-md opacity-90 transition-all',
+                          'w-full h-4 rounded-full opacity-90 transition-all',
                           getStatusColor(task.type),
                         )}
                       ></div>
@@ -108,11 +111,11 @@ export function SlideGantt({ page }: { page: GanttPage }) {
           ))}
 
           {Array.from({
-            length: Math.max(0, 6 - (page.tasks?.length || 0)),
+            length: Math.max(0, 8 - (page.tasks?.length || 0)),
           }).map((_, i) => (
             <div
               key={`empty-${i}`}
-              className="grid grid-cols-12 gap-1 items-center bg-slate-50/50 p-2 rounded-lg border border-dashed border-slate-200 min-h-[60px]"
+              className="grid grid-cols-12 gap-1 items-center bg-slate-50/50 p-2 rounded-lg border border-dashed border-slate-200 min-h-[50px]"
             ></div>
           ))}
         </div>

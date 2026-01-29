@@ -12,7 +12,7 @@ export function WizardStepProjection() {
   }
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in pb-10">
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label>Título da Página</Label>
@@ -35,9 +35,29 @@ export function WizardStepProjection() {
       </div>
 
       <div className="border-t border-slate-200 pt-4 space-y-4">
-        <h3 className="font-bold text-slate-800">
-          Cards de Projeção (Anexo 7)
-        </h3>
+        <h3 className="font-bold text-slate-800">Dados Comparativos</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label>Investimento Atual (R$)</Label>
+            <Input
+              type="number"
+              value={proposal.currentInvestment}
+              onChange={(e) =>
+                updateProposal({ currentInvestment: Number(e.target.value) })
+              }
+            />
+          </div>
+          <div>
+            <Label>Investimento Sugerido (Auto)</Label>
+            <div className="text-sm text-slate-500 mt-2">
+              Calculado automaticamente com base na página de Investimento.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-slate-200 pt-4 space-y-4">
+        <h3 className="font-bold text-slate-800">Cards de Projeção</h3>
         {proposal.projectionCards?.map((card, i) => (
           <div
             key={i}
@@ -61,7 +81,7 @@ export function WizardStepProjection() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs">Métrica</Label>
+                <Label className="text-xs">Métrica (ex: +100%)</Label>
                 <Input
                   value={card.metric}
                   onChange={(e) => updateCard(i, 'metric', e.target.value)}
@@ -77,22 +97,6 @@ export function WizardStepProjection() {
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="border-t border-slate-200 pt-4 space-y-4">
-        <h3 className="font-bold text-slate-800">Rodapé de Comparação</h3>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label>Investimento Atual</Label>
-            <Input
-              type="number"
-              value={proposal.currentInvestment}
-              onChange={(e) =>
-                updateProposal({ currentInvestment: Number(e.target.value) })
-              }
-            />
-          </div>
-        </div>
       </div>
     </div>
   )

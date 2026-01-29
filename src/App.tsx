@@ -8,6 +8,7 @@ import Editor from './pages/Editor'
 import Library from './pages/Library'
 import Share from './pages/Share'
 import Users from './pages/Users'
+import Profile from './pages/Profile'
 import Login from './pages/auth/Login'
 import SignUp from './pages/auth/SignUp'
 import ForgotPassword from './pages/auth/ForgotPassword'
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/editor" element={<Editor />} />
               <Route path="/biblioteca" element={<Library />} />
               <Route path="/usuarios" element={<Users />} />
+              <Route path="/perfil" element={<Profile />} />
             </Route>
           </Route>
 

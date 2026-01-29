@@ -17665,7 +17665,7 @@ function composeContextScopes(...scopes) {
 	return createScope;
 }
 /* @__NO_SIDE_EFFECTS__ */
-function createSlot(ownerName) {
+function createSlot$1(ownerName) {
 	const SlotClone = /* @__PURE__ */ createSlotClone$1(ownerName);
 	const Slot2 = import_react.forwardRef((props, forwardedRef) => {
 		const { children, ...slotProps } = props;
@@ -17774,7 +17774,7 @@ function createCollection(name) {
 	};
 	CollectionProvider.displayName = PROVIDER_NAME$2;
 	const COLLECTION_SLOT_NAME = name + "CollectionSlot";
-	const CollectionSlotImpl = /* @__PURE__ */ createSlot(COLLECTION_SLOT_NAME);
+	const CollectionSlotImpl = /* @__PURE__ */ createSlot$1(COLLECTION_SLOT_NAME);
 	const CollectionSlot = import_react.forwardRef((props, forwardedRef) => {
 		const { scope, children } = props;
 		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CollectionSlotImpl, {
@@ -17785,7 +17785,7 @@ function createCollection(name) {
 	CollectionSlot.displayName = COLLECTION_SLOT_NAME;
 	const ITEM_SLOT_NAME = name + "CollectionItemSlot";
 	const ITEM_DATA_ATTR = "data-radix-collection-item";
-	const CollectionItemSlotImpl = /* @__PURE__ */ createSlot(ITEM_SLOT_NAME);
+	const CollectionItemSlotImpl = /* @__PURE__ */ createSlot$1(ITEM_SLOT_NAME);
 	const CollectionItemSlot = import_react.forwardRef((props, forwardedRef) => {
 		const { scope, children, ...itemData } = props;
 		const ref = import_react.useRef(null);
@@ -17843,7 +17843,7 @@ var Primitive = [
 	"svg",
 	"ul"
 ].reduce((primitive, node) => {
-	const Slot$4 = /* @__PURE__ */ createSlot(`Primitive.${node}`);
+	const Slot$4 = /* @__PURE__ */ createSlot$1(`Primitive.${node}`);
 	const Node$1 = import_react.forwardRef((props, forwardedRef) => {
 		const { asChild, ...primitiveProps } = props;
 		const Comp = asChild ? Slot$4 : node;
@@ -18908,6 +18908,51 @@ var ArrowRight = createLucideIcon("arrow-right", [["path", {
 	d: "m12 5 7 7-7 7",
 	key: "xquz4c"
 }]]);
+var Brain = createLucideIcon("brain", [
+	["path", {
+		d: "M12 18V5",
+		key: "adv99a"
+	}],
+	["path", {
+		d: "M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4",
+		key: "1e3is1"
+	}],
+	["path", {
+		d: "M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5",
+		key: "1gqd8o"
+	}],
+	["path", {
+		d: "M17.997 5.125a4 4 0 0 1 2.526 5.77",
+		key: "iwvgf7"
+	}],
+	["path", {
+		d: "M18 18a4 4 0 0 0 2-7.464",
+		key: "efp6ie"
+	}],
+	["path", {
+		d: "M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517",
+		key: "1gq6am"
+	}],
+	["path", {
+		d: "M6 18a4 4 0 0 1-2-7.464",
+		key: "k1g0md"
+	}],
+	["path", {
+		d: "M6.003 5.125a4 4 0 0 0-2.526 5.77",
+		key: "q97ue3"
+	}]
+]);
+var Briefcase = createLucideIcon("briefcase", [["path", {
+	d: "M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16",
+	key: "jecpp"
+}], ["rect", {
+	width: "20",
+	height: "14",
+	x: "2",
+	y: "6",
+	rx: "2",
+	key: "i6l2r4"
+}]]);
 var Building2 = createLucideIcon("building-2", [
 	["path", {
 		d: "M10 12h4",
@@ -18928,6 +18973,56 @@ var Building2 = createLucideIcon("building-2", [
 	["path", {
 		d: "M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16",
 		key: "16ra0t"
+	}]
+]);
+var Building = createLucideIcon("building", [
+	["path", {
+		d: "M12 10h.01",
+		key: "1nrarc"
+	}],
+	["path", {
+		d: "M12 14h.01",
+		key: "1etili"
+	}],
+	["path", {
+		d: "M12 6h.01",
+		key: "1vi96p"
+	}],
+	["path", {
+		d: "M16 10h.01",
+		key: "1m94wz"
+	}],
+	["path", {
+		d: "M16 14h.01",
+		key: "1gbofw"
+	}],
+	["path", {
+		d: "M16 6h.01",
+		key: "1x0f13"
+	}],
+	["path", {
+		d: "M8 10h.01",
+		key: "19clt8"
+	}],
+	["path", {
+		d: "M8 14h.01",
+		key: "6423bh"
+	}],
+	["path", {
+		d: "M8 6h.01",
+		key: "1dz90k"
+	}],
+	["path", {
+		d: "M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3",
+		key: "cabbwy"
+	}],
+	["rect", {
+		x: "4",
+		y: "2",
+		width: "16",
+		height: "20",
+		rx: "2",
+		key: "1uxh74"
 	}]
 ]);
 var Calendar = createLucideIcon("calendar", [
@@ -19335,6 +19430,18 @@ var LayoutTemplate = createLucideIcon("layout-template", [
 var LoaderCircle = createLucideIcon("loader-circle", [["path", {
 	d: "M21 12a9 9 0 1 1-6.219-8.56",
 	key: "13zald"
+}]]);
+var Lock = createLucideIcon("lock", [["rect", {
+	width: "18",
+	height: "11",
+	x: "3",
+	y: "11",
+	rx: "2",
+	ry: "2",
+	key: "1w4ew1"
+}], ["path", {
+	d: "M7 11V7a5 5 0 0 1 10 0v4",
+	key: "fwvmzm"
 }]]);
 var LogIn = createLucideIcon("log-in", [
 	["path", {
@@ -24370,7 +24477,7 @@ function isLazyComponent(element) {
 	return element != null && typeof element === "object" && "$$typeof" in element && element.$$typeof === REACT_LAZY_TYPE && "_payload" in element && isPromiseLike(element._payload);
 }
 /* @__NO_SIDE_EFFECTS__ */
-function createSlot$1(ownerName) {
+function createSlot(ownerName) {
 	const SlotClone = /* @__PURE__ */ createSlotClone(ownerName);
 	const Slot2 = import_react.forwardRef((props, forwardedRef) => {
 		let { children, ...slotProps } = props;
@@ -24400,7 +24507,7 @@ function createSlot$1(ownerName) {
 	Slot2.displayName = `${ownerName}.Slot`;
 	return Slot2;
 }
-var Slot$3 = /* @__PURE__ */ createSlot$1("Slot");
+var Slot$3 = /* @__PURE__ */ createSlot("Slot");
 /* @__NO_SIDE_EFFECTS__ */
 function createSlotClone(ownerName) {
 	const SlotClone = import_react.forwardRef((props, forwardedRef) => {
@@ -25809,7 +25916,7 @@ var MenuRootContentNonModal = import_react.forwardRef((props, forwardedRef) => {
 		onDismiss: () => context.onOpenChange(false)
 	});
 });
-var Slot$2 = /* @__PURE__ */ createSlot("MenuContent.ScrollLock");
+var Slot$2 = /* @__PURE__ */ createSlot$1("MenuContent.ScrollLock");
 var MenuContentImpl = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeMenu, loop = false, trapFocus, onOpenAutoFocus, onCloseAutoFocus, disableOutsidePointerEvents, onEntryFocus, onEscapeKeyDown, onPointerDownOutside, onFocusOutside, onInteractOutside, onDismiss, disableOutsideScroll, ...contentProps } = props;
 	const context = useMenuContext(CONTENT_NAME$3, __scopeMenu);
@@ -26730,6 +26837,1353 @@ var DropdownMenuShortcut = ({ className, ...props }) => {
 	});
 };
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
+var DIALOG_NAME = "Dialog";
+var [createDialogContext, createDialogScope] = createContextScope(DIALOG_NAME);
+var [DialogProvider, useDialogContext] = createDialogContext(DIALOG_NAME);
+var Dialog$1 = (props) => {
+	const { __scopeDialog, children, open: openProp, defaultOpen, onOpenChange, modal = true } = props;
+	const triggerRef = import_react.useRef(null);
+	const contentRef = import_react.useRef(null);
+	const [open, setOpen] = useControllableState({
+		prop: openProp,
+		defaultProp: defaultOpen ?? false,
+		onChange: onOpenChange,
+		caller: DIALOG_NAME
+	});
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogProvider, {
+		scope: __scopeDialog,
+		triggerRef,
+		contentRef,
+		contentId: useId(),
+		titleId: useId(),
+		descriptionId: useId(),
+		open,
+		onOpenChange: setOpen,
+		onOpenToggle: import_react.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen]),
+		modal,
+		children
+	});
+};
+Dialog$1.displayName = DIALOG_NAME;
+var TRIGGER_NAME$2 = "DialogTrigger";
+var DialogTrigger$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...triggerProps } = props;
+	const context = useDialogContext(TRIGGER_NAME$2, __scopeDialog);
+	const composedTriggerRef = useComposedRefs(forwardedRef, context.triggerRef);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.button, {
+		type: "button",
+		"aria-haspopup": "dialog",
+		"aria-expanded": context.open,
+		"aria-controls": context.contentId,
+		"data-state": getState$1(context.open),
+		...triggerProps,
+		ref: composedTriggerRef,
+		onClick: composeEventHandlers(props.onClick, context.onOpenToggle)
+	});
+});
+DialogTrigger$1.displayName = TRIGGER_NAME$2;
+var PORTAL_NAME$1 = "DialogPortal";
+var [PortalProvider, usePortalContext] = createDialogContext(PORTAL_NAME$1, { forceMount: void 0 });
+var DialogPortal$1 = (props) => {
+	const { __scopeDialog, forceMount, children, container } = props;
+	const context = useDialogContext(PORTAL_NAME$1, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PortalProvider, {
+		scope: __scopeDialog,
+		forceMount,
+		children: import_react.Children.map(children, (child) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
+			present: forceMount || context.open,
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Portal, {
+				asChild: true,
+				container,
+				children: child
+			})
+		}))
+	});
+};
+DialogPortal$1.displayName = PORTAL_NAME$1;
+var OVERLAY_NAME = "DialogOverlay";
+var DialogOverlay$1 = import_react.forwardRef((props, forwardedRef) => {
+	const portalContext = usePortalContext(OVERLAY_NAME, props.__scopeDialog);
+	const { forceMount = portalContext.forceMount, ...overlayProps } = props;
+	const context = useDialogContext(OVERLAY_NAME, props.__scopeDialog);
+	return context.modal ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
+		present: forceMount || context.open,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogOverlayImpl, {
+			...overlayProps,
+			ref: forwardedRef
+		})
+	}) : null;
+});
+DialogOverlay$1.displayName = OVERLAY_NAME;
+var Slot$1 = /* @__PURE__ */ createSlot$1("DialogOverlay.RemoveScroll");
+var DialogOverlayImpl = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...overlayProps } = props;
+	const context = useDialogContext(OVERLAY_NAME, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Combination_default, {
+		as: Slot$1,
+		allowPinchZoom: true,
+		shards: [context.contentRef],
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+			"data-state": getState$1(context.open),
+			...overlayProps,
+			ref: forwardedRef,
+			style: {
+				pointerEvents: "auto",
+				...overlayProps.style
+			}
+		})
+	});
+});
+var CONTENT_NAME$1 = "DialogContent";
+var DialogContent$1 = import_react.forwardRef((props, forwardedRef) => {
+	const portalContext = usePortalContext(CONTENT_NAME$1, props.__scopeDialog);
+	const { forceMount = portalContext.forceMount, ...contentProps } = props;
+	const context = useDialogContext(CONTENT_NAME$1, props.__scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
+		present: forceMount || context.open,
+		children: context.modal ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentModal, {
+			...contentProps,
+			ref: forwardedRef
+		}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentNonModal, {
+			...contentProps,
+			ref: forwardedRef
+		})
+	});
+});
+DialogContent$1.displayName = CONTENT_NAME$1;
+var DialogContentModal = import_react.forwardRef((props, forwardedRef) => {
+	const context = useDialogContext(CONTENT_NAME$1, props.__scopeDialog);
+	const contentRef = import_react.useRef(null);
+	const composedRefs = useComposedRefs(forwardedRef, context.contentRef, contentRef);
+	import_react.useEffect(() => {
+		const content = contentRef.current;
+		if (content) return hideOthers(content);
+	}, []);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentImpl, {
+		...props,
+		ref: composedRefs,
+		trapFocus: context.open,
+		disableOutsidePointerEvents: true,
+		onCloseAutoFocus: composeEventHandlers(props.onCloseAutoFocus, (event) => {
+			event.preventDefault();
+			context.triggerRef.current?.focus();
+		}),
+		onPointerDownOutside: composeEventHandlers(props.onPointerDownOutside, (event) => {
+			const originalEvent = event.detail.originalEvent;
+			const ctrlLeftClick = originalEvent.button === 0 && originalEvent.ctrlKey === true;
+			if (originalEvent.button === 2 || ctrlLeftClick) event.preventDefault();
+		}),
+		onFocusOutside: composeEventHandlers(props.onFocusOutside, (event) => event.preventDefault())
+	});
+});
+var DialogContentNonModal = import_react.forwardRef((props, forwardedRef) => {
+	const context = useDialogContext(CONTENT_NAME$1, props.__scopeDialog);
+	const hasInteractedOutsideRef = import_react.useRef(false);
+	const hasPointerDownOutsideRef = import_react.useRef(false);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentImpl, {
+		...props,
+		ref: forwardedRef,
+		trapFocus: false,
+		disableOutsidePointerEvents: false,
+		onCloseAutoFocus: (event) => {
+			props.onCloseAutoFocus?.(event);
+			if (!event.defaultPrevented) {
+				if (!hasInteractedOutsideRef.current) context.triggerRef.current?.focus();
+				event.preventDefault();
+			}
+			hasInteractedOutsideRef.current = false;
+			hasPointerDownOutsideRef.current = false;
+		},
+		onInteractOutside: (event) => {
+			props.onInteractOutside?.(event);
+			if (!event.defaultPrevented) {
+				hasInteractedOutsideRef.current = true;
+				if (event.detail.originalEvent.type === "pointerdown") hasPointerDownOutsideRef.current = true;
+			}
+			const target = event.target;
+			if (context.triggerRef.current?.contains(target)) event.preventDefault();
+			if (event.detail.originalEvent.type === "focusin" && hasPointerDownOutsideRef.current) event.preventDefault();
+		}
+	});
+});
+var DialogContentImpl = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, trapFocus, onOpenAutoFocus, onCloseAutoFocus, ...contentProps } = props;
+	const context = useDialogContext(CONTENT_NAME$1, __scopeDialog);
+	const contentRef = import_react.useRef(null);
+	const composedRefs = useComposedRefs(forwardedRef, contentRef);
+	useFocusGuards();
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FocusScope, {
+		asChild: true,
+		loop: true,
+		trapped: trapFocus,
+		onMountAutoFocus: onOpenAutoFocus,
+		onUnmountAutoFocus: onCloseAutoFocus,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DismissableLayer, {
+			role: "dialog",
+			id: context.contentId,
+			"aria-describedby": context.descriptionId,
+			"aria-labelledby": context.titleId,
+			"data-state": getState$1(context.open),
+			...contentProps,
+			ref: composedRefs,
+			onDismiss: () => context.onOpenChange(false)
+		})
+	}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TitleWarning, { titleId: context.titleId }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DescriptionWarning, {
+		contentRef,
+		descriptionId: context.descriptionId
+	})] })] });
+});
+var TITLE_NAME = "DialogTitle";
+var DialogTitle$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...titleProps } = props;
+	const context = useDialogContext(TITLE_NAME, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.h2, {
+		id: context.titleId,
+		...titleProps,
+		ref: forwardedRef
+	});
+});
+DialogTitle$1.displayName = TITLE_NAME;
+var DESCRIPTION_NAME = "DialogDescription";
+var DialogDescription$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...descriptionProps } = props;
+	const context = useDialogContext(DESCRIPTION_NAME, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.p, {
+		id: context.descriptionId,
+		...descriptionProps,
+		ref: forwardedRef
+	});
+});
+DialogDescription$1.displayName = DESCRIPTION_NAME;
+var CLOSE_NAME = "DialogClose";
+var DialogClose$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...closeProps } = props;
+	const context = useDialogContext(CLOSE_NAME, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.button, {
+		type: "button",
+		...closeProps,
+		ref: forwardedRef,
+		onClick: composeEventHandlers(props.onClick, () => context.onOpenChange(false))
+	});
+});
+DialogClose$1.displayName = CLOSE_NAME;
+function getState$1(open) {
+	return open ? "open" : "closed";
+}
+var TITLE_WARNING_NAME = "DialogTitleWarning";
+var [WarningProvider, useWarningContext] = createContext2(TITLE_WARNING_NAME, {
+	contentName: CONTENT_NAME$1,
+	titleName: TITLE_NAME,
+	docsSlug: "dialog"
+});
+var TitleWarning = ({ titleId }) => {
+	const titleWarningContext = useWarningContext(TITLE_WARNING_NAME);
+	const MESSAGE = `\`${titleWarningContext.contentName}\` requires a \`${titleWarningContext.titleName}\` for the component to be accessible for screen reader users.
+
+If you want to hide the \`${titleWarningContext.titleName}\`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/${titleWarningContext.docsSlug}`;
+	import_react.useEffect(() => {
+		if (titleId) {
+			if (!document.getElementById(titleId)) console.error(MESSAGE);
+		}
+	}, [MESSAGE, titleId]);
+	return null;
+};
+var DESCRIPTION_WARNING_NAME = "DialogDescriptionWarning";
+var DescriptionWarning = ({ contentRef, descriptionId }) => {
+	const MESSAGE = `Warning: Missing \`Description\` or \`aria-describedby={undefined}\` for {${useWarningContext(DESCRIPTION_WARNING_NAME).contentName}}.`;
+	import_react.useEffect(() => {
+		const describedById = contentRef.current?.getAttribute("aria-describedby");
+		if (descriptionId && describedById) {
+			if (!document.getElementById(descriptionId)) console.warn(MESSAGE);
+		}
+	}, [
+		MESSAGE,
+		contentRef,
+		descriptionId
+	]);
+	return null;
+};
+var Root$3 = Dialog$1;
+var Portal$2 = DialogPortal$1;
+var Overlay = DialogOverlay$1;
+var Content = DialogContent$1;
+var Title = DialogTitle$1;
+var Description = DialogDescription$1;
+var Close = DialogClose$1;
+var Dialog = Root$3;
+var DialogPortal = Portal$2;
+var DialogOverlay = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Overlay, {
+	ref,
+	className: cn("fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0", className),
+	...props
+}));
+DialogOverlay.displayName = Overlay.displayName;
+var DialogContent = import_react.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogPortal, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogOverlay, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Content, {
+	ref,
+	className: cn("fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg overflow-y-auto max-h-screen", className),
+	...props,
+	children: [children, /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Close, {
+		className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-4 w-4" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+			className: "sr-only",
+			children: "Close"
+		})]
+	})]
+})] }));
+DialogContent.displayName = Content.displayName;
+var DialogHeader = ({ className, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	className: cn("flex flex-col space-y-1.5 text-center sm:text-left", className),
+	...props
+});
+DialogHeader.displayName = "DialogHeader";
+var DialogFooter = ({ className, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	className: cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className),
+	...props
+});
+DialogFooter.displayName = "DialogFooter";
+var DialogTitle = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Title, {
+	ref,
+	className: cn("text-lg font-semibold leading-none tracking-tight", className),
+	...props
+}));
+DialogTitle.displayName = Title.displayName;
+var DialogDescription = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Description, {
+	ref,
+	className: cn("text-sm text-muted-foreground", className),
+	...props
+}));
+DialogDescription.displayName = Description.displayName;
+function clamp(value, [min$1, max$1]) {
+	return Math.min(max$1, Math.max(min$1, value));
+}
+function usePrevious(value) {
+	const ref = import_react.useRef({
+		value,
+		previous: value
+	});
+	return import_react.useMemo(() => {
+		if (ref.current.value !== value) {
+			ref.current.previous = ref.current.value;
+			ref.current.value = value;
+		}
+		return ref.current.previous;
+	}, [value]);
+}
+var import_react_dom$1 = /* @__PURE__ */ __toESM(require_react_dom(), 1);
+var OPEN_KEYS = [
+	" ",
+	"Enter",
+	"ArrowUp",
+	"ArrowDown"
+];
+var SELECTION_KEYS = [" ", "Enter"];
+var SELECT_NAME = "Select";
+var [Collection$1, useCollection$1, createCollectionScope$1] = createCollection(SELECT_NAME);
+var [createSelectContext, createSelectScope] = createContextScope(SELECT_NAME, [createCollectionScope$1, createPopperScope]);
+var usePopperScope = createPopperScope();
+var [SelectProvider, useSelectContext] = createSelectContext(SELECT_NAME);
+var [SelectNativeOptionsProvider, useSelectNativeOptionsContext] = createSelectContext(SELECT_NAME);
+var Select$1 = (props) => {
+	const { __scopeSelect, children, open: openProp, defaultOpen, onOpenChange, value: valueProp, defaultValue, onValueChange, dir, name, autoComplete, disabled, required, form } = props;
+	const popperScope = usePopperScope(__scopeSelect);
+	const [trigger, setTrigger] = import_react.useState(null);
+	const [valueNode, setValueNode] = import_react.useState(null);
+	const [valueNodeHasChildren, setValueNodeHasChildren] = import_react.useState(false);
+	const direction = useDirection(dir);
+	const [open, setOpen] = useControllableState({
+		prop: openProp,
+		defaultProp: defaultOpen ?? false,
+		onChange: onOpenChange,
+		caller: SELECT_NAME
+	});
+	const [value, setValue] = useControllableState({
+		prop: valueProp,
+		defaultProp: defaultValue,
+		onChange: onValueChange,
+		caller: SELECT_NAME
+	});
+	const triggerPointerDownPosRef = import_react.useRef(null);
+	const isFormControl = trigger ? form || !!trigger.closest("form") : true;
+	const [nativeOptionsSet, setNativeOptionsSet] = import_react.useState(/* @__PURE__ */ new Set());
+	const nativeSelectKey = Array.from(nativeOptionsSet).map((option) => option.props.value).join(";");
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$2, {
+		...popperScope,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SelectProvider, {
+			required,
+			scope: __scopeSelect,
+			trigger,
+			onTriggerChange: setTrigger,
+			valueNode,
+			onValueNodeChange: setValueNode,
+			valueNodeHasChildren,
+			onValueNodeHasChildrenChange: setValueNodeHasChildren,
+			contentId: useId(),
+			value,
+			onValueChange: setValue,
+			open,
+			onOpenChange: setOpen,
+			dir: direction,
+			triggerPointerDownPosRef,
+			disabled,
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Collection$1.Provider, {
+				scope: __scopeSelect,
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectNativeOptionsProvider, {
+					scope: props.__scopeSelect,
+					onNativeOptionAdd: import_react.useCallback((option) => {
+						setNativeOptionsSet((prev) => new Set(prev).add(option));
+					}, []),
+					onNativeOptionRemove: import_react.useCallback((option) => {
+						setNativeOptionsSet((prev) => {
+							const optionsSet = new Set(prev);
+							optionsSet.delete(option);
+							return optionsSet;
+						});
+					}, []),
+					children
+				})
+			}), isFormControl ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SelectBubbleInput, {
+				"aria-hidden": true,
+				required,
+				tabIndex: -1,
+				name,
+				autoComplete,
+				value,
+				onChange: (event) => setValue(event.target.value),
+				disabled,
+				form,
+				children: [value === void 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: "" }) : null, Array.from(nativeOptionsSet)]
+			}, nativeSelectKey) : null]
+		})
+	});
+};
+Select$1.displayName = SELECT_NAME;
+var TRIGGER_NAME$1 = "SelectTrigger";
+var SelectTrigger$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, disabled = false, ...triggerProps } = props;
+	const popperScope = usePopperScope(__scopeSelect);
+	const context = useSelectContext(TRIGGER_NAME$1, __scopeSelect);
+	const isDisabled = context.disabled || disabled;
+	const composedRefs = useComposedRefs(forwardedRef, context.onTriggerChange);
+	const getItems = useCollection$1(__scopeSelect);
+	const pointerTypeRef = import_react.useRef("touch");
+	const [searchRef, handleTypeaheadSearch, resetTypeahead] = useTypeaheadSearch((search) => {
+		const enabledItems = getItems().filter((item) => !item.disabled);
+		const nextItem = findNextItem(enabledItems, search, enabledItems.find((item) => item.value === context.value));
+		if (nextItem !== void 0) context.onValueChange(nextItem.value);
+	});
+	const handleOpen = (pointerEvent) => {
+		if (!isDisabled) {
+			context.onOpenChange(true);
+			resetTypeahead();
+		}
+		if (pointerEvent) context.triggerPointerDownPosRef.current = {
+			x: Math.round(pointerEvent.pageX),
+			y: Math.round(pointerEvent.pageY)
+		};
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Anchor, {
+		asChild: true,
+		...popperScope,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.button, {
+			type: "button",
+			role: "combobox",
+			"aria-controls": context.contentId,
+			"aria-expanded": context.open,
+			"aria-required": context.required,
+			"aria-autocomplete": "none",
+			dir: context.dir,
+			"data-state": context.open ? "open" : "closed",
+			disabled: isDisabled,
+			"data-disabled": isDisabled ? "" : void 0,
+			"data-placeholder": shouldShowPlaceholder(context.value) ? "" : void 0,
+			...triggerProps,
+			ref: composedRefs,
+			onClick: composeEventHandlers(triggerProps.onClick, (event) => {
+				event.currentTarget.focus();
+				if (pointerTypeRef.current !== "mouse") handleOpen(event);
+			}),
+			onPointerDown: composeEventHandlers(triggerProps.onPointerDown, (event) => {
+				pointerTypeRef.current = event.pointerType;
+				const target = event.target;
+				if (target.hasPointerCapture(event.pointerId)) target.releasePointerCapture(event.pointerId);
+				if (event.button === 0 && event.ctrlKey === false && event.pointerType === "mouse") {
+					handleOpen(event);
+					event.preventDefault();
+				}
+			}),
+			onKeyDown: composeEventHandlers(triggerProps.onKeyDown, (event) => {
+				const isTypingAhead = searchRef.current !== "";
+				if (!(event.ctrlKey || event.altKey || event.metaKey) && event.key.length === 1) handleTypeaheadSearch(event.key);
+				if (isTypingAhead && event.key === " ") return;
+				if (OPEN_KEYS.includes(event.key)) {
+					handleOpen();
+					event.preventDefault();
+				}
+			})
+		})
+	});
+});
+SelectTrigger$1.displayName = TRIGGER_NAME$1;
+var VALUE_NAME = "SelectValue";
+var SelectValue$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, className, style, children, placeholder = "", ...valueProps } = props;
+	const context = useSelectContext(VALUE_NAME, __scopeSelect);
+	const { onValueNodeHasChildrenChange } = context;
+	const hasChildren = children !== void 0;
+	const composedRefs = useComposedRefs(forwardedRef, context.onValueNodeChange);
+	useLayoutEffect2(() => {
+		onValueNodeHasChildrenChange(hasChildren);
+	}, [onValueNodeHasChildrenChange, hasChildren]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.span, {
+		...valueProps,
+		ref: composedRefs,
+		style: { pointerEvents: "none" },
+		children: shouldShowPlaceholder(context.value) ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: placeholder }) : children
+	});
+});
+SelectValue$1.displayName = VALUE_NAME;
+var ICON_NAME = "SelectIcon";
+var SelectIcon = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, children, ...iconProps } = props;
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.span, {
+		"aria-hidden": true,
+		...iconProps,
+		ref: forwardedRef,
+		children: children || "▼"
+	});
+});
+SelectIcon.displayName = ICON_NAME;
+var PORTAL_NAME = "SelectPortal";
+var SelectPortal = (props) => {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Portal, {
+		asChild: true,
+		...props
+	});
+};
+SelectPortal.displayName = PORTAL_NAME;
+var CONTENT_NAME = "SelectContent";
+var SelectContent$1 = import_react.forwardRef((props, forwardedRef) => {
+	const context = useSelectContext(CONTENT_NAME, props.__scopeSelect);
+	const [fragment, setFragment] = import_react.useState();
+	useLayoutEffect2(() => {
+		setFragment(new DocumentFragment());
+	}, []);
+	if (!context.open) {
+		const frag = fragment;
+		return frag ? import_react_dom$1.createPortal(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectContentProvider, {
+			scope: props.__scopeSelect,
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Collection$1.Slot, {
+				scope: props.__scopeSelect,
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { children: props.children })
+			})
+		}), frag) : null;
+	}
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectContentImpl, {
+		...props,
+		ref: forwardedRef
+	});
+});
+SelectContent$1.displayName = CONTENT_NAME;
+var CONTENT_MARGIN = 10;
+var [SelectContentProvider, useSelectContentContext] = createSelectContext(CONTENT_NAME);
+var CONTENT_IMPL_NAME = "SelectContentImpl";
+var Slot = /* @__PURE__ */ createSlot$1("SelectContent.RemoveScroll");
+var SelectContentImpl = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, position = "item-aligned", onCloseAutoFocus, onEscapeKeyDown, onPointerDownOutside, side, sideOffset, align, alignOffset, arrowPadding, collisionBoundary, collisionPadding, sticky, hideWhenDetached, avoidCollisions, ...contentProps } = props;
+	const context = useSelectContext(CONTENT_NAME, __scopeSelect);
+	const [content, setContent] = import_react.useState(null);
+	const [viewport, setViewport] = import_react.useState(null);
+	const composedRefs = useComposedRefs(forwardedRef, (node) => setContent(node));
+	const [selectedItem, setSelectedItem] = import_react.useState(null);
+	const [selectedItemText, setSelectedItemText] = import_react.useState(null);
+	const getItems = useCollection$1(__scopeSelect);
+	const [isPositioned, setIsPositioned] = import_react.useState(false);
+	const firstValidItemFoundRef = import_react.useRef(false);
+	import_react.useEffect(() => {
+		if (content) return hideOthers(content);
+	}, [content]);
+	useFocusGuards();
+	const focusFirst$4 = import_react.useCallback((candidates) => {
+		const [firstItem, ...restItems] = getItems().map((item) => item.ref.current);
+		const [lastItem] = restItems.slice(-1);
+		const PREVIOUSLY_FOCUSED_ELEMENT = document.activeElement;
+		for (const candidate of candidates) {
+			if (candidate === PREVIOUSLY_FOCUSED_ELEMENT) return;
+			candidate?.scrollIntoView({ block: "nearest" });
+			if (candidate === firstItem && viewport) viewport.scrollTop = 0;
+			if (candidate === lastItem && viewport) viewport.scrollTop = viewport.scrollHeight;
+			candidate?.focus();
+			if (document.activeElement !== PREVIOUSLY_FOCUSED_ELEMENT) return;
+		}
+	}, [getItems, viewport]);
+	const focusSelectedItem = import_react.useCallback(() => focusFirst$4([selectedItem, content]), [
+		focusFirst$4,
+		selectedItem,
+		content
+	]);
+	import_react.useEffect(() => {
+		if (isPositioned) focusSelectedItem();
+	}, [isPositioned, focusSelectedItem]);
+	const { onOpenChange, triggerPointerDownPosRef } = context;
+	import_react.useEffect(() => {
+		if (content) {
+			let pointerMoveDelta = {
+				x: 0,
+				y: 0
+			};
+			const handlePointerMove = (event) => {
+				pointerMoveDelta = {
+					x: Math.abs(Math.round(event.pageX) - (triggerPointerDownPosRef.current?.x ?? 0)),
+					y: Math.abs(Math.round(event.pageY) - (triggerPointerDownPosRef.current?.y ?? 0))
+				};
+			};
+			const handlePointerUp = (event) => {
+				if (pointerMoveDelta.x <= 10 && pointerMoveDelta.y <= 10) event.preventDefault();
+				else if (!content.contains(event.target)) onOpenChange(false);
+				document.removeEventListener("pointermove", handlePointerMove);
+				triggerPointerDownPosRef.current = null;
+			};
+			if (triggerPointerDownPosRef.current !== null) {
+				document.addEventListener("pointermove", handlePointerMove);
+				document.addEventListener("pointerup", handlePointerUp, {
+					capture: true,
+					once: true
+				});
+			}
+			return () => {
+				document.removeEventListener("pointermove", handlePointerMove);
+				document.removeEventListener("pointerup", handlePointerUp, { capture: true });
+			};
+		}
+	}, [
+		content,
+		onOpenChange,
+		triggerPointerDownPosRef
+	]);
+	import_react.useEffect(() => {
+		const close = () => onOpenChange(false);
+		window.addEventListener("blur", close);
+		window.addEventListener("resize", close);
+		return () => {
+			window.removeEventListener("blur", close);
+			window.removeEventListener("resize", close);
+		};
+	}, [onOpenChange]);
+	const [searchRef, handleTypeaheadSearch] = useTypeaheadSearch((search) => {
+		const enabledItems = getItems().filter((item) => !item.disabled);
+		const nextItem = findNextItem(enabledItems, search, enabledItems.find((item) => item.ref.current === document.activeElement));
+		if (nextItem) setTimeout(() => nextItem.ref.current.focus());
+	});
+	const itemRefCallback = import_react.useCallback((node, value, disabled) => {
+		const isFirstValidItem = !firstValidItemFoundRef.current && !disabled;
+		if (context.value !== void 0 && context.value === value || isFirstValidItem) {
+			setSelectedItem(node);
+			if (isFirstValidItem) firstValidItemFoundRef.current = true;
+		}
+	}, [context.value]);
+	const handleItemLeave = import_react.useCallback(() => content?.focus(), [content]);
+	const itemTextRefCallback = import_react.useCallback((node, value, disabled) => {
+		const isFirstValidItem = !firstValidItemFoundRef.current && !disabled;
+		if (context.value !== void 0 && context.value === value || isFirstValidItem) setSelectedItemText(node);
+	}, [context.value]);
+	const SelectPosition = position === "popper" ? SelectPopperPosition : SelectItemAlignedPosition;
+	const popperContentProps = SelectPosition === SelectPopperPosition ? {
+		side,
+		sideOffset,
+		align,
+		alignOffset,
+		arrowPadding,
+		collisionBoundary,
+		collisionPadding,
+		sticky,
+		hideWhenDetached,
+		avoidCollisions
+	} : {};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectContentProvider, {
+		scope: __scopeSelect,
+		content,
+		viewport,
+		onViewportChange: setViewport,
+		itemRefCallback,
+		selectedItem,
+		onItemLeave: handleItemLeave,
+		itemTextRefCallback,
+		focusSelectedItem,
+		selectedItemText,
+		position,
+		isPositioned,
+		searchRef,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Combination_default, {
+			as: Slot,
+			allowPinchZoom: true,
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FocusScope, {
+				asChild: true,
+				trapped: context.open,
+				onMountAutoFocus: (event) => {
+					event.preventDefault();
+				},
+				onUnmountAutoFocus: composeEventHandlers(onCloseAutoFocus, (event) => {
+					context.trigger?.focus({ preventScroll: true });
+					event.preventDefault();
+				}),
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DismissableLayer, {
+					asChild: true,
+					disableOutsidePointerEvents: true,
+					onEscapeKeyDown,
+					onPointerDownOutside,
+					onFocusOutside: (event) => event.preventDefault(),
+					onDismiss: () => context.onOpenChange(false),
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectPosition, {
+						role: "listbox",
+						id: context.contentId,
+						"data-state": context.open ? "open" : "closed",
+						dir: context.dir,
+						onContextMenu: (event) => event.preventDefault(),
+						...contentProps,
+						...popperContentProps,
+						onPlaced: () => setIsPositioned(true),
+						ref: composedRefs,
+						style: {
+							display: "flex",
+							flexDirection: "column",
+							outline: "none",
+							...contentProps.style
+						},
+						onKeyDown: composeEventHandlers(contentProps.onKeyDown, (event) => {
+							const isModifierKey = event.ctrlKey || event.altKey || event.metaKey;
+							if (event.key === "Tab") event.preventDefault();
+							if (!isModifierKey && event.key.length === 1) handleTypeaheadSearch(event.key);
+							if ([
+								"ArrowUp",
+								"ArrowDown",
+								"Home",
+								"End"
+							].includes(event.key)) {
+								let candidateNodes = getItems().filter((item) => !item.disabled).map((item) => item.ref.current);
+								if (["ArrowUp", "End"].includes(event.key)) candidateNodes = candidateNodes.slice().reverse();
+								if (["ArrowUp", "ArrowDown"].includes(event.key)) {
+									const currentElement = event.target;
+									const currentIndex = candidateNodes.indexOf(currentElement);
+									candidateNodes = candidateNodes.slice(currentIndex + 1);
+								}
+								setTimeout(() => focusFirst$4(candidateNodes));
+								event.preventDefault();
+							}
+						})
+					})
+				})
+			})
+		})
+	});
+});
+SelectContentImpl.displayName = CONTENT_IMPL_NAME;
+var ITEM_ALIGNED_POSITION_NAME = "SelectItemAlignedPosition";
+var SelectItemAlignedPosition = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, onPlaced, ...popperProps } = props;
+	const context = useSelectContext(CONTENT_NAME, __scopeSelect);
+	const contentContext = useSelectContentContext(CONTENT_NAME, __scopeSelect);
+	const [contentWrapper, setContentWrapper] = import_react.useState(null);
+	const [content, setContent] = import_react.useState(null);
+	const composedRefs = useComposedRefs(forwardedRef, (node) => setContent(node));
+	const getItems = useCollection$1(__scopeSelect);
+	const shouldExpandOnScrollRef = import_react.useRef(false);
+	const shouldRepositionRef = import_react.useRef(true);
+	const { viewport, selectedItem, selectedItemText, focusSelectedItem } = contentContext;
+	const position = import_react.useCallback(() => {
+		if (context.trigger && context.valueNode && contentWrapper && content && viewport && selectedItem && selectedItemText) {
+			const triggerRect = context.trigger.getBoundingClientRect();
+			const contentRect = content.getBoundingClientRect();
+			const valueNodeRect = context.valueNode.getBoundingClientRect();
+			const itemTextRect = selectedItemText.getBoundingClientRect();
+			if (context.dir !== "rtl") {
+				const itemTextOffset = itemTextRect.left - contentRect.left;
+				const left = valueNodeRect.left - itemTextOffset;
+				const leftDelta = triggerRect.left - left;
+				const minContentWidth = triggerRect.width + leftDelta;
+				const contentWidth = Math.max(minContentWidth, contentRect.width);
+				const rightEdge = window.innerWidth - CONTENT_MARGIN;
+				const clampedLeft = clamp(left, [CONTENT_MARGIN, Math.max(CONTENT_MARGIN, rightEdge - contentWidth)]);
+				contentWrapper.style.minWidth = minContentWidth + "px";
+				contentWrapper.style.left = clampedLeft + "px";
+			} else {
+				const itemTextOffset = contentRect.right - itemTextRect.right;
+				const right = window.innerWidth - valueNodeRect.right - itemTextOffset;
+				const rightDelta = window.innerWidth - triggerRect.right - right;
+				const minContentWidth = triggerRect.width + rightDelta;
+				const contentWidth = Math.max(minContentWidth, contentRect.width);
+				const leftEdge = window.innerWidth - CONTENT_MARGIN;
+				const clampedRight = clamp(right, [CONTENT_MARGIN, Math.max(CONTENT_MARGIN, leftEdge - contentWidth)]);
+				contentWrapper.style.minWidth = minContentWidth + "px";
+				contentWrapper.style.right = clampedRight + "px";
+			}
+			const items = getItems();
+			const availableHeight = window.innerHeight - CONTENT_MARGIN * 2;
+			const itemsHeight = viewport.scrollHeight;
+			const contentStyles = window.getComputedStyle(content);
+			const contentBorderTopWidth = parseInt(contentStyles.borderTopWidth, 10);
+			const contentPaddingTop = parseInt(contentStyles.paddingTop, 10);
+			const contentBorderBottomWidth = parseInt(contentStyles.borderBottomWidth, 10);
+			const contentPaddingBottom = parseInt(contentStyles.paddingBottom, 10);
+			const fullContentHeight = contentBorderTopWidth + contentPaddingTop + itemsHeight + contentPaddingBottom + contentBorderBottomWidth;
+			const minContentHeight = Math.min(selectedItem.offsetHeight * 5, fullContentHeight);
+			const viewportStyles = window.getComputedStyle(viewport);
+			const viewportPaddingTop = parseInt(viewportStyles.paddingTop, 10);
+			const viewportPaddingBottom = parseInt(viewportStyles.paddingBottom, 10);
+			const topEdgeToTriggerMiddle = triggerRect.top + triggerRect.height / 2 - CONTENT_MARGIN;
+			const triggerMiddleToBottomEdge = availableHeight - topEdgeToTriggerMiddle;
+			const selectedItemHalfHeight = selectedItem.offsetHeight / 2;
+			const itemOffsetMiddle = selectedItem.offsetTop + selectedItemHalfHeight;
+			const contentTopToItemMiddle = contentBorderTopWidth + contentPaddingTop + itemOffsetMiddle;
+			const itemMiddleToContentBottom = fullContentHeight - contentTopToItemMiddle;
+			if (contentTopToItemMiddle <= topEdgeToTriggerMiddle) {
+				const isLastItem = items.length > 0 && selectedItem === items[items.length - 1].ref.current;
+				contentWrapper.style.bottom = "0px";
+				const viewportOffsetBottom = content.clientHeight - viewport.offsetTop - viewport.offsetHeight;
+				const height = contentTopToItemMiddle + Math.max(triggerMiddleToBottomEdge, selectedItemHalfHeight + (isLastItem ? viewportPaddingBottom : 0) + viewportOffsetBottom + contentBorderBottomWidth);
+				contentWrapper.style.height = height + "px";
+			} else {
+				const isFirstItem = items.length > 0 && selectedItem === items[0].ref.current;
+				contentWrapper.style.top = "0px";
+				const height = Math.max(topEdgeToTriggerMiddle, contentBorderTopWidth + viewport.offsetTop + (isFirstItem ? viewportPaddingTop : 0) + selectedItemHalfHeight) + itemMiddleToContentBottom;
+				contentWrapper.style.height = height + "px";
+				viewport.scrollTop = contentTopToItemMiddle - topEdgeToTriggerMiddle + viewport.offsetTop;
+			}
+			contentWrapper.style.margin = `${CONTENT_MARGIN}px 0`;
+			contentWrapper.style.minHeight = minContentHeight + "px";
+			contentWrapper.style.maxHeight = availableHeight + "px";
+			onPlaced?.();
+			requestAnimationFrame(() => shouldExpandOnScrollRef.current = true);
+		}
+	}, [
+		getItems,
+		context.trigger,
+		context.valueNode,
+		contentWrapper,
+		content,
+		viewport,
+		selectedItem,
+		selectedItemText,
+		context.dir,
+		onPlaced
+	]);
+	useLayoutEffect2(() => position(), [position]);
+	const [contentZIndex, setContentZIndex] = import_react.useState();
+	useLayoutEffect2(() => {
+		if (content) setContentZIndex(window.getComputedStyle(content).zIndex);
+	}, [content]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectViewportProvider, {
+		scope: __scopeSelect,
+		contentWrapper,
+		shouldExpandOnScrollRef,
+		onScrollButtonChange: import_react.useCallback((node) => {
+			if (node && shouldRepositionRef.current === true) {
+				position();
+				focusSelectedItem?.();
+				shouldRepositionRef.current = false;
+			}
+		}, [position, focusSelectedItem]),
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			ref: setContentWrapper,
+			style: {
+				display: "flex",
+				flexDirection: "column",
+				position: "fixed",
+				zIndex: contentZIndex
+			},
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+				...popperProps,
+				ref: composedRefs,
+				style: {
+					boxSizing: "border-box",
+					maxHeight: "100%",
+					...popperProps.style
+				}
+			})
+		})
+	});
+});
+SelectItemAlignedPosition.displayName = ITEM_ALIGNED_POSITION_NAME;
+var POPPER_POSITION_NAME = "SelectPopperPosition";
+var SelectPopperPosition = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, align = "start", collisionPadding = CONTENT_MARGIN, ...popperProps } = props;
+	const popperScope = usePopperScope(__scopeSelect);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Content$1, {
+		...popperScope,
+		...popperProps,
+		ref: forwardedRef,
+		align,
+		collisionPadding,
+		style: {
+			boxSizing: "border-box",
+			...popperProps.style,
+			"--radix-select-content-transform-origin": "var(--radix-popper-transform-origin)",
+			"--radix-select-content-available-width": "var(--radix-popper-available-width)",
+			"--radix-select-content-available-height": "var(--radix-popper-available-height)",
+			"--radix-select-trigger-width": "var(--radix-popper-anchor-width)",
+			"--radix-select-trigger-height": "var(--radix-popper-anchor-height)"
+		}
+	});
+});
+SelectPopperPosition.displayName = POPPER_POSITION_NAME;
+var [SelectViewportProvider, useSelectViewportContext] = createSelectContext(CONTENT_NAME, {});
+var VIEWPORT_NAME$1 = "SelectViewport";
+var SelectViewport = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, nonce, ...viewportProps } = props;
+	const contentContext = useSelectContentContext(VIEWPORT_NAME$1, __scopeSelect);
+	const viewportContext = useSelectViewportContext(VIEWPORT_NAME$1, __scopeSelect);
+	const composedRefs = useComposedRefs(forwardedRef, contentContext.onViewportChange);
+	const prevScrollTopRef = import_react.useRef(0);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("style", {
+		dangerouslySetInnerHTML: { __html: `[data-radix-select-viewport]{scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;}[data-radix-select-viewport]::-webkit-scrollbar{display:none}` },
+		nonce
+	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Collection$1.Slot, {
+		scope: __scopeSelect,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+			"data-radix-select-viewport": "",
+			role: "presentation",
+			...viewportProps,
+			ref: composedRefs,
+			style: {
+				position: "relative",
+				flex: 1,
+				overflow: "hidden auto",
+				...viewportProps.style
+			},
+			onScroll: composeEventHandlers(viewportProps.onScroll, (event) => {
+				const viewport = event.currentTarget;
+				const { contentWrapper, shouldExpandOnScrollRef } = viewportContext;
+				if (shouldExpandOnScrollRef?.current && contentWrapper) {
+					const scrolledBy = Math.abs(prevScrollTopRef.current - viewport.scrollTop);
+					if (scrolledBy > 0) {
+						const availableHeight = window.innerHeight - CONTENT_MARGIN * 2;
+						const cssMinHeight = parseFloat(contentWrapper.style.minHeight);
+						const cssHeight = parseFloat(contentWrapper.style.height);
+						const prevHeight = Math.max(cssMinHeight, cssHeight);
+						if (prevHeight < availableHeight) {
+							const nextHeight = prevHeight + scrolledBy;
+							const clampedNextHeight = Math.min(availableHeight, nextHeight);
+							const heightDiff = nextHeight - clampedNextHeight;
+							contentWrapper.style.height = clampedNextHeight + "px";
+							if (contentWrapper.style.bottom === "0px") {
+								viewport.scrollTop = heightDiff > 0 ? heightDiff : 0;
+								contentWrapper.style.justifyContent = "flex-end";
+							}
+						}
+					}
+				}
+				prevScrollTopRef.current = viewport.scrollTop;
+			})
+		})
+	})] });
+});
+SelectViewport.displayName = VIEWPORT_NAME$1;
+var GROUP_NAME = "SelectGroup";
+var [SelectGroupContextProvider, useSelectGroupContext] = createSelectContext(GROUP_NAME);
+var SelectGroup$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, ...groupProps } = props;
+	const groupId = useId();
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectGroupContextProvider, {
+		scope: __scopeSelect,
+		id: groupId,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+			role: "group",
+			"aria-labelledby": groupId,
+			...groupProps,
+			ref: forwardedRef
+		})
+	});
+});
+SelectGroup$1.displayName = GROUP_NAME;
+var LABEL_NAME = "SelectLabel";
+var SelectLabel$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, ...labelProps } = props;
+	const groupContext = useSelectGroupContext(LABEL_NAME, __scopeSelect);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+		id: groupContext.id,
+		...labelProps,
+		ref: forwardedRef
+	});
+});
+SelectLabel$1.displayName = LABEL_NAME;
+var ITEM_NAME = "SelectItem";
+var [SelectItemContextProvider, useSelectItemContext] = createSelectContext(ITEM_NAME);
+var SelectItem$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, value, disabled = false, textValue: textValueProp, ...itemProps } = props;
+	const context = useSelectContext(ITEM_NAME, __scopeSelect);
+	const contentContext = useSelectContentContext(ITEM_NAME, __scopeSelect);
+	const isSelected = context.value === value;
+	const [textValue, setTextValue] = import_react.useState(textValueProp ?? "");
+	const [isFocused, setIsFocused] = import_react.useState(false);
+	const composedRefs = useComposedRefs(forwardedRef, (node) => contentContext.itemRefCallback?.(node, value, disabled));
+	const textId = useId();
+	const pointerTypeRef = import_react.useRef("touch");
+	const handleSelect = () => {
+		if (!disabled) {
+			context.onValueChange(value);
+			context.onOpenChange(false);
+		}
+	};
+	if (value === "") throw new Error("A <Select.Item /> must have a value prop that is not an empty string. This is because the Select value can be set to an empty string to clear the selection and show the placeholder.");
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItemContextProvider, {
+		scope: __scopeSelect,
+		value,
+		disabled,
+		textId,
+		isSelected,
+		onItemTextChange: import_react.useCallback((node) => {
+			setTextValue((prevTextValue) => prevTextValue || (node?.textContent ?? "").trim());
+		}, []),
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Collection$1.ItemSlot, {
+			scope: __scopeSelect,
+			value,
+			disabled,
+			textValue,
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+				role: "option",
+				"aria-labelledby": textId,
+				"data-highlighted": isFocused ? "" : void 0,
+				"aria-selected": isSelected && isFocused,
+				"data-state": isSelected ? "checked" : "unchecked",
+				"aria-disabled": disabled || void 0,
+				"data-disabled": disabled ? "" : void 0,
+				tabIndex: disabled ? void 0 : -1,
+				...itemProps,
+				ref: composedRefs,
+				onFocus: composeEventHandlers(itemProps.onFocus, () => setIsFocused(true)),
+				onBlur: composeEventHandlers(itemProps.onBlur, () => setIsFocused(false)),
+				onClick: composeEventHandlers(itemProps.onClick, () => {
+					if (pointerTypeRef.current !== "mouse") handleSelect();
+				}),
+				onPointerUp: composeEventHandlers(itemProps.onPointerUp, () => {
+					if (pointerTypeRef.current === "mouse") handleSelect();
+				}),
+				onPointerDown: composeEventHandlers(itemProps.onPointerDown, (event) => {
+					pointerTypeRef.current = event.pointerType;
+				}),
+				onPointerMove: composeEventHandlers(itemProps.onPointerMove, (event) => {
+					pointerTypeRef.current = event.pointerType;
+					if (disabled) contentContext.onItemLeave?.();
+					else if (pointerTypeRef.current === "mouse") event.currentTarget.focus({ preventScroll: true });
+				}),
+				onPointerLeave: composeEventHandlers(itemProps.onPointerLeave, (event) => {
+					if (event.currentTarget === document.activeElement) contentContext.onItemLeave?.();
+				}),
+				onKeyDown: composeEventHandlers(itemProps.onKeyDown, (event) => {
+					if (contentContext.searchRef?.current !== "" && event.key === " ") return;
+					if (SELECTION_KEYS.includes(event.key)) handleSelect();
+					if (event.key === " ") event.preventDefault();
+				})
+			})
+		})
+	});
+});
+SelectItem$1.displayName = ITEM_NAME;
+var ITEM_TEXT_NAME = "SelectItemText";
+var SelectItemText = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, className, style, ...itemTextProps } = props;
+	const context = useSelectContext(ITEM_TEXT_NAME, __scopeSelect);
+	const contentContext = useSelectContentContext(ITEM_TEXT_NAME, __scopeSelect);
+	const itemContext = useSelectItemContext(ITEM_TEXT_NAME, __scopeSelect);
+	const nativeOptionsContext = useSelectNativeOptionsContext(ITEM_TEXT_NAME, __scopeSelect);
+	const [itemTextNode, setItemTextNode] = import_react.useState(null);
+	const composedRefs = useComposedRefs(forwardedRef, (node) => setItemTextNode(node), itemContext.onItemTextChange, (node) => contentContext.itemTextRefCallback?.(node, itemContext.value, itemContext.disabled));
+	const textContent = itemTextNode?.textContent;
+	const nativeOption = import_react.useMemo(() => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", {
+		value: itemContext.value,
+		disabled: itemContext.disabled,
+		children: textContent
+	}, itemContext.value), [
+		itemContext.disabled,
+		itemContext.value,
+		textContent
+	]);
+	const { onNativeOptionAdd, onNativeOptionRemove } = nativeOptionsContext;
+	useLayoutEffect2(() => {
+		onNativeOptionAdd(nativeOption);
+		return () => onNativeOptionRemove(nativeOption);
+	}, [
+		onNativeOptionAdd,
+		onNativeOptionRemove,
+		nativeOption
+	]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.span, {
+		id: itemContext.textId,
+		...itemTextProps,
+		ref: composedRefs
+	}), itemContext.isSelected && context.valueNode && !context.valueNodeHasChildren ? import_react_dom$1.createPortal(itemTextProps.children, context.valueNode) : null] });
+});
+SelectItemText.displayName = ITEM_TEXT_NAME;
+var ITEM_INDICATOR_NAME = "SelectItemIndicator";
+var SelectItemIndicator = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, ...itemIndicatorProps } = props;
+	return useSelectItemContext(ITEM_INDICATOR_NAME, __scopeSelect).isSelected ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.span, {
+		"aria-hidden": true,
+		...itemIndicatorProps,
+		ref: forwardedRef
+	}) : null;
+});
+SelectItemIndicator.displayName = ITEM_INDICATOR_NAME;
+var SCROLL_UP_BUTTON_NAME = "SelectScrollUpButton";
+var SelectScrollUpButton$1 = import_react.forwardRef((props, forwardedRef) => {
+	const contentContext = useSelectContentContext(SCROLL_UP_BUTTON_NAME, props.__scopeSelect);
+	const viewportContext = useSelectViewportContext(SCROLL_UP_BUTTON_NAME, props.__scopeSelect);
+	const [canScrollUp, setCanScrollUp] = import_react.useState(false);
+	const composedRefs = useComposedRefs(forwardedRef, viewportContext.onScrollButtonChange);
+	useLayoutEffect2(() => {
+		if (contentContext.viewport && contentContext.isPositioned) {
+			let handleScroll2 = function() {
+				setCanScrollUp(viewport.scrollTop > 0);
+			};
+			const viewport = contentContext.viewport;
+			handleScroll2();
+			viewport.addEventListener("scroll", handleScroll2);
+			return () => viewport.removeEventListener("scroll", handleScroll2);
+		}
+	}, [contentContext.viewport, contentContext.isPositioned]);
+	return canScrollUp ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectScrollButtonImpl, {
+		...props,
+		ref: composedRefs,
+		onAutoScroll: () => {
+			const { viewport, selectedItem } = contentContext;
+			if (viewport && selectedItem) viewport.scrollTop = viewport.scrollTop - selectedItem.offsetHeight;
+		}
+	}) : null;
+});
+SelectScrollUpButton$1.displayName = SCROLL_UP_BUTTON_NAME;
+var SCROLL_DOWN_BUTTON_NAME = "SelectScrollDownButton";
+var SelectScrollDownButton$1 = import_react.forwardRef((props, forwardedRef) => {
+	const contentContext = useSelectContentContext(SCROLL_DOWN_BUTTON_NAME, props.__scopeSelect);
+	const viewportContext = useSelectViewportContext(SCROLL_DOWN_BUTTON_NAME, props.__scopeSelect);
+	const [canScrollDown, setCanScrollDown] = import_react.useState(false);
+	const composedRefs = useComposedRefs(forwardedRef, viewportContext.onScrollButtonChange);
+	useLayoutEffect2(() => {
+		if (contentContext.viewport && contentContext.isPositioned) {
+			let handleScroll2 = function() {
+				const maxScroll = viewport.scrollHeight - viewport.clientHeight;
+				setCanScrollDown(Math.ceil(viewport.scrollTop) < maxScroll);
+			};
+			const viewport = contentContext.viewport;
+			handleScroll2();
+			viewport.addEventListener("scroll", handleScroll2);
+			return () => viewport.removeEventListener("scroll", handleScroll2);
+		}
+	}, [contentContext.viewport, contentContext.isPositioned]);
+	return canScrollDown ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectScrollButtonImpl, {
+		...props,
+		ref: composedRefs,
+		onAutoScroll: () => {
+			const { viewport, selectedItem } = contentContext;
+			if (viewport && selectedItem) viewport.scrollTop = viewport.scrollTop + selectedItem.offsetHeight;
+		}
+	}) : null;
+});
+SelectScrollDownButton$1.displayName = SCROLL_DOWN_BUTTON_NAME;
+var SelectScrollButtonImpl = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, onAutoScroll, ...scrollIndicatorProps } = props;
+	const contentContext = useSelectContentContext("SelectScrollButton", __scopeSelect);
+	const autoScrollTimerRef = import_react.useRef(null);
+	const getItems = useCollection$1(__scopeSelect);
+	const clearAutoScrollTimer = import_react.useCallback(() => {
+		if (autoScrollTimerRef.current !== null) {
+			window.clearInterval(autoScrollTimerRef.current);
+			autoScrollTimerRef.current = null;
+		}
+	}, []);
+	import_react.useEffect(() => {
+		return () => clearAutoScrollTimer();
+	}, [clearAutoScrollTimer]);
+	useLayoutEffect2(() => {
+		getItems().find((item) => item.ref.current === document.activeElement)?.ref.current?.scrollIntoView({ block: "nearest" });
+	}, [getItems]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+		"aria-hidden": true,
+		...scrollIndicatorProps,
+		ref: forwardedRef,
+		style: {
+			flexShrink: 0,
+			...scrollIndicatorProps.style
+		},
+		onPointerDown: composeEventHandlers(scrollIndicatorProps.onPointerDown, () => {
+			if (autoScrollTimerRef.current === null) autoScrollTimerRef.current = window.setInterval(onAutoScroll, 50);
+		}),
+		onPointerMove: composeEventHandlers(scrollIndicatorProps.onPointerMove, () => {
+			contentContext.onItemLeave?.();
+			if (autoScrollTimerRef.current === null) autoScrollTimerRef.current = window.setInterval(onAutoScroll, 50);
+		}),
+		onPointerLeave: composeEventHandlers(scrollIndicatorProps.onPointerLeave, () => {
+			clearAutoScrollTimer();
+		})
+	});
+});
+var SEPARATOR_NAME = "SelectSeparator";
+var SelectSeparator$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, ...separatorProps } = props;
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+		"aria-hidden": true,
+		...separatorProps,
+		ref: forwardedRef
+	});
+});
+SelectSeparator$1.displayName = SEPARATOR_NAME;
+var ARROW_NAME = "SelectArrow";
+var SelectArrow = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeSelect, ...arrowProps } = props;
+	const popperScope = usePopperScope(__scopeSelect);
+	const context = useSelectContext(ARROW_NAME, __scopeSelect);
+	const contentContext = useSelectContentContext(ARROW_NAME, __scopeSelect);
+	return context.open && contentContext.position === "popper" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Arrow, {
+		...popperScope,
+		...arrowProps,
+		ref: forwardedRef
+	}) : null;
+});
+SelectArrow.displayName = ARROW_NAME;
+var BUBBLE_INPUT_NAME$2 = "SelectBubbleInput";
+var SelectBubbleInput = import_react.forwardRef(({ __scopeSelect, value, ...props }, forwardedRef) => {
+	const ref = import_react.useRef(null);
+	const composedRefs = useComposedRefs(forwardedRef, ref);
+	const prevValue = usePrevious(value);
+	import_react.useEffect(() => {
+		const select = ref.current;
+		if (!select) return;
+		const selectProto = window.HTMLSelectElement.prototype;
+		const setValue = Object.getOwnPropertyDescriptor(selectProto, "value").set;
+		if (prevValue !== value && setValue) {
+			const event = new Event("change", { bubbles: true });
+			setValue.call(select, value);
+			select.dispatchEvent(event);
+		}
+	}, [prevValue, value]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.select, {
+		...props,
+		style: {
+			...VISUALLY_HIDDEN_STYLES,
+			...props.style
+		},
+		ref: composedRefs,
+		defaultValue: value
+	});
+});
+SelectBubbleInput.displayName = BUBBLE_INPUT_NAME$2;
+function shouldShowPlaceholder(value) {
+	return value === "" || value === void 0;
+}
+function useTypeaheadSearch(onSearchChange) {
+	const handleSearchChange = useCallbackRef(onSearchChange);
+	const searchRef = import_react.useRef("");
+	const timerRef = import_react.useRef(0);
+	const handleTypeaheadSearch = import_react.useCallback((key) => {
+		const search = searchRef.current + key;
+		handleSearchChange(search);
+		(function updateSearch(value) {
+			searchRef.current = value;
+			window.clearTimeout(timerRef.current);
+			if (value !== "") timerRef.current = window.setTimeout(() => updateSearch(""), 1e3);
+		})(search);
+	}, [handleSearchChange]);
+	const resetTypeahead = import_react.useCallback(() => {
+		searchRef.current = "";
+		window.clearTimeout(timerRef.current);
+	}, []);
+	import_react.useEffect(() => {
+		return () => window.clearTimeout(timerRef.current);
+	}, []);
+	return [
+		searchRef,
+		handleTypeaheadSearch,
+		resetTypeahead
+	];
+}
+function findNextItem(items, search, currentItem) {
+	const normalizedSearch = search.length > 1 && Array.from(search).every((char) => char === search[0]) ? search[0] : search;
+	const currentItemIndex = currentItem ? items.indexOf(currentItem) : -1;
+	let wrappedItems = wrapArray(items, Math.max(currentItemIndex, 0));
+	if (normalizedSearch.length === 1) wrappedItems = wrappedItems.filter((v) => v !== currentItem);
+	const nextItem = wrappedItems.find((item) => item.textValue.toLowerCase().startsWith(normalizedSearch.toLowerCase()));
+	return nextItem !== currentItem ? nextItem : void 0;
+}
+function wrapArray(array, startIndex) {
+	return array.map((_$1, index$1) => array[(startIndex + index$1) % array.length]);
+}
+var Root2 = Select$1;
+var Trigger = SelectTrigger$1;
+var Value = SelectValue$1;
+var Icon = SelectIcon;
+var Portal$1 = SelectPortal;
+var Content2 = SelectContent$1;
+var Viewport$1 = SelectViewport;
+var Label$2 = SelectLabel$1;
+var Item = SelectItem$1;
+var ItemText = SelectItemText;
+var ItemIndicator = SelectItemIndicator;
+var ScrollUpButton = SelectScrollUpButton$1;
+var ScrollDownButton = SelectScrollDownButton$1;
+var Separator = SelectSeparator$1;
+var Select = Root2;
+var SelectValue = Value;
+var SelectTrigger = import_react.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Trigger, {
+	ref,
+	className: cn("flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background data-[placeholder]:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1", className),
+	...props,
+	children: [children, /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
+		asChild: true,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { className: "h-4 w-4 opacity-50" })
+	})]
+}));
+SelectTrigger.displayName = Trigger.displayName;
+var SelectScrollUpButton = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ScrollUpButton, {
+	ref,
+	className: cn("flex cursor-default items-center justify-center py-1", className),
+	...props,
+	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { className: "h-4 w-4" })
+}));
+SelectScrollUpButton.displayName = ScrollUpButton.displayName;
+var SelectScrollDownButton = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ScrollDownButton, {
+	ref,
+	className: cn("flex cursor-default items-center justify-center py-1", className),
+	...props,
+	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { className: "h-4 w-4" })
+}));
+SelectScrollDownButton.displayName = ScrollDownButton.displayName;
+var SelectContent = import_react.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Portal$1, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Content2, {
+	ref,
+	className: cn("relative z-50 max-h-[--radix-select-content-available-height] min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-select-content-transform-origin]", position === "popper" && "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1", className),
+	position,
+	...props,
+	children: [
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectScrollUpButton, {}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Viewport$1, {
+			className: cn("p-1", position === "popper" && "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"),
+			children
+		}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectScrollDownButton, {})
+	]
+}) }));
+SelectContent.displayName = Content2.displayName;
+var SelectLabel = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label$2, {
+	ref,
+	className: cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className),
+	...props
+}));
+SelectLabel.displayName = Label$2.displayName;
+var SelectItem = import_react.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Item, {
+	ref,
+	className: cn("relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50", className),
+	...props,
+	children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+		className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { className: "h-4 w-4" }) })
+	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ItemText, { children })]
+}));
+SelectItem.displayName = Item.displayName;
+var SelectSeparator = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Separator, {
+	ref,
+	className: cn("-mx-1 my-1 h-px bg-muted", className),
+	...props
+}));
+SelectSeparator.displayName = Separator.displayName;
 const resolveFetch$3 = (customFetch) => {
 	if (customFetch) return (...args) => customFetch(...args);
 	return (...args) => fetch(...args);
@@ -34284,161 +35738,324 @@ const AuthProvider = ({ children }) => {
 		children
 	});
 };
-var INITIAL_PROJECTS = [
-	{
-		id: "1",
-		name: "Tyrreno Imóveis",
-		date: "27 jan 2026",
-		status: "Em andamento"
-	},
-	{
-		id: "2",
-		name: "Varejo Xperience",
-		date: "25 jan 2026",
-		status: "Enviado"
-	},
-	{
-		id: "3",
-		name: "Dr. Consultoria",
-		date: "20 jan 2026",
-		status: "Aprovado"
-	}
-];
-var Index = () => {
-	const [projects, setProjects] = (0, import_react.useState)(INITIAL_PROJECTS);
+require_react_dom();
+var Primitive$1 = [
+	"a",
+	"button",
+	"div",
+	"form",
+	"h2",
+	"h3",
+	"img",
+	"input",
+	"label",
+	"li",
+	"nav",
+	"ol",
+	"p",
+	"select",
+	"span",
+	"svg",
+	"ul"
+].reduce((primitive, node) => {
+	const Slot$4 = /* @__PURE__ */ createSlot(`Primitive.${node}`);
+	const Node$1 = import_react.forwardRef((props, forwardedRef) => {
+		const { asChild, ...primitiveProps } = props;
+		const Comp = asChild ? Slot$4 : node;
+		if (typeof window !== "undefined") window[Symbol.for("radix-ui")] = true;
+		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Comp, {
+			...primitiveProps,
+			ref: forwardedRef
+		});
+	});
+	Node$1.displayName = `Primitive.${node}`;
+	return {
+		...primitive,
+		[node]: Node$1
+	};
+}, {});
+var NAME = "Label";
+var Label$1 = import_react.forwardRef((props, forwardedRef) => {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.label, {
+		...props,
+		ref: forwardedRef,
+		onMouseDown: (event) => {
+			if (event.target.closest("button, input, select, textarea")) return;
+			props.onMouseDown?.(event);
+			if (!event.defaultPrevented && event.detail > 1) event.preventDefault();
+		}
+	});
+});
+Label$1.displayName = NAME;
+var Root$2 = Label$1;
+var labelVariants = cva("text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70");
+var Label = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root$2, {
+	ref,
+	className: cn(labelVariants(), className),
+	...props
+}));
+Label.displayName = Root$2.displayName;
+function Index() {
+	const [projects, setProjects] = (0, import_react.useState)([]);
 	const { signOut, user } = useAuth();
 	const navigate = useNavigate();
-	const deleteProject = (id) => {
-		setProjects(projects.filter((p) => p.id !== id));
+	const { toast: toast$2 } = useToast();
+	const [isModalOpen, setIsModalOpen] = (0, import_react.useState)(false);
+	const [newProposalTag, setNewProposalTag] = (0, import_react.useState)("");
+	const [creating, setCreating] = (0, import_react.useState)(false);
+	const [search, setSearch] = (0, import_react.useState)("");
+	(0, import_react.useEffect)(() => {
+		if (user) fetchProposals();
+	}, [user]);
+	const fetchProposals = async () => {
+		const { data, error } = await supabase.from("proposals").select("id, client_name, created_at, updated_at, content").order("updated_at", { ascending: false });
+		if (error) {
+			console.error(error);
+			return;
+		}
+		setProjects(data.map((p) => {
+			const content = p.content;
+			return {
+				id: p.id,
+				name: p.client_name || content?.clientName || "Sem título",
+				date: new Date(p.created_at).toLocaleDateString(),
+				updatedAt: new Date(p.updated_at).toLocaleDateString() + " " + new Date(p.updated_at).toLocaleTimeString([], {
+					hour: "2-digit",
+					minute: "2-digit"
+				}),
+				status: content?.status || "draft",
+				tags: content?.tags || []
+			};
+		}));
+	};
+	const deleteProject = async (id) => {
+		if (!confirm("Tem certeza?")) return;
+		const { error } = await supabase.from("proposals").delete().eq("id", id);
+		if (!error) {
+			setProjects(projects.filter((p) => p.id !== id));
+			toast$2({ title: "Proposta excluída." });
+		}
 	};
 	const handleSignOut = async () => {
 		await signOut();
 		navigate("/login");
 	};
+	const handleCreateProposal = async () => {
+		if (!newProposalTag) {
+			toast$2({
+				title: "Selecione uma tag",
+				variant: "destructive"
+			});
+			return;
+		}
+		setCreating(true);
+		try {
+			const { data, error } = await supabase.from("proposals").insert({
+				client_name: "Nova Proposta",
+				title: "Plano de Aceleração",
+				content: { tags: [newProposalTag] },
+				updated_at: (/* @__PURE__ */ new Date()).toISOString()
+			}).select().single();
+			if (error) throw error;
+			navigate("/editor", { state: { proposalId: data.id } });
+		} catch (e) {
+			toast$2({
+				title: "Erro ao criar",
+				description: e.message,
+				variant: "destructive"
+			});
+		} finally {
+			setCreating(false);
+		}
+	};
+	const filteredProjects = projects.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()));
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "min-h-screen bg-slate-50 font-sans",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
-			className: "bg-white border-b border-slate-200 py-6 px-8",
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "max-w-7xl mx-auto flex justify-between items-center",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
-					className: "text-2xl font-bold text-slate-900",
-					children: "OCEAN PROPOSAL"
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "text-slate-500",
-					children: "Gerenciador de Propostas de Performance"
-				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex items-center gap-4",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "relative",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-							className: "pl-9 w-64",
-							placeholder: "Buscar projetos..."
-						})]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenu, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuTrigger, {
-						asChild: true,
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-							className: "w-10 h-10 rounded-full bg-slate-200 overflow-hidden outline-none ring-offset-2 focus:ring-2 focus:ring-slate-400 transition-all flex items-center justify-center",
-							children: user?.email?.charAt(0).toUpperCase() || /* @__PURE__ */ (0, import_jsx_runtime.jsx)(User, { className: "w-5 h-5 text-slate-500" })
-						})
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuContent, {
-						align: "end",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
+				className: "bg-white border-b border-slate-200 py-6 px-8",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "max-w-7xl mx-auto flex justify-between items-center",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+						className: "text-2xl font-bold text-slate-900",
+						children: "OCEAN PROPOSAL"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "text-slate-500",
+						children: "Gerenciador de Propostas de Performance"
+					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex items-center gap-4",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "relative",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								className: "pl-9 w-64",
+								placeholder: "Buscar projetos...",
+								value: search,
+								onChange: (e) => setSearch(e.target.value)
+							})]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenu, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuTrigger, {
+							asChild: true,
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+								className: "w-10 h-10 rounded-full bg-slate-200 overflow-hidden outline-none ring-offset-2 focus:ring-2 focus:ring-slate-400 transition-all flex items-center justify-center",
+								children: user?.email?.charAt(0).toUpperCase() || /* @__PURE__ */ (0, import_jsx_runtime.jsx)(User, { className: "w-5 h-5 text-slate-500" })
+							})
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuContent, {
+							align: "end",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
+									disabled: true,
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)(User, { className: "w-4 h-4 mr-2" }),
+										" ",
+										user?.email
+									]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+									to: "/perfil",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleUser, { className: "w-4 h-4 mr-2" }), " Perfil"] })
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+									to: "/biblioteca",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-4 h-4 mr-2" }), " Biblioteca"] })
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+									to: "/usuarios",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users$1, { className: "w-4 h-4 mr-2" }), " Usuários"] })
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
+									className: "text-red-600",
+									onClick: handleSignOut,
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogOut, { className: "w-4 h-4 mr-2" }), " Sair"]
+								})
+							]
+						})] })]
+					})]
+				})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
+				className: "max-w-7xl mx-auto py-12 px-8",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex justify-between items-center mb-8",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+						className: "text-xl font-bold text-slate-800",
+						children: "Propostas Recentes"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+						className: "bg-sky-500 hover:bg-sky-600 text-white",
+						onClick: () => setIsModalOpen(true),
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 mr-2" }), " Nova Proposta"]
+					})]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
+					children: [filteredProjects.map((project) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
+						className: "hover:shadow-lg transition-shadow border-slate-200 group flex flex-col",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
-								disabled: true,
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, {
+								className: "flex flex-row items-center justify-between pb-2",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									className: "w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileText, { className: "w-5 h-5" })
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+									variant: "ghost",
+									size: "icon",
+									className: "h-8 w-8 text-slate-400 hover:text-red-500 hover:bg-red-50",
+									onClick: () => deleteProject(project.id),
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "w-4 h-4" })
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardContent, {
+								className: "flex-1",
 								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(User, { className: "w-4 h-4 mr-2" }),
-									" ",
-									user?.email
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+										className: "text-lg mb-1 truncate",
+										title: project.name,
+										children: project.name
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "text-xs text-slate-500 space-y-1",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { children: ["Criado em: ", project.date] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+											className: "font-medium text-slate-600",
+											children: ["Última atualização: ", project.updatedAt]
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "flex gap-1 mt-3",
+										children: project.tags?.map((t) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+											className: "bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full",
+											children: t
+										}, t))
+									})
 								]
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-								to: "/biblioteca",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-4 h-4 mr-2" }), " Biblioteca"] })
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-								to: "/usuarios",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users$1, { className: "w-4 h-4 mr-2" }), " Usuários"] })
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
-								className: "text-red-600",
-								onClick: handleSignOut,
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogOut, { className: "w-4 h-4 mr-2" }), " Sair"]
-							})
-						]
-					})] })]
-				})]
-			})
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
-			className: "max-w-7xl mx-auto py-12 px-8",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "flex justify-between items-center mb-8",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-					className: "text-xl font-bold text-slate-800",
-					children: "Propostas Recentes"
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-					to: "/editor",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
-						className: "bg-sky-500 hover:bg-sky-600 text-white",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 mr-2" }), " Nova Proposta"]
-					})
-				})]
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
-				children: [projects.map((project) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
-					className: "hover:shadow-lg transition-shadow border-slate-200 group",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, {
-							className: "flex flex-row items-center justify-between pb-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileText, { className: "w-5 h-5" })
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-								variant: "ghost",
-								size: "icon",
-								className: "h-8 w-8 text-slate-400 hover:text-red-500 hover:bg-red-50",
-								onClick: () => deleteProject(project.id),
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "w-4 h-4" })
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardContent, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
-							className: "text-lg mb-1",
-							children: project.name
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-							className: "text-sm text-slate-500",
-							children: ["Criado em ", project.date]
-						})] }),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardFooter, {
-							className: "pt-0 flex justify-between items-center",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: `text-xs font-bold px-2 py-1 rounded-full ${project.status === "Aprovado" ? "bg-emerald-100 text-emerald-700" : project.status === "Enviado" ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-600"}`,
-								children: project.status
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-								to: "/editor",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardFooter, {
+								className: "pt-0 flex justify-between items-center",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									className: `text-xs font-bold px-2 py-1 rounded-full ${project.status === "Aprovado" ? "bg-emerald-100 text-emerald-700" : project.status === "Enviado" ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-600"}`,
+									children: project.status === "draft" ? "Rascunho" : project.status
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 									variant: "link",
 									className: "text-sky-500 p-0 h-auto",
+									onClick: () => navigate("/editor", { state: { proposalId: project.id } }),
 									children: "Abrir Editor →"
-								})
-							})]
-						})
-					]
-				}, project.id)), projects.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "col-span-full py-12 text-center text-slate-400 bg-slate-50 rounded-lg border border-dashed border-slate-300",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Nenhuma proposta encontrada." }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-						to: "/editor",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+								})]
+							})
+						]
+					}, project.id)), filteredProjects.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "col-span-full py-12 text-center text-slate-400 bg-slate-50 rounded-lg border border-dashed border-slate-300",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Nenhuma proposta encontrada." }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 							variant: "link",
 							className: "text-sky-500",
+							onClick: () => setIsModalOpen(true),
 							children: "Criar primeira proposta"
-						})
+						})]
 					})]
 				})]
-			})]
-		})]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dialog, {
+				open: isModalOpen,
+				onOpenChange: setIsModalOpen,
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogContent, { children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogTitle, { children: "Nova Proposta" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogDescription, { children: "Selecione a categoria da proposta para iniciar." })] }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "py-4",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Tag da Proposta" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Select, {
+							value: newProposalTag,
+							onValueChange: setNewProposalTag,
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectTrigger, {
+								className: "mt-2",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectValue, { placeholder: "Selecione..." })
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SelectContent, { children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItem, {
+									value: "Marketing",
+									children: "Marketing"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItem, {
+									value: "Comercial",
+									children: "Comercial"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItem, {
+									value: "CS",
+									children: "CS (Customer Success)"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItem, {
+									value: "Personalizada",
+									children: "Personalizada"
+								})
+							] })]
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						variant: "outline",
+						onClick: () => setIsModalOpen(false),
+						children: "Cancelar"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						onClick: handleCreateProposal,
+						disabled: creating,
+						children: creating ? "Criando..." : "Criar Proposta"
+					})] })
+				] })
+			})
+		]
 	});
-};
-var Index_default = Index;
+}
 const DEFAULT_PROPOSAL = {
 	id: "new",
 	agencyName: "OCEAN PROPOSAL",
@@ -34448,6 +36065,7 @@ const DEFAULT_PROPOSAL = {
 	clientUrl: "www.exemplo.com.br",
 	sector: "Imóveis de Alto Padrão",
 	location: "São Paulo, SP",
+	tags: [],
 	profile: {
 		name: "Seu Nome",
 		cpf: "",
@@ -34456,10 +36074,15 @@ const DEFAULT_PROPOSAL = {
 		logo: "https://img.usecurling.com/i?q=ocean&color=blue"
 	},
 	coverImage: "https://img.usecurling.com/p/1200/800?q=modern%20skyscrapers%20corporate&color=black",
-	overlayColor: "#000000",
-	overlayOpacity: 40,
+	coverOverlayColor: "#000000",
+	coverOverlayOpacity: 40,
 	summaryPageImage: "https://img.usecurling.com/p/1200/800?q=white%20minimalist%20office&color=white",
 	summaryBoxImage: "https://img.usecurling.com/p/1200/800?q=abstract%20technology%20network&color=blue",
+	summaryOverlayColor: "#000000",
+	summaryOverlayOpacity: 30,
+	closingImage: "https://img.usecurling.com/p/1200/800?q=handshake%20business%20deal%20close&color=black",
+	closingOverlayColor: "#000000",
+	closingOverlayOpacity: 20,
 	coverTitle: "Plano de Aceleração & Performance",
 	coverSubtitle: "Estratégia comercial personalizada",
 	summaryTitle: "Sumário Executivo",
@@ -34483,6 +36106,7 @@ const DEFAULT_PROPOSAL = {
 	closingTitle: "Vamos acelerar o crescimento juntos?",
 	closingSubtitle: "Do tráfego à venda real.",
 	ctaUrl: "https://wa.me/5511999999999",
+	closingButtonText: "APROVAR PLANO ESTRATÉGICO",
 	currentInvestment: 15e3,
 	currentCPA: 120,
 	currentRevenue: 15e4,
@@ -34533,7 +36157,8 @@ const DEFAULT_PROPOSAL = {
 			items: [
 				"Testes A/B de Criativos",
 				"Otimização de Públicos",
-				"Refinamento de Keywords"
+				"Refinamento de Keywords",
+				"Análise de Métricas"
 			]
 		},
 		{
@@ -34634,8 +36259,15 @@ const DEFAULT_PROPOSAL = {
 			tag: "Receita"
 		}
 	],
-	mediaBudget: 2e4,
-	softwareCost: 1500,
+	operationalCosts: [{
+		id: "1",
+		name: "Verba Mídia (Sug.)",
+		value: 2e4
+	}, {
+		id: "2",
+		name: "Software/Tech",
+		value: 1500
+	}],
 	investmentTiers: [
 		{
 			name: "Essencial",
@@ -34675,6 +36307,11 @@ const DEFAULT_PROPOSAL = {
 	],
 	strategyText: "Nossa abordagem integra captação de Fundo de Funil com Google Ads e Geração de Demanda visual via Meta Ads.",
 	executiveSummary: "O objetivo principal é escalar a geração de leads qualificados reduzindo o CAC atual em 20%.",
+	summaryTriad: {
+		marketing: "Estratégia Full-Funnel focada em performance.",
+		ai: "Tecnologia de ponta para análise preditiva.",
+		commercial: "Foco total em vendas e receita."
+	},
 	methodologyText: "Utilizamos uma metodologia proprietária baseada em dados.",
 	summaryLinks: [{
 		title: "Ver Site",
@@ -34749,6 +36386,7 @@ const DEFAULT_PROPOSAL = {
 	],
 	library: [],
 	createdAt: (/* @__PURE__ */ new Date()).toISOString(),
+	updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
 	status: "draft"
 };
 var byteToHex = [];
@@ -34789,6 +36427,7 @@ const ProposalProvider = ({ children }) => {
 	const [isLoading, setIsLoading] = (0, import_react.useState)(false);
 	const { user } = useAuth();
 	const { toast: toast$2 } = useToast();
+	const location = useLocation();
 	(0, import_react.useEffect)(() => {
 		const loadProfile = async () => {
 			if (!user) return;
@@ -34810,6 +36449,31 @@ const ProposalProvider = ({ children }) => {
 		};
 		loadProfile();
 	}, [user]);
+	(0, import_react.useEffect)(() => {
+		const state = location.state;
+		if (state?.proposalId) loadProposal(state.proposalId);
+	}, [location.state]);
+	const loadProposal = async (id) => {
+		setIsLoading(true);
+		try {
+			const { data, error } = await supabase.from("proposals").select("*").eq("id", id).single();
+			if (error) throw error;
+			if (data && data.content) setProposal((prev) => ({
+				...prev,
+				...data.content,
+				id: data.id
+			}));
+		} catch (e) {
+			console.error(e);
+			toast$2({
+				title: "Erro ao carregar",
+				description: e.message,
+				variant: "destructive"
+			});
+		} finally {
+			setIsLoading(false);
+		}
+	};
 	const updateProposal = (data) => {
 		setProposal((prev) => ({
 			...prev,
@@ -34847,7 +36511,8 @@ const ProposalProvider = ({ children }) => {
 				const savedId = result.data[0].id;
 				setProposal((prev) => ({
 					...prev,
-					id: savedId
+					id: savedId,
+					updatedAt: (/* @__PURE__ */ new Date()).toISOString()
 				}));
 				toast$2({
 					title: "Proposta salva!",
@@ -34919,6 +36584,7 @@ const ProposalProvider = ({ children }) => {
 				description: `Salvo em ${(/* @__PURE__ */ new Date()).toLocaleString()}`,
 				content: slideData,
 				type,
+				tags: proposal.tags,
 				thumbnail_url: null
 			});
 			if (error) throw error;
@@ -34973,7 +36639,8 @@ const ProposalProvider = ({ children }) => {
 						summaryMetrics: snapshot.summaryMetrics,
 						summaryLinks: snapshot.summaryLinks,
 						summaryPageImage: snapshot.summaryPageImage,
-						summaryBoxImage: snapshot.summaryBoxImage
+						summaryBoxImage: snapshot.summaryBoxImage,
+						summaryTriad: snapshot.summaryTriad
 					});
 					if (!proposal.pageOrder.includes("summary")) updateProposal({ pageOrder: [...proposal.pageOrder, "summary"] });
 				} else updateProposal(snapshot);
@@ -34998,9 +36665,6 @@ const ProposalProvider = ({ children }) => {
 			if (hasLinkedIn) strategy += "Abordagem Account-Based Marketing (ABM) para atingir decisores B2B com precisão cirúrgica. ";
 			strategy += "Todo o ecossistema será monitorado por nossa tecnologia de Dashboards em Tempo Real e Triagem com IA, garantindo que apenas leads qualificados cheguem ao comercial.";
 			summary = `Plano de aceleração para ${proposal.clientName} focado em transformar o investimento de mídia em receita previsível. `;
-			if (proposal.sector === "Imóveis de Alto Padrão") summary += "Iremos qualificar drasticamente o lead para maximizar o VGV e otimizar o tempo dos corretores.";
-			else if (proposal.sector === "E-commerce Varejo") summary += "Foco total em maximizar o ROAS e escalar o volume de vendas mantendo a margem de contribuição.";
-			else summary += "O objetivo é construir uma máquina de vendas previsível e escalável nos próximos 90 dias.";
 			updateProposal({
 				strategyText: strategy,
 				executiveSummary: summary
@@ -35147,6 +36811,11 @@ function SlideSummary({ proposal }) {
 			default: return Target;
 		}
 	};
+	const triad = proposal.summaryTriad || {
+		marketing: "",
+		ai: "",
+		commercial: ""
+	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SlideContainer, {
 		id: "summary",
 		children: [
@@ -35159,9 +36828,9 @@ function SlideSummary({ proposal }) {
 				})
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "relative z-10 flex justify-between items-end mb-12 border-b border-slate-100 pb-6",
+				className: "relative z-10 flex justify-between items-end mb-8 border-b border-slate-100 pb-4",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "text-sky-500 font-bold text-sm tracking-wider uppercase mb-2",
+					className: "text-sky-500 font-bold text-sm tracking-wider uppercase mb-1",
 					children: proposal.summarySubtitle
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 					className: "text-4xl font-heading font-bold text-slate-900",
@@ -35178,9 +36847,9 @@ function SlideSummary({ proposal }) {
 				})]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "relative z-10 grid grid-cols-12 gap-12 h-full",
+				className: "relative z-10 grid grid-cols-12 gap-8 h-full",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "col-span-4 bg-slate-50 rounded-2xl p-8 border border-slate-200 h-fit shadow-sm",
+					className: "col-span-4 bg-slate-50 rounded-2xl p-6 border border-slate-200 h-fit shadow-sm",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
 						className: "text-xl font-bold text-slate-900 mb-6 flex items-center gap-2",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users$1, { className: "w-5 h-5 text-sky-500" }), " Perfil do Cliente"]
@@ -35236,52 +36905,83 @@ function SlideSummary({ proposal }) {
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "col-span-8 flex flex-col justify-between",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "bg-slate-900 text-white p-8 rounded-2xl mb-8 flex-grow relative overflow-hidden shadow-xl",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "absolute inset-0 transition-all z-0",
-								style: { opacity: (proposal.summaryOverlayOpacity ?? 30) / 100 },
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-									src: proposal.summaryBoxImage || proposal.summaryPageImage,
-									className: "w-full h-full object-cover mix-blend-overlay",
-									alt: "Summary Box Bg"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "absolute inset-0",
-									style: {
-										backgroundColor: proposal.summaryOverlayColor || "#000000",
-										opacity: .5
-									}
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute top-0 right-0 w-64 h-64 bg-sky-500/20 rounded-full blur-3xl -mr-16 -mt-16" }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
-								className: "text-2xl font-bold mb-4 relative z-10 flex items-center gap-2",
+						className: "bg-slate-900 text-white p-6 rounded-2xl mb-8 flex-grow relative overflow-hidden shadow-xl",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "absolute inset-0 transition-all z-0",
+							style: { opacity: (proposal.summaryOverlayOpacity ?? 30) / 100 },
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+								src: proposal.summaryBoxImage || proposal.summaryPageImage,
+								className: "w-full h-full object-cover mix-blend-overlay",
+								alt: "Summary Box Bg"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "absolute inset-0",
+								style: {
+									backgroundColor: proposal.summaryOverlayColor || "#000000",
+									opacity: .5
+								}
+							})]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "relative z-10 h-full flex flex-col",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
+								className: "text-2xl font-bold mb-6 flex items-center gap-2",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Zap, { className: "w-6 h-6 text-yellow-400" }), "Estratégia e Foco"]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-slate-300 text-lg leading-relaxed relative z-10",
-								children: proposal.executiveSummary
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "mt-8 grid grid-cols-1 gap-4 relative z-10",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "bg-white/5 p-4 rounded-lg backdrop-blur-sm border border-white/10",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-										className: "flex items-start gap-4",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-											className: "bg-emerald-500/20 p-2 rounded-lg",
-											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TrendingUp, { className: "w-6 h-6 text-emerald-400" })
-										}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
-											className: "font-bold text-emerald-400 text-lg",
-											children: "Objetivo Principal"
-										}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-											className: "text-slate-300 text-sm mt-1",
-											children: "Construir uma máquina de vendas previsível e escalável."
-										})] })]
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "grid grid-cols-1 md:grid-cols-3 gap-6 flex-1",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+												className: "bg-sky-500/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3",
+												children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Target, { className: "w-5 h-5 text-sky-400" })
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+												className: "font-bold text-sky-200 mb-2",
+												children: "Marketing"
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+												className: "text-sm text-slate-300 leading-snug",
+												children: triad.marketing
+											})
+										]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+												className: "bg-purple-500/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3",
+												children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Brain, { className: "w-5 h-5 text-purple-400" })
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+												className: "font-bold text-purple-200 mb-2",
+												children: "Inteligência (IA)"
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+												className: "text-sm text-slate-300 leading-snug",
+												children: triad.ai
+											})
+										]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+												className: "bg-emerald-500/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3",
+												children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Briefcase, { className: "w-5 h-5 text-emerald-400" })
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+												className: "font-bold text-emerald-200 mb-2",
+												children: "Comercial"
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+												className: "text-sm text-slate-300 leading-snug",
+												children: triad.commercial
+											})
+										]
 									})
-								})
-							})
-						]
+								]
+							})]
+						})]
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 						className: "grid grid-cols-3 gap-6",
 						children: proposal.summaryMetrics?.slice(0, 3).map((metric, i) => {
@@ -35646,46 +37346,42 @@ function SlideTimeline({ proposal }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SlideContainer, {
 		id: "timeline",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "flex justify-between items-end mb-12 border-b border-slate-100 pb-6",
+			className: "flex justify-between items-end mb-8 border-b border-slate-100 pb-4",
 			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-				className: "text-sky-500 font-bold text-sm tracking-wider uppercase mb-2",
+				className: "text-sky-500 font-bold text-sm tracking-wider uppercase mb-1",
 				children: proposal.timelineSubtitle
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 				className: "text-4xl font-heading font-bold text-slate-900",
 				children: proposal.timelineTitle
 			})] })
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "space-y-6",
+			className: "space-y-6 pt-2",
 			children: proposal.timelinePhases.map((phase, index$1) => {
 				const Icon$2 = icons[index$1] || Calendar;
 				const style = colors[index$1] || colors[0];
 				return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "grid grid-cols-12 gap-6",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: `col-span-3 flex flex-col justify-center items-end pr-6 border-r-2 ${style.border} relative`,
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: `absolute right-[-9px] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full ${style.line} border-2 border-white z-10` }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-							className: `text-xl font-bold ${style.text}`,
+					className: "flex gap-4 items-start",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: `w-24 shrink-0 pt-2`,
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: `px-3 py-1 rounded-full text-center text-sm font-bold border-2 ${style.border} ${style.bg} ${style.text}`,
 							children: phase.month
-						})]
+						})
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: `col-span-9 ${style.bg} border ${style.border} p-6 rounded-xl relative overflow-hidden`,
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: `absolute right-0 top-0 bottom-0 w-2 ${style.line}` }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "flex items-center gap-3 mb-4 -mt-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon$2, { className: `w-5 h-5 ${style.text}` }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
-									className: `font-bold ${style.text}`,
-									children: phase.title
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "grid grid-cols-3 gap-4",
-								children: phase.items.slice(0, 6).map((item, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "bg-white p-3 rounded-lg shadow-sm text-sm text-slate-600 font-medium border border-slate-100",
-									children: item
-								}, i))
-							})
-						]
+						className: `flex-1 ${style.bg} border ${style.border} p-6 rounded-xl relative overflow-hidden`,
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "flex items-center gap-2 mb-4",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon$2, { className: `w-5 h-5 ${style.text}` }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+								className: `font-bold text-lg ${style.text}`,
+								children: phase.title
+							})]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "grid grid-cols-4 gap-4",
+							children: phase.items.map((item, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "bg-white p-3 rounded-lg shadow-sm text-sm text-slate-600 font-medium border border-slate-100 flex items-center justify-center text-center h-full min-h-[50px]",
+								children: item
+							}, i))
+						})]
 					})]
 				}, index$1);
 			})
@@ -35812,84 +37508,120 @@ function SlideMethodology({ proposal }) {
 	});
 }
 function SlideProjection({ proposal }) {
+	const currentInvestment = proposal.currentInvestment;
+	const projectedInvestment = proposal.mediaBudget + proposal.softwareCost + (proposal.investmentTiers.find((t) => t.recommended)?.fee || 0);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SlideContainer, {
 		id: "projection",
-		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "flex justify-between items-end mb-8 border-b border-slate-100 pb-6",
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "text-sky-500 font-bold text-sm tracking-wider uppercase mb-2",
-					children: proposal.projectionSubtitle
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-					className: "text-4xl font-heading font-bold text-slate-900",
-					children: proposal.projectionTitle
-				})] })
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "grid grid-cols-2 lg:grid-cols-4 gap-6 h-full items-start pt-12",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			className: "flex justify-between items-end mb-8 border-b border-slate-100 pb-4",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+				className: "text-sky-500 font-bold text-sm tracking-wider uppercase mb-1",
+				children: proposal.projectionSubtitle
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+				className: "text-4xl font-heading font-bold text-slate-900",
+				children: proposal.projectionTitle
+			})] })
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "flex gap-8 h-full",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "w-1/3 bg-slate-900 rounded-2xl p-8 text-white flex flex-col justify-between relative overflow-hidden",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl -mr-16 -mt-16" }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "relative z-10",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
+							className: "text-2xl font-bold mb-6",
+							children: [
+								"Comparativo de",
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
+								"Cenários"
+							]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-slate-400",
+							children: "A projeção baseia-se na otimização de campanhas, melhoria de CRO e implementação de inteligência de vendas."
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "space-y-6 relative z-10",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "bg-white/10 p-4 rounded-lg border border-white/10",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-xs text-slate-400 uppercase font-bold mb-1",
+								children: "Investimento Atual"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-2xl font-bold",
+								children: new Intl.NumberFormat("pt-BR", {
+									style: "currency",
+									currency: "BRL",
+									maximumFractionDigits: 0
+								}).format(currentInvestment)
+							})]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "bg-emerald-500/20 p-4 rounded-lg border border-emerald-500/30",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-xs text-emerald-300 uppercase font-bold mb-1",
+								children: "Investimento Sugerido"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-2xl font-bold text-emerald-400",
+								children: new Intl.NumberFormat("pt-BR", {
+									style: "currency",
+									currency: "BRL",
+									maximumFractionDigits: 0
+								}).format(projectedInvestment)
+							})]
+						})]
+					})
+				]
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "flex-1 grid grid-cols-2 gap-6 content-start",
 				children: proposal.projectionCards?.map((card, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex flex-col bg-white border border-slate-200 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow relative overflow-hidden group h-[300px]",
+					className: "bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group",
 					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "absolute top-0 right-0 p-3 opacity-50",
+							children: [
+								i === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users$1, { className: "w-6 h-6 text-slate-300" }),
+								i === 1 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Zap, { className: "w-6 h-6 text-slate-300" }),
+								i === 2 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Target, { className: "w-6 h-6 text-slate-300" }),
+								i === 3 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TrendingUp, { className: "w-6 h-6 text-slate-300" })
+							]
+						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "absolute top-0 right-0 p-3",
+							className: "mb-4",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "bg-slate-100 text-slate-600 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider",
+								className: "bg-sky-50 text-sky-600 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider",
 								children: card.tag
 							})
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "mt-8 mb-auto",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-								className: "text-lg font-bold text-slate-500 uppercase tracking-wide mb-2",
-								children: card.title
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-5xl font-bold text-slate-900 tracking-tight",
-								children: card.metric
-							})]
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+							className: "text-sm font-bold text-slate-500 uppercase tracking-wide mb-1",
+							children: card.title
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "border-t border-slate-100 pt-4 mt-4",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-sm text-slate-500 font-medium",
-								children: card.subtext
-							})
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-4xl font-bold text-slate-900 tracking-tight mb-2",
+							children: card.metric
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-xs text-slate-400",
+							children: card.subtext
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-sky-400 to-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" })
 					]
 				}, i))
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "mt-12 bg-slate-50 p-6 rounded-xl border border-slate-200 flex justify-between items-center",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "text-xs font-bold text-slate-500 uppercase",
-						children: "Cenário Base"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "font-medium text-slate-900",
-						children: "Média dos últimos 3 meses"
-					})] }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-8 w-[1px] bg-slate-200" }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "text-xs font-bold text-slate-500 uppercase",
-						children: "Investimento"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-						className: "font-medium text-slate-900",
-						children: ["R$ ", proposal.currentInvestment]
-					})] }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-8 w-[1px] bg-slate-200" }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "text-xs font-bold text-slate-500 uppercase",
-						children: "Projeção"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "font-medium text-slate-900",
-						children: "90 Dias"
-					})] })
-				]
-			})
-		]
+			})]
+		})]
 	});
 }
 function SlideInvestment({ proposal }) {
+	const costs = proposal.operationalCosts || [{
+		id: "1",
+		name: "Verba Mídia",
+		value: proposal.mediaBudget
+	}, {
+		id: "2",
+		name: "Software/Tech",
+		value: proposal.softwareCost
+	}];
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SlideContainer, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		className: "flex justify-between items-end mb-8 border-b border-slate-100 pb-4",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
@@ -35903,46 +37635,27 @@ function SlideInvestment({ proposal }) {
 		className: "grid grid-cols-12 gap-6 h-full items-stretch",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "col-span-3 bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-center space-y-8",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
-					className: "font-bold text-slate-900 text-lg mb-2",
-					children: "Custos de Terceiros"
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "text-xs text-slate-500 mb-4",
-					children: "Pagos diretamente às plataformas."
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "space-y-4",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "bg-white p-4 rounded-lg border border-slate-200 shadow-sm",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-xs font-bold text-slate-500 uppercase",
-							children: "Verba Mídia (Sug.)"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-xl font-bold text-slate-900",
-							children: new Intl.NumberFormat("pt-BR", {
-								style: "currency",
-								currency: "BRL"
-							}).format(proposal.mediaBudget)
-						})]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "bg-white p-4 rounded-lg border border-slate-200 shadow-sm",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-xs font-bold text-slate-500 uppercase",
-							children: "Softwares/Tech"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-xl font-bold text-slate-900",
-							children: new Intl.NumberFormat("pt-BR", {
-								style: "currency",
-								currency: "BRL"
-							}).format(proposal.softwareCost)
-						})]
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+				className: "font-bold text-slate-900 text-lg mb-4",
+				children: "Custos Operacionais"
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "space-y-4",
+				children: costs.map((cost, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "bg-white p-4 rounded-lg border border-slate-200 shadow-sm",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "text-xs font-bold text-slate-500 uppercase",
+						children: cost.name
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "text-xl font-bold text-slate-900",
+						children: new Intl.NumberFormat("pt-BR", {
+							style: "currency",
+							currency: "BRL"
+						}).format(cost.value)
 					})]
-				})
-			] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				}, i))
+			})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				className: "text-xs text-slate-400 italic",
-				children: "* Valores de mídia podem ser ajustados conforme a estratégia."
+				children: "* Valores pagos diretamente às plataformas ou fornecedores."
 			})]
 		}), proposal.investmentTiers.map((tier, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: `col-span-3 rounded-2xl p-6 flex flex-col relative transition-transform hover:-translate-y-2 duration-300 ${tier.recommended ? "bg-slate-900 text-white shadow-2xl scale-105 z-10 border-2 border-sky-500" : "bg-white border border-slate-200 shadow-lg text-slate-900"}`,
@@ -36001,14 +37714,16 @@ function SlideInvestment({ proposal }) {
 }
 function SlideROI({ proposal }) {
 	const recommendedTier = proposal.investmentTiers.find((t) => t.recommended) || proposal.investmentTiers[1];
-	const totalInvestment = proposal.mediaBudget + proposal.softwareCost + recommendedTier.fee;
+	const totalInvestment = (proposal.operationalCosts || []).reduce((acc, curr) => acc + curr.value, 0) + recommendedTier.fee;
 	const ticketMedio = proposal.currentSales && proposal.currentRevenue ? proposal.currentRevenue / proposal.currentSales : 2500;
 	const projectedRevenue = proposal.funnelProjected.sales * ticketMedio;
+	const currentRevenue = proposal.currentRevenue;
 	const roi = Math.round((projectedRevenue - totalInvestment) / totalInvestment * 100);
+	const maxValue = Math.max(currentRevenue, projectedRevenue) * 1.1;
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SlideContainer, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-		className: "flex justify-between items-end mb-12 border-b border-slate-100 pb-6",
+		className: "flex justify-between items-end mb-8 border-b border-slate-100 pb-4",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-			className: "text-sky-500 font-bold text-sm tracking-wider uppercase mb-2",
+			className: "text-sky-500 font-bold text-sm tracking-wider uppercase mb-1",
 			children: proposal.roiSubtitle
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 			className: "text-4xl font-heading font-bold text-slate-900",
@@ -36036,52 +37751,52 @@ function SlideROI({ proposal }) {
 					className: "mt-8 flex gap-4 relative z-10",
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "bg-white/10 px-4 py-3 rounded-xl backdrop-blur-sm border border-white/10 text-left",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "flex items-center gap-2 mb-1",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DollarSign, { className: "w-4 h-4 text-emerald-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-xs text-slate-400 uppercase",
-								children: "Receita Est."
-							})]
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-xs text-slate-400 uppercase font-bold",
+							children: "Investimento Total"
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "font-bold text-xl text-white",
+							className: "font-bold text-lg text-white",
 							children: new Intl.NumberFormat("pt-BR", {
 								style: "currency",
 								currency: "BRL",
 								maximumFractionDigits: 0
-							}).format(projectedRevenue)
+							}).format(totalInvestment)
 						})]
 					})
 				})
 			]
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "flex flex-col justify-between",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "bg-white border border-slate-200 p-8 rounded-2xl shadow-sm",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
-					className: "text-xl font-bold text-slate-800 mb-6 flex items-center gap-2",
+			className: "flex flex-col justify-center",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
+					className: "text-xl font-bold text-slate-800 mb-8 flex items-center gap-2",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TrendingUp, { className: "w-6 h-6 text-sky-500" }), "Crescimento de Receita"]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "space-y-6",
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "space-y-8",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex justify-between text-sm mb-2",
+						className: "flex justify-between mb-2",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "text-slate-500",
-							children: "Receita Atual"
+							className: "font-bold text-slate-600",
+							children: "Atual"
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 							className: "font-bold text-slate-900",
 							children: new Intl.NumberFormat("pt-BR", {
 								style: "currency",
 								currency: "BRL"
-							}).format(proposal.currentRevenue)
+							}).format(currentRevenue)
 						})]
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "w-full bg-slate-100 h-3 rounded-full overflow-hidden",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "bg-slate-400 h-full w-[30%]" })
+						className: "w-full bg-slate-100 rounded-full h-8 overflow-hidden",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "h-full bg-slate-400 rounded-full",
+							style: { width: `${currentRevenue / maxValue * 100}%` }
+						})
 					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex justify-between text-sm mb-2",
+						className: "flex justify-between mb-2",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "text-emerald-600 font-bold",
-							children: "Receita Projetada"
+							className: "font-bold text-emerald-600",
+							children: "Projetado (90 Dias)"
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 							className: "font-bold text-emerald-600",
 							children: new Intl.NumberFormat("pt-BR", {
@@ -36089,36 +37804,38 @@ function SlideROI({ proposal }) {
 								currency: "BRL"
 							}).format(projectedRevenue)
 						})]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "w-full bg-emerald-100 h-3 rounded-full overflow-hidden relative",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "bg-emerald-500 h-full w-full animate-pulse" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute inset-0 bg-white/50 w-[30%]" })]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "w-full bg-emerald-100 rounded-full h-8 overflow-hidden relative shadow-inner",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "h-full bg-emerald-500 rounded-full",
+							style: { width: `${projectedRevenue / maxValue * 100}%` }
+						})
 					})] })]
-				})]
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "bg-sky-50 border border-sky-100 p-8 rounded-2xl",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
-					className: "font-bold text-sky-800 mb-2",
-					children: "Payback Acelerado"
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-					className: "text-sky-700 text-sm",
-					children: [
-						"Com a estrutura de campanhas otimizada, o ponto de equilíbrio do investimento ocorre entre o ",
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Mês 1 e 2" }),
-						"."
-					]
-				})]
-			})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "mt-12 bg-sky-50 border border-sky-100 p-6 rounded-xl",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+						className: "text-sky-800 text-sm leading-relaxed",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "font-bold",
+							children: "Payback Acelerado:"
+						}), " Com a estrutura otimizada, o ponto de equilíbrio ocorre entre o Mês 1 e 2, maximizando a margem de contribuição."]
+					})
+				})
+			]
 		})]
 	})] });
 }
 function SlideClosing({ proposal }) {
+	const bgImage = proposal.closingImage || "https://img.usecurling.com/p/1200/800?q=handshake%20business%20deal%20close&color=black";
+	const buttonText = proposal.closingButtonText || "APROVAR PLANO ESTRATÉGICO";
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SlideContainer, {
 		dark: true,
 		className: "relative flex items-center justify-center",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "absolute inset-0 z-0",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-				src: proposal.closingImage || "https://img.usecurling.com/p/1200/800?q=handshake%20business%20deal%20close&color=black",
+				src: bgImage,
 				alt: "Background",
 				className: "w-full h-full object-cover grayscale"
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -36129,41 +37846,44 @@ function SlideClosing({ proposal }) {
 				}
 			})]
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "relative z-10 text-center max-w-4xl mx-auto space-y-10",
+			className: "relative z-10 text-center max-w-4xl mx-auto flex flex-col items-center justify-center h-full space-y-12",
 			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-					className: "text-6xl font-heading font-bold text-white leading-tight",
-					children: proposal.closingTitle
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-					className: "text-2xl text-slate-300 font-light max-w-2xl mx-auto",
-					children: [
-						"\"",
-						proposal.closingSubtitle,
-						"\""
-					]
-				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "pt-8",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-						href: proposal.ctaUrl,
-						target: "_blank",
-						rel: "noreferrer",
-						className: "inline-flex items-center gap-3 bg-sky-500 hover:bg-sky-400 text-white font-bold text-xl py-6 px-16 rounded-full shadow-2xl shadow-sky-500/40 transition-all transform hover:scale-105 no-print",
-						children: ["APROVAR PLANO ESTRATÉGICO ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "w-6 h-6" })]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "hidden print:block border-2 border-white/20 p-6 rounded-xl max-w-lg mx-auto bg-slate-800/50 backdrop-blur-sm",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-slate-400 text-sm uppercase font-bold mb-2",
-							children: "Para aprovar este plano, acesse:"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-sky-400 text-lg font-mono underline",
-							children: proposal.ctaUrl
-						})]
+					className: "space-y-6",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+						className: "text-6xl font-heading font-bold text-white leading-tight",
+						children: proposal.closingTitle
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+						className: "text-2xl text-slate-300 font-light max-w-2xl mx-auto",
+						children: [
+							"\"",
+							proposal.closingSubtitle,
+							"\""
+						]
 					})]
 				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+					href: proposal.ctaUrl,
+					target: "_blank",
+					rel: "noreferrer",
+					className: "inline-flex items-center gap-3 bg-sky-500 hover:bg-sky-400 text-white font-bold text-xl py-6 px-16 rounded-full shadow-2xl shadow-sky-500/40 transition-all transform hover:scale-105 no-print",
+					children: [
+						buttonText,
+						" ",
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "w-6 h-6" })
+					]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "hidden print:block border-2 border-white/20 p-6 rounded-xl max-w-lg mx-auto bg-slate-800/50 backdrop-blur-sm mt-8",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "text-slate-400 text-sm uppercase font-bold mb-2",
+						children: "Para aprovar este plano, acesse:"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "text-sky-400 text-lg font-mono underline break-all",
+						children: proposal.ctaUrl
+					})]
+				})] }),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "pt-16 grid grid-cols-2 gap-8 text-left border-t border-slate-800 mt-16 max-w-3xl mx-auto",
+					className: "w-full border-t border-slate-800/50 pt-10 grid grid-cols-2 gap-8 text-left max-w-3xl mx-auto",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 						className: "text-slate-500 text-xs uppercase font-bold mb-1",
 						children: "Preparado para"
@@ -36251,22 +37971,22 @@ function SlideGantt({ page }) {
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 						className: "col-span-6 grid grid-cols-4 gap-1",
 						children: [
-							"SEMANA 1",
-							"SEMANA 2",
-							"SEMANA 3",
-							"SEMANA 4"
+							"S1",
+							"S2",
+							"S3",
+							"S4"
 						].map((w, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "bg-slate-100 text-slate-500 text-[10px] font-bold py-1 text-center rounded",
+							className: "bg-slate-100 text-slate-500 text-[12px] font-bold py-1 text-center rounded",
 							children: w
 						}, i))
 					})]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "space-y-3",
-					children: [page.tasks?.slice(0, 6).map((task, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "grid grid-cols-12 gap-1 items-center bg-white p-2 rounded-lg border border-slate-100 shadow-sm min-h-[60px]",
+					children: [page.tasks?.slice(0, 8).map((task, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "grid grid-cols-12 gap-1 items-center bg-white p-2 rounded-lg border border-slate-100 shadow-sm min-h-[50px]",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "col-span-6 px-4 font-medium text-slate-800",
+							className: "col-span-6 px-4 font-medium text-slate-800 text-sm",
 							children: task.name
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 							className: "col-span-6 grid grid-cols-4 gap-1 h-8",
@@ -36276,11 +37996,11 @@ function SlideGantt({ page }) {
 								task.s3,
 								task.s4
 							].map((active, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "relative h-full",
-								children: active && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: cn("absolute inset-0 rounded-md opacity-90 transition-all", getStatusColor(task.type)) })
+								className: "relative h-full flex items-center justify-center",
+								children: active && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: cn("w-full h-4 rounded-full opacity-90 transition-all", getStatusColor(task.type)) })
 							}, idx))
 						})]
-					}, i)), Array.from({ length: Math.max(0, 6 - (page.tasks?.length || 0)) }).map((_$1, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "grid grid-cols-12 gap-1 items-center bg-slate-50/50 p-2 rounded-lg border border-dashed border-slate-200 min-h-[60px]" }, `empty-${i}`))]
+					}, i)), Array.from({ length: Math.max(0, 8 - (page.tasks?.length || 0)) }).map((_$1, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "grid grid-cols-12 gap-1 items-center bg-slate-50/50 p-2 rounded-lg border border-dashed border-slate-200 min-h-[50px]" }, `empty-${i}`))]
 				})
 			]
 		})]
@@ -36321,63 +38041,6 @@ function FullDeck({ proposal }) {
 		})
 	});
 }
-require_react_dom();
-var Primitive$1 = [
-	"a",
-	"button",
-	"div",
-	"form",
-	"h2",
-	"h3",
-	"img",
-	"input",
-	"label",
-	"li",
-	"nav",
-	"ol",
-	"p",
-	"select",
-	"span",
-	"svg",
-	"ul"
-].reduce((primitive, node) => {
-	const Slot$4 = /* @__PURE__ */ createSlot$1(`Primitive.${node}`);
-	const Node$1 = import_react.forwardRef((props, forwardedRef) => {
-		const { asChild, ...primitiveProps } = props;
-		const Comp = asChild ? Slot$4 : node;
-		if (typeof window !== "undefined") window[Symbol.for("radix-ui")] = true;
-		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Comp, {
-			...primitiveProps,
-			ref: forwardedRef
-		});
-	});
-	Node$1.displayName = `Primitive.${node}`;
-	return {
-		...primitive,
-		[node]: Node$1
-	};
-}, {});
-var NAME = "Label";
-var Label$2 = import_react.forwardRef((props, forwardedRef) => {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.label, {
-		...props,
-		ref: forwardedRef,
-		onMouseDown: (event) => {
-			if (event.target.closest("button, input, select, textarea")) return;
-			props.onMouseDown?.(event);
-			if (!event.defaultPrevented && event.detail > 1) event.preventDefault();
-		}
-	});
-});
-Label$2.displayName = NAME;
-var Root$3 = Label$2;
-var labelVariants = cva("text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70");
-var Label = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root$3, {
-	ref,
-	className: cn(labelVariants(), className),
-	...props
-}));
-Label.displayName = Root$3.displayName;
 const SECTORS = [
 	"Imóveis de Alto Padrão",
 	"E-commerce Varejo",
@@ -36388,1035 +38051,6 @@ const SECTORS = [
 	"Automotivo",
 	"Outro"
 ];
-function clamp(value, [min$1, max$1]) {
-	return Math.min(max$1, Math.max(min$1, value));
-}
-function usePrevious(value) {
-	const ref = import_react.useRef({
-		value,
-		previous: value
-	});
-	return import_react.useMemo(() => {
-		if (ref.current.value !== value) {
-			ref.current.previous = ref.current.value;
-			ref.current.value = value;
-		}
-		return ref.current.previous;
-	}, [value]);
-}
-var import_react_dom = /* @__PURE__ */ __toESM(require_react_dom(), 1);
-var OPEN_KEYS = [
-	" ",
-	"Enter",
-	"ArrowUp",
-	"ArrowDown"
-];
-var SELECTION_KEYS = [" ", "Enter"];
-var SELECT_NAME = "Select";
-var [Collection$1, useCollection$1, createCollectionScope$1] = createCollection(SELECT_NAME);
-var [createSelectContext, createSelectScope] = createContextScope(SELECT_NAME, [createCollectionScope$1, createPopperScope]);
-var usePopperScope = createPopperScope();
-var [SelectProvider, useSelectContext] = createSelectContext(SELECT_NAME);
-var [SelectNativeOptionsProvider, useSelectNativeOptionsContext] = createSelectContext(SELECT_NAME);
-var Select$1 = (props) => {
-	const { __scopeSelect, children, open: openProp, defaultOpen, onOpenChange, value: valueProp, defaultValue, onValueChange, dir, name, autoComplete, disabled, required, form } = props;
-	const popperScope = usePopperScope(__scopeSelect);
-	const [trigger, setTrigger] = import_react.useState(null);
-	const [valueNode, setValueNode] = import_react.useState(null);
-	const [valueNodeHasChildren, setValueNodeHasChildren] = import_react.useState(false);
-	const direction = useDirection(dir);
-	const [open, setOpen] = useControllableState({
-		prop: openProp,
-		defaultProp: defaultOpen ?? false,
-		onChange: onOpenChange,
-		caller: SELECT_NAME
-	});
-	const [value, setValue] = useControllableState({
-		prop: valueProp,
-		defaultProp: defaultValue,
-		onChange: onValueChange,
-		caller: SELECT_NAME
-	});
-	const triggerPointerDownPosRef = import_react.useRef(null);
-	const isFormControl = trigger ? form || !!trigger.closest("form") : true;
-	const [nativeOptionsSet, setNativeOptionsSet] = import_react.useState(/* @__PURE__ */ new Set());
-	const nativeSelectKey = Array.from(nativeOptionsSet).map((option) => option.props.value).join(";");
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$2, {
-		...popperScope,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SelectProvider, {
-			required,
-			scope: __scopeSelect,
-			trigger,
-			onTriggerChange: setTrigger,
-			valueNode,
-			onValueNodeChange: setValueNode,
-			valueNodeHasChildren,
-			onValueNodeHasChildrenChange: setValueNodeHasChildren,
-			contentId: useId(),
-			value,
-			onValueChange: setValue,
-			open,
-			onOpenChange: setOpen,
-			dir: direction,
-			triggerPointerDownPosRef,
-			disabled,
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Collection$1.Provider, {
-				scope: __scopeSelect,
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectNativeOptionsProvider, {
-					scope: props.__scopeSelect,
-					onNativeOptionAdd: import_react.useCallback((option) => {
-						setNativeOptionsSet((prev) => new Set(prev).add(option));
-					}, []),
-					onNativeOptionRemove: import_react.useCallback((option) => {
-						setNativeOptionsSet((prev) => {
-							const optionsSet = new Set(prev);
-							optionsSet.delete(option);
-							return optionsSet;
-						});
-					}, []),
-					children
-				})
-			}), isFormControl ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SelectBubbleInput, {
-				"aria-hidden": true,
-				required,
-				tabIndex: -1,
-				name,
-				autoComplete,
-				value,
-				onChange: (event) => setValue(event.target.value),
-				disabled,
-				form,
-				children: [value === void 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: "" }) : null, Array.from(nativeOptionsSet)]
-			}, nativeSelectKey) : null]
-		})
-	});
-};
-Select$1.displayName = SELECT_NAME;
-var TRIGGER_NAME$2 = "SelectTrigger";
-var SelectTrigger$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, disabled = false, ...triggerProps } = props;
-	const popperScope = usePopperScope(__scopeSelect);
-	const context = useSelectContext(TRIGGER_NAME$2, __scopeSelect);
-	const isDisabled = context.disabled || disabled;
-	const composedRefs = useComposedRefs(forwardedRef, context.onTriggerChange);
-	const getItems = useCollection$1(__scopeSelect);
-	const pointerTypeRef = import_react.useRef("touch");
-	const [searchRef, handleTypeaheadSearch, resetTypeahead] = useTypeaheadSearch((search) => {
-		const enabledItems = getItems().filter((item) => !item.disabled);
-		const nextItem = findNextItem(enabledItems, search, enabledItems.find((item) => item.value === context.value));
-		if (nextItem !== void 0) context.onValueChange(nextItem.value);
-	});
-	const handleOpen = (pointerEvent) => {
-		if (!isDisabled) {
-			context.onOpenChange(true);
-			resetTypeahead();
-		}
-		if (pointerEvent) context.triggerPointerDownPosRef.current = {
-			x: Math.round(pointerEvent.pageX),
-			y: Math.round(pointerEvent.pageY)
-		};
-	};
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Anchor, {
-		asChild: true,
-		...popperScope,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.button, {
-			type: "button",
-			role: "combobox",
-			"aria-controls": context.contentId,
-			"aria-expanded": context.open,
-			"aria-required": context.required,
-			"aria-autocomplete": "none",
-			dir: context.dir,
-			"data-state": context.open ? "open" : "closed",
-			disabled: isDisabled,
-			"data-disabled": isDisabled ? "" : void 0,
-			"data-placeholder": shouldShowPlaceholder(context.value) ? "" : void 0,
-			...triggerProps,
-			ref: composedRefs,
-			onClick: composeEventHandlers(triggerProps.onClick, (event) => {
-				event.currentTarget.focus();
-				if (pointerTypeRef.current !== "mouse") handleOpen(event);
-			}),
-			onPointerDown: composeEventHandlers(triggerProps.onPointerDown, (event) => {
-				pointerTypeRef.current = event.pointerType;
-				const target = event.target;
-				if (target.hasPointerCapture(event.pointerId)) target.releasePointerCapture(event.pointerId);
-				if (event.button === 0 && event.ctrlKey === false && event.pointerType === "mouse") {
-					handleOpen(event);
-					event.preventDefault();
-				}
-			}),
-			onKeyDown: composeEventHandlers(triggerProps.onKeyDown, (event) => {
-				const isTypingAhead = searchRef.current !== "";
-				if (!(event.ctrlKey || event.altKey || event.metaKey) && event.key.length === 1) handleTypeaheadSearch(event.key);
-				if (isTypingAhead && event.key === " ") return;
-				if (OPEN_KEYS.includes(event.key)) {
-					handleOpen();
-					event.preventDefault();
-				}
-			})
-		})
-	});
-});
-SelectTrigger$1.displayName = TRIGGER_NAME$2;
-var VALUE_NAME = "SelectValue";
-var SelectValue$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, className, style, children, placeholder = "", ...valueProps } = props;
-	const context = useSelectContext(VALUE_NAME, __scopeSelect);
-	const { onValueNodeHasChildrenChange } = context;
-	const hasChildren = children !== void 0;
-	const composedRefs = useComposedRefs(forwardedRef, context.onValueNodeChange);
-	useLayoutEffect2(() => {
-		onValueNodeHasChildrenChange(hasChildren);
-	}, [onValueNodeHasChildrenChange, hasChildren]);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.span, {
-		...valueProps,
-		ref: composedRefs,
-		style: { pointerEvents: "none" },
-		children: shouldShowPlaceholder(context.value) ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: placeholder }) : children
-	});
-});
-SelectValue$1.displayName = VALUE_NAME;
-var ICON_NAME = "SelectIcon";
-var SelectIcon = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, children, ...iconProps } = props;
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.span, {
-		"aria-hidden": true,
-		...iconProps,
-		ref: forwardedRef,
-		children: children || "▼"
-	});
-});
-SelectIcon.displayName = ICON_NAME;
-var PORTAL_NAME$1 = "SelectPortal";
-var SelectPortal = (props) => {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Portal, {
-		asChild: true,
-		...props
-	});
-};
-SelectPortal.displayName = PORTAL_NAME$1;
-var CONTENT_NAME$1 = "SelectContent";
-var SelectContent$1 = import_react.forwardRef((props, forwardedRef) => {
-	const context = useSelectContext(CONTENT_NAME$1, props.__scopeSelect);
-	const [fragment, setFragment] = import_react.useState();
-	useLayoutEffect2(() => {
-		setFragment(new DocumentFragment());
-	}, []);
-	if (!context.open) {
-		const frag = fragment;
-		return frag ? import_react_dom.createPortal(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectContentProvider, {
-			scope: props.__scopeSelect,
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Collection$1.Slot, {
-				scope: props.__scopeSelect,
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { children: props.children })
-			})
-		}), frag) : null;
-	}
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectContentImpl, {
-		...props,
-		ref: forwardedRef
-	});
-});
-SelectContent$1.displayName = CONTENT_NAME$1;
-var CONTENT_MARGIN = 10;
-var [SelectContentProvider, useSelectContentContext] = createSelectContext(CONTENT_NAME$1);
-var CONTENT_IMPL_NAME = "SelectContentImpl";
-var Slot$1 = /* @__PURE__ */ createSlot("SelectContent.RemoveScroll");
-var SelectContentImpl = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, position = "item-aligned", onCloseAutoFocus, onEscapeKeyDown, onPointerDownOutside, side, sideOffset, align, alignOffset, arrowPadding, collisionBoundary, collisionPadding, sticky, hideWhenDetached, avoidCollisions, ...contentProps } = props;
-	const context = useSelectContext(CONTENT_NAME$1, __scopeSelect);
-	const [content, setContent] = import_react.useState(null);
-	const [viewport, setViewport] = import_react.useState(null);
-	const composedRefs = useComposedRefs(forwardedRef, (node) => setContent(node));
-	const [selectedItem, setSelectedItem] = import_react.useState(null);
-	const [selectedItemText, setSelectedItemText] = import_react.useState(null);
-	const getItems = useCollection$1(__scopeSelect);
-	const [isPositioned, setIsPositioned] = import_react.useState(false);
-	const firstValidItemFoundRef = import_react.useRef(false);
-	import_react.useEffect(() => {
-		if (content) return hideOthers(content);
-	}, [content]);
-	useFocusGuards();
-	const focusFirst$4 = import_react.useCallback((candidates) => {
-		const [firstItem, ...restItems] = getItems().map((item) => item.ref.current);
-		const [lastItem] = restItems.slice(-1);
-		const PREVIOUSLY_FOCUSED_ELEMENT = document.activeElement;
-		for (const candidate of candidates) {
-			if (candidate === PREVIOUSLY_FOCUSED_ELEMENT) return;
-			candidate?.scrollIntoView({ block: "nearest" });
-			if (candidate === firstItem && viewport) viewport.scrollTop = 0;
-			if (candidate === lastItem && viewport) viewport.scrollTop = viewport.scrollHeight;
-			candidate?.focus();
-			if (document.activeElement !== PREVIOUSLY_FOCUSED_ELEMENT) return;
-		}
-	}, [getItems, viewport]);
-	const focusSelectedItem = import_react.useCallback(() => focusFirst$4([selectedItem, content]), [
-		focusFirst$4,
-		selectedItem,
-		content
-	]);
-	import_react.useEffect(() => {
-		if (isPositioned) focusSelectedItem();
-	}, [isPositioned, focusSelectedItem]);
-	const { onOpenChange, triggerPointerDownPosRef } = context;
-	import_react.useEffect(() => {
-		if (content) {
-			let pointerMoveDelta = {
-				x: 0,
-				y: 0
-			};
-			const handlePointerMove = (event) => {
-				pointerMoveDelta = {
-					x: Math.abs(Math.round(event.pageX) - (triggerPointerDownPosRef.current?.x ?? 0)),
-					y: Math.abs(Math.round(event.pageY) - (triggerPointerDownPosRef.current?.y ?? 0))
-				};
-			};
-			const handlePointerUp = (event) => {
-				if (pointerMoveDelta.x <= 10 && pointerMoveDelta.y <= 10) event.preventDefault();
-				else if (!content.contains(event.target)) onOpenChange(false);
-				document.removeEventListener("pointermove", handlePointerMove);
-				triggerPointerDownPosRef.current = null;
-			};
-			if (triggerPointerDownPosRef.current !== null) {
-				document.addEventListener("pointermove", handlePointerMove);
-				document.addEventListener("pointerup", handlePointerUp, {
-					capture: true,
-					once: true
-				});
-			}
-			return () => {
-				document.removeEventListener("pointermove", handlePointerMove);
-				document.removeEventListener("pointerup", handlePointerUp, { capture: true });
-			};
-		}
-	}, [
-		content,
-		onOpenChange,
-		triggerPointerDownPosRef
-	]);
-	import_react.useEffect(() => {
-		const close = () => onOpenChange(false);
-		window.addEventListener("blur", close);
-		window.addEventListener("resize", close);
-		return () => {
-			window.removeEventListener("blur", close);
-			window.removeEventListener("resize", close);
-		};
-	}, [onOpenChange]);
-	const [searchRef, handleTypeaheadSearch] = useTypeaheadSearch((search) => {
-		const enabledItems = getItems().filter((item) => !item.disabled);
-		const nextItem = findNextItem(enabledItems, search, enabledItems.find((item) => item.ref.current === document.activeElement));
-		if (nextItem) setTimeout(() => nextItem.ref.current.focus());
-	});
-	const itemRefCallback = import_react.useCallback((node, value, disabled) => {
-		const isFirstValidItem = !firstValidItemFoundRef.current && !disabled;
-		if (context.value !== void 0 && context.value === value || isFirstValidItem) {
-			setSelectedItem(node);
-			if (isFirstValidItem) firstValidItemFoundRef.current = true;
-		}
-	}, [context.value]);
-	const handleItemLeave = import_react.useCallback(() => content?.focus(), [content]);
-	const itemTextRefCallback = import_react.useCallback((node, value, disabled) => {
-		const isFirstValidItem = !firstValidItemFoundRef.current && !disabled;
-		if (context.value !== void 0 && context.value === value || isFirstValidItem) setSelectedItemText(node);
-	}, [context.value]);
-	const SelectPosition = position === "popper" ? SelectPopperPosition : SelectItemAlignedPosition;
-	const popperContentProps = SelectPosition === SelectPopperPosition ? {
-		side,
-		sideOffset,
-		align,
-		alignOffset,
-		arrowPadding,
-		collisionBoundary,
-		collisionPadding,
-		sticky,
-		hideWhenDetached,
-		avoidCollisions
-	} : {};
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectContentProvider, {
-		scope: __scopeSelect,
-		content,
-		viewport,
-		onViewportChange: setViewport,
-		itemRefCallback,
-		selectedItem,
-		onItemLeave: handleItemLeave,
-		itemTextRefCallback,
-		focusSelectedItem,
-		selectedItemText,
-		position,
-		isPositioned,
-		searchRef,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Combination_default, {
-			as: Slot$1,
-			allowPinchZoom: true,
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FocusScope, {
-				asChild: true,
-				trapped: context.open,
-				onMountAutoFocus: (event) => {
-					event.preventDefault();
-				},
-				onUnmountAutoFocus: composeEventHandlers(onCloseAutoFocus, (event) => {
-					context.trigger?.focus({ preventScroll: true });
-					event.preventDefault();
-				}),
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DismissableLayer, {
-					asChild: true,
-					disableOutsidePointerEvents: true,
-					onEscapeKeyDown,
-					onPointerDownOutside,
-					onFocusOutside: (event) => event.preventDefault(),
-					onDismiss: () => context.onOpenChange(false),
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectPosition, {
-						role: "listbox",
-						id: context.contentId,
-						"data-state": context.open ? "open" : "closed",
-						dir: context.dir,
-						onContextMenu: (event) => event.preventDefault(),
-						...contentProps,
-						...popperContentProps,
-						onPlaced: () => setIsPositioned(true),
-						ref: composedRefs,
-						style: {
-							display: "flex",
-							flexDirection: "column",
-							outline: "none",
-							...contentProps.style
-						},
-						onKeyDown: composeEventHandlers(contentProps.onKeyDown, (event) => {
-							const isModifierKey = event.ctrlKey || event.altKey || event.metaKey;
-							if (event.key === "Tab") event.preventDefault();
-							if (!isModifierKey && event.key.length === 1) handleTypeaheadSearch(event.key);
-							if ([
-								"ArrowUp",
-								"ArrowDown",
-								"Home",
-								"End"
-							].includes(event.key)) {
-								let candidateNodes = getItems().filter((item) => !item.disabled).map((item) => item.ref.current);
-								if (["ArrowUp", "End"].includes(event.key)) candidateNodes = candidateNodes.slice().reverse();
-								if (["ArrowUp", "ArrowDown"].includes(event.key)) {
-									const currentElement = event.target;
-									const currentIndex = candidateNodes.indexOf(currentElement);
-									candidateNodes = candidateNodes.slice(currentIndex + 1);
-								}
-								setTimeout(() => focusFirst$4(candidateNodes));
-								event.preventDefault();
-							}
-						})
-					})
-				})
-			})
-		})
-	});
-});
-SelectContentImpl.displayName = CONTENT_IMPL_NAME;
-var ITEM_ALIGNED_POSITION_NAME = "SelectItemAlignedPosition";
-var SelectItemAlignedPosition = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, onPlaced, ...popperProps } = props;
-	const context = useSelectContext(CONTENT_NAME$1, __scopeSelect);
-	const contentContext = useSelectContentContext(CONTENT_NAME$1, __scopeSelect);
-	const [contentWrapper, setContentWrapper] = import_react.useState(null);
-	const [content, setContent] = import_react.useState(null);
-	const composedRefs = useComposedRefs(forwardedRef, (node) => setContent(node));
-	const getItems = useCollection$1(__scopeSelect);
-	const shouldExpandOnScrollRef = import_react.useRef(false);
-	const shouldRepositionRef = import_react.useRef(true);
-	const { viewport, selectedItem, selectedItemText, focusSelectedItem } = contentContext;
-	const position = import_react.useCallback(() => {
-		if (context.trigger && context.valueNode && contentWrapper && content && viewport && selectedItem && selectedItemText) {
-			const triggerRect = context.trigger.getBoundingClientRect();
-			const contentRect = content.getBoundingClientRect();
-			const valueNodeRect = context.valueNode.getBoundingClientRect();
-			const itemTextRect = selectedItemText.getBoundingClientRect();
-			if (context.dir !== "rtl") {
-				const itemTextOffset = itemTextRect.left - contentRect.left;
-				const left = valueNodeRect.left - itemTextOffset;
-				const leftDelta = triggerRect.left - left;
-				const minContentWidth = triggerRect.width + leftDelta;
-				const contentWidth = Math.max(minContentWidth, contentRect.width);
-				const rightEdge = window.innerWidth - CONTENT_MARGIN;
-				const clampedLeft = clamp(left, [CONTENT_MARGIN, Math.max(CONTENT_MARGIN, rightEdge - contentWidth)]);
-				contentWrapper.style.minWidth = minContentWidth + "px";
-				contentWrapper.style.left = clampedLeft + "px";
-			} else {
-				const itemTextOffset = contentRect.right - itemTextRect.right;
-				const right = window.innerWidth - valueNodeRect.right - itemTextOffset;
-				const rightDelta = window.innerWidth - triggerRect.right - right;
-				const minContentWidth = triggerRect.width + rightDelta;
-				const contentWidth = Math.max(minContentWidth, contentRect.width);
-				const leftEdge = window.innerWidth - CONTENT_MARGIN;
-				const clampedRight = clamp(right, [CONTENT_MARGIN, Math.max(CONTENT_MARGIN, leftEdge - contentWidth)]);
-				contentWrapper.style.minWidth = minContentWidth + "px";
-				contentWrapper.style.right = clampedRight + "px";
-			}
-			const items = getItems();
-			const availableHeight = window.innerHeight - CONTENT_MARGIN * 2;
-			const itemsHeight = viewport.scrollHeight;
-			const contentStyles = window.getComputedStyle(content);
-			const contentBorderTopWidth = parseInt(contentStyles.borderTopWidth, 10);
-			const contentPaddingTop = parseInt(contentStyles.paddingTop, 10);
-			const contentBorderBottomWidth = parseInt(contentStyles.borderBottomWidth, 10);
-			const contentPaddingBottom = parseInt(contentStyles.paddingBottom, 10);
-			const fullContentHeight = contentBorderTopWidth + contentPaddingTop + itemsHeight + contentPaddingBottom + contentBorderBottomWidth;
-			const minContentHeight = Math.min(selectedItem.offsetHeight * 5, fullContentHeight);
-			const viewportStyles = window.getComputedStyle(viewport);
-			const viewportPaddingTop = parseInt(viewportStyles.paddingTop, 10);
-			const viewportPaddingBottom = parseInt(viewportStyles.paddingBottom, 10);
-			const topEdgeToTriggerMiddle = triggerRect.top + triggerRect.height / 2 - CONTENT_MARGIN;
-			const triggerMiddleToBottomEdge = availableHeight - topEdgeToTriggerMiddle;
-			const selectedItemHalfHeight = selectedItem.offsetHeight / 2;
-			const itemOffsetMiddle = selectedItem.offsetTop + selectedItemHalfHeight;
-			const contentTopToItemMiddle = contentBorderTopWidth + contentPaddingTop + itemOffsetMiddle;
-			const itemMiddleToContentBottom = fullContentHeight - contentTopToItemMiddle;
-			if (contentTopToItemMiddle <= topEdgeToTriggerMiddle) {
-				const isLastItem = items.length > 0 && selectedItem === items[items.length - 1].ref.current;
-				contentWrapper.style.bottom = "0px";
-				const viewportOffsetBottom = content.clientHeight - viewport.offsetTop - viewport.offsetHeight;
-				const height = contentTopToItemMiddle + Math.max(triggerMiddleToBottomEdge, selectedItemHalfHeight + (isLastItem ? viewportPaddingBottom : 0) + viewportOffsetBottom + contentBorderBottomWidth);
-				contentWrapper.style.height = height + "px";
-			} else {
-				const isFirstItem = items.length > 0 && selectedItem === items[0].ref.current;
-				contentWrapper.style.top = "0px";
-				const height = Math.max(topEdgeToTriggerMiddle, contentBorderTopWidth + viewport.offsetTop + (isFirstItem ? viewportPaddingTop : 0) + selectedItemHalfHeight) + itemMiddleToContentBottom;
-				contentWrapper.style.height = height + "px";
-				viewport.scrollTop = contentTopToItemMiddle - topEdgeToTriggerMiddle + viewport.offsetTop;
-			}
-			contentWrapper.style.margin = `${CONTENT_MARGIN}px 0`;
-			contentWrapper.style.minHeight = minContentHeight + "px";
-			contentWrapper.style.maxHeight = availableHeight + "px";
-			onPlaced?.();
-			requestAnimationFrame(() => shouldExpandOnScrollRef.current = true);
-		}
-	}, [
-		getItems,
-		context.trigger,
-		context.valueNode,
-		contentWrapper,
-		content,
-		viewport,
-		selectedItem,
-		selectedItemText,
-		context.dir,
-		onPlaced
-	]);
-	useLayoutEffect2(() => position(), [position]);
-	const [contentZIndex, setContentZIndex] = import_react.useState();
-	useLayoutEffect2(() => {
-		if (content) setContentZIndex(window.getComputedStyle(content).zIndex);
-	}, [content]);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectViewportProvider, {
-		scope: __scopeSelect,
-		contentWrapper,
-		shouldExpandOnScrollRef,
-		onScrollButtonChange: import_react.useCallback((node) => {
-			if (node && shouldRepositionRef.current === true) {
-				position();
-				focusSelectedItem?.();
-				shouldRepositionRef.current = false;
-			}
-		}, [position, focusSelectedItem]),
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			ref: setContentWrapper,
-			style: {
-				display: "flex",
-				flexDirection: "column",
-				position: "fixed",
-				zIndex: contentZIndex
-			},
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
-				...popperProps,
-				ref: composedRefs,
-				style: {
-					boxSizing: "border-box",
-					maxHeight: "100%",
-					...popperProps.style
-				}
-			})
-		})
-	});
-});
-SelectItemAlignedPosition.displayName = ITEM_ALIGNED_POSITION_NAME;
-var POPPER_POSITION_NAME = "SelectPopperPosition";
-var SelectPopperPosition = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, align = "start", collisionPadding = CONTENT_MARGIN, ...popperProps } = props;
-	const popperScope = usePopperScope(__scopeSelect);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Content$1, {
-		...popperScope,
-		...popperProps,
-		ref: forwardedRef,
-		align,
-		collisionPadding,
-		style: {
-			boxSizing: "border-box",
-			...popperProps.style,
-			"--radix-select-content-transform-origin": "var(--radix-popper-transform-origin)",
-			"--radix-select-content-available-width": "var(--radix-popper-available-width)",
-			"--radix-select-content-available-height": "var(--radix-popper-available-height)",
-			"--radix-select-trigger-width": "var(--radix-popper-anchor-width)",
-			"--radix-select-trigger-height": "var(--radix-popper-anchor-height)"
-		}
-	});
-});
-SelectPopperPosition.displayName = POPPER_POSITION_NAME;
-var [SelectViewportProvider, useSelectViewportContext] = createSelectContext(CONTENT_NAME$1, {});
-var VIEWPORT_NAME$1 = "SelectViewport";
-var SelectViewport = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, nonce, ...viewportProps } = props;
-	const contentContext = useSelectContentContext(VIEWPORT_NAME$1, __scopeSelect);
-	const viewportContext = useSelectViewportContext(VIEWPORT_NAME$1, __scopeSelect);
-	const composedRefs = useComposedRefs(forwardedRef, contentContext.onViewportChange);
-	const prevScrollTopRef = import_react.useRef(0);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("style", {
-		dangerouslySetInnerHTML: { __html: `[data-radix-select-viewport]{scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;}[data-radix-select-viewport]::-webkit-scrollbar{display:none}` },
-		nonce
-	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Collection$1.Slot, {
-		scope: __scopeSelect,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
-			"data-radix-select-viewport": "",
-			role: "presentation",
-			...viewportProps,
-			ref: composedRefs,
-			style: {
-				position: "relative",
-				flex: 1,
-				overflow: "hidden auto",
-				...viewportProps.style
-			},
-			onScroll: composeEventHandlers(viewportProps.onScroll, (event) => {
-				const viewport = event.currentTarget;
-				const { contentWrapper, shouldExpandOnScrollRef } = viewportContext;
-				if (shouldExpandOnScrollRef?.current && contentWrapper) {
-					const scrolledBy = Math.abs(prevScrollTopRef.current - viewport.scrollTop);
-					if (scrolledBy > 0) {
-						const availableHeight = window.innerHeight - CONTENT_MARGIN * 2;
-						const cssMinHeight = parseFloat(contentWrapper.style.minHeight);
-						const cssHeight = parseFloat(contentWrapper.style.height);
-						const prevHeight = Math.max(cssMinHeight, cssHeight);
-						if (prevHeight < availableHeight) {
-							const nextHeight = prevHeight + scrolledBy;
-							const clampedNextHeight = Math.min(availableHeight, nextHeight);
-							const heightDiff = nextHeight - clampedNextHeight;
-							contentWrapper.style.height = clampedNextHeight + "px";
-							if (contentWrapper.style.bottom === "0px") {
-								viewport.scrollTop = heightDiff > 0 ? heightDiff : 0;
-								contentWrapper.style.justifyContent = "flex-end";
-							}
-						}
-					}
-				}
-				prevScrollTopRef.current = viewport.scrollTop;
-			})
-		})
-	})] });
-});
-SelectViewport.displayName = VIEWPORT_NAME$1;
-var GROUP_NAME = "SelectGroup";
-var [SelectGroupContextProvider, useSelectGroupContext] = createSelectContext(GROUP_NAME);
-var SelectGroup$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, ...groupProps } = props;
-	const groupId = useId();
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectGroupContextProvider, {
-		scope: __scopeSelect,
-		id: groupId,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
-			role: "group",
-			"aria-labelledby": groupId,
-			...groupProps,
-			ref: forwardedRef
-		})
-	});
-});
-SelectGroup$1.displayName = GROUP_NAME;
-var LABEL_NAME = "SelectLabel";
-var SelectLabel$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, ...labelProps } = props;
-	const groupContext = useSelectGroupContext(LABEL_NAME, __scopeSelect);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
-		id: groupContext.id,
-		...labelProps,
-		ref: forwardedRef
-	});
-});
-SelectLabel$1.displayName = LABEL_NAME;
-var ITEM_NAME = "SelectItem";
-var [SelectItemContextProvider, useSelectItemContext] = createSelectContext(ITEM_NAME);
-var SelectItem$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, value, disabled = false, textValue: textValueProp, ...itemProps } = props;
-	const context = useSelectContext(ITEM_NAME, __scopeSelect);
-	const contentContext = useSelectContentContext(ITEM_NAME, __scopeSelect);
-	const isSelected = context.value === value;
-	const [textValue, setTextValue] = import_react.useState(textValueProp ?? "");
-	const [isFocused, setIsFocused] = import_react.useState(false);
-	const composedRefs = useComposedRefs(forwardedRef, (node) => contentContext.itemRefCallback?.(node, value, disabled));
-	const textId = useId();
-	const pointerTypeRef = import_react.useRef("touch");
-	const handleSelect = () => {
-		if (!disabled) {
-			context.onValueChange(value);
-			context.onOpenChange(false);
-		}
-	};
-	if (value === "") throw new Error("A <Select.Item /> must have a value prop that is not an empty string. This is because the Select value can be set to an empty string to clear the selection and show the placeholder.");
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItemContextProvider, {
-		scope: __scopeSelect,
-		value,
-		disabled,
-		textId,
-		isSelected,
-		onItemTextChange: import_react.useCallback((node) => {
-			setTextValue((prevTextValue) => prevTextValue || (node?.textContent ?? "").trim());
-		}, []),
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Collection$1.ItemSlot, {
-			scope: __scopeSelect,
-			value,
-			disabled,
-			textValue,
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
-				role: "option",
-				"aria-labelledby": textId,
-				"data-highlighted": isFocused ? "" : void 0,
-				"aria-selected": isSelected && isFocused,
-				"data-state": isSelected ? "checked" : "unchecked",
-				"aria-disabled": disabled || void 0,
-				"data-disabled": disabled ? "" : void 0,
-				tabIndex: disabled ? void 0 : -1,
-				...itemProps,
-				ref: composedRefs,
-				onFocus: composeEventHandlers(itemProps.onFocus, () => setIsFocused(true)),
-				onBlur: composeEventHandlers(itemProps.onBlur, () => setIsFocused(false)),
-				onClick: composeEventHandlers(itemProps.onClick, () => {
-					if (pointerTypeRef.current !== "mouse") handleSelect();
-				}),
-				onPointerUp: composeEventHandlers(itemProps.onPointerUp, () => {
-					if (pointerTypeRef.current === "mouse") handleSelect();
-				}),
-				onPointerDown: composeEventHandlers(itemProps.onPointerDown, (event) => {
-					pointerTypeRef.current = event.pointerType;
-				}),
-				onPointerMove: composeEventHandlers(itemProps.onPointerMove, (event) => {
-					pointerTypeRef.current = event.pointerType;
-					if (disabled) contentContext.onItemLeave?.();
-					else if (pointerTypeRef.current === "mouse") event.currentTarget.focus({ preventScroll: true });
-				}),
-				onPointerLeave: composeEventHandlers(itemProps.onPointerLeave, (event) => {
-					if (event.currentTarget === document.activeElement) contentContext.onItemLeave?.();
-				}),
-				onKeyDown: composeEventHandlers(itemProps.onKeyDown, (event) => {
-					if (contentContext.searchRef?.current !== "" && event.key === " ") return;
-					if (SELECTION_KEYS.includes(event.key)) handleSelect();
-					if (event.key === " ") event.preventDefault();
-				})
-			})
-		})
-	});
-});
-SelectItem$1.displayName = ITEM_NAME;
-var ITEM_TEXT_NAME = "SelectItemText";
-var SelectItemText = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, className, style, ...itemTextProps } = props;
-	const context = useSelectContext(ITEM_TEXT_NAME, __scopeSelect);
-	const contentContext = useSelectContentContext(ITEM_TEXT_NAME, __scopeSelect);
-	const itemContext = useSelectItemContext(ITEM_TEXT_NAME, __scopeSelect);
-	const nativeOptionsContext = useSelectNativeOptionsContext(ITEM_TEXT_NAME, __scopeSelect);
-	const [itemTextNode, setItemTextNode] = import_react.useState(null);
-	const composedRefs = useComposedRefs(forwardedRef, (node) => setItemTextNode(node), itemContext.onItemTextChange, (node) => contentContext.itemTextRefCallback?.(node, itemContext.value, itemContext.disabled));
-	const textContent = itemTextNode?.textContent;
-	const nativeOption = import_react.useMemo(() => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", {
-		value: itemContext.value,
-		disabled: itemContext.disabled,
-		children: textContent
-	}, itemContext.value), [
-		itemContext.disabled,
-		itemContext.value,
-		textContent
-	]);
-	const { onNativeOptionAdd, onNativeOptionRemove } = nativeOptionsContext;
-	useLayoutEffect2(() => {
-		onNativeOptionAdd(nativeOption);
-		return () => onNativeOptionRemove(nativeOption);
-	}, [
-		onNativeOptionAdd,
-		onNativeOptionRemove,
-		nativeOption
-	]);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.span, {
-		id: itemContext.textId,
-		...itemTextProps,
-		ref: composedRefs
-	}), itemContext.isSelected && context.valueNode && !context.valueNodeHasChildren ? import_react_dom.createPortal(itemTextProps.children, context.valueNode) : null] });
-});
-SelectItemText.displayName = ITEM_TEXT_NAME;
-var ITEM_INDICATOR_NAME = "SelectItemIndicator";
-var SelectItemIndicator = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, ...itemIndicatorProps } = props;
-	return useSelectItemContext(ITEM_INDICATOR_NAME, __scopeSelect).isSelected ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.span, {
-		"aria-hidden": true,
-		...itemIndicatorProps,
-		ref: forwardedRef
-	}) : null;
-});
-SelectItemIndicator.displayName = ITEM_INDICATOR_NAME;
-var SCROLL_UP_BUTTON_NAME = "SelectScrollUpButton";
-var SelectScrollUpButton$1 = import_react.forwardRef((props, forwardedRef) => {
-	const contentContext = useSelectContentContext(SCROLL_UP_BUTTON_NAME, props.__scopeSelect);
-	const viewportContext = useSelectViewportContext(SCROLL_UP_BUTTON_NAME, props.__scopeSelect);
-	const [canScrollUp, setCanScrollUp] = import_react.useState(false);
-	const composedRefs = useComposedRefs(forwardedRef, viewportContext.onScrollButtonChange);
-	useLayoutEffect2(() => {
-		if (contentContext.viewport && contentContext.isPositioned) {
-			let handleScroll2 = function() {
-				setCanScrollUp(viewport.scrollTop > 0);
-			};
-			const viewport = contentContext.viewport;
-			handleScroll2();
-			viewport.addEventListener("scroll", handleScroll2);
-			return () => viewport.removeEventListener("scroll", handleScroll2);
-		}
-	}, [contentContext.viewport, contentContext.isPositioned]);
-	return canScrollUp ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectScrollButtonImpl, {
-		...props,
-		ref: composedRefs,
-		onAutoScroll: () => {
-			const { viewport, selectedItem } = contentContext;
-			if (viewport && selectedItem) viewport.scrollTop = viewport.scrollTop - selectedItem.offsetHeight;
-		}
-	}) : null;
-});
-SelectScrollUpButton$1.displayName = SCROLL_UP_BUTTON_NAME;
-var SCROLL_DOWN_BUTTON_NAME = "SelectScrollDownButton";
-var SelectScrollDownButton$1 = import_react.forwardRef((props, forwardedRef) => {
-	const contentContext = useSelectContentContext(SCROLL_DOWN_BUTTON_NAME, props.__scopeSelect);
-	const viewportContext = useSelectViewportContext(SCROLL_DOWN_BUTTON_NAME, props.__scopeSelect);
-	const [canScrollDown, setCanScrollDown] = import_react.useState(false);
-	const composedRefs = useComposedRefs(forwardedRef, viewportContext.onScrollButtonChange);
-	useLayoutEffect2(() => {
-		if (contentContext.viewport && contentContext.isPositioned) {
-			let handleScroll2 = function() {
-				const maxScroll = viewport.scrollHeight - viewport.clientHeight;
-				setCanScrollDown(Math.ceil(viewport.scrollTop) < maxScroll);
-			};
-			const viewport = contentContext.viewport;
-			handleScroll2();
-			viewport.addEventListener("scroll", handleScroll2);
-			return () => viewport.removeEventListener("scroll", handleScroll2);
-		}
-	}, [contentContext.viewport, contentContext.isPositioned]);
-	return canScrollDown ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectScrollButtonImpl, {
-		...props,
-		ref: composedRefs,
-		onAutoScroll: () => {
-			const { viewport, selectedItem } = contentContext;
-			if (viewport && selectedItem) viewport.scrollTop = viewport.scrollTop + selectedItem.offsetHeight;
-		}
-	}) : null;
-});
-SelectScrollDownButton$1.displayName = SCROLL_DOWN_BUTTON_NAME;
-var SelectScrollButtonImpl = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, onAutoScroll, ...scrollIndicatorProps } = props;
-	const contentContext = useSelectContentContext("SelectScrollButton", __scopeSelect);
-	const autoScrollTimerRef = import_react.useRef(null);
-	const getItems = useCollection$1(__scopeSelect);
-	const clearAutoScrollTimer = import_react.useCallback(() => {
-		if (autoScrollTimerRef.current !== null) {
-			window.clearInterval(autoScrollTimerRef.current);
-			autoScrollTimerRef.current = null;
-		}
-	}, []);
-	import_react.useEffect(() => {
-		return () => clearAutoScrollTimer();
-	}, [clearAutoScrollTimer]);
-	useLayoutEffect2(() => {
-		getItems().find((item) => item.ref.current === document.activeElement)?.ref.current?.scrollIntoView({ block: "nearest" });
-	}, [getItems]);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
-		"aria-hidden": true,
-		...scrollIndicatorProps,
-		ref: forwardedRef,
-		style: {
-			flexShrink: 0,
-			...scrollIndicatorProps.style
-		},
-		onPointerDown: composeEventHandlers(scrollIndicatorProps.onPointerDown, () => {
-			if (autoScrollTimerRef.current === null) autoScrollTimerRef.current = window.setInterval(onAutoScroll, 50);
-		}),
-		onPointerMove: composeEventHandlers(scrollIndicatorProps.onPointerMove, () => {
-			contentContext.onItemLeave?.();
-			if (autoScrollTimerRef.current === null) autoScrollTimerRef.current = window.setInterval(onAutoScroll, 50);
-		}),
-		onPointerLeave: composeEventHandlers(scrollIndicatorProps.onPointerLeave, () => {
-			clearAutoScrollTimer();
-		})
-	});
-});
-var SEPARATOR_NAME = "SelectSeparator";
-var SelectSeparator$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, ...separatorProps } = props;
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
-		"aria-hidden": true,
-		...separatorProps,
-		ref: forwardedRef
-	});
-});
-SelectSeparator$1.displayName = SEPARATOR_NAME;
-var ARROW_NAME = "SelectArrow";
-var SelectArrow = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeSelect, ...arrowProps } = props;
-	const popperScope = usePopperScope(__scopeSelect);
-	const context = useSelectContext(ARROW_NAME, __scopeSelect);
-	const contentContext = useSelectContentContext(ARROW_NAME, __scopeSelect);
-	return context.open && contentContext.position === "popper" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Arrow, {
-		...popperScope,
-		...arrowProps,
-		ref: forwardedRef
-	}) : null;
-});
-SelectArrow.displayName = ARROW_NAME;
-var BUBBLE_INPUT_NAME$2 = "SelectBubbleInput";
-var SelectBubbleInput = import_react.forwardRef(({ __scopeSelect, value, ...props }, forwardedRef) => {
-	const ref = import_react.useRef(null);
-	const composedRefs = useComposedRefs(forwardedRef, ref);
-	const prevValue = usePrevious(value);
-	import_react.useEffect(() => {
-		const select = ref.current;
-		if (!select) return;
-		const selectProto = window.HTMLSelectElement.prototype;
-		const setValue = Object.getOwnPropertyDescriptor(selectProto, "value").set;
-		if (prevValue !== value && setValue) {
-			const event = new Event("change", { bubbles: true });
-			setValue.call(select, value);
-			select.dispatchEvent(event);
-		}
-	}, [prevValue, value]);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.select, {
-		...props,
-		style: {
-			...VISUALLY_HIDDEN_STYLES,
-			...props.style
-		},
-		ref: composedRefs,
-		defaultValue: value
-	});
-});
-SelectBubbleInput.displayName = BUBBLE_INPUT_NAME$2;
-function shouldShowPlaceholder(value) {
-	return value === "" || value === void 0;
-}
-function useTypeaheadSearch(onSearchChange) {
-	const handleSearchChange = useCallbackRef(onSearchChange);
-	const searchRef = import_react.useRef("");
-	const timerRef = import_react.useRef(0);
-	const handleTypeaheadSearch = import_react.useCallback((key) => {
-		const search = searchRef.current + key;
-		handleSearchChange(search);
-		(function updateSearch(value) {
-			searchRef.current = value;
-			window.clearTimeout(timerRef.current);
-			if (value !== "") timerRef.current = window.setTimeout(() => updateSearch(""), 1e3);
-		})(search);
-	}, [handleSearchChange]);
-	const resetTypeahead = import_react.useCallback(() => {
-		searchRef.current = "";
-		window.clearTimeout(timerRef.current);
-	}, []);
-	import_react.useEffect(() => {
-		return () => window.clearTimeout(timerRef.current);
-	}, []);
-	return [
-		searchRef,
-		handleTypeaheadSearch,
-		resetTypeahead
-	];
-}
-function findNextItem(items, search, currentItem) {
-	const normalizedSearch = search.length > 1 && Array.from(search).every((char) => char === search[0]) ? search[0] : search;
-	const currentItemIndex = currentItem ? items.indexOf(currentItem) : -1;
-	let wrappedItems = wrapArray(items, Math.max(currentItemIndex, 0));
-	if (normalizedSearch.length === 1) wrappedItems = wrappedItems.filter((v) => v !== currentItem);
-	const nextItem = wrappedItems.find((item) => item.textValue.toLowerCase().startsWith(normalizedSearch.toLowerCase()));
-	return nextItem !== currentItem ? nextItem : void 0;
-}
-function wrapArray(array, startIndex) {
-	return array.map((_$1, index$1) => array[(startIndex + index$1) % array.length]);
-}
-var Root2 = Select$1;
-var Trigger$1 = SelectTrigger$1;
-var Value = SelectValue$1;
-var Icon = SelectIcon;
-var Portal$2 = SelectPortal;
-var Content2 = SelectContent$1;
-var Viewport$1 = SelectViewport;
-var Label$1 = SelectLabel$1;
-var Item = SelectItem$1;
-var ItemText = SelectItemText;
-var ItemIndicator = SelectItemIndicator;
-var ScrollUpButton = SelectScrollUpButton$1;
-var ScrollDownButton = SelectScrollDownButton$1;
-var Separator = SelectSeparator$1;
-var Select = Root2;
-var SelectValue = Value;
-var SelectTrigger = import_react.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Trigger$1, {
-	ref,
-	className: cn("flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background data-[placeholder]:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1", className),
-	...props,
-	children: [children, /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
-		asChild: true,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { className: "h-4 w-4 opacity-50" })
-	})]
-}));
-SelectTrigger.displayName = Trigger$1.displayName;
-var SelectScrollUpButton = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ScrollUpButton, {
-	ref,
-	className: cn("flex cursor-default items-center justify-center py-1", className),
-	...props,
-	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { className: "h-4 w-4" })
-}));
-SelectScrollUpButton.displayName = ScrollUpButton.displayName;
-var SelectScrollDownButton = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ScrollDownButton, {
-	ref,
-	className: cn("flex cursor-default items-center justify-center py-1", className),
-	...props,
-	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { className: "h-4 w-4" })
-}));
-SelectScrollDownButton.displayName = ScrollDownButton.displayName;
-var SelectContent = import_react.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Portal$2, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Content2, {
-	ref,
-	className: cn("relative z-50 max-h-[--radix-select-content-available-height] min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-select-content-transform-origin]", position === "popper" && "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1", className),
-	position,
-	...props,
-	children: [
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectScrollUpButton, {}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Viewport$1, {
-			className: cn("p-1", position === "popper" && "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"),
-			children
-		}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectScrollDownButton, {})
-	]
-}) }));
-SelectContent.displayName = Content2.displayName;
-var SelectLabel = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label$1, {
-	ref,
-	className: cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className),
-	...props
-}));
-SelectLabel.displayName = Label$1.displayName;
-var SelectItem = import_react.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Item, {
-	ref,
-	className: cn("relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50", className),
-	...props,
-	children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-		className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center",
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { className: "h-4 w-4" }) })
-	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ItemText, { children })]
-}));
-SelectItem.displayName = Item.displayName;
-var SelectSeparator = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Separator, {
-	ref,
-	className: cn("-mx-1 my-1 h-px bg-muted", className),
-	...props
-}));
-SelectSeparator.displayName = Separator.displayName;
 var PAGE_KEYS = ["PageUp", "PageDown"];
 var ARROW_KEYS = [
 	"ArrowUp",
@@ -37850,11 +38484,11 @@ function roundValue(value, decimalCount) {
 	const rounder = Math.pow(10, decimalCount);
 	return Math.round(value * rounder) / rounder;
 }
-var Root$2 = Slider$1;
+var Root$1 = Slider$1;
 var Track = SliderTrack;
 var Range = SliderRange;
 var Thumb = SliderThumb;
-var Slider = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Root$2, {
+var Slider = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Root$1, {
 	ref,
 	className: cn("relative flex w-full touch-none select-none items-center", className),
 	...props,
@@ -37863,7 +38497,7 @@ var Slider = import_react.forwardRef(({ className, ...props }, ref) => /* @__PUR
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Range, { className: "absolute h-full bg-primary" })
 	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Thumb, { className: "block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" })]
 }));
-Slider.displayName = Root$2.displayName;
+Slider.displayName = Root$1.displayName;
 var Textarea = import_react.forwardRef(({ className, ...props }, ref) => {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("textarea", {
 		className: cn("flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", className),
@@ -38052,24 +38686,52 @@ function WizardStepSummary() {
 		};
 		updateProposal({ summaryMetrics: newMetrics });
 	};
+	const updateTriad = (field, value) => {
+		updateProposal({ summaryTriad: {
+			...proposal.summaryTriad,
+			[field]: value
+		} });
+	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "space-y-6 animate-fade-in pb-10",
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "space-y-4",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+					value: proposal.summaryTitle,
+					onChange: (e) => updateProposal({ summaryTitle: e.target.value })
+				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+					value: proposal.summarySubtitle,
+					onChange: (e) => updateProposal({ summarySubtitle: e.target.value })
+				})] })]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "border-t border-slate-200 pt-4 space-y-4",
 				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-						value: proposal.summaryTitle,
-						onChange: (e) => updateProposal({ summaryTitle: e.target.value })
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+						className: "font-bold text-slate-800",
+						children: "Tríade Estratégica"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+						className: "text-sky-600",
+						children: "Marketing (Pilar 1)"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
+						value: proposal.summaryTriad?.marketing,
+						onChange: (e) => updateTriad("marketing", e.target.value)
 					})] }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-						value: proposal.summarySubtitle,
-						onChange: (e) => updateProposal({ summarySubtitle: e.target.value })
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+						className: "text-purple-600",
+						children: "Inteligência IA (Pilar 2)"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
+						value: proposal.summaryTriad?.ai,
+						onChange: (e) => updateTriad("ai", e.target.value)
 					})] }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Texto do Sumário Executivo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
-						value: proposal.executiveSummary,
-						onChange: (e) => updateProposal({ executiveSummary: e.target.value }),
-						className: "h-32"
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+						className: "text-emerald-600",
+						children: "Comercial (Pilar 3)"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
+						value: proposal.summaryTriad?.commercial,
+						onChange: (e) => updateTriad("commercial", e.target.value)
 					})] })
 				]
 			}),
@@ -38545,324 +39207,6 @@ function WizardStepDiagnosis() {
 		})]
 	});
 }
-var DIALOG_NAME = "Dialog";
-var [createDialogContext, createDialogScope] = createContextScope(DIALOG_NAME);
-var [DialogProvider, useDialogContext] = createDialogContext(DIALOG_NAME);
-var Dialog$1 = (props) => {
-	const { __scopeDialog, children, open: openProp, defaultOpen, onOpenChange, modal = true } = props;
-	const triggerRef = import_react.useRef(null);
-	const contentRef = import_react.useRef(null);
-	const [open, setOpen] = useControllableState({
-		prop: openProp,
-		defaultProp: defaultOpen ?? false,
-		onChange: onOpenChange,
-		caller: DIALOG_NAME
-	});
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogProvider, {
-		scope: __scopeDialog,
-		triggerRef,
-		contentRef,
-		contentId: useId(),
-		titleId: useId(),
-		descriptionId: useId(),
-		open,
-		onOpenChange: setOpen,
-		onOpenToggle: import_react.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen]),
-		modal,
-		children
-	});
-};
-Dialog$1.displayName = DIALOG_NAME;
-var TRIGGER_NAME$1 = "DialogTrigger";
-var DialogTrigger$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeDialog, ...triggerProps } = props;
-	const context = useDialogContext(TRIGGER_NAME$1, __scopeDialog);
-	const composedTriggerRef = useComposedRefs(forwardedRef, context.triggerRef);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.button, {
-		type: "button",
-		"aria-haspopup": "dialog",
-		"aria-expanded": context.open,
-		"aria-controls": context.contentId,
-		"data-state": getState$1(context.open),
-		...triggerProps,
-		ref: composedTriggerRef,
-		onClick: composeEventHandlers(props.onClick, context.onOpenToggle)
-	});
-});
-DialogTrigger$1.displayName = TRIGGER_NAME$1;
-var PORTAL_NAME = "DialogPortal";
-var [PortalProvider, usePortalContext] = createDialogContext(PORTAL_NAME, { forceMount: void 0 });
-var DialogPortal$1 = (props) => {
-	const { __scopeDialog, forceMount, children, container } = props;
-	const context = useDialogContext(PORTAL_NAME, __scopeDialog);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PortalProvider, {
-		scope: __scopeDialog,
-		forceMount,
-		children: import_react.Children.map(children, (child) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
-			present: forceMount || context.open,
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Portal, {
-				asChild: true,
-				container,
-				children: child
-			})
-		}))
-	});
-};
-DialogPortal$1.displayName = PORTAL_NAME;
-var OVERLAY_NAME = "DialogOverlay";
-var DialogOverlay$1 = import_react.forwardRef((props, forwardedRef) => {
-	const portalContext = usePortalContext(OVERLAY_NAME, props.__scopeDialog);
-	const { forceMount = portalContext.forceMount, ...overlayProps } = props;
-	const context = useDialogContext(OVERLAY_NAME, props.__scopeDialog);
-	return context.modal ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
-		present: forceMount || context.open,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogOverlayImpl, {
-			...overlayProps,
-			ref: forwardedRef
-		})
-	}) : null;
-});
-DialogOverlay$1.displayName = OVERLAY_NAME;
-var Slot = /* @__PURE__ */ createSlot("DialogOverlay.RemoveScroll");
-var DialogOverlayImpl = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeDialog, ...overlayProps } = props;
-	const context = useDialogContext(OVERLAY_NAME, __scopeDialog);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Combination_default, {
-		as: Slot,
-		allowPinchZoom: true,
-		shards: [context.contentRef],
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
-			"data-state": getState$1(context.open),
-			...overlayProps,
-			ref: forwardedRef,
-			style: {
-				pointerEvents: "auto",
-				...overlayProps.style
-			}
-		})
-	});
-});
-var CONTENT_NAME = "DialogContent";
-var DialogContent$1 = import_react.forwardRef((props, forwardedRef) => {
-	const portalContext = usePortalContext(CONTENT_NAME, props.__scopeDialog);
-	const { forceMount = portalContext.forceMount, ...contentProps } = props;
-	const context = useDialogContext(CONTENT_NAME, props.__scopeDialog);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
-		present: forceMount || context.open,
-		children: context.modal ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentModal, {
-			...contentProps,
-			ref: forwardedRef
-		}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentNonModal, {
-			...contentProps,
-			ref: forwardedRef
-		})
-	});
-});
-DialogContent$1.displayName = CONTENT_NAME;
-var DialogContentModal = import_react.forwardRef((props, forwardedRef) => {
-	const context = useDialogContext(CONTENT_NAME, props.__scopeDialog);
-	const contentRef = import_react.useRef(null);
-	const composedRefs = useComposedRefs(forwardedRef, context.contentRef, contentRef);
-	import_react.useEffect(() => {
-		const content = contentRef.current;
-		if (content) return hideOthers(content);
-	}, []);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentImpl, {
-		...props,
-		ref: composedRefs,
-		trapFocus: context.open,
-		disableOutsidePointerEvents: true,
-		onCloseAutoFocus: composeEventHandlers(props.onCloseAutoFocus, (event) => {
-			event.preventDefault();
-			context.triggerRef.current?.focus();
-		}),
-		onPointerDownOutside: composeEventHandlers(props.onPointerDownOutside, (event) => {
-			const originalEvent = event.detail.originalEvent;
-			const ctrlLeftClick = originalEvent.button === 0 && originalEvent.ctrlKey === true;
-			if (originalEvent.button === 2 || ctrlLeftClick) event.preventDefault();
-		}),
-		onFocusOutside: composeEventHandlers(props.onFocusOutside, (event) => event.preventDefault())
-	});
-});
-var DialogContentNonModal = import_react.forwardRef((props, forwardedRef) => {
-	const context = useDialogContext(CONTENT_NAME, props.__scopeDialog);
-	const hasInteractedOutsideRef = import_react.useRef(false);
-	const hasPointerDownOutsideRef = import_react.useRef(false);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentImpl, {
-		...props,
-		ref: forwardedRef,
-		trapFocus: false,
-		disableOutsidePointerEvents: false,
-		onCloseAutoFocus: (event) => {
-			props.onCloseAutoFocus?.(event);
-			if (!event.defaultPrevented) {
-				if (!hasInteractedOutsideRef.current) context.triggerRef.current?.focus();
-				event.preventDefault();
-			}
-			hasInteractedOutsideRef.current = false;
-			hasPointerDownOutsideRef.current = false;
-		},
-		onInteractOutside: (event) => {
-			props.onInteractOutside?.(event);
-			if (!event.defaultPrevented) {
-				hasInteractedOutsideRef.current = true;
-				if (event.detail.originalEvent.type === "pointerdown") hasPointerDownOutsideRef.current = true;
-			}
-			const target = event.target;
-			if (context.triggerRef.current?.contains(target)) event.preventDefault();
-			if (event.detail.originalEvent.type === "focusin" && hasPointerDownOutsideRef.current) event.preventDefault();
-		}
-	});
-});
-var DialogContentImpl = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeDialog, trapFocus, onOpenAutoFocus, onCloseAutoFocus, ...contentProps } = props;
-	const context = useDialogContext(CONTENT_NAME, __scopeDialog);
-	const contentRef = import_react.useRef(null);
-	const composedRefs = useComposedRefs(forwardedRef, contentRef);
-	useFocusGuards();
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FocusScope, {
-		asChild: true,
-		loop: true,
-		trapped: trapFocus,
-		onMountAutoFocus: onOpenAutoFocus,
-		onUnmountAutoFocus: onCloseAutoFocus,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DismissableLayer, {
-			role: "dialog",
-			id: context.contentId,
-			"aria-describedby": context.descriptionId,
-			"aria-labelledby": context.titleId,
-			"data-state": getState$1(context.open),
-			...contentProps,
-			ref: composedRefs,
-			onDismiss: () => context.onOpenChange(false)
-		})
-	}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TitleWarning, { titleId: context.titleId }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DescriptionWarning, {
-		contentRef,
-		descriptionId: context.descriptionId
-	})] })] });
-});
-var TITLE_NAME = "DialogTitle";
-var DialogTitle$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeDialog, ...titleProps } = props;
-	const context = useDialogContext(TITLE_NAME, __scopeDialog);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.h2, {
-		id: context.titleId,
-		...titleProps,
-		ref: forwardedRef
-	});
-});
-DialogTitle$1.displayName = TITLE_NAME;
-var DESCRIPTION_NAME = "DialogDescription";
-var DialogDescription$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeDialog, ...descriptionProps } = props;
-	const context = useDialogContext(DESCRIPTION_NAME, __scopeDialog);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.p, {
-		id: context.descriptionId,
-		...descriptionProps,
-		ref: forwardedRef
-	});
-});
-DialogDescription$1.displayName = DESCRIPTION_NAME;
-var CLOSE_NAME = "DialogClose";
-var DialogClose$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeDialog, ...closeProps } = props;
-	const context = useDialogContext(CLOSE_NAME, __scopeDialog);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.button, {
-		type: "button",
-		...closeProps,
-		ref: forwardedRef,
-		onClick: composeEventHandlers(props.onClick, () => context.onOpenChange(false))
-	});
-});
-DialogClose$1.displayName = CLOSE_NAME;
-function getState$1(open) {
-	return open ? "open" : "closed";
-}
-var TITLE_WARNING_NAME = "DialogTitleWarning";
-var [WarningProvider, useWarningContext] = createContext2(TITLE_WARNING_NAME, {
-	contentName: CONTENT_NAME,
-	titleName: TITLE_NAME,
-	docsSlug: "dialog"
-});
-var TitleWarning = ({ titleId }) => {
-	const titleWarningContext = useWarningContext(TITLE_WARNING_NAME);
-	const MESSAGE = `\`${titleWarningContext.contentName}\` requires a \`${titleWarningContext.titleName}\` for the component to be accessible for screen reader users.
-
-If you want to hide the \`${titleWarningContext.titleName}\`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/${titleWarningContext.docsSlug}`;
-	import_react.useEffect(() => {
-		if (titleId) {
-			if (!document.getElementById(titleId)) console.error(MESSAGE);
-		}
-	}, [MESSAGE, titleId]);
-	return null;
-};
-var DESCRIPTION_WARNING_NAME = "DialogDescriptionWarning";
-var DescriptionWarning = ({ contentRef, descriptionId }) => {
-	const MESSAGE = `Warning: Missing \`Description\` or \`aria-describedby={undefined}\` for {${useWarningContext(DESCRIPTION_WARNING_NAME).contentName}}.`;
-	import_react.useEffect(() => {
-		const describedById = contentRef.current?.getAttribute("aria-describedby");
-		if (descriptionId && describedById) {
-			if (!document.getElementById(descriptionId)) console.warn(MESSAGE);
-		}
-	}, [
-		MESSAGE,
-		contentRef,
-		descriptionId
-	]);
-	return null;
-};
-var Root$1 = Dialog$1;
-var Portal$1 = DialogPortal$1;
-var Overlay = DialogOverlay$1;
-var Content = DialogContent$1;
-var Title = DialogTitle$1;
-var Description = DialogDescription$1;
-var Close = DialogClose$1;
-var Dialog = Root$1;
-var DialogPortal = Portal$1;
-var DialogOverlay = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Overlay, {
-	ref,
-	className: cn("fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0", className),
-	...props
-}));
-DialogOverlay.displayName = Overlay.displayName;
-var DialogContent = import_react.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogPortal, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogOverlay, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Content, {
-	ref,
-	className: cn("fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg overflow-y-auto max-h-screen", className),
-	...props,
-	children: [children, /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Close, {
-		className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-4 w-4" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-			className: "sr-only",
-			children: "Close"
-		})]
-	})]
-})] }));
-DialogContent.displayName = Content.displayName;
-var DialogHeader = ({ className, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-	className: cn("flex flex-col space-y-1.5 text-center sm:text-left", className),
-	...props
-});
-DialogHeader.displayName = "DialogHeader";
-var DialogFooter = ({ className, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-	className: cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className),
-	...props
-});
-DialogFooter.displayName = "DialogFooter";
-var DialogTitle = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Title, {
-	ref,
-	className: cn("text-lg font-semibold leading-none tracking-tight", className),
-	...props
-}));
-DialogTitle.displayName = Title.displayName;
-var DialogDescription = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Description, {
-	ref,
-	className: cn("text-sm text-muted-foreground", className),
-	...props
-}));
-DialogDescription.displayName = Description.displayName;
 function WizardStepEcosystem() {
 	const { proposal, updateProposal } = useProposal();
 	const [newItem, setNewItem] = (0, import_react.useState)("");
@@ -39007,6 +39351,11 @@ function WizardStepTimeline() {
 		newPhases[index$1].title = title;
 		updateProposal({ timelinePhases: newPhases });
 	};
+	const updatePhaseMonth = (index$1, month) => {
+		const newPhases = [...proposal.timelinePhases];
+		newPhases[index$1].month = month;
+		updateProposal({ timelinePhases: newPhases });
+	};
 	const addItem = (phaseIndex) => {
 		if (newItemText) {
 			const newPhases = [...proposal.timelinePhases];
@@ -39021,7 +39370,7 @@ function WizardStepTimeline() {
 		updateProposal({ timelinePhases: newPhases });
 	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "space-y-6 animate-fade-in",
+		className: "space-y-6 animate-fade-in pb-10",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "grid grid-cols-2 gap-4",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
@@ -39034,19 +39383,31 @@ function WizardStepTimeline() {
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "border-t border-slate-200 pt-4",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "flex space-x-2 border-b border-slate-200 pb-2 mb-4",
+				className: "flex space-x-2 border-b border-slate-200 pb-2 mb-4 overflow-x-auto",
 				children: proposal.timelinePhases.map((phase, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 					onClick: () => setActivePhaseIndex(i),
-					className: `px-3 py-1 text-sm font-medium rounded-full transition-colors ${activePhaseIndex === i ? "bg-sky-100 text-sky-700" : "text-slate-500 hover:bg-slate-100"}`,
+					className: `px-3 py-1 text-sm font-medium rounded-full transition-colors whitespace-nowrap ${activePhaseIndex === i ? "bg-sky-100 text-sky-700" : "text-slate-500 hover:bg-slate-100"}`,
 					children: phase.month
 				}, i))
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "space-y-4",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Fase" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-					value: proposal.timelinePhases[activePhaseIndex].title,
-					onChange: (e) => updatePhaseTitle(activePhaseIndex, e.target.value)
-				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Ações / Entregáveis" }),
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "grid grid-cols-3 gap-4",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "col-span-1",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Mês (ex: Mês 1)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							value: proposal.timelinePhases[activePhaseIndex].month,
+							onChange: (e) => updatePhaseMonth(activePhaseIndex, e.target.value)
+						})]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "col-span-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Fase" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							value: proposal.timelinePhases[activePhaseIndex].title,
+							onChange: (e) => updatePhaseTitle(activePhaseIndex, e.target.value)
+						})]
+					})]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Ações / Entregáveis (Grid de 4)" }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "flex gap-2 mb-2",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
@@ -39062,9 +39423,9 @@ function WizardStepTimeline() {
 						})]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "space-y-2",
+						className: "grid grid-cols-2 gap-2",
 						children: proposal.timelinePhases[activePhaseIndex].items.map((item, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "flex items-center justify-between bg-slate-50 p-2 rounded border border-slate-100 text-sm",
+							className: "flex items-center justify-between bg-slate-50 p-2 rounded border border-slate-100 text-xs",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: item }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 								onClick: () => removeItem(activePhaseIndex, idx),
 								className: "text-slate-400 hover:text-red-500",
@@ -39234,7 +39595,7 @@ function WizardStepProjection() {
 		updateProposal({ projectionCards: newCards });
 	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "space-y-8 animate-fade-in",
+		className: "space-y-8 animate-fade-in pb-10",
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "grid grid-cols-2 gap-4",
@@ -39250,7 +39611,24 @@ function WizardStepProjection() {
 				className: "border-t border-slate-200 pt-4 space-y-4",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 					className: "font-bold text-slate-800",
-					children: "Cards de Projeção (Anexo 7)"
+					children: "Dados Comparativos"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "grid grid-cols-2 gap-4",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Investimento Atual (R$)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+						type: "number",
+						value: proposal.currentInvestment,
+						onChange: (e) => updateProposal({ currentInvestment: Number(e.target.value) })
+					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Investimento Sugerido (Auto)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "text-sm text-slate-500 mt-2",
+						children: "Calculado automaticamente com base na página de Investimento."
+					})] })]
+				})]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "border-t border-slate-200 pt-4 space-y-4",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+					className: "font-bold text-slate-800",
+					children: "Cards de Projeção"
 				}), proposal.projectionCards?.map((card, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-3",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -39272,7 +39650,7 @@ function WizardStepProjection() {
 						className: "grid grid-cols-2 gap-3",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
 							className: "text-xs",
-							children: "Métrica"
+							children: "Métrica (ex: +100%)"
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 							value: card.metric,
 							onChange: (e) => updateCard(i, "metric", e.target.value)
@@ -39285,20 +39663,6 @@ function WizardStepProjection() {
 						})] })]
 					})]
 				}, i))]
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "border-t border-slate-200 pt-4 space-y-4",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-					className: "font-bold text-slate-800",
-					children: "Rodapé de Comparação"
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "grid grid-cols-2 gap-4",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Investimento Atual" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-						type: "number",
-						value: proposal.currentInvestment,
-						onChange: (e) => updateProposal({ currentInvestment: Number(e.target.value) })
-					})] })
-				})]
 			})
 		]
 	});
@@ -39306,6 +39670,35 @@ function WizardStepProjection() {
 function WizardStepInvestment() {
 	const { proposal, updateProposal } = useProposal();
 	const [activeTierIndex, setActiveTierIndex] = (0, import_react.useState)(0);
+	const costs = proposal.operationalCosts || [{
+		id: "1",
+		name: "Verba Mídia",
+		value: proposal.mediaBudget
+	}, {
+		id: "2",
+		name: "Software/Tech",
+		value: proposal.softwareCost
+	}];
+	const updateCost = (index$1, field, value) => {
+		const newCosts = [...costs];
+		newCosts[index$1] = {
+			...newCosts[index$1],
+			[field]: value
+		};
+		updateProposal({ operationalCosts: newCosts });
+	};
+	const addCost = () => {
+		updateProposal({ operationalCosts: [...costs, {
+			id: Date.now().toString(),
+			name: "Novo Custo",
+			value: 0
+		}] });
+	};
+	const removeCost = (index$1) => {
+		const newCosts = [...costs];
+		newCosts.splice(index$1, 1);
+		updateProposal({ operationalCosts: newCosts });
+	};
 	const updateTier = (field, value) => {
 		const newTiers = [...proposal.investmentTiers];
 		newTiers[activeTierIndex] = {
@@ -39320,7 +39713,7 @@ function WizardStepInvestment() {
 		updateProposal({ investmentTiers: newTiers });
 	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "space-y-6 animate-fade-in",
+		className: "space-y-6 animate-fade-in pb-10",
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "grid grid-cols-2 gap-4",
@@ -39334,23 +39727,49 @@ function WizardStepInvestment() {
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "border-t border-slate-200 pt-4 space-y-4",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Custos Operacionais" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "grid grid-cols-2 gap-4",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-						className: "text-xs",
-						children: "Verba Mídia (R$)"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-						type: "number",
-						value: proposal.mediaBudget,
-						onChange: (e) => updateProposal({ mediaBudget: Number(e.target.value) })
-					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-						className: "text-xs",
-						children: "Software (R$)"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-						type: "number",
-						value: proposal.softwareCost,
-						onChange: (e) => updateProposal({ softwareCost: Number(e.target.value) })
-					})] })]
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex justify-between items-center",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Custos Operacionais (Terceiros)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+						size: "sm",
+						variant: "ghost",
+						onClick: addCost,
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 mr-2" }), " Adicionar Custo"]
+					})]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "space-y-3",
+					children: costs.map((cost, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex gap-2 items-end bg-slate-50 p-3 rounded border border-slate-100",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex-1",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									className: "text-xs",
+									children: "Nome"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									value: cost.name,
+									onChange: (e) => updateCost(i, "name", e.target.value)
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "w-32",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									className: "text-xs",
+									children: "Valor (R$)"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									type: "number",
+									value: cost.value,
+									onChange: (e) => updateCost(i, "value", Number(e.target.value))
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+								size: "icon",
+								variant: "ghost",
+								className: "h-10 w-10 text-red-500",
+								onClick: () => removeCost(i),
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "w-4 h-4" })
+							})
+						]
+					}, i))
 				})]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -39358,7 +39777,7 @@ function WizardStepInvestment() {
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
 						className: "mb-4 block",
-						children: "Planos"
+						children: "Planos de Serviço"
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 						className: "flex space-x-2 border-b border-slate-200 pb-2 mb-4",
@@ -39402,7 +39821,7 @@ function WizardStepInvestment() {
 function WizardStepROI() {
 	const { proposal, updateProposal } = useProposal();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "space-y-6 animate-fade-in",
+		className: "space-y-6 animate-fade-in pb-10",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "grid grid-cols-2 gap-4",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
@@ -39416,25 +39835,35 @@ function WizardStepROI() {
 			className: "border-t border-slate-200 pt-4",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 				className: "font-bold text-slate-800 mb-2",
-				children: "Base de Cálculo"
+				children: "Base de Cálculo (Receita)"
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "space-y-4",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Receita Atual do Cliente (R$)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "grid grid-cols-2 gap-4",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Receita Mensal Atual (R$)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 						type: "number",
 						value: proposal.currentRevenue,
 						onChange: (e) => updateProposal({ currentRevenue: Number(e.target.value) })
-					})] }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Vendas Mensais Atuais (Qtd)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Vendas Mensais Atuais (Qtd)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 						type: "number",
 						value: proposal.currentSales,
 						onChange: (e) => updateProposal({ currentSales: Number(e.target.value) })
-					})] }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "text-xs text-slate-500",
-						children: "* O cálculo de ROI usa a Receita e Vendas atuais para estimar o Ticket Médio."
-					})
-				]
+					})] })]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "grid grid-cols-2 gap-4",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Vendas Projetadas (Funil)" }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							disabled: true,
+							value: proposal.funnelProjected.sales,
+							className: "bg-slate-100"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "text-xs text-slate-500",
+							children: "Editável na etapa de Funil"
+						})
+					] })
+				})]
 			})]
 		})]
 	});
@@ -39455,12 +39884,16 @@ function WizardStepClosing() {
 				})] })]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "border-t border-slate-200 pt-4",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Link do CTA (Botão de Aprovação)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+				className: "border-t border-slate-200 pt-4 space-y-4",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Link do CTA (Botão de Aprovação)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 					value: proposal.ctaUrl,
 					onChange: (e) => updateProposal({ ctaUrl: e.target.value }),
 					placeholder: "https://..."
-				})]
+				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Texto do Botão" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+					value: proposal.closingButtonText,
+					onChange: (e) => updateProposal({ closingButtonText: e.target.value }),
+					placeholder: "APROVAR PLANO ESTRATÉGICO"
+				})] })]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "border-t border-slate-200 pt-4 space-y-4",
@@ -39699,7 +40132,7 @@ function WizardStepGantt({ pageId }) {
 		updateProposal({ ganttPages: newPages });
 	};
 	const addTask = () => {
-		if (page.tasks.length >= 6) return;
+		if (page.tasks.length >= 8) return;
 		const newTask = {
 			name: "Nova Ação",
 			s1: false,
@@ -39747,11 +40180,11 @@ function WizardStepGantt({ pageId }) {
 				className: "flex justify-between items-center",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 					className: "font-bold text-slate-800",
-					children: "Cronograma (Max 6 linhas)"
+					children: "Cronograma (Max 8 linhas)"
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
 					size: "sm",
 					onClick: addTask,
-					disabled: page.tasks.length >= 6,
+					disabled: page.tasks.length >= 8,
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 mr-2" }), " Adicionar Linha"]
 				})]
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -41132,12 +41565,29 @@ function EditorContent() {
 function Editor() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProposalProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EditorContent, {}) });
 }
+var badgeVariants = cva("inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2", {
+	variants: { variant: {
+		default: "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+		secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+		destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
+		outline: "text-foreground"
+	} },
+	defaultVariants: { variant: "default" }
+});
+function Badge({ className, variant, ...props }) {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: cn(badgeVariants({ variant }), className),
+		...props
+	});
+}
 function Library() {
 	const [templates, setTemplates] = (0, import_react.useState)([]);
 	const [loading, setLoading] = (0, import_react.useState)(true);
 	const [search, setSearch] = (0, import_react.useState)("");
+	const [editingTemplate, setEditingTemplate] = (0, import_react.useState)(null);
 	const { toast: toast$2 } = useToast();
-	const { user } = useAuth();
+	const { user, signOut } = useAuth();
+	const navigate = useNavigate();
 	(0, import_react.useEffect)(() => {
 		fetchTemplates();
 	}, [user]);
@@ -41193,103 +41643,204 @@ function Library() {
 			});
 		}
 	};
-	const filteredTemplates = templates.filter((t) => t.name.toLowerCase().includes(search.toLowerCase()));
+	const handleUpdateTemplate = async () => {
+		if (!editingTemplate) return;
+		try {
+			const { error } = await supabase.from("templates").update({
+				name: editingTemplate.name,
+				tags: editingTemplate.tags
+			}).eq("id", editingTemplate.id);
+			if (error) throw error;
+			setTemplates(templates.map((t) => t.id === editingTemplate.id ? editingTemplate : t));
+			setEditingTemplate(null);
+			toast$2({ title: "Modelo atualizado!" });
+		} catch (error) {
+			toast$2({
+				title: "Erro ao atualizar",
+				description: error.message,
+				variant: "destructive"
+			});
+		}
+	};
+	const handleSignOut = async () => {
+		await signOut();
+		navigate("/login");
+	};
+	const filteredTemplates = templates.filter((t) => t.name.toLowerCase().includes(search.toLowerCase()) || t.tags?.some((tag) => tag.toLowerCase().includes(search.toLowerCase())));
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "min-h-screen bg-slate-50 font-sans",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
-			className: "bg-white border-b border-slate-200 py-6 px-8",
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "max-w-7xl mx-auto flex items-center gap-4",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-						to: "/",
-						className: "p-2 hover:bg-slate-100 rounded-full transition-colors",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { className: "w-5 h-5 text-slate-500" })
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex-1",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
+				className: "bg-white border-b border-slate-200 py-6 px-8",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "max-w-7xl mx-auto flex items-center justify-between",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex items-center gap-4 flex-1",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+							to: "/",
+							className: "p-2 hover:bg-slate-100 rounded-full transition-colors",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { className: "w-5 h-5 text-slate-500" })
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
 							className: "text-2xl font-bold text-slate-900 flex items-center gap-2",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-6 h-6 text-sky-500" }), "Biblioteca de Modelos"]
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "text-slate-500",
 							children: "Gerencie seus slides e templates reutilizáveis"
+						})] })]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex items-center gap-4",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "relative",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								className: "pl-9 w-64",
+								placeholder: "Buscar modelos ou tags...",
+								value: search,
+								onChange: (e) => setSearch(e.target.value)
+							})]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenu, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuTrigger, {
+							asChild: true,
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+								className: "w-10 h-10 rounded-full bg-slate-200 overflow-hidden outline-none ring-offset-2 focus:ring-2 focus:ring-slate-400 transition-all flex items-center justify-center",
+								children: user?.email?.charAt(0).toUpperCase() || /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleUser, { className: "w-5 h-5 text-slate-500" })
+							})
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuContent, {
+							align: "end",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+									to: "/perfil",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleUser, { className: "w-4 h-4 mr-2" }), " Perfil"] })
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+									to: "/usuarios",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users$1, { className: "w-4 h-4 mr-2" }), " Usuários"] })
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
+									className: "text-red-600",
+									onClick: handleSignOut,
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogOut, { className: "w-4 h-4 mr-2" }), " Sair"]
+								})
+							]
+						})] })]
+					})]
+				})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("main", {
+				className: "max-w-7xl mx-auto py-12 px-8",
+				children: loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "text-center py-20 text-slate-500",
+					children: "Carregando modelos..."
+				}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6",
+					children: [filteredTemplates.map((template) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
+						className: "group overflow-hidden border-slate-200 hover:shadow-lg transition-all flex flex-col",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "aspect-video bg-slate-100 relative overflow-hidden border-b border-slate-100",
+								children: [template.thumbnail_url ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+									src: template.thumbnail_url,
+									alt: template.name,
+									className: "w-full h-full object-cover"
+								}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									className: "flex items-center justify-center w-full h-full text-slate-300",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-12 h-12 opacity-50" })
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									className: "absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+										variant: "secondary",
+										size: "sm",
+										onClick: () => setEditingTemplate(template),
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { className: "w-4 h-4 mr-1" }), " Editar"]
+									})
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, {
+								className: "p-4 pb-2 flex-1",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+									className: "text-base font-bold truncate",
+									title: template.name,
+									children: template.name
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									className: "flex flex-wrap gap-1 mt-2",
+									children: template.tags && template.tags.map((tag) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Badge, {
+										variant: "secondary",
+										className: "text-[10px] px-1 py-0",
+										children: tag
+									}, tag))
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardFooter, {
+								className: "p-4 pt-0 flex justify-between items-center mt-auto",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									className: "text-xs text-slate-500 capitalize",
+									children: template.type || "Slide"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "flex gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+										variant: "ghost",
+										size: "icon",
+										className: "h-8 w-8 text-slate-400 hover:text-sky-500",
+										onClick: () => duplicateTemplate(template),
+										title: "Duplicar",
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Copy, { className: "w-4 h-4" })
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+										variant: "ghost",
+										size: "icon",
+										className: "h-8 w-8 text-slate-400 hover:text-red-500",
+										onClick: () => deleteTemplate(template.id),
+										title: "Excluir",
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "w-4 h-4" })
+									})]
+								})]
+							})
+						]
+					}, template.id)), filteredTemplates.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "col-span-full py-12 text-center text-slate-400 bg-white rounded-lg border border-dashed border-slate-300",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Nenhum modelo encontrado." }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-sm mt-2",
+							children: "Salve slides como modelos através do Editor."
+						})]
+					})]
+				})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dialog, {
+				open: !!editingTemplate,
+				onOpenChange: (open) => !open && setEditingTemplate(null),
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogContent, { children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogTitle, { children: "Editar Modelo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogDescription, { children: "Atualize as informações do modelo." })] }),
+					editingTemplate && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "space-y-4 py-4",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "space-y-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Nome do Modelo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								value: editingTemplate.name,
+								onChange: (e) => setEditingTemplate({
+									...editingTemplate,
+									name: e.target.value
+								})
+							})]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "space-y-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Tags (separadas por vírgula)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								value: editingTemplate.tags?.join(", ") || "",
+								onChange: (e) => setEditingTemplate({
+									...editingTemplate,
+									tags: e.target.value.split(",").map((t) => t.trim()).filter(Boolean)
+								}),
+								placeholder: "Ex: Marketing, Vendas, Q1"
+							})]
 						})]
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "relative",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-							className: "pl-9 w-64",
-							placeholder: "Buscar modelos...",
-							value: search,
-							onChange: (e) => setSearch(e.target.value)
-						})]
-					})
-				]
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						variant: "outline",
+						onClick: () => setEditingTemplate(null),
+						children: "Cancelar"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						onClick: handleUpdateTemplate,
+						children: "Salvar"
+					})] })
+				] })
 			})
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("main", {
-			className: "max-w-7xl mx-auto py-12 px-8",
-			children: loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "text-center py-20 text-slate-500",
-				children: "Carregando modelos..."
-			}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6",
-				children: [filteredTemplates.map((template) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
-					className: "group overflow-hidden border-slate-200 hover:shadow-lg transition-all",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "aspect-video bg-slate-100 relative overflow-hidden border-b border-slate-100",
-							children: template.thumbnail_url ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-								src: template.thumbnail_url,
-								alt: template.name,
-								className: "w-full h-full object-cover"
-							}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "flex items-center justify-center w-full h-full text-slate-300",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-12 h-12 opacity-50" })
-							})
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardHeader, {
-							className: "p-4 pb-2",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
-								className: "text-base font-bold truncate",
-								title: template.name,
-								children: template.name
-							})
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardFooter, {
-							className: "p-4 pt-0 flex justify-between items-center",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "text-xs text-slate-500 capitalize",
-								children: template.type || "Slide"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "flex gap-1",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-									variant: "ghost",
-									size: "icon",
-									className: "h-8 w-8 text-slate-400 hover:text-sky-500",
-									onClick: () => duplicateTemplate(template),
-									title: "Duplicar",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Copy, { className: "w-4 h-4" })
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-									variant: "ghost",
-									size: "icon",
-									className: "h-8 w-8 text-slate-400 hover:text-red-500",
-									onClick: () => deleteTemplate(template.id),
-									title: "Excluir",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "w-4 h-4" })
-								})]
-							})]
-						})
-					]
-				}, template.id)), filteredTemplates.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "col-span-full py-12 text-center text-slate-400 bg-white rounded-lg border border-dashed border-slate-300",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Nenhum modelo encontrado." }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "text-sm mt-2",
-						children: "Salve slides como modelos através do Editor."
-					})]
-				})]
-			})
-		})]
+		]
 	});
 }
 function ShareContent() {
@@ -41386,9 +41937,23 @@ function Users() {
 	const [loading, setLoading] = (0, import_react.useState)(true);
 	const [searchTerm, setSearchTerm] = (0, import_react.useState)("");
 	const { toast: toast$2 } = useToast();
+	const { user } = useAuth();
+	const navigate = useNavigate();
 	(0, import_react.useEffect)(() => {
-		fetchUsers();
-	}, []);
+		checkPermission();
+	}, [user]);
+	const checkPermission = async () => {
+		if (!user) return;
+		const { data } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+		if (data?.role !== "admin") {
+			toast$2({
+				title: "Acesso Negado",
+				description: "Você não tem permissão para acessar esta página.",
+				variant: "destructive"
+			});
+			navigate("/");
+		} else fetchUsers();
+	};
 	const fetchUsers = async () => {
 		setLoading(true);
 		try {
@@ -41422,7 +41987,7 @@ function Users() {
 			});
 		}
 	};
-	const filteredUsers = users.filter((user) => user.representative_name?.toLowerCase().includes(searchTerm.toLowerCase()) || user.representative_email?.toLowerCase().includes(searchTerm.toLowerCase()) || user.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) || "");
+	const filteredUsers = users.filter((user$1) => user$1.representative_name?.toLowerCase().includes(searchTerm.toLowerCase()) || user$1.representative_email?.toLowerCase().includes(searchTerm.toLowerCase()) || user$1.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) || "");
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "min-h-screen bg-slate-50 font-sans",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
@@ -41468,16 +42033,16 @@ function Users() {
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Email" }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Empresa" }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Função" })
-				] }) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableBody, { children: filteredUsers.length > 0 ? filteredUsers.map((user) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
+				] }) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableBody, { children: filteredUsers.length > 0 ? filteredUsers.map((user$1) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 						className: "font-medium",
-						children: user.representative_name || "-"
+						children: user$1.representative_name || "-"
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: user.representative_email || "-" }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: user.company_name || "-" }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: user$1.representative_email || "-" }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: user$1.company_name || "-" }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Select, {
-						value: user.role || "user",
-						onValueChange: (val) => handleRoleChange(user.id, val),
+						value: user$1.role || "user",
+						onValueChange: (val) => handleRoleChange(user$1.id, val),
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectTrigger, {
 							className: "w-[140px] h-8",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectValue, {})
@@ -41489,13 +42054,248 @@ function Users() {
 							children: "Administrador"
 						})] })]
 					}) })
-				] }, user.id)) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableRow, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+				] }, user$1.id)) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableRow, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 					colSpan: 4,
 					className: "text-center py-10 text-slate-500",
 					children: "Nenhum usuário encontrado."
 				}) }) })] })
 			})
 		})]
+	});
+}
+function Profile() {
+	const { user } = useAuth();
+	const { toast: toast$2 } = useToast();
+	const [loading, setLoading] = (0, import_react.useState)(false);
+	const [passwordLoading, setPasswordLoading] = (0, import_react.useState)(false);
+	const [formData, setFormData] = (0, import_react.useState)({
+		representative_name: "",
+		company_name: "",
+		representative_email: ""
+	});
+	const [passwordData, setPasswordData] = (0, import_react.useState)({
+		password: "",
+		confirmPassword: ""
+	});
+	(0, import_react.useEffect)(() => {
+		if (user) fetchProfile();
+	}, [user]);
+	const fetchProfile = async () => {
+		if (!user) return;
+		try {
+			const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+			if (error) throw error;
+			if (data) setFormData({
+				representative_name: data.representative_name || "",
+				company_name: data.company_name || "",
+				representative_email: data.representative_email || user.email || ""
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	const handleUpdateProfile = async (e) => {
+		e.preventDefault();
+		if (!user) return;
+		setLoading(true);
+		try {
+			const { error } = await supabase.from("profiles").update({
+				representative_name: formData.representative_name,
+				company_name: formData.company_name,
+				representative_email: formData.representative_email
+			}).eq("id", user.id);
+			if (error) throw error;
+			toast$2({
+				title: "Perfil atualizado",
+				description: "Suas informações foram salvas com sucesso."
+			});
+		} catch (error) {
+			toast$2({
+				title: "Erro ao atualizar",
+				description: error.message,
+				variant: "destructive"
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
+	const handleUpdatePassword = async (e) => {
+		e.preventDefault();
+		if (passwordData.password !== passwordData.confirmPassword) {
+			toast$2({
+				title: "Erro",
+				description: "As senhas não coincidem.",
+				variant: "destructive"
+			});
+			return;
+		}
+		if (passwordData.password.length < 6) {
+			toast$2({
+				title: "Erro",
+				description: "A senha deve ter no mínimo 6 caracteres.",
+				variant: "destructive"
+			});
+			return;
+		}
+		setPasswordLoading(true);
+		try {
+			const { error } = await supabase.auth.updateUser({ password: passwordData.password });
+			if (error) throw error;
+			toast$2({
+				title: "Senha atualizada",
+				description: "Sua senha foi alterada com sucesso."
+			});
+			setPasswordData({
+				password: "",
+				confirmPassword: ""
+			});
+		} catch (error) {
+			toast$2({
+				title: "Erro ao alterar senha",
+				description: error.message,
+				variant: "destructive"
+			});
+		} finally {
+			setPasswordLoading(false);
+		}
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "min-h-screen bg-slate-50 font-sans py-12 px-4 sm:px-8",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "max-w-4xl mx-auto space-y-6",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex items-center gap-4 mb-8",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+					to: "/",
+					className: "p-2 hover:bg-slate-100 rounded-full transition-colors",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { className: "w-5 h-5 text-slate-500" })
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+					className: "text-2xl font-bold text-slate-900",
+					children: "Meu Perfil"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "text-slate-500",
+					children: "Gerencie suas informações pessoais e de segurança"
+				})] })]
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "grid gap-6 md:grid-cols-2",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, { children: "Informações Pessoais" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Atualize seus dados de cadastro" })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+					onSubmit: handleUpdateProfile,
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardContent, {
+						className: "space-y-4",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "space-y-2",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									htmlFor: "name",
+									children: "Nome Completo"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "relative",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(User, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+										id: "name",
+										className: "pl-9",
+										value: formData.representative_name,
+										onChange: (e) => setFormData({
+											...formData,
+											representative_name: e.target.value
+										})
+									})]
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "space-y-2",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									htmlFor: "company",
+									children: "Empresa"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "relative",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Building, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+										id: "company",
+										className: "pl-9",
+										value: formData.company_name,
+										onChange: (e) => setFormData({
+											...formData,
+											company_name: e.target.value
+										})
+									})]
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "space-y-2",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									htmlFor: "email",
+									children: "Email de Contato"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "relative",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+										id: "email",
+										className: "pl-9",
+										type: "email",
+										value: formData.representative_email,
+										onChange: (e) => setFormData({
+											...formData,
+											representative_email: e.target.value
+										})
+									})]
+								})]
+							})
+						]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardFooter, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+						type: "submit",
+						disabled: loading,
+						className: "ml-auto bg-sky-500 hover:bg-sky-600",
+						children: [loading && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-4 h-4 mr-2 animate-spin" }), "Salvar Alterações"]
+					}) })]
+				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, { children: "Segurança" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Altere sua senha de acesso" })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+					onSubmit: handleUpdatePassword,
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardContent, {
+						className: "space-y-4",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "space-y-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+								htmlFor: "password",
+								children: "Nova Senha"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "relative",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Lock, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									id: "password",
+									type: "password",
+									className: "pl-9",
+									value: passwordData.password,
+									onChange: (e) => setPasswordData({
+										...passwordData,
+										password: e.target.value
+									})
+								})]
+							})]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "space-y-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+								htmlFor: "confirmPassword",
+								children: "Confirmar Nova Senha"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "relative",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Lock, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									id: "confirmPassword",
+									type: "password",
+									className: "pl-9",
+									value: passwordData.confirmPassword,
+									onChange: (e) => setPasswordData({
+										...passwordData,
+										confirmPassword: e.target.value
+									})
+								})]
+							})]
+						})]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardFooter, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+						type: "submit",
+						disabled: passwordLoading,
+						variant: "outline",
+						className: "ml-auto text-slate-600",
+						children: [passwordLoading && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-4 h-4 mr-2 animate-spin" }), "Alterar Senha"]
+					}) })]
+				})] })]
+			})]
+		})
 	});
 }
 function Login() {
@@ -42061,7 +42861,7 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
 					children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
 							path: "/",
-							element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Index_default, {})
+							element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Index, {})
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
 							path: "/editor",
@@ -42074,6 +42874,10 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
 							path: "/usuarios",
 							element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users, {})
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+							path: "/perfil",
+							element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Profile, {})
 						})
 					]
 				})
@@ -42088,4 +42892,4 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-DpuAZUCC.js.map
+//# sourceMappingURL=index-kBGerI-5.js.map
