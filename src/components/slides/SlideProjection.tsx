@@ -1,87 +1,11 @@
 import { SlideContainer } from '@/components/SlideContainer'
 import { Proposal } from '@/types/proposal'
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart'
+import { Target, TrendingUp, Users, Zap } from 'lucide-react'
 
 export function SlideProjection({ proposal }: { proposal: Proposal }) {
-  const currentLeads = proposal.funnelCurrent.leads || 50
-  const projectedLeads = proposal.funnelProjected.leads || 100
-
-  // Mock projection logic
-  const data = [
-    { month: 'Atual', leads: currentLeads, projected: currentLeads },
-    {
-      month: 'Mês 1',
-      leads: Math.round(currentLeads * 1.1),
-      projected: Math.round(currentLeads * 1.3),
-    },
-    {
-      month: 'Mês 2',
-      leads: Math.round(currentLeads * 1.2),
-      projected: Math.round(currentLeads * 1.8),
-    },
-    {
-      month: 'Mês 3',
-      leads: Math.round(currentLeads * 1.3),
-      projected: projectedLeads,
-    },
-    {
-      month: 'Mês 4',
-      leads: Math.round(currentLeads * 1.4),
-      projected: Math.round(projectedLeads * 1.2),
-    },
-    {
-      month: 'Mês 5',
-      leads: Math.round(currentLeads * 1.5),
-      projected: Math.round(projectedLeads * 1.4),
-    },
-  ]
-
-  const chartConfig = {
-    leads: {
-      label: 'Cenário Orgânico',
-      color: 'hsl(var(--muted-foreground))',
-    },
-    projected: {
-      label: 'Cenário Growth',
-      color: 'hsl(var(--chart-1))',
-    },
-  }
-
-  const funnelStages = [
-    {
-      label: 'CLICKS',
-      value: proposal.funnelProjected.clicks,
-      color: 'bg-sky-200',
-    },
-    {
-      label: 'LEADS',
-      value: proposal.funnelProjected.leads,
-      color: 'bg-sky-300',
-    },
-    {
-      label: 'MQL',
-      value: proposal.funnelProjected.mql,
-      color: 'bg-emerald-400',
-    },
-    {
-      label: 'SQL',
-      value: proposal.funnelProjected.sql,
-      color: 'bg-emerald-500',
-    },
-    {
-      label: 'VENDAS',
-      value: proposal.funnelProjected.sales,
-      color: 'bg-emerald-600',
-    },
-  ]
-
+  // Redesigned based on ANEXO 7 Description (Grid of cards)
   return (
-    <SlideContainer>
+    <SlideContainer id="projection">
       <div className="flex justify-between items-end mb-8 border-b border-slate-100 pb-6">
         <div>
           <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-2">
@@ -93,132 +17,60 @@ export function SlideProjection({ proposal }: { proposal: Proposal }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-8 h-[550px]">
-        {/* Left: Growth Chart */}
-        <div className="flex flex-col">
-          <h3 className="text-lg font-bold text-slate-700 mb-4">
-            Curva de Crescimento (Leads)
-          </h3>
-          <div className="flex-1 w-full bg-slate-50 rounded-2xl p-4 border border-slate-100 shadow-inner">
-            <ChartContainer config={chartConfig} className="w-full h-full">
-              <AreaChart
-                data={data}
-                margin={{ top: 20, right: 10, left: 0, bottom: 0 }}
-              >
-                <defs>
-                  <linearGradient
-                    id="fillProjected"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop
-                      offset="5%"
-                      stopColor="var(--color-projected)"
-                      stopOpacity={0.8}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor="var(--color-projected)"
-                      stopOpacity={0.1}
-                    />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid
-                  vertical={false}
-                  strokeDasharray="3 3"
-                  stroke="#e2e8f0"
-                />
-                <XAxis
-                  dataKey="month"
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={8}
-                  tick={{ fill: '#64748b', fontSize: 10 }}
-                />
-                <YAxis
-                  tickLine={false}
-                  axisLine={false}
-                  tickFormatter={(value) => `${value}`}
-                  tick={{ fill: '#64748b', fontSize: 10 }}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Area
-                  dataKey="projected"
-                  type="monotone"
-                  fill="url(#fillProjected)"
-                  fillOpacity={0.4}
-                  stroke="var(--color-projected)"
-                  strokeWidth={3}
-                  stackId="a"
-                />
-                <Area
-                  dataKey="leads"
-                  type="monotone"
-                  fill="transparent"
-                  stroke="#94a3b8"
-                  strokeDasharray="5 5"
-                  strokeWidth={2}
-                  stackId="b"
-                />
-              </AreaChart>
-            </ChartContainer>
-          </div>
-          <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
-            <div className="bg-slate-50 p-2 rounded">
-              <span className="block text-slate-500">Inv. Atual</span>
-              <span className="font-bold text-slate-800">
-                R$ {proposal.currentInvestment}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 h-full items-start pt-12">
+        {proposal.projectionCards?.map((card, i) => (
+          <div
+            key={i}
+            className="flex flex-col bg-white border border-slate-200 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow relative overflow-hidden group h-[300px]"
+          >
+            <div className="absolute top-0 right-0 p-3">
+              <span className="bg-slate-100 text-slate-600 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
+                {card.tag}
               </span>
             </div>
-            <div className="bg-slate-50 p-2 rounded">
-              <span className="block text-slate-500">CPA Atual</span>
-              <span className="font-bold text-slate-800">
-                R$ {proposal.currentCPA}
-              </span>
-            </div>
-            <div className="bg-slate-50 p-2 rounded">
-              <span className="block text-slate-500">Leads Atual</span>
-              <span className="font-bold text-slate-800">
-                {proposal.currentLeads}
-              </span>
-            </div>
-          </div>
-        </div>
 
-        {/* Right: Funnel Visualization */}
-        <div className="flex flex-col">
-          <h3 className="text-lg font-bold text-slate-700 mb-4">
-            Funil de Conversão Projetado (Mensal)
-          </h3>
-          <div className="flex-1 flex flex-col items-center justify-center space-y-2">
-            {funnelStages.map((stage, i) => {
-              const width = 100 - i * 15 // Visual Funnel width
-              return (
-                <div
-                  key={stage.label}
-                  className={`h-16 ${stage.color} rounded-lg flex items-center justify-between px-6 text-slate-900 shadow-sm relative group transition-all hover:scale-105`}
-                  style={{ width: `${width}%` }}
-                >
-                  <span className="font-bold text-xs bg-white/30 px-2 py-1 rounded">
-                    {stage.label}
-                  </span>
-                  <span className="font-bold text-xl">
-                    {stage.value.toLocaleString()}
-                  </span>
-                  {i > 0 && (
-                    <div className="absolute -right-16 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">
-                      {Math.round(
-                        (stage.value / funnelStages[i - 1].value) * 100,
-                      )}
-                      %
-                    </div>
-                  )}
-                </div>
-              )
-            })}
+            <div className="mt-8 mb-auto">
+              <h3 className="text-lg font-bold text-slate-500 uppercase tracking-wide mb-2">
+                {card.title}
+              </h3>
+              <p className="text-5xl font-bold text-slate-900 tracking-tight">
+                {card.metric}
+              </p>
+            </div>
+
+            <div className="border-t border-slate-100 pt-4 mt-4">
+              <p className="text-sm text-slate-500 font-medium">
+                {card.subtext}
+              </p>
+            </div>
+
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-sky-400 to-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
           </div>
+        ))}
+      </div>
+
+      <div className="mt-12 bg-slate-50 p-6 rounded-xl border border-slate-200 flex justify-between items-center">
+        <div>
+          <p className="text-xs font-bold text-slate-500 uppercase">
+            Cenário Base
+          </p>
+          <p className="font-medium text-slate-900">
+            Média dos últimos 3 meses
+          </p>
+        </div>
+        <div className="h-8 w-[1px] bg-slate-200"></div>
+        <div>
+          <p className="text-xs font-bold text-slate-500 uppercase">
+            Investimento
+          </p>
+          <p className="font-medium text-slate-900">
+            R$ {proposal.currentInvestment}
+          </p>
+        </div>
+        <div className="h-8 w-[1px] bg-slate-200"></div>
+        <div>
+          <p className="text-xs font-bold text-slate-500 uppercase">Projeção</p>
+          <p className="font-medium text-slate-900">90 Dias</p>
         </div>
       </div>
     </SlideContainer>

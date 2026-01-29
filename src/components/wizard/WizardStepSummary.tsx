@@ -26,6 +26,12 @@ export function WizardStepSummary() {
     updateProposal({ summaryLinks: newLinks })
   }
 
+  const updateMetric = (index: number, field: string, value: string) => {
+    const newMetrics = [...proposal.summaryMetrics]
+    newMetrics[index] = { ...newMetrics[index], [field]: value }
+    updateProposal({ summaryMetrics: newMetrics })
+  }
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="space-y-4">
@@ -54,6 +60,44 @@ export function WizardStepSummary() {
             }
             className="h-32"
           />
+        </div>
+      </div>
+
+      <div className="border-t border-slate-200 pt-4">
+        <Label className="mb-4 block text-base">Métricas em Destaque</Label>
+        <div className="grid gap-4">
+          {proposal.summaryMetrics?.map((metric, i) => (
+            <div
+              key={i}
+              className="bg-slate-50 p-3 rounded border border-slate-200"
+            >
+              <div className="grid grid-cols-2 gap-2 mb-2">
+                <div>
+                  <Label className="text-xs">Valor (ex: +100%)</Label>
+                  <Input
+                    value={metric.value}
+                    onChange={(e) => updateMetric(i, 'value', e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label className="text-xs">Label (ex: Leads)</Label>
+                  <Input
+                    value={metric.label}
+                    onChange={(e) => updateMetric(i, 'label', e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label className="text-xs">
+                  Ícone (target, trending, users)
+                </Label>
+                <Input
+                  value={metric.icon}
+                  onChange={(e) => updateMetric(i, 'icon', e.target.value)}
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

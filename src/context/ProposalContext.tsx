@@ -28,11 +28,13 @@ export const ProposalProvider = ({ children }: { children: ReactNode }) => {
       let summary = ''
 
       // Mock AI Logic based on channels
-      const hasGoogle = proposal.channels.includes('Google Ads')
-      const hasSocial =
-        proposal.channels.includes('Meta Ads (Facebook/Instagram)') ||
-        proposal.channels.includes('TikTok Ads')
-      const hasLinkedIn = proposal.channels.includes('LinkedIn Ads')
+      const hasGoogle = proposal.trafficSources.includes(
+        'Google ADS (Pesquisa)',
+      )
+      const hasSocial = proposal.trafficSources.includes(
+        'Meta Ads (Facebook/Instagram)',
+      )
+      const hasLinkedIn = proposal.trafficSources.includes('Linkedin Ads')
 
       strategy += 'Estratégia Full-Funnel focada em performance. '
 

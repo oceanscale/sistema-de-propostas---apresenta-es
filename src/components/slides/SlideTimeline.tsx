@@ -26,7 +26,7 @@ export function SlideTimeline({ proposal }: { proposal: Proposal }) {
   ]
 
   return (
-    <SlideContainer>
+    <SlideContainer id="timeline">
       <div className="flex justify-between items-end mb-12 border-b border-slate-100 pb-6">
         <div>
           <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-2">
@@ -61,12 +61,12 @@ export function SlideTimeline({ proposal }: { proposal: Proposal }) {
                 <div
                   className={`absolute right-0 top-0 bottom-0 w-2 ${style.line}`}
                 ></div>
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-4 -mt-2">
                   <Icon className={`w-5 h-5 ${style.text}`} />
                   <h4 className={`font-bold ${style.text}`}>{phase.title}</h4>
                 </div>
                 <div className="grid grid-cols-3 gap-4">
-                  {phase.items.map((item, i) => (
+                  {phase.items.slice(0, 6).map((item, i) => (
                     <div
                       key={i}
                       className="bg-white p-3 rounded-lg shadow-sm text-sm text-slate-600 font-medium border border-slate-100"

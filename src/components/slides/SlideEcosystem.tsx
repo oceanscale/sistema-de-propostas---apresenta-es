@@ -1,17 +1,10 @@
 import { SlideContainer } from '@/components/SlideContainer'
 import { Proposal } from '@/types/proposal'
-import {
-  ArrowRight,
-  Globe,
-  Database,
-  MousePointerClick,
-  BarChart3,
-  Users2,
-} from 'lucide-react'
+import { ArrowRight, Globe, Database, MousePointerClick } from 'lucide-react'
 
 export function SlideEcosystem({ proposal }: { proposal: Proposal }) {
   return (
-    <SlideContainer>
+    <SlideContainer id="ecosystem">
       <div className="flex justify-between items-end mb-12 border-b border-slate-100 pb-6">
         <div>
           <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-2">
@@ -113,12 +106,6 @@ export function SlideEcosystem({ proposal }: { proposal: Proposal }) {
                     <span className="truncate">{intel}</span>
                   </div>
                 ))}
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-emerald-200">
-                <div className="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-2 rounded text-center">
-                  FEEDBACK LOOP (IA)
-                </div>
               </div>
             </div>
             <p className="text-center text-sm font-medium text-emerald-600">

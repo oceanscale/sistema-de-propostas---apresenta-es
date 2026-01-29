@@ -3,8 +3,45 @@ import { Proposal } from '@/types/proposal'
 import { Cpu, BarChart3, Search, ShieldCheck, Zap } from 'lucide-react'
 
 export function SlideMethodology({ proposal }: { proposal: Proposal }) {
+  const getIcon = (name: string) => {
+    switch (name) {
+      case 'cpu':
+        return Cpu
+      case 'barChart':
+        return BarChart3
+      case 'search':
+        return Search
+      default:
+        return Cpu
+    }
+  }
+
+  const colors = [
+    {
+      bg: 'bg-slate-900',
+      text: 'text-white',
+      iconBg: 'bg-sky-500/20',
+      iconColor: 'text-sky-400',
+      desc: 'text-slate-400',
+    },
+    {
+      bg: 'bg-white',
+      text: 'text-slate-900',
+      iconBg: 'bg-emerald-100',
+      iconColor: 'text-emerald-600',
+      desc: 'text-slate-600',
+    },
+    {
+      bg: 'bg-white',
+      text: 'text-slate-900',
+      iconBg: 'bg-purple-100',
+      iconColor: 'text-purple-600',
+      desc: 'text-slate-600',
+    },
+  ]
+
   return (
-    <SlideContainer>
+    <SlideContainer id="methodology">
       <div className="flex justify-between items-end mb-10 border-b border-slate-100 pb-6">
         <div>
           <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-2">
@@ -18,54 +55,31 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
 
       <div className="grid grid-cols-2 gap-8 h-full">
         <div className="space-y-6">
-          {/* Tech Card 1 */}
-          <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 flex gap-4 items-start shadow-xl relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl -mr-8 -mt-8 transition-opacity opacity-50 group-hover:opacity-100"></div>
-            <div className="bg-sky-500/20 p-3 rounded-xl">
-              <Cpu className="w-8 h-8 text-sky-400" />
-            </div>
-            <div className="relative z-10">
-              <h3 className="font-bold text-lg text-white mb-2">
-                Growth AI Screening
-              </h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Nossa tecnologia proprietária analisa leads em tempo real,
-                pontuando a intenção de compra antes mesmo do contato comercial.
-              </p>
-            </div>
-          </div>
-
-          {/* Tech Card 2 */}
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 flex gap-4 items-start shadow-sm">
-            <div className="bg-emerald-100 p-3 rounded-xl">
-              <BarChart3 className="w-8 h-8 text-emerald-600" />
-            </div>
-            <div>
-              <h3 className="font-bold text-lg text-slate-900 mb-2">
-                Dashboard Ao Vivo
-              </h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Transparência radical. Acesso 24/7 a um painel financeiro para
-                acompanhar cada centavo investido e o retorno gerado.
-              </p>
-            </div>
-          </div>
-
-          {/* Tech Card 3 */}
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 flex gap-4 items-start shadow-sm">
-            <div className="bg-purple-100 p-3 rounded-xl">
-              <Search className="w-8 h-8 text-purple-600" />
-            </div>
-            <div>
-              <h3 className="font-bold text-lg text-slate-900 mb-2">
-                Auditoria Semanal (Human + AI)
-              </h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Rotina dupla de otimização: algoritmos preditivos para lances e
-                curadoria humana sênior para criativos.
-              </p>
-            </div>
-          </div>
+          {proposal.methodologyItems?.map((item, i) => {
+            const Icon = getIcon(item.icon)
+            const style = colors[i] || colors[1]
+            return (
+              <div
+                key={i}
+                className={`${style.bg} p-6 rounded-2xl border ${i === 0 ? 'border-slate-800' : 'border-slate-200'} flex gap-4 items-start shadow-sm relative overflow-hidden group`}
+              >
+                {i === 0 && (
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl -mr-8 -mt-8 transition-opacity opacity-50 group-hover:opacity-100"></div>
+                )}
+                <div className={`${style.iconBg} p-3 rounded-xl`}>
+                  <Icon className={`w-8 h-8 ${style.iconColor}`} />
+                </div>
+                <div className="relative z-10">
+                  <h3 className={`font-bold text-lg ${style.text} mb-2`}>
+                    {item.title}
+                  </h3>
+                  <p className={`${style.desc} text-sm leading-relaxed`}>
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            )
+          })}
         </div>
 
         <div className="space-y-6">

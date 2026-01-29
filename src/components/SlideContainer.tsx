@@ -5,15 +5,17 @@ interface SlideContainerProps {
   children: ReactNode
   className?: string
   dark?: boolean
+  id?: string
 }
 
 export function SlideContainer({
   children,
   className,
   dark = false,
+  id,
 }: SlideContainerProps) {
   return (
-    <div className="flex justify-center mb-8 print:mb-0">
+    <div id={id} className="flex justify-center mb-8 print:mb-0 scroll-mt-24">
       <div
         className={cn(
           'slide-container-wrapper relative overflow-hidden transition-all',
@@ -31,7 +33,7 @@ export function SlideContainer({
         {/* Watermark / Footer */}
         <div className="absolute bottom-4 left-12 right-12 flex justify-between items-center border-t border-slate-200/20 pt-2">
           <div className="text-[10px] uppercase tracking-widest font-bold opacity-40">
-            GrowthProposal OS
+            OCEAN PROPOSAL
           </div>
           <div className="flex gap-4 text-[10px] uppercase tracking-wider font-medium opacity-40">
             <span>Time Sênior</span>

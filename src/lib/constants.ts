@@ -19,7 +19,7 @@ export const DEFAULT_PROPOSAL: Proposal = {
   summaryBoxImage:
     'https://img.usecurling.com/p/1200/800?q=abstract%20technology%20network&color=blue',
 
-  // Titles & Subtitles
+  // Titles
   coverTitle: 'Plano de Aceleração & Performance',
   coverSubtitle: 'Estratégia comercial personalizada',
 
@@ -79,7 +79,6 @@ export const DEFAULT_PROPOSAL: Proposal = {
   ],
   marketBenchmarking: 'O mercado apresenta saturação em canais tradicionais.',
 
-  // Ecosystem Lists
   trafficSources: [
     'Google ADS (Pesquisa)',
     'Meta Ads (Facebook/Instagram)',
@@ -122,6 +121,57 @@ export const DEFAULT_PROPOSAL: Proposal = {
     },
   ],
 
+  ganttPages: [
+    {
+      id: 'gantt-1',
+      title: 'Cronograma Detalhado',
+      subtitle: 'Visão Semanal',
+      month: 'MÊS 1',
+      tasks: [
+        {
+          name: 'Setup de Business Manager',
+          s1: true,
+          s2: true,
+          s3: false,
+          s4: false,
+          type: 'planning',
+        },
+        {
+          name: 'Criação de Landing Pages',
+          s1: false,
+          s2: true,
+          s3: true,
+          s4: false,
+          type: 'execution',
+        },
+        {
+          name: 'Configuração de Pixel/API',
+          s1: true,
+          s2: false,
+          s3: false,
+          s4: false,
+          type: 'planning',
+        },
+        {
+          name: 'Produção de Criativos',
+          s1: false,
+          s2: true,
+          s3: true,
+          s4: false,
+          type: 'execution',
+        },
+        {
+          name: 'Lançamento de Campanhas',
+          s1: false,
+          s2: false,
+          s3: false,
+          s4: true,
+          type: 'review',
+        },
+      ],
+    },
+  ],
+
   funnelCurrent: {
     clicks: 5000,
     leads: 125,
@@ -136,6 +186,33 @@ export const DEFAULT_PROPOSAL: Proposal = {
     sql: 50,
     sales: 18,
   },
+
+  projectionCards: [
+    {
+      title: 'Leads Qualificados',
+      metric: '+100%',
+      subtext: 'Aumento de volume',
+      tag: 'Meta Principal',
+    },
+    {
+      title: 'Redução de CAC',
+      metric: '-20%',
+      subtext: 'Otimização de custos',
+      tag: 'Eficiência',
+    },
+    {
+      title: 'Taxa de Conversão',
+      metric: '15%',
+      subtext: 'Landing Pages',
+      tag: 'CRO',
+    },
+    {
+      title: 'Novas Vendas',
+      metric: '+15',
+      subtext: 'Incremental mensal',
+      tag: 'Receita',
+    },
+  ],
 
   mediaBudget: 20000,
   softwareCost: 1500,
@@ -179,6 +256,64 @@ export const DEFAULT_PROPOSAL: Proposal = {
     'O objetivo principal é escalar a geração de leads qualificados reduzindo o CAC atual em 20%.',
   methodologyText: 'Utilizamos uma metodologia proprietária baseada em dados.',
   summaryLinks: [{ title: 'Ver Site', url: 'https://example.com' }],
+
+  summaryMetrics: [
+    {
+      label: 'Leads Qualificados',
+      value: '+100%',
+      icon: 'target',
+      description: 'Meta de crescimento',
+    },
+    {
+      label: 'ROI Estimado',
+      value: '5x',
+      icon: 'trending',
+      description: 'Retorno sobre Mídia',
+    },
+    {
+      label: 'Share of Voice',
+      value: 'Top 1',
+      icon: 'users',
+      description: 'Dominância de Mercado',
+    },
+  ],
+
+  methodologyItems: [
+    {
+      title: 'Growth AI Screening',
+      description:
+        'Nossa tecnologia proprietária analisa leads em tempo real, pontuando a intenção de compra.',
+      icon: 'cpu',
+    },
+    {
+      title: 'Dashboard Ao Vivo',
+      description:
+        'Transparência radical. Acesso 24/7 a um painel financeiro para acompanhar cada centavo.',
+      icon: 'barChart',
+    },
+    {
+      title: 'Auditoria Semanal',
+      description:
+        'Rotina dupla de otimização: algoritmos preditivos para lances e curadoria humana sênior.',
+      icon: 'search',
+    },
+  ],
+
+  pageOrder: [
+    'parts',
+    'cover',
+    'summary',
+    'competitors',
+    'diagnosis',
+    'ecosystem',
+    'timeline',
+    'gantt-1',
+    'methodology',
+    'projection',
+    'financials',
+    'roi',
+    'closing',
+  ],
 
   createdAt: new Date().toISOString(),
   status: 'draft',

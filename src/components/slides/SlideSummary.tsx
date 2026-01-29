@@ -3,9 +3,21 @@ import { Proposal } from '@/types/proposal'
 import { Target, TrendingUp, Users, Zap, ExternalLink } from 'lucide-react'
 
 export function SlideSummary({ proposal }: { proposal: Proposal }) {
+  const getIcon = (name: string) => {
+    switch (name) {
+      case 'target':
+        return Target
+      case 'trending':
+        return TrendingUp
+      case 'users':
+        return Users
+      default:
+        return Target
+    }
+  }
+
   return (
-    <SlideContainer>
-      {/* Page Background if needed, or just container */}
+    <SlideContainer id="summary">
       {proposal.summaryPageImage && (
         <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
           <img
@@ -95,7 +107,7 @@ export function SlideSummary({ proposal }: { proposal: Proposal }) {
           <div className="bg-slate-900 text-white p-8 rounded-2xl mb-8 flex-grow relative overflow-hidden shadow-xl">
             <div className="absolute inset-0 opacity-30">
               <img
-                src={proposal.summaryBoxImage || proposal.summaryImage}
+                src={proposal.summaryBoxImage || proposal.summaryPageImage}
                 className="w-full h-full object-cover mix-blend-overlay"
                 alt="Summary Box Bg"
               />
@@ -130,27 +142,23 @@ export function SlideSummary({ proposal }: { proposal: Proposal }) {
           </div>
 
           <div className="grid grid-cols-3 gap-6">
-            <div className="bg-white border border-slate-200 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-              <Target className="w-8 h-8 text-sky-500 mb-3" />
-              <p className="text-3xl font-bold text-slate-900">+100%</p>
-              <p className="text-slate-500 text-sm font-medium">
-                Leads Qualificados
-              </p>
-            </div>
-            <div className="bg-white border border-slate-200 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-              <TrendingUp className="w-8 h-8 text-emerald-500 mb-3" />
-              <p className="text-3xl font-bold text-slate-900">ROI 5x</p>
-              <p className="text-slate-500 text-sm font-medium">
-                Meta de Retorno
-              </p>
-            </div>
-            <div className="bg-white border border-slate-200 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-              <Users className="w-8 h-8 text-purple-500 mb-3" />
-              <p className="text-3xl font-bold text-slate-900">Top 1</p>
-              <p className="text-slate-500 text-sm font-medium">
-                Share of Voice
-              </p>
-            </div>
+            {proposal.summaryMetrics?.slice(0, 3).map((metric, i) => {
+              const Icon = getIcon(metric.icon)
+              return (
+                <div
+                  key={i}
+                  className="bg-white border border-slate-200 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <Icon className="w-8 h-8 text-sky-500 mb-3" />
+                  <p className="text-3xl font-bold text-slate-900">
+                    {metric.value}
+                  </p>
+                  <p className="text-slate-500 text-sm font-medium">
+                    {metric.label}
+                  </p>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
