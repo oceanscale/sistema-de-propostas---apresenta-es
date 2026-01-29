@@ -17,9 +17,10 @@ import { WizardStepClosing } from '@/components/wizard/WizardStepClosing'
 import { WizardStepGantt } from '@/components/wizard/WizardStepGantt'
 import { ProfileModal } from '@/components/modals/ProfileModal'
 import { TemplateSelectionModal } from '@/components/modals/TemplateSelectionModal'
+import { useAuth } from '@/hooks/use-auth'
 
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   ChevronLeft,
   ChevronRight,
@@ -48,7 +49,6 @@ import {
   FolderPlus,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { v4 as uuidv4 } from 'uuid'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -67,13 +67,14 @@ function EditorContent() {
     insertTemplate,
     isLoading,
   } = useProposal()
-  const [activeTab, setActiveTab] = useState('parts')
+  const { signOut } = useAuth()
+  const navigate = useNavigate()
 
+  const [activeTab, setActiveTab] = useState('parts')
   const [leftOpen, setLeftOpen] = useState(true)
   const [rightOpen, setRightOpen] = useState(true)
   const [profileOpen, setProfileOpen] = useState(false)
   const [templateModalOpen, setTemplateModalOpen] = useState(false)
-
   const [draggedItem, setDraggedItem] = useState<string | null>(null)
 
   const handleShare = () => {
@@ -82,6 +83,11 @@ function EditorContent() {
       return
     }
     window.open(`/share/${proposal.id}`, '_blank')
+  }
+
+  const handleSignOut = async () => {
+    await signOut()
+    navigate('/login')
   }
 
   const staticComponents: Record<string, any> = {
@@ -370,11 +376,12 @@ function EditorContent() {
                       <LayoutTemplate className="w-4 h-4 mr-2" /> Biblioteca
                     </DropdownMenuItem>
                   </Link>
-                  <Link to="/">
-                    <DropdownMenuItem>
-                      <LogOut className="w-4 h-4 mr-2" /> Sair
-                    </DropdownMenuItem>
-                  </Link>
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    className="text-red-600"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" /> Sair
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
 
@@ -418,6 +425,9 @@ function EditorContent() {
                 <Link to="/biblioteca">
                   <DropdownMenuItem>Biblioteca</DropdownMenuItem>
                 </Link>
+                <DropdownMenuItem onClick={handleSignOut}>
+                  Sair
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           )}

@@ -15,8 +15,9 @@ import {
   LogOut,
   User,
   LayoutTemplate,
+  Users,
 } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import {
   DropdownMenu,
@@ -24,6 +25,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useAuth } from '@/hooks/use-auth'
 
 const INITIAL_PROJECTS = [
   {
@@ -38,9 +40,16 @@ const INITIAL_PROJECTS = [
 
 const Index = () => {
   const [projects, setProjects] = useState(INITIAL_PROJECTS)
+  const { signOut, user } = useAuth()
+  const navigate = useNavigate()
 
   const deleteProject = (id: string) => {
     setProjects(projects.filter((p) => p.id !== id))
+  }
+
+  const handleSignOut = async () => {
+    await signOut()
+    navigate('/login')
   }
 
   return (
@@ -63,23 +72,30 @@ const Index = () => {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="w-10 h-10 rounded-full bg-slate-200 overflow-hidden outline-none ring-offset-2 focus:ring-2 focus:ring-slate-400 transition-all">
-                  <img
-                    src="https://img.usecurling.com/ppl/thumbnail?gender=male"
-                    alt="User"
-                  />
+                <button className="w-10 h-10 rounded-full bg-slate-200 overflow-hidden outline-none ring-offset-2 focus:ring-2 focus:ring-slate-400 transition-all flex items-center justify-center">
+                  {user?.email?.charAt(0).toUpperCase() || (
+                    <User className="w-5 h-5 text-slate-500" />
+                  )}
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem disabled>
-                  <User className="w-4 h-4 mr-2" /> Perfil (Acesse no Editor)
+                  <User className="w-4 h-4 mr-2" /> {user?.email}
                 </DropdownMenuItem>
                 <Link to="/biblioteca">
                   <DropdownMenuItem>
                     <LayoutTemplate className="w-4 h-4 mr-2" /> Biblioteca
                   </DropdownMenuItem>
                 </Link>
-                <DropdownMenuItem className="text-red-600">
+                <Link to="/usuarios">
+                  <DropdownMenuItem>
+                    <Users className="w-4 h-4 mr-2" /> Usuários
+                  </DropdownMenuItem>
+                </Link>
+                <DropdownMenuItem
+                  className="text-red-600"
+                  onClick={handleSignOut}
+                >
                   <LogOut className="w-4 h-4 mr-2" /> Sair
                 </DropdownMenuItem>
               </DropdownMenuContent>

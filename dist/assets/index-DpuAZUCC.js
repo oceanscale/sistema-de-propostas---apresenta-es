@@ -16305,6 +16305,30 @@ import_react.memo(DataRoutes);
 function DataRoutes({ routes, future, state, onError }) {
 	return useRoutesImpl(routes, void 0, state, onError, future);
 }
+function Navigate({ to, replace: replace2, state, relative }) {
+	invariant(useInRouterContext(), `<Navigate> may be used only in the context of a <Router> component.`);
+	let { static: isStatic } = import_react.useContext(NavigationContext);
+	warning(!isStatic, `<Navigate> must not be used on the initial render in a <StaticRouter>. This is a no-op, but you should modify your code so the <Navigate> is only ever rendered in response to some user interaction or state change.`);
+	let { matches } = import_react.useContext(RouteContext);
+	let { pathname: locationPathname } = useLocation();
+	let navigate = useNavigate();
+	let path = resolveTo(to, getResolveToMatches(matches), locationPathname, relative === "path");
+	let jsonPath = JSON.stringify(path);
+	import_react.useEffect(() => {
+		navigate(JSON.parse(jsonPath), {
+			replace: replace2,
+			state,
+			relative
+		});
+	}, [
+		navigate,
+		jsonPath,
+		relative,
+		replace2,
+		state
+	]);
+	return null;
+}
 function Outlet(props) {
 	return useOutlet(props.context);
 }
@@ -19272,6 +19296,16 @@ var GripVertical = createLucideIcon("grip-vertical", [
 		key: "f4zoj3"
 	}]
 ]);
+var KeyRound = createLucideIcon("key-round", [["path", {
+	d: "M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z",
+	key: "1s6t7t"
+}], ["circle", {
+	cx: "16.5",
+	cy: "7.5",
+	r: ".5",
+	fill: "currentColor",
+	key: "w0ekpg"
+}]]);
 var LayoutTemplate = createLucideIcon("layout-template", [
 	["rect", {
 		width: "18",
@@ -19302,6 +19336,20 @@ var LoaderCircle = createLucideIcon("loader-circle", [["path", {
 	d: "M21 12a9 9 0 1 1-6.219-8.56",
 	key: "13zald"
 }]]);
+var LogIn = createLucideIcon("log-in", [
+	["path", {
+		d: "m10 17 5-5-5-5",
+		key: "1bsop3"
+	}],
+	["path", {
+		d: "M15 12H3",
+		key: "6jk70r"
+	}],
+	["path", {
+		d: "M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4",
+		key: "u53s6r"
+	}]
+]);
 var LogOut = createLucideIcon("log-out", [
 	["path", {
 		d: "m16 17 5-5-5-5",
@@ -19316,6 +19364,17 @@ var LogOut = createLucideIcon("log-out", [
 		key: "1uf3rs"
 	}]
 ]);
+var Mail = createLucideIcon("mail", [["path", {
+	d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7",
+	key: "132q7q"
+}], ["rect", {
+	x: "2",
+	y: "4",
+	width: "20",
+	height: "16",
+	rx: "2",
+	key: "izxlao"
+}]]);
 var MousePointerClick = createLucideIcon("mouse-pointer-click", [
 	["path", {
 		d: "M14 4.1 12 6",
@@ -19542,6 +19601,32 @@ var Trophy = createLucideIcon("trophy", [
 		key: "tex48p"
 	}]
 ]);
+var UserPlus = createLucideIcon("user-plus", [
+	["path", {
+		d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2",
+		key: "1yyitq"
+	}],
+	["circle", {
+		cx: "9",
+		cy: "7",
+		r: "4",
+		key: "nufk8"
+	}],
+	["line", {
+		x1: "19",
+		x2: "19",
+		y1: "8",
+		y2: "14",
+		key: "1bvyxn"
+	}],
+	["line", {
+		x1: "22",
+		x2: "16",
+		y1: "11",
+		y2: "11",
+		key: "1shjgl"
+	}]
+]);
 var User = createLucideIcon("user", [["path", {
 	d: "M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2",
 	key: "975kel"
@@ -19551,7 +19636,7 @@ var User = createLucideIcon("user", [["path", {
 	r: "4",
 	key: "17ys0d"
 }]]);
-var Users = createLucideIcon("users", [
+var Users$1 = createLucideIcon("users", [
 	["path", {
 		d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2",
 		key: "1yyitq"
@@ -26645,492 +26730,6 @@ var DropdownMenuShortcut = ({ className, ...props }) => {
 	});
 };
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
-var INITIAL_PROJECTS = [
-	{
-		id: "1",
-		name: "Tyrreno Imóveis",
-		date: "27 jan 2026",
-		status: "Em andamento"
-	},
-	{
-		id: "2",
-		name: "Varejo Xperience",
-		date: "25 jan 2026",
-		status: "Enviado"
-	},
-	{
-		id: "3",
-		name: "Dr. Consultoria",
-		date: "20 jan 2026",
-		status: "Aprovado"
-	}
-];
-var Index = () => {
-	const [projects, setProjects] = (0, import_react.useState)(INITIAL_PROJECTS);
-	const deleteProject = (id) => {
-		setProjects(projects.filter((p) => p.id !== id));
-	};
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "min-h-screen bg-slate-50 font-sans",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
-			className: "bg-white border-b border-slate-200 py-6 px-8",
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "max-w-7xl mx-auto flex justify-between items-center",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
-					className: "text-2xl font-bold text-slate-900",
-					children: "OCEAN PROPOSAL"
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "text-slate-500",
-					children: "Gerenciador de Propostas de Performance"
-				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex items-center gap-4",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "relative",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-							className: "pl-9 w-64",
-							placeholder: "Buscar projetos..."
-						})]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenu, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuTrigger, {
-						asChild: true,
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-							className: "w-10 h-10 rounded-full bg-slate-200 overflow-hidden outline-none ring-offset-2 focus:ring-2 focus:ring-slate-400 transition-all",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-								src: "https://img.usecurling.com/ppl/thumbnail?gender=male",
-								alt: "User"
-							})
-						})
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuContent, {
-						align: "end",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
-								disabled: true,
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(User, { className: "w-4 h-4 mr-2" }), " Perfil (Acesse no Editor)"]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-								to: "/biblioteca",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-4 h-4 mr-2" }), " Biblioteca"] })
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
-								className: "text-red-600",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogOut, { className: "w-4 h-4 mr-2" }), " Sair"]
-							})
-						]
-					})] })]
-				})]
-			})
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
-			className: "max-w-7xl mx-auto py-12 px-8",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "flex justify-between items-center mb-8",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-					className: "text-xl font-bold text-slate-800",
-					children: "Propostas Recentes"
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-					to: "/editor",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
-						className: "bg-sky-500 hover:bg-sky-600 text-white",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 mr-2" }), " Nova Proposta"]
-					})
-				})]
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
-				children: [projects.map((project) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
-					className: "hover:shadow-lg transition-shadow border-slate-200 group",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, {
-							className: "flex flex-row items-center justify-between pb-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileText, { className: "w-5 h-5" })
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-								variant: "ghost",
-								size: "icon",
-								className: "h-8 w-8 text-slate-400 hover:text-red-500 hover:bg-red-50",
-								onClick: () => deleteProject(project.id),
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "w-4 h-4" })
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardContent, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
-							className: "text-lg mb-1",
-							children: project.name
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-							className: "text-sm text-slate-500",
-							children: ["Criado em ", project.date]
-						})] }),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardFooter, {
-							className: "pt-0 flex justify-between items-center",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: `text-xs font-bold px-2 py-1 rounded-full ${project.status === "Aprovado" ? "bg-emerald-100 text-emerald-700" : project.status === "Enviado" ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-600"}`,
-								children: project.status
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-								to: "/editor",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-									variant: "link",
-									className: "text-sky-500 p-0 h-auto",
-									children: "Abrir Editor →"
-								})
-							})]
-						})
-					]
-				}, project.id)), projects.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "col-span-full py-12 text-center text-slate-400 bg-slate-50 rounded-lg border border-dashed border-slate-300",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Nenhuma proposta encontrada." }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-						to: "/editor",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-							variant: "link",
-							className: "text-sky-500",
-							children: "Criar primeira proposta"
-						})
-					})]
-				})]
-			})]
-		})]
-	});
-};
-var Index_default = Index;
-const DEFAULT_PROPOSAL = {
-	id: "new",
-	agencyName: "OCEAN PROPOSAL",
-	agencyCnpj: "00.000.000/0001-00",
-	agencyRep: "Seu Nome",
-	clientName: "Cliente Exemplo",
-	clientUrl: "www.exemplo.com.br",
-	sector: "Imóveis de Alto Padrão",
-	location: "São Paulo, SP",
-	profile: {
-		name: "Seu Nome",
-		cpf: "",
-		company: "OCEAN PROPOSAL",
-		cnpj: "00.000.000/0001-00",
-		logo: "https://img.usecurling.com/i?q=ocean&color=blue"
-	},
-	coverImage: "https://img.usecurling.com/p/1200/800?q=modern%20skyscrapers%20corporate&color=black",
-	overlayColor: "#000000",
-	overlayOpacity: 40,
-	summaryPageImage: "https://img.usecurling.com/p/1200/800?q=white%20minimalist%20office&color=white",
-	summaryBoxImage: "https://img.usecurling.com/p/1200/800?q=abstract%20technology%20network&color=blue",
-	coverTitle: "Plano de Aceleração & Performance",
-	coverSubtitle: "Estratégia comercial personalizada",
-	summaryTitle: "Sumário Executivo",
-	summarySubtitle: "Visão Geral do Projeto",
-	competitorsTitle: "Análise Competitiva",
-	competitorsSubtitle: "Inteligência de Mercado",
-	diagnosisTitle: "Diagnóstico & Oportunidades",
-	diagnosisSubtitle: "Análise de Cenário",
-	ecosystemTitle: "O Ecossistema de Performance",
-	ecosystemSubtitle: "Jornada do Cliente",
-	timelineTitle: "Cronograma - 90 Dias",
-	timelineSubtitle: "Roadmap de Implementação",
-	methodologyTitle: "Metodologia e Tecnologia",
-	methodologySubtitle: "Diferenciais Competitivos",
-	projectionTitle: "Projeção de Resultados",
-	projectionSubtitle: "Funil de Vendas & Performance",
-	investmentTitle: "Investimento",
-	investmentSubtitle: "Proposta Comercial",
-	roiTitle: "ROI Estimado",
-	roiSubtitle: "Retorno sobre Investimento",
-	closingTitle: "Vamos acelerar o crescimento juntos?",
-	closingSubtitle: "Do tráfego à venda real.",
-	ctaUrl: "https://wa.me/5511999999999",
-	currentInvestment: 15e3,
-	currentCPA: 120,
-	currentRevenue: 15e4,
-	currentLeads: 125,
-	currentSales: 10,
-	gaps: ["Ausência de Tagueamento Avançado", "Baixa conversão na Landing Page"],
-	growthLevers: [
-		"Exploração de Google Ads",
-		"Otimização de CRO",
-		"Automação de Leads"
-	],
-	competitorsData: [{
-		name: "Concorrente A",
-		website: "www.concorrente-a.com.br",
-		presence: "Forte presença no Instagram.",
-		strengths: ["Preço", "Entrega"],
-		weaknesses: ["Site Lento", "Sem SEO"]
-	}],
-	marketBenchmarking: "O mercado apresenta saturação em canais tradicionais.",
-	trafficSources: [
-		"Google ADS (Pesquisa)",
-		"Meta Ads (Facebook/Instagram)",
-		"Linkedin Ads"
-	],
-	conversionZone: [
-		"Landing Page (High-Convert)",
-		"Automação de Leads",
-		"Website"
-	],
-	salesIntelligence: [
-		"CRM",
-		"Dashboard de Campanhas",
-		"Acompanhamento Comercial"
-	],
-	timelinePhases: [
-		{
-			month: "Mês 1",
-			title: "Setup & Estruturação",
-			items: [
-				"Auditoria de Tagueamento",
-				"Criação de LPs",
-				"Setup de Campanhas"
-			]
-		},
-		{
-			month: "Mês 2",
-			title: "Validação & Testes",
-			items: [
-				"Testes A/B de Criativos",
-				"Otimização de Públicos",
-				"Refinamento de Keywords"
-			]
-		},
-		{
-			month: "Mês 3",
-			title: "Escala & Otimização",
-			items: [
-				"Escala de Verba",
-				"Redução de CAC",
-				"Expansão de Canais"
-			]
-		}
-	],
-	ganttPages: [{
-		id: "gantt-1",
-		title: "Cronograma Detalhado",
-		subtitle: "Visão Semanal",
-		month: "MÊS 1",
-		tasks: [
-			{
-				name: "Setup de Business Manager",
-				s1: true,
-				s2: true,
-				s3: false,
-				s4: false,
-				type: "planning"
-			},
-			{
-				name: "Criação de Landing Pages",
-				s1: false,
-				s2: true,
-				s3: true,
-				s4: false,
-				type: "execution"
-			},
-			{
-				name: "Configuração de Pixel/API",
-				s1: true,
-				s2: false,
-				s3: false,
-				s4: false,
-				type: "planning"
-			},
-			{
-				name: "Produção de Criativos",
-				s1: false,
-				s2: true,
-				s3: true,
-				s4: false,
-				type: "execution"
-			},
-			{
-				name: "Lançamento de Campanhas",
-				s1: false,
-				s2: false,
-				s3: false,
-				s4: true,
-				type: "review"
-			}
-		]
-	}],
-	funnelCurrent: {
-		clicks: 5e3,
-		leads: 125,
-		mql: 40,
-		sql: 15,
-		sales: 5
-	},
-	funnelProjected: {
-		clicks: 12e3,
-		leads: 350,
-		mql: 120,
-		sql: 50,
-		sales: 18
-	},
-	projectionCards: [
-		{
-			title: "Leads Qualificados",
-			metric: "+100%",
-			subtext: "Aumento de volume",
-			tag: "Meta Principal"
-		},
-		{
-			title: "Redução de CAC",
-			metric: "-20%",
-			subtext: "Otimização de custos",
-			tag: "Eficiência"
-		},
-		{
-			title: "Taxa de Conversão",
-			metric: "15%",
-			subtext: "Landing Pages",
-			tag: "CRO"
-		},
-		{
-			title: "Novas Vendas",
-			metric: "+15",
-			subtext: "Incremental mensal",
-			tag: "Receita"
-		}
-	],
-	mediaBudget: 2e4,
-	softwareCost: 1500,
-	investmentTiers: [
-		{
-			name: "Essencial",
-			fee: 4e3,
-			description: "Para quem está começando a escalar.",
-			features: [
-				"Gestão de 2 Canais",
-				"Relatório Mensal",
-				"Setup Básico"
-			],
-			recommended: false
-		},
-		{
-			name: "Growth",
-			fee: 7500,
-			description: "Aceleração total com inteligência.",
-			features: [
-				"Gestão Multicanal",
-				"Dashboard Tempo Real",
-				"Landing Pages",
-				"Otimização Semanal"
-			],
-			recommended: true
-		},
-		{
-			name: "Scale",
-			fee: 12e3,
-			description: "Dominação de mercado e alta performance.",
-			features: [
-				"Squad Dedicado",
-				"Consultoria de Vendas",
-				"CRO Avançado",
-				"Design Premium"
-			],
-			recommended: false
-		}
-	],
-	strategyText: "Nossa abordagem integra captação de Fundo de Funil com Google Ads e Geração de Demanda visual via Meta Ads.",
-	executiveSummary: "O objetivo principal é escalar a geração de leads qualificados reduzindo o CAC atual em 20%.",
-	methodologyText: "Utilizamos uma metodologia proprietária baseada em dados.",
-	summaryLinks: [{
-		title: "Ver Site",
-		url: "https://example.com"
-	}],
-	summaryMetrics: [
-		{
-			label: "Leads Qualificados",
-			value: "+100%",
-			icon: "target",
-			description: "Meta de crescimento"
-		},
-		{
-			label: "ROI Estimado",
-			value: "5x",
-			icon: "trending",
-			description: "Retorno sobre Mídia"
-		},
-		{
-			label: "Share of Voice",
-			value: "Top 1",
-			icon: "users",
-			description: "Dominância de Mercado"
-		}
-	],
-	methodologyItems: [
-		{
-			title: "Growth AI Screening",
-			description: "Nossa tecnologia proprietária analisa leads em tempo real, pontuando a intenção de compra.",
-			icon: "cpu"
-		},
-		{
-			title: "Dashboard Ao Vivo",
-			description: "Transparência radical. Acesso 24/7 a um painel financeiro para acompanhar cada centavo.",
-			icon: "barChart"
-		},
-		{
-			title: "Auditoria Semanal",
-			description: "Rotina dupla de otimização: algoritmos preditivos para lances e curadoria humana sênior.",
-			icon: "search"
-		}
-	],
-	methodologyFeatures: [
-		"Time Sênior Dedicado (Sem Juniors)",
-		"Acesso a APIs Oficiais (Meta/Google)",
-		"Transparência Total de Dados"
-	],
-	methodologyExtra: {
-		title: "Omnichannel Nativo",
-		text: "Integração total entre canais e CRM. O dado que entra em um canal alimenta a inteligência do outro.",
-		icon: "zap"
-	},
-	footerText: [
-		"Time Sênior",
-		"APIs Oficiais",
-		"Transparência de Dados"
-	],
-	pageOrder: [
-		"parts",
-		"cover",
-		"summary",
-		"competitors",
-		"diagnosis",
-		"ecosystem",
-		"timeline",
-		"gantt-1",
-		"methodology",
-		"projection",
-		"financials",
-		"roi",
-		"closing"
-	],
-	library: [],
-	createdAt: (/* @__PURE__ */ new Date()).toISOString(),
-	status: "draft"
-};
-var byteToHex = [];
-for (let i = 0; i < 256; ++i) byteToHex.push((i + 256).toString(16).slice(1));
-function unsafeStringify(arr, offset$3 = 0) {
-	return (byteToHex[arr[offset$3 + 0]] + byteToHex[arr[offset$3 + 1]] + byteToHex[arr[offset$3 + 2]] + byteToHex[arr[offset$3 + 3]] + "-" + byteToHex[arr[offset$3 + 4]] + byteToHex[arr[offset$3 + 5]] + "-" + byteToHex[arr[offset$3 + 6]] + byteToHex[arr[offset$3 + 7]] + "-" + byteToHex[arr[offset$3 + 8]] + byteToHex[arr[offset$3 + 9]] + "-" + byteToHex[arr[offset$3 + 10]] + byteToHex[arr[offset$3 + 11]] + byteToHex[arr[offset$3 + 12]] + byteToHex[arr[offset$3 + 13]] + byteToHex[arr[offset$3 + 14]] + byteToHex[arr[offset$3 + 15]]).toLowerCase();
-}
-var getRandomValues;
-var rnds8 = new Uint8Array(16);
-function rng() {
-	if (!getRandomValues) {
-		if (typeof crypto === "undefined" || !crypto.getRandomValues) throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
-		getRandomValues = crypto.getRandomValues.bind(crypto);
-	}
-	return getRandomValues(rnds8);
-}
-var native_default = { randomUUID: typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto) };
-function v4(options$1, buf, offset$3) {
-	if (native_default.randomUUID && !buf && !options$1) return native_default.randomUUID();
-	options$1 = options$1 || {};
-	const rnds = options$1.random ?? options$1.rng?.() ?? rng();
-	if (rnds.length < 16) throw new Error("Random bytes length must be >= 16");
-	rnds[6] = rnds[6] & 15 | 64;
-	rnds[8] = rnds[8] & 63 | 128;
-	if (buf) {
-		offset$3 = offset$3 || 0;
-		if (offset$3 < 0 || offset$3 + 16 > buf.length) throw new RangeError(`UUID byte range ${offset$3}:${offset$3 + 15} is out of buffer bounds`);
-		for (let i = 0; i < 16; ++i) buf[offset$3 + i] = rnds[i];
-		return buf;
-	}
-	return unsafeStringify(rnds);
-}
-var v4_default = v4;
 const resolveFetch$3 = (customFetch) => {
 	if (customFetch) return (...args) => customFetch(...args);
 	return (...args) => fetch(...args);
@@ -34685,6 +34284,504 @@ const AuthProvider = ({ children }) => {
 		children
 	});
 };
+var INITIAL_PROJECTS = [
+	{
+		id: "1",
+		name: "Tyrreno Imóveis",
+		date: "27 jan 2026",
+		status: "Em andamento"
+	},
+	{
+		id: "2",
+		name: "Varejo Xperience",
+		date: "25 jan 2026",
+		status: "Enviado"
+	},
+	{
+		id: "3",
+		name: "Dr. Consultoria",
+		date: "20 jan 2026",
+		status: "Aprovado"
+	}
+];
+var Index = () => {
+	const [projects, setProjects] = (0, import_react.useState)(INITIAL_PROJECTS);
+	const { signOut, user } = useAuth();
+	const navigate = useNavigate();
+	const deleteProject = (id) => {
+		setProjects(projects.filter((p) => p.id !== id));
+	};
+	const handleSignOut = async () => {
+		await signOut();
+		navigate("/login");
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "min-h-screen bg-slate-50 font-sans",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
+			className: "bg-white border-b border-slate-200 py-6 px-8",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "max-w-7xl mx-auto flex justify-between items-center",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+					className: "text-2xl font-bold text-slate-900",
+					children: "OCEAN PROPOSAL"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "text-slate-500",
+					children: "Gerenciador de Propostas de Performance"
+				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex items-center gap-4",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "relative",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							className: "pl-9 w-64",
+							placeholder: "Buscar projetos..."
+						})]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenu, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuTrigger, {
+						asChild: true,
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							className: "w-10 h-10 rounded-full bg-slate-200 overflow-hidden outline-none ring-offset-2 focus:ring-2 focus:ring-slate-400 transition-all flex items-center justify-center",
+							children: user?.email?.charAt(0).toUpperCase() || /* @__PURE__ */ (0, import_jsx_runtime.jsx)(User, { className: "w-5 h-5 text-slate-500" })
+						})
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuContent, {
+						align: "end",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
+								disabled: true,
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(User, { className: "w-4 h-4 mr-2" }),
+									" ",
+									user?.email
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/biblioteca",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-4 h-4 mr-2" }), " Biblioteca"] })
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/usuarios",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users$1, { className: "w-4 h-4 mr-2" }), " Usuários"] })
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
+								className: "text-red-600",
+								onClick: handleSignOut,
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogOut, { className: "w-4 h-4 mr-2" }), " Sair"]
+							})
+						]
+					})] })]
+				})]
+			})
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
+			className: "max-w-7xl mx-auto py-12 px-8",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex justify-between items-center mb-8",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+					className: "text-xl font-bold text-slate-800",
+					children: "Propostas Recentes"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+					to: "/editor",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+						className: "bg-sky-500 hover:bg-sky-600 text-white",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 mr-2" }), " Nova Proposta"]
+					})
+				})]
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
+				children: [projects.map((project) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
+					className: "hover:shadow-lg transition-shadow border-slate-200 group",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, {
+							className: "flex flex-row items-center justify-between pb-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileText, { className: "w-5 h-5" })
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+								variant: "ghost",
+								size: "icon",
+								className: "h-8 w-8 text-slate-400 hover:text-red-500 hover:bg-red-50",
+								onClick: () => deleteProject(project.id),
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "w-4 h-4" })
+							})]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardContent, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+							className: "text-lg mb-1",
+							children: project.name
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+							className: "text-sm text-slate-500",
+							children: ["Criado em ", project.date]
+						})] }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardFooter, {
+							className: "pt-0 flex justify-between items-center",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: `text-xs font-bold px-2 py-1 rounded-full ${project.status === "Aprovado" ? "bg-emerald-100 text-emerald-700" : project.status === "Enviado" ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-600"}`,
+								children: project.status
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/editor",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+									variant: "link",
+									className: "text-sky-500 p-0 h-auto",
+									children: "Abrir Editor →"
+								})
+							})]
+						})
+					]
+				}, project.id)), projects.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "col-span-full py-12 text-center text-slate-400 bg-slate-50 rounded-lg border border-dashed border-slate-300",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Nenhuma proposta encontrada." }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+						to: "/editor",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+							variant: "link",
+							className: "text-sky-500",
+							children: "Criar primeira proposta"
+						})
+					})]
+				})]
+			})]
+		})]
+	});
+};
+var Index_default = Index;
+const DEFAULT_PROPOSAL = {
+	id: "new",
+	agencyName: "OCEAN PROPOSAL",
+	agencyCnpj: "00.000.000/0001-00",
+	agencyRep: "Seu Nome",
+	clientName: "Cliente Exemplo",
+	clientUrl: "www.exemplo.com.br",
+	sector: "Imóveis de Alto Padrão",
+	location: "São Paulo, SP",
+	profile: {
+		name: "Seu Nome",
+		cpf: "",
+		company: "OCEAN PROPOSAL",
+		cnpj: "00.000.000/0001-00",
+		logo: "https://img.usecurling.com/i?q=ocean&color=blue"
+	},
+	coverImage: "https://img.usecurling.com/p/1200/800?q=modern%20skyscrapers%20corporate&color=black",
+	overlayColor: "#000000",
+	overlayOpacity: 40,
+	summaryPageImage: "https://img.usecurling.com/p/1200/800?q=white%20minimalist%20office&color=white",
+	summaryBoxImage: "https://img.usecurling.com/p/1200/800?q=abstract%20technology%20network&color=blue",
+	coverTitle: "Plano de Aceleração & Performance",
+	coverSubtitle: "Estratégia comercial personalizada",
+	summaryTitle: "Sumário Executivo",
+	summarySubtitle: "Visão Geral do Projeto",
+	competitorsTitle: "Análise Competitiva",
+	competitorsSubtitle: "Inteligência de Mercado",
+	diagnosisTitle: "Diagnóstico & Oportunidades",
+	diagnosisSubtitle: "Análise de Cenário",
+	ecosystemTitle: "O Ecossistema de Performance",
+	ecosystemSubtitle: "Jornada do Cliente",
+	timelineTitle: "Cronograma - 90 Dias",
+	timelineSubtitle: "Roadmap de Implementação",
+	methodologyTitle: "Metodologia e Tecnologia",
+	methodologySubtitle: "Diferenciais Competitivos",
+	projectionTitle: "Projeção de Resultados",
+	projectionSubtitle: "Funil de Vendas & Performance",
+	investmentTitle: "Investimento",
+	investmentSubtitle: "Proposta Comercial",
+	roiTitle: "ROI Estimado",
+	roiSubtitle: "Retorno sobre Investimento",
+	closingTitle: "Vamos acelerar o crescimento juntos?",
+	closingSubtitle: "Do tráfego à venda real.",
+	ctaUrl: "https://wa.me/5511999999999",
+	currentInvestment: 15e3,
+	currentCPA: 120,
+	currentRevenue: 15e4,
+	currentLeads: 125,
+	currentSales: 10,
+	gaps: ["Ausência de Tagueamento Avançado", "Baixa conversão na Landing Page"],
+	growthLevers: [
+		"Exploração de Google Ads",
+		"Otimização de CRO",
+		"Automação de Leads"
+	],
+	competitorsData: [{
+		name: "Concorrente A",
+		website: "www.concorrente-a.com.br",
+		presence: "Forte presença no Instagram.",
+		strengths: ["Preço", "Entrega"],
+		weaknesses: ["Site Lento", "Sem SEO"]
+	}],
+	marketBenchmarking: "O mercado apresenta saturação em canais tradicionais.",
+	trafficSources: [
+		"Google ADS (Pesquisa)",
+		"Meta Ads (Facebook/Instagram)",
+		"Linkedin Ads"
+	],
+	conversionZone: [
+		"Landing Page (High-Convert)",
+		"Automação de Leads",
+		"Website"
+	],
+	salesIntelligence: [
+		"CRM",
+		"Dashboard de Campanhas",
+		"Acompanhamento Comercial"
+	],
+	timelinePhases: [
+		{
+			month: "Mês 1",
+			title: "Setup & Estruturação",
+			items: [
+				"Auditoria de Tagueamento",
+				"Criação de LPs",
+				"Setup de Campanhas"
+			]
+		},
+		{
+			month: "Mês 2",
+			title: "Validação & Testes",
+			items: [
+				"Testes A/B de Criativos",
+				"Otimização de Públicos",
+				"Refinamento de Keywords"
+			]
+		},
+		{
+			month: "Mês 3",
+			title: "Escala & Otimização",
+			items: [
+				"Escala de Verba",
+				"Redução de CAC",
+				"Expansão de Canais"
+			]
+		}
+	],
+	ganttPages: [{
+		id: "gantt-1",
+		title: "Cronograma Detalhado",
+		subtitle: "Visão Semanal",
+		month: "MÊS 1",
+		tasks: [
+			{
+				name: "Setup de Business Manager",
+				s1: true,
+				s2: true,
+				s3: false,
+				s4: false,
+				type: "planning"
+			},
+			{
+				name: "Criação de Landing Pages",
+				s1: false,
+				s2: true,
+				s3: true,
+				s4: false,
+				type: "execution"
+			},
+			{
+				name: "Configuração de Pixel/API",
+				s1: true,
+				s2: false,
+				s3: false,
+				s4: false,
+				type: "planning"
+			},
+			{
+				name: "Produção de Criativos",
+				s1: false,
+				s2: true,
+				s3: true,
+				s4: false,
+				type: "execution"
+			},
+			{
+				name: "Lançamento de Campanhas",
+				s1: false,
+				s2: false,
+				s3: false,
+				s4: true,
+				type: "review"
+			}
+		]
+	}],
+	funnelCurrent: {
+		clicks: 5e3,
+		leads: 125,
+		mql: 40,
+		sql: 15,
+		sales: 5
+	},
+	funnelProjected: {
+		clicks: 12e3,
+		leads: 350,
+		mql: 120,
+		sql: 50,
+		sales: 18
+	},
+	projectionCards: [
+		{
+			title: "Leads Qualificados",
+			metric: "+100%",
+			subtext: "Aumento de volume",
+			tag: "Meta Principal"
+		},
+		{
+			title: "Redução de CAC",
+			metric: "-20%",
+			subtext: "Otimização de custos",
+			tag: "Eficiência"
+		},
+		{
+			title: "Taxa de Conversão",
+			metric: "15%",
+			subtext: "Landing Pages",
+			tag: "CRO"
+		},
+		{
+			title: "Novas Vendas",
+			metric: "+15",
+			subtext: "Incremental mensal",
+			tag: "Receita"
+		}
+	],
+	mediaBudget: 2e4,
+	softwareCost: 1500,
+	investmentTiers: [
+		{
+			name: "Essencial",
+			fee: 4e3,
+			description: "Para quem está começando a escalar.",
+			features: [
+				"Gestão de 2 Canais",
+				"Relatório Mensal",
+				"Setup Básico"
+			],
+			recommended: false
+		},
+		{
+			name: "Growth",
+			fee: 7500,
+			description: "Aceleração total com inteligência.",
+			features: [
+				"Gestão Multicanal",
+				"Dashboard Tempo Real",
+				"Landing Pages",
+				"Otimização Semanal"
+			],
+			recommended: true
+		},
+		{
+			name: "Scale",
+			fee: 12e3,
+			description: "Dominação de mercado e alta performance.",
+			features: [
+				"Squad Dedicado",
+				"Consultoria de Vendas",
+				"CRO Avançado",
+				"Design Premium"
+			],
+			recommended: false
+		}
+	],
+	strategyText: "Nossa abordagem integra captação de Fundo de Funil com Google Ads e Geração de Demanda visual via Meta Ads.",
+	executiveSummary: "O objetivo principal é escalar a geração de leads qualificados reduzindo o CAC atual em 20%.",
+	methodologyText: "Utilizamos uma metodologia proprietária baseada em dados.",
+	summaryLinks: [{
+		title: "Ver Site",
+		url: "https://example.com"
+	}],
+	summaryMetrics: [
+		{
+			label: "Leads Qualificados",
+			value: "+100%",
+			icon: "target",
+			description: "Meta de crescimento"
+		},
+		{
+			label: "ROI Estimado",
+			value: "5x",
+			icon: "trending",
+			description: "Retorno sobre Mídia"
+		},
+		{
+			label: "Share of Voice",
+			value: "Top 1",
+			icon: "users",
+			description: "Dominância de Mercado"
+		}
+	],
+	methodologyItems: [
+		{
+			title: "Growth AI Screening",
+			description: "Nossa tecnologia proprietária analisa leads em tempo real, pontuando a intenção de compra.",
+			icon: "cpu"
+		},
+		{
+			title: "Dashboard Ao Vivo",
+			description: "Transparência radical. Acesso 24/7 a um painel financeiro para acompanhar cada centavo.",
+			icon: "barChart"
+		},
+		{
+			title: "Auditoria Semanal",
+			description: "Rotina dupla de otimização: algoritmos preditivos para lances e curadoria humana sênior.",
+			icon: "search"
+		}
+	],
+	methodologyFeatures: [
+		"Time Sênior Dedicado (Sem Juniors)",
+		"Acesso a APIs Oficiais (Meta/Google)",
+		"Transparência Total de Dados"
+	],
+	methodologyExtra: {
+		title: "Omnichannel Nativo",
+		text: "Integração total entre canais e CRM. O dado que entra em um canal alimenta a inteligência do outro.",
+		icon: "zap"
+	},
+	footerText: [
+		"Time Sênior",
+		"APIs Oficiais",
+		"Transparência de Dados"
+	],
+	pageOrder: [
+		"parts",
+		"cover",
+		"summary",
+		"competitors",
+		"diagnosis",
+		"ecosystem",
+		"timeline",
+		"gantt-1",
+		"methodology",
+		"projection",
+		"financials",
+		"roi",
+		"closing"
+	],
+	library: [],
+	createdAt: (/* @__PURE__ */ new Date()).toISOString(),
+	status: "draft"
+};
+var byteToHex = [];
+for (let i = 0; i < 256; ++i) byteToHex.push((i + 256).toString(16).slice(1));
+function unsafeStringify(arr, offset$3 = 0) {
+	return (byteToHex[arr[offset$3 + 0]] + byteToHex[arr[offset$3 + 1]] + byteToHex[arr[offset$3 + 2]] + byteToHex[arr[offset$3 + 3]] + "-" + byteToHex[arr[offset$3 + 4]] + byteToHex[arr[offset$3 + 5]] + "-" + byteToHex[arr[offset$3 + 6]] + byteToHex[arr[offset$3 + 7]] + "-" + byteToHex[arr[offset$3 + 8]] + byteToHex[arr[offset$3 + 9]] + "-" + byteToHex[arr[offset$3 + 10]] + byteToHex[arr[offset$3 + 11]] + byteToHex[arr[offset$3 + 12]] + byteToHex[arr[offset$3 + 13]] + byteToHex[arr[offset$3 + 14]] + byteToHex[arr[offset$3 + 15]]).toLowerCase();
+}
+var getRandomValues;
+var rnds8 = new Uint8Array(16);
+function rng() {
+	if (!getRandomValues) {
+		if (typeof crypto === "undefined" || !crypto.getRandomValues) throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
+		getRandomValues = crypto.getRandomValues.bind(crypto);
+	}
+	return getRandomValues(rnds8);
+}
+var native_default = { randomUUID: typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto) };
+function v4(options$1, buf, offset$3) {
+	if (native_default.randomUUID && !buf && !options$1) return native_default.randomUUID();
+	options$1 = options$1 || {};
+	const rnds = options$1.random ?? options$1.rng?.() ?? rng();
+	if (rnds.length < 16) throw new Error("Random bytes length must be >= 16");
+	rnds[6] = rnds[6] & 15 | 64;
+	rnds[8] = rnds[8] & 63 | 128;
+	if (buf) {
+		offset$3 = offset$3 || 0;
+		if (offset$3 < 0 || offset$3 + 16 > buf.length) throw new RangeError(`UUID byte range ${offset$3}:${offset$3 + 15} is out of buffer bounds`);
+		for (let i = 0; i < 16; ++i) buf[offset$3 + i] = rnds[i];
+		return buf;
+	}
+	return unsafeStringify(rnds);
+}
+var v4_default = v4;
 const ProposalContext = (0, import_react.createContext)(void 0);
 const ProposalProvider = ({ children }) => {
 	const [proposal, setProposal] = (0, import_react.useState)(DEFAULT_PROPOSAL);
@@ -35046,7 +35143,7 @@ function SlideSummary({ proposal }) {
 		switch (name) {
 			case "target": return Target;
 			case "trending": return TrendingUp;
-			case "users": return Users;
+			case "users": return Users$1;
 			default: return Target;
 		}
 	};
@@ -35086,7 +35183,7 @@ function SlideSummary({ proposal }) {
 					className: "col-span-4 bg-slate-50 rounded-2xl p-8 border border-slate-200 h-fit shadow-sm",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
 						className: "text-xl font-bold text-slate-900 mb-6 flex items-center gap-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users, { className: "w-5 h-5 text-sky-500" }), " Perfil do Cliente"]
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users$1, { className: "w-5 h-5 text-sky-500" }), " Perfil do Cliente"]
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "space-y-6",
 						children: [
@@ -40629,6 +40726,8 @@ function TemplateSelectionModal({ open, onOpenChange, onSelect }) {
 }
 function EditorContent() {
 	const { proposal, updateProposal, duplicatePage, removePage, saveProposal, saveSlideToLibrary, insertTemplate, isLoading } = useProposal();
+	const { signOut } = useAuth();
+	const navigate = useNavigate();
 	const [activeTab, setActiveTab] = (0, import_react.useState)("parts");
 	const [leftOpen, setLeftOpen] = (0, import_react.useState)(true);
 	const [rightOpen, setRightOpen] = (0, import_react.useState)(true);
@@ -40641,6 +40740,10 @@ function EditorContent() {
 			return;
 		}
 		window.open(`/share/${proposal.id}`, "_blank");
+	};
+	const handleSignOut = async () => {
+		await signOut();
+		navigate("/login");
 	};
 	const staticComponents = {
 		parts: {
@@ -40660,7 +40763,7 @@ function EditorContent() {
 		},
 		competitors: {
 			label: "Concorrência",
-			icon: Users,
+			icon: Users$1,
 			component: WizardStepCompetitors
 		},
 		diagnosis: {
@@ -40909,9 +41012,10 @@ function EditorContent() {
 									to: "/biblioteca",
 									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-4 h-4 mr-2" }), " Biblioteca"] })
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-									to: "/",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogOut, { className: "w-4 h-4 mr-2" }), " Sair"] })
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
+									onClick: handleSignOut,
+									className: "text-red-600",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogOut, { className: "w-4 h-4 mr-2" }), " Sair"]
 								})
 							]
 						})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -40939,13 +41043,20 @@ function EditorContent() {
 							})
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuContent, {
 							side: "right",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuItem, {
-								onClick: () => setProfileOpen(true),
-								children: "Perfil"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-								to: "/biblioteca",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuItem, { children: "Biblioteca" })
-							})]
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuItem, {
+									onClick: () => setProfileOpen(true),
+									children: "Perfil"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+									to: "/biblioteca",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuItem, { children: "Biblioteca" })
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuItem, {
+									onClick: handleSignOut,
+									children: "Sair"
+								})
+							]
 						})] })
 					})
 				]
@@ -41219,6 +41330,653 @@ function ShareContent() {
 function Share() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProposalProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ShareContent, {}) });
 }
+var Table = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	className: "relative w-full overflow-auto",
+	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("table", {
+		ref,
+		className: cn("w-full caption-bottom text-sm", className),
+		...props
+	})
+}));
+Table.displayName = "Table";
+var TableHeader = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("thead", {
+	ref,
+	className: cn("[&_tr]:border-b", className),
+	...props
+}));
+TableHeader.displayName = "TableHeader";
+var TableBody = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tbody", {
+	ref,
+	className: cn("[&_tr:last-child]:border-0", className),
+	...props
+}));
+TableBody.displayName = "TableBody";
+var TableFooter = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tfoot", {
+	ref,
+	className: cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className),
+	...props
+}));
+TableFooter.displayName = "TableFooter";
+var TableRow = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tr", {
+	ref,
+	className: cn("border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted", className),
+	...props
+}));
+TableRow.displayName = "TableRow";
+var TableHead = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", {
+	ref,
+	className: cn("h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0", className),
+	...props
+}));
+TableHead.displayName = "TableHead";
+var TableCell = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", {
+	ref,
+	className: cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className),
+	...props
+}));
+TableCell.displayName = "TableCell";
+var TableCaption = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("caption", {
+	ref,
+	className: cn("mt-4 text-sm text-muted-foreground", className),
+	...props
+}));
+TableCaption.displayName = "TableCaption";
+function Users() {
+	const [users, setUsers] = (0, import_react.useState)([]);
+	const [loading, setLoading] = (0, import_react.useState)(true);
+	const [searchTerm, setSearchTerm] = (0, import_react.useState)("");
+	const { toast: toast$2 } = useToast();
+	(0, import_react.useEffect)(() => {
+		fetchUsers();
+	}, []);
+	const fetchUsers = async () => {
+		setLoading(true);
+		try {
+			const { data, error } = await supabase.from("profiles").select("id, representative_name, representative_email, company_name, role").order("representative_name");
+			if (error) throw error;
+			setUsers(data || []);
+		} catch (error) {
+			toast$2({
+				title: "Erro ao carregar usuários",
+				description: error.message,
+				variant: "destructive"
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
+	const handleRoleChange = async (userId, newRole) => {
+		try {
+			const { error } = await supabase.from("profiles").update({ role: newRole }).eq("id", userId);
+			if (error) throw error;
+			setUsers(users.map((u) => u.id === userId ? {
+				...u,
+				role: newRole
+			} : u));
+			toast$2({ title: "Permissão atualizada com sucesso!" });
+		} catch (error) {
+			toast$2({
+				title: "Erro ao atualizar permissão",
+				description: error.message,
+				variant: "destructive"
+			});
+		}
+	};
+	const filteredUsers = users.filter((user) => user.representative_name?.toLowerCase().includes(searchTerm.toLowerCase()) || user.representative_email?.toLowerCase().includes(searchTerm.toLowerCase()) || user.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) || "");
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "min-h-screen bg-slate-50 font-sans",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
+			className: "bg-white border-b border-slate-200 py-6 px-8",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "max-w-7xl mx-auto flex items-center gap-4",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+						to: "/",
+						className: "p-2 hover:bg-slate-100 rounded-full transition-colors",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { className: "w-5 h-5 text-slate-500" })
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex-1",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
+							className: "text-2xl font-bold text-slate-900 flex items-center gap-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users$1, { className: "w-6 h-6 text-sky-500" }), "Gestão de Usuários"]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-slate-500",
+							children: "Gerencie perfis e permissões de acesso"
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "relative",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							className: "pl-9 w-64",
+							placeholder: "Buscar usuários...",
+							value: searchTerm,
+							onChange: (e) => setSearchTerm(e.target.value)
+						})]
+					})
+				]
+			})
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("main", {
+			className: "max-w-7xl mx-auto py-12 px-8",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden",
+				children: loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "flex justify-center py-20",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-8 h-8 animate-spin text-slate-300" })
+				}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Table, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHeader, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Nome" }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Email" }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Empresa" }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Função" })
+				] }) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableBody, { children: filteredUsers.length > 0 ? filteredUsers.map((user) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+						className: "font-medium",
+						children: user.representative_name || "-"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: user.representative_email || "-" }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: user.company_name || "-" }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Select, {
+						value: user.role || "user",
+						onValueChange: (val) => handleRoleChange(user.id, val),
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectTrigger, {
+							className: "w-[140px] h-8",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectValue, {})
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SelectContent, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItem, {
+							value: "user",
+							children: "Usuário"
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItem, {
+							value: "admin",
+							children: "Administrador"
+						})] })]
+					}) })
+				] }, user.id)) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableRow, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+					colSpan: 4,
+					className: "text-center py-10 text-slate-500",
+					children: "Nenhum usuário encontrado."
+				}) }) })] })
+			})
+		})]
+	});
+}
+function Login() {
+	const [email, setEmail] = (0, import_react.useState)("");
+	const [password, setPassword] = (0, import_react.useState)("");
+	const [loading, setLoading] = (0, import_react.useState)(false);
+	const { signIn } = useAuth();
+	const { toast: toast$2 } = useToast();
+	const navigate = useNavigate();
+	const from = useLocation().state?.from?.pathname || "/";
+	const handleLogin = async (e) => {
+		e.preventDefault();
+		if (!email || !password) {
+			toast$2({
+				title: "Erro",
+				description: "Preencha todos os campos.",
+				variant: "destructive"
+			});
+			return;
+		}
+		setLoading(true);
+		try {
+			const { error } = await signIn(email, password);
+			if (error) throw error;
+			navigate(from, { replace: true });
+			toast$2({
+				title: "Bem-vindo de volta!",
+				description: "Login realizado com sucesso."
+			});
+		} catch (error) {
+			toast$2({
+				title: "Erro ao entrar",
+				description: error.message === "Invalid login credentials" ? "Credenciais inválidas." : error.message,
+				variant: "destructive"
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "min-h-screen flex items-center justify-center bg-slate-50 p-4 font-sans",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
+			className: "w-full max-w-md shadow-lg border-slate-200",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, {
+					className: "space-y-1",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+						className: "text-2xl text-center font-bold text-slate-900",
+						children: "Ocean Proposal"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, {
+						className: "text-center",
+						children: "Entre para gerenciar suas propostas"
+					})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardContent, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+					onSubmit: handleLogin,
+					className: "space-y-4",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "space-y-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+								htmlFor: "email",
+								children: "Email"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								id: "email",
+								type: "email",
+								placeholder: "seu@email.com",
+								value: email,
+								onChange: (e) => setEmail(e.target.value),
+								required: true
+							})]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "space-y-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex justify-between items-center",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									htmlFor: "password",
+									children: "Senha"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+									to: "/forgot-password",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+										variant: "link",
+										className: "px-0 h-auto text-xs text-slate-500",
+										type: "button",
+										children: "Esqueceu a senha?"
+									})
+								})]
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								id: "password",
+								type: "password",
+								value: password,
+								onChange: (e) => setPassword(e.target.value),
+								required: true
+							})]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+							type: "submit",
+							className: "w-full bg-sky-500 hover:bg-sky-600",
+							disabled: loading,
+							children: [loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-4 h-4 mr-2 animate-spin" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogIn, { className: "w-4 h-4 mr-2" }), "Entrar"]
+						})
+					]
+				}) }),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardFooter, {
+					className: "flex justify-center border-t border-slate-100 pt-6",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+						className: "text-sm text-slate-500",
+						children: [
+							"Não tem uma conta?",
+							" ",
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/signup",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+									variant: "link",
+									className: "p-0 h-auto text-sky-600",
+									children: "Cadastre-se"
+								})
+							})
+						]
+					})
+				})
+			]
+		})
+	});
+}
+function SignUp() {
+	const [email, setEmail] = (0, import_react.useState)("");
+	const [password, setPassword] = (0, import_react.useState)("");
+	const [confirmPassword, setConfirmPassword] = (0, import_react.useState)("");
+	const [loading, setLoading] = (0, import_react.useState)(false);
+	const { signUp } = useAuth();
+	const { toast: toast$2 } = useToast();
+	const navigate = useNavigate();
+	const handleSignUp = async (e) => {
+		e.preventDefault();
+		if (!email || !password || !confirmPassword) {
+			toast$2({
+				title: "Erro",
+				description: "Preencha todos os campos.",
+				variant: "destructive"
+			});
+			return;
+		}
+		if (password.length < 6) {
+			toast$2({
+				title: "Erro",
+				description: "A senha deve ter pelo menos 6 caracteres.",
+				variant: "destructive"
+			});
+			return;
+		}
+		if (password !== confirmPassword) {
+			toast$2({
+				title: "Erro",
+				description: "As senhas não coincidem.",
+				variant: "destructive"
+			});
+			return;
+		}
+		setLoading(true);
+		try {
+			const { error } = await signUp(email, password);
+			if (error) throw error;
+			toast$2({
+				title: "Conta criada!",
+				description: "Verifique seu email para confirmar o cadastro."
+			});
+			navigate("/login");
+		} catch (error) {
+			toast$2({
+				title: "Erro ao cadastrar",
+				description: error.message,
+				variant: "destructive"
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "min-h-screen flex items-center justify-center bg-slate-50 p-4 font-sans",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
+			className: "w-full max-w-md shadow-lg border-slate-200",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, {
+					className: "space-y-1",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+						className: "text-2xl text-center font-bold text-slate-900",
+						children: "Criar Conta"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, {
+						className: "text-center",
+						children: "Junte-se ao Ocean Proposal"
+					})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardContent, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+					onSubmit: handleSignUp,
+					className: "space-y-4",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "space-y-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+								htmlFor: "email",
+								children: "Email"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								id: "email",
+								type: "email",
+								placeholder: "seu@email.com",
+								value: email,
+								onChange: (e) => setEmail(e.target.value),
+								required: true
+							})]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "space-y-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+								htmlFor: "password",
+								children: "Senha"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								id: "password",
+								type: "password",
+								value: password,
+								onChange: (e) => setPassword(e.target.value),
+								required: true,
+								minLength: 6
+							})]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "space-y-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+								htmlFor: "confirmPassword",
+								children: "Confirmar Senha"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								id: "confirmPassword",
+								type: "password",
+								value: confirmPassword,
+								onChange: (e) => setConfirmPassword(e.target.value),
+								required: true,
+								minLength: 6
+							})]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+							type: "submit",
+							className: "w-full bg-emerald-600 hover:bg-emerald-700",
+							disabled: loading,
+							children: [loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-4 h-4 mr-2 animate-spin" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(UserPlus, { className: "w-4 h-4 mr-2" }), "Criar Conta"]
+						})
+					]
+				}) }),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardFooter, {
+					className: "flex justify-center border-t border-slate-100 pt-6",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+						className: "text-sm text-slate-500",
+						children: [
+							"Já tem uma conta?",
+							" ",
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/login",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+									variant: "link",
+									className: "p-0 h-auto text-emerald-600",
+									children: "Entrar"
+								})
+							})
+						]
+					})
+				})
+			]
+		})
+	});
+}
+function ForgotPassword() {
+	const [email, setEmail] = (0, import_react.useState)("");
+	const [loading, setLoading] = (0, import_react.useState)(false);
+	const [submitted, setSubmitted] = (0, import_react.useState)(false);
+	const { toast: toast$2 } = useToast();
+	const handleReset = async (e) => {
+		e.preventDefault();
+		if (!email) {
+			toast$2({
+				title: "Erro",
+				description: "Informe seu email.",
+				variant: "destructive"
+			});
+			return;
+		}
+		setLoading(true);
+		try {
+			const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/reset-password` });
+			if (error) throw error;
+			setSubmitted(true);
+			toast$2({
+				title: "Email enviado",
+				description: "Verifique sua caixa de entrada para redefinir a senha."
+			});
+		} catch (error) {
+			toast$2({
+				title: "Erro",
+				description: error.message,
+				variant: "destructive"
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "min-h-screen flex items-center justify-center bg-slate-50 p-4 font-sans",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
+			className: "w-full max-w-md shadow-lg border-slate-200",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+					className: "text-2xl text-center font-bold text-slate-900",
+					children: "Recuperar Senha"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, {
+					className: "text-center",
+					children: "Receba um link para redefinir sua senha"
+				})] }),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardContent, { children: !submitted ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+					onSubmit: handleReset,
+					className: "space-y-4",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "space-y-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+							htmlFor: "email",
+							children: "Email"
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							id: "email",
+							type: "email",
+							placeholder: "seu@email.com",
+							value: email,
+							onChange: (e) => setEmail(e.target.value),
+							required: true
+						})]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+						type: "submit",
+						className: "w-full bg-sky-500 hover:bg-sky-600",
+						disabled: loading,
+						children: [loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-4 h-4 mr-2 animate-spin" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { className: "w-4 h-4 mr-2" }), "Enviar Link"]
+					})]
+				}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "text-center space-y-4",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { className: "w-8 h-8" })
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+							className: "text-slate-600",
+							children: [
+								"Enviamos um email para ",
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: email }),
+								" com instruções para redefinir sua senha."
+							]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+							variant: "outline",
+							onClick: () => setSubmitted(false),
+							className: "w-full",
+							children: "Tentar outro email"
+						})
+					]
+				}) }),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardFooter, {
+					className: "flex justify-center border-t border-slate-100 pt-6",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
+						to: "/login",
+						className: "flex items-center text-sm text-slate-500 hover:text-slate-900",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { className: "w-4 h-4 mr-2" }), " Voltar para Login"]
+					})
+				})
+			]
+		})
+	});
+}
+function ResetPassword() {
+	const [password, setPassword] = (0, import_react.useState)("");
+	const [confirmPassword, setConfirmPassword] = (0, import_react.useState)("");
+	const [loading, setLoading] = (0, import_react.useState)(false);
+	const { toast: toast$2 } = useToast();
+	const navigate = useNavigate();
+	const { session } = useAuth();
+	(0, import_react.useEffect)(() => {
+		if (!session) {}
+	}, [session]);
+	const handleUpdate = async (e) => {
+		e.preventDefault();
+		if (!password || !confirmPassword) {
+			toast$2({
+				title: "Erro",
+				description: "Preencha todos os campos.",
+				variant: "destructive"
+			});
+			return;
+		}
+		if (password.length < 6) {
+			toast$2({
+				title: "Erro",
+				description: "A senha deve ter pelo menos 6 caracteres.",
+				variant: "destructive"
+			});
+			return;
+		}
+		if (password !== confirmPassword) {
+			toast$2({
+				title: "Erro",
+				description: "As senhas não coincidem.",
+				variant: "destructive"
+			});
+			return;
+		}
+		setLoading(true);
+		try {
+			const { error } = await supabase.auth.updateUser({ password });
+			if (error) throw error;
+			toast$2({
+				title: "Senha atualizada!",
+				description: "Sua senha foi alterada com sucesso."
+			});
+			navigate("/");
+		} catch (error) {
+			toast$2({
+				title: "Erro ao atualizar",
+				description: error.message,
+				variant: "destructive"
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "min-h-screen flex items-center justify-center bg-slate-50 p-4 font-sans",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
+			className: "w-full max-w-md shadow-lg border-slate-200",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+				className: "text-2xl text-center font-bold text-slate-900",
+				children: "Nova Senha"
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, {
+				className: "text-center",
+				children: "Digite sua nova senha abaixo"
+			})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardContent, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+				onSubmit: handleUpdate,
+				className: "space-y-4",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "space-y-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+							htmlFor: "password",
+							children: "Nova Senha"
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							id: "password",
+							type: "password",
+							value: password,
+							onChange: (e) => setPassword(e.target.value),
+							required: true,
+							minLength: 6
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "space-y-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+							htmlFor: "confirmPassword",
+							children: "Confirmar Nova Senha"
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							id: "confirmPassword",
+							type: "password",
+							value: confirmPassword,
+							onChange: (e) => setConfirmPassword(e.target.value),
+							required: true,
+							minLength: 6
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+						type: "submit",
+						className: "w-full bg-emerald-600 hover:bg-emerald-700",
+						disabled: loading,
+						children: [loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-4 h-4 mr-2 animate-spin" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(KeyRound, { className: "w-4 h-4 mr-2" }), "Atualizar Senha"]
+					})
+				]
+			}) })]
+		})
+	});
+}
 var NotFound = () => {
 	const location = useLocation();
 	(0, import_react.useEffect)(() => {
@@ -41253,6 +42011,20 @@ function Layout() {
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, {})
 	});
 }
+function RequireAuth() {
+	const { session, loading } = useAuth();
+	const location = useLocation();
+	if (loading) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "flex items-center justify-center min-h-screen bg-slate-50",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-8 h-8 animate-spin text-sky-500" })
+	});
+	if (!session) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Navigate, {
+		to: "/login",
+		state: { from: location },
+		replace: true
+	});
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, {});
+}
 var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
 	future: {
 		v7_startTransition: false,
@@ -41262,26 +42034,49 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Toaster, {}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Toaster$1, {}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Routes, { children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Route, {
-				element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Layout, {}),
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
-						path: "/",
-						element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Index_default, {})
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
-						path: "/editor",
-						element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Editor, {})
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
-						path: "/biblioteca",
-						element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Library, {})
-					})
-				]
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+				path: "/login",
+				element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Login, {})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+				path: "/signup",
+				element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SignUp, {})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+				path: "/forgot-password",
+				element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ForgotPassword, {})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+				path: "/reset-password",
+				element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ResetPassword, {})
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
 				path: "/share/:id",
 				element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Share, {})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+				element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RequireAuth, {}),
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Route, {
+					element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Layout, {}),
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+							path: "/",
+							element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Index_default, {})
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+							path: "/editor",
+							element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Editor, {})
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+							path: "/biblioteca",
+							element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Library, {})
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+							path: "/usuarios",
+							element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users, {})
+						})
+					]
+				})
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
 				path: "*",
@@ -41293,4 +42088,4 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-DtFLx049.js.map
+//# sourceMappingURL=index-DpuAZUCC.js.map

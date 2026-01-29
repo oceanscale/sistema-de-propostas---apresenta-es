@@ -1471,30 +1471,39 @@ export type Database = {
       templates: {
         Row: {
           category: string | null
+          content: Json | null
           created_at: string | null
           dependencies: Json | null
           description: string | null
           id: string
           name: string
           sections: Json | null
+          thumbnail_url: string | null
+          type: string | null
         }
         Insert: {
           category?: string | null
+          content?: Json | null
           created_at?: string | null
           dependencies?: Json | null
           description?: string | null
           id?: string
           name: string
           sections?: Json | null
+          thumbnail_url?: string | null
+          type?: string | null
         }
         Update: {
           category?: string | null
+          content?: Json | null
           created_at?: string | null
           dependencies?: Json | null
           description?: string | null
           id?: string
           name?: string
           sections?: Json | null
+          thumbnail_url?: string | null
+          type?: string | null
         }
         Relationships: []
       }
