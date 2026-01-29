@@ -16,6 +16,7 @@ import { WizardStepROI } from '@/components/wizard/WizardStepROI'
 import { WizardStepClosing } from '@/components/wizard/WizardStepClosing'
 import { WizardStepGantt } from '@/components/wizard/WizardStepGantt'
 import { ProfileModal } from '@/components/modals/ProfileModal'
+import { TemplateSelectionModal } from '@/components/modals/TemplateSelectionModal'
 
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Link } from 'react-router-dom'
@@ -40,10 +41,11 @@ import {
   Plus,
   Copy,
   Trash2,
-  BookOpen,
   UserCircle,
   Loader2,
   LayoutTemplate,
+  LogOut,
+  FolderPlus,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { v4 as uuidv4 } from 'uuid'
@@ -60,8 +62,9 @@ function EditorContent() {
     updateProposal,
     duplicatePage,
     removePage,
-    restorePage,
     saveProposal,
+    saveSlideToLibrary,
+    insertTemplate,
     isLoading,
   } = useProposal()
   const [activeTab, setActiveTab] = useState('parts')
@@ -69,7 +72,7 @@ function EditorContent() {
   const [leftOpen, setLeftOpen] = useState(true)
   const [rightOpen, setRightOpen] = useState(true)
   const [profileOpen, setProfileOpen] = useState(false)
-  const [libraryOpen, setLibraryOpen] = useState(false)
+  const [templateModalOpen, setTemplateModalOpen] = useState(false)
 
   const [draggedItem, setDraggedItem] = useState<string | null>(null)
 
@@ -79,29 +82,6 @@ function EditorContent() {
       return
     }
     window.open(`/share/${proposal.id}`, '_blank')
-  }
-
-  const addNewGanttPage = () => {
-    const newId = `gantt-${uuidv4().slice(0, 8)}`
-    const newPage = {
-      id: newId,
-      title: 'Cronograma Detalhado',
-      subtitle: 'Visão Semanal',
-      month: 'NOVO MÊS',
-      tasks: [],
-    }
-
-    const timelineIndex = proposal.pageOrder.indexOf('timeline')
-    const insertIndex =
-      timelineIndex !== -1 ? timelineIndex + 1 : proposal.pageOrder.length
-    const newOrder = [...proposal.pageOrder]
-    newOrder.splice(insertIndex, 0, newId)
-
-    updateProposal({
-      ganttPages: [...proposal.ganttPages, newPage],
-      pageOrder: newOrder,
-    })
-    setActiveTab(newId)
   }
 
   const staticComponents: Record<string, any> = {
@@ -223,6 +203,11 @@ function EditorContent() {
   return (
     <div className="flex h-screen overflow-hidden bg-slate-100 font-sans">
       <ProfileModal open={profileOpen} onOpenChange={setProfileOpen} />
+      <TemplateSelectionModal
+        open={templateModalOpen}
+        onOpenChange={setTemplateModalOpen}
+        onSelect={(t) => insertTemplate(t)}
+      />
 
       {/* Sidebar Navigation (Left) */}
       <aside
@@ -272,75 +257,13 @@ function EditorContent() {
                   size="icon"
                   variant="ghost"
                   className="h-6 w-6"
-                  onClick={() => setLibraryOpen(!libraryOpen)}
-                  title="Biblioteca"
+                  onClick={() => setTemplateModalOpen(true)}
+                  title="Adicionar Página"
                 >
-                  <LayoutTemplate className="w-4 h-4 text-slate-500" />
-                </Button>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  className="h-6 w-6"
-                  onClick={addNewGanttPage}
-                  title="Add Gantt"
-                >
-                  <Plus className="w-4 h-4 text-slate-500" />
+                  <Plus className="w-4 h-4 text-sky-600" />
                 </Button>
               </div>
             </div>
-
-            {/* Library Panel (Inline if open) */}
-            {libraryOpen && (
-              <div className="bg-slate-100 p-2 border-b border-slate-200 max-h-60 overflow-y-auto">
-                <p className="text-xs font-bold text-slate-500 mb-2">
-                  Biblioteca de Páginas
-                </p>
-
-                {/* Standard Templates */}
-                <div className="grid grid-cols-2 gap-2 mb-4">
-                  {Object.entries(staticComponents)
-                    .filter(([key]) => key !== 'parts')
-                    .map(([key, conf]) => (
-                      <div
-                        key={key}
-                        onClick={() => restorePage(key)}
-                        className="bg-white p-2 rounded border border-slate-200 cursor-pointer hover:border-sky-400 text-center"
-                      >
-                        <conf.icon className="w-6 h-6 mx-auto text-slate-400 mb-1" />
-                        <span className="text-[10px] block font-medium text-slate-600 truncate">
-                          {conf.label}
-                        </span>
-                      </div>
-                    ))}
-                </div>
-
-                {/* Recoverable */}
-                <p className="text-xs font-bold text-slate-500 mb-2 border-t border-slate-200 pt-2">
-                  Removidas
-                </p>
-                {proposal.library?.length === 0 && (
-                  <p className="text-[10px] text-slate-400 italic">
-                    Nenhuma página removida.
-                  </p>
-                )}
-                {proposal.library?.map((id) => (
-                  <div
-                    key={id}
-                    className="flex justify-between items-center bg-white p-1 rounded mb-1 border border-slate-200 text-xs"
-                  >
-                    <span>{getTabLabel(id).label}</span>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-5 w-5"
-                      onClick={() => restorePage(id)}
-                    >
-                      <Plus className="w-3 h-3 text-green-500" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            )}
 
             <ScrollArea className="flex-1">
               <div className="p-2 space-y-1">
@@ -374,7 +297,7 @@ function EditorContent() {
                       />
                       <span className="truncate flex-1 text-xs">{label}</span>
 
-                      <div className="flex opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 backdrop-blur-sm rounded absolute right-1 top-1 bottom-1 items-center px-1 shadow-sm">
                         <Button
                           variant="ghost"
                           size="icon"
@@ -386,6 +309,18 @@ function EditorContent() {
                           title="Duplicar"
                         >
                           <Copy className="w-3 h-3" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-6 w-6 text-slate-400 hover:text-emerald-500"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            saveSlideToLibrary(id)
+                          }}
+                          title="Salvar na Biblioteca"
+                        >
+                          <FolderPlus className="w-3 h-3" />
                         </Button>
                         <Button
                           variant="ghost"
@@ -416,18 +351,38 @@ function EditorContent() {
         >
           {leftOpen ? (
             <>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setProfileOpen(true)}
-              >
-                <UserCircle className="w-4 h-4 mr-2" /> Perfil
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full justify-start"
+                  >
+                    <UserCircle className="w-4 h-4 mr-2" /> Menu
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem onClick={() => setProfileOpen(true)}>
+                    <UserCircle className="w-4 h-4 mr-2" /> Perfil
+                  </DropdownMenuItem>
+                  <Link to="/biblioteca">
+                    <DropdownMenuItem>
+                      <LayoutTemplate className="w-4 h-4 mr-2" /> Biblioteca
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link to="/">
+                    <DropdownMenuItem>
+                      <LogOut className="w-4 h-4 mr-2" /> Sair
+                    </DropdownMenuItem>
+                  </Link>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
               <div className="flex gap-2">
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
-                  className="flex-1"
+                  className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
                   onClick={saveProposal}
                   disabled={isLoading}
                 >
@@ -440,7 +395,8 @@ function EditorContent() {
                 </Button>
                 <Button
                   size="sm"
-                  className="flex-1 bg-sky-500 hover:bg-sky-600"
+                  variant="outline"
+                  className="flex-1"
                   onClick={handleShare}
                 >
                   <Share2 className="w-4 h-4 mr-2" />
@@ -449,13 +405,21 @@ function EditorContent() {
               </div>
             </>
           ) : (
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => setProfileOpen(true)}
-            >
-              <UserCircle className="w-5 h-5" />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button size="icon" variant="ghost">
+                  <UserCircle className="w-5 h-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="right">
+                <DropdownMenuItem onClick={() => setProfileOpen(true)}>
+                  Perfil
+                </DropdownMenuItem>
+                <Link to="/biblioteca">
+                  <DropdownMenuItem>Biblioteca</DropdownMenuItem>
+                </Link>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
         </div>
       </aside>
@@ -519,6 +483,16 @@ function EditorContent() {
               Live Preview
             </span>
             <span>{proposal.clientName}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              size="sm"
+              variant="ghost"
+              className="text-xs text-slate-400"
+              onClick={saveProposal}
+            >
+              <Save className="w-3 h-3 mr-1" /> Auto-save off
+            </Button>
           </div>
         </header>
 

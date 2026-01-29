@@ -20,6 +20,8 @@ interface ProposalContextType {
   removePage: (pageId: string) => void
   restorePage: (pageId: string) => void
   saveProposal: () => Promise<void>
+  saveSlideToLibrary: (pageId: string) => Promise<void>
+  insertTemplate: (template: any) => void
   isGenerating: boolean
   isLoading: boolean
 }
@@ -177,6 +179,114 @@ export const ProposalProvider = ({ children }: { children: ReactNode }) => {
     })
   }
 
+  const saveSlideToLibrary = async (pageId: string) => {
+    if (!user) {
+      toast({
+        title: 'Faça login para salvar modelos.',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    try {
+      const slideData: any = {}
+
+      let type = pageId
+      if (pageId.startsWith('gantt-')) {
+        type = 'gantt'
+        const ganttPage = proposal.ganttPages.find((p) => p.id === pageId)
+        if (ganttPage) slideData.ganttPage = ganttPage
+      } else {
+        type = pageId.split('-copy-')[0]
+      }
+
+      slideData.proposalSnapshot = proposal
+      slideData.activeType = type
+
+      const { error } = await supabase.from('templates').insert({
+        name: `Modelo ${type} - ${new Date().toLocaleDateString()}`,
+        description: `Salvo em ${new Date().toLocaleString()}`,
+        content: slideData,
+        type: type,
+        thumbnail_url: null,
+      })
+
+      if (error) throw error
+
+      toast({
+        title: 'Salvo na Biblioteca',
+        description: 'O slide foi salvo como modelo.',
+      })
+    } catch (error: any) {
+      console.error(error)
+      toast({
+        title: 'Erro ao salvar modelo',
+        description: error.message,
+        variant: 'destructive',
+      })
+    }
+  }
+
+  const insertTemplate = (template: any) => {
+    if (template.content && template.content.activeType) {
+      const type = template.content.activeType
+      const snapshot = template.content.proposalSnapshot
+
+      if (type === 'gantt') {
+        const newId = `gantt-${uuidv4().slice(0, 8)}`
+        if (snapshot.ganttPages) {
+          const sourceGantt =
+            snapshot.ganttPages.find((p: any) => p.id.startsWith('gantt')) ||
+            snapshot.ganttPages[0]
+          if (sourceGantt) {
+            const newGantt = {
+              ...sourceGantt,
+              id: newId,
+              title: `${sourceGantt.title} (Imp)`,
+            }
+            updateProposal({
+              ganttPages: [...proposal.ganttPages, newGantt],
+              pageOrder: [...proposal.pageOrder, newId],
+            })
+          }
+        }
+      } else {
+        if (type === 'cover') {
+          updateProposal({
+            coverTitle: snapshot.coverTitle,
+            coverSubtitle: snapshot.coverSubtitle,
+            coverImage: snapshot.coverImage,
+            coverOverlayColor: snapshot.coverOverlayColor,
+            coverOverlayOpacity: snapshot.coverOverlayOpacity,
+          })
+          if (!proposal.pageOrder.includes('cover')) {
+            updateProposal({ pageOrder: [...proposal.pageOrder, 'cover'] })
+          }
+        } else if (type === 'summary') {
+          updateProposal({
+            summaryTitle: snapshot.summaryTitle,
+            summarySubtitle: snapshot.summarySubtitle,
+            executiveSummary: snapshot.executiveSummary,
+            summaryMetrics: snapshot.summaryMetrics,
+            summaryLinks: snapshot.summaryLinks,
+            summaryPageImage: snapshot.summaryPageImage,
+            summaryBoxImage: snapshot.summaryBoxImage,
+          })
+          if (!proposal.pageOrder.includes('summary')) {
+            updateProposal({ pageOrder: [...proposal.pageOrder, 'summary'] })
+          }
+        } else {
+          updateProposal(snapshot)
+        }
+
+        toast({
+          title: 'Modelo Aplicado',
+          description: `Dados do modelo ${type} foram carregados.`,
+        })
+      }
+    }
+  }
+
   const generateAI = () => {
     setIsGenerating(true)
     setTimeout(() => {
@@ -243,6 +353,8 @@ export const ProposalProvider = ({ children }: { children: ReactNode }) => {
         removePage,
         restorePage,
         saveProposal,
+        saveSlideToLibrary,
+        insertTemplate,
         isLoading,
       }}
     >

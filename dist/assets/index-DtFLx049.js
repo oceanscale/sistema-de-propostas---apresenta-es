@@ -18870,6 +18870,13 @@ var createLucideIcon = (iconName, iconNode) => {
 	Component.displayName = toPascalCase(iconName);
 	return Component;
 };
+var ArrowLeft = createLucideIcon("arrow-left", [["path", {
+	d: "m12 19-7-7 7-7",
+	key: "1l729n"
+}], ["path", {
+	d: "M19 12H5",
+	key: "x3x0zl"
+}]]);
 var ArrowRight = createLucideIcon("arrow-right", [["path", {
 	d: "M5 12h14",
 	key: "1ays0h"
@@ -19197,6 +19204,20 @@ var FileText = createLucideIcon("file-text", [
 		key: "z1uh3a"
 	}]
 ]);
+var FolderPlus = createLucideIcon("folder-plus", [
+	["path", {
+		d: "M12 10v6",
+		key: "1bos4e"
+	}],
+	["path", {
+		d: "M9 13h6",
+		key: "1uhe8q"
+	}],
+	["path", {
+		d: "M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z",
+		key: "1kt360"
+	}]
+]);
 var Globe = createLucideIcon("globe", [
 	["circle", {
 		cx: "12",
@@ -19317,6 +19338,10 @@ var MousePointerClick = createLucideIcon("mouse-pointer-click", [
 		key: "s0h3yz"
 	}]
 ]);
+var Pen = createLucideIcon("pen", [["path", {
+	d: "M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z",
+	key: "1a8usu"
+}]]);
 var Plus = createLucideIcon("plus", [["path", {
 	d: "M5 12h14",
 	key: "1ays0h"
@@ -26676,13 +26701,20 @@ var Index = () => {
 						})
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuContent, {
 						align: "end",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
-							disabled: true,
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(User, { className: "w-4 h-4 mr-2" }), " Perfil (Acesse no Editor)"]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
-							className: "text-red-600",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogOut, { className: "w-4 h-4 mr-2" }), " Sair"]
-						})]
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
+								disabled: true,
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(User, { className: "w-4 h-4 mr-2" }), " Perfil (Acesse no Editor)"]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/biblioteca",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-4 h-4 mr-2" }), " Biblioteca"] })
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
+								className: "text-red-600",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogOut, { className: "w-4 h-4 mr-2" }), " Sair"]
+							})
+						]
 					})] })]
 				})]
 			})
@@ -34767,6 +34799,94 @@ const ProposalProvider = ({ children }) => {
 			pageOrder: [...proposal.pageOrder, pageId]
 		});
 	};
+	const saveSlideToLibrary = async (pageId) => {
+		if (!user) {
+			toast$2({
+				title: "Faça login para salvar modelos.",
+				variant: "destructive"
+			});
+			return;
+		}
+		try {
+			const slideData = {};
+			let type = pageId;
+			if (pageId.startsWith("gantt-")) {
+				type = "gantt";
+				const ganttPage = proposal.ganttPages.find((p) => p.id === pageId);
+				if (ganttPage) slideData.ganttPage = ganttPage;
+			} else type = pageId.split("-copy-")[0];
+			slideData.proposalSnapshot = proposal;
+			slideData.activeType = type;
+			const { error } = await supabase.from("templates").insert({
+				name: `Modelo ${type} - ${(/* @__PURE__ */ new Date()).toLocaleDateString()}`,
+				description: `Salvo em ${(/* @__PURE__ */ new Date()).toLocaleString()}`,
+				content: slideData,
+				type,
+				thumbnail_url: null
+			});
+			if (error) throw error;
+			toast$2({
+				title: "Salvo na Biblioteca",
+				description: "O slide foi salvo como modelo."
+			});
+		} catch (error) {
+			console.error(error);
+			toast$2({
+				title: "Erro ao salvar modelo",
+				description: error.message,
+				variant: "destructive"
+			});
+		}
+	};
+	const insertTemplate = (template) => {
+		if (template.content && template.content.activeType) {
+			const type = template.content.activeType;
+			const snapshot = template.content.proposalSnapshot;
+			if (type === "gantt") {
+				const newId = `gantt-${v4_default().slice(0, 8)}`;
+				if (snapshot.ganttPages) {
+					const sourceGantt = snapshot.ganttPages.find((p) => p.id.startsWith("gantt")) || snapshot.ganttPages[0];
+					if (sourceGantt) {
+						const newGantt = {
+							...sourceGantt,
+							id: newId,
+							title: `${sourceGantt.title} (Imp)`
+						};
+						updateProposal({
+							ganttPages: [...proposal.ganttPages, newGantt],
+							pageOrder: [...proposal.pageOrder, newId]
+						});
+					}
+				}
+			} else {
+				if (type === "cover") {
+					updateProposal({
+						coverTitle: snapshot.coverTitle,
+						coverSubtitle: snapshot.coverSubtitle,
+						coverImage: snapshot.coverImage,
+						coverOverlayColor: snapshot.coverOverlayColor,
+						coverOverlayOpacity: snapshot.coverOverlayOpacity
+					});
+					if (!proposal.pageOrder.includes("cover")) updateProposal({ pageOrder: [...proposal.pageOrder, "cover"] });
+				} else if (type === "summary") {
+					updateProposal({
+						summaryTitle: snapshot.summaryTitle,
+						summarySubtitle: snapshot.summarySubtitle,
+						executiveSummary: snapshot.executiveSummary,
+						summaryMetrics: snapshot.summaryMetrics,
+						summaryLinks: snapshot.summaryLinks,
+						summaryPageImage: snapshot.summaryPageImage,
+						summaryBoxImage: snapshot.summaryBoxImage
+					});
+					if (!proposal.pageOrder.includes("summary")) updateProposal({ pageOrder: [...proposal.pageOrder, "summary"] });
+				} else updateProposal(snapshot);
+				toast$2({
+					title: "Modelo Aplicado",
+					description: `Dados do modelo ${type} foram carregados.`
+				});
+			}
+		}
+	};
 	const generateAI = () => {
 		setIsGenerating(true);
 		setTimeout(() => {
@@ -34801,6 +34921,8 @@ const ProposalProvider = ({ children }) => {
 			removePage,
 			restorePage,
 			saveProposal,
+			saveSlideToLibrary,
+			insertTemplate,
 			isLoading
 		},
 		children
@@ -38326,10 +38448,330 @@ function WizardStepDiagnosis() {
 		})]
 	});
 }
+var DIALOG_NAME = "Dialog";
+var [createDialogContext, createDialogScope] = createContextScope(DIALOG_NAME);
+var [DialogProvider, useDialogContext] = createDialogContext(DIALOG_NAME);
+var Dialog$1 = (props) => {
+	const { __scopeDialog, children, open: openProp, defaultOpen, onOpenChange, modal = true } = props;
+	const triggerRef = import_react.useRef(null);
+	const contentRef = import_react.useRef(null);
+	const [open, setOpen] = useControllableState({
+		prop: openProp,
+		defaultProp: defaultOpen ?? false,
+		onChange: onOpenChange,
+		caller: DIALOG_NAME
+	});
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogProvider, {
+		scope: __scopeDialog,
+		triggerRef,
+		contentRef,
+		contentId: useId(),
+		titleId: useId(),
+		descriptionId: useId(),
+		open,
+		onOpenChange: setOpen,
+		onOpenToggle: import_react.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen]),
+		modal,
+		children
+	});
+};
+Dialog$1.displayName = DIALOG_NAME;
+var TRIGGER_NAME$1 = "DialogTrigger";
+var DialogTrigger$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...triggerProps } = props;
+	const context = useDialogContext(TRIGGER_NAME$1, __scopeDialog);
+	const composedTriggerRef = useComposedRefs(forwardedRef, context.triggerRef);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.button, {
+		type: "button",
+		"aria-haspopup": "dialog",
+		"aria-expanded": context.open,
+		"aria-controls": context.contentId,
+		"data-state": getState$1(context.open),
+		...triggerProps,
+		ref: composedTriggerRef,
+		onClick: composeEventHandlers(props.onClick, context.onOpenToggle)
+	});
+});
+DialogTrigger$1.displayName = TRIGGER_NAME$1;
+var PORTAL_NAME = "DialogPortal";
+var [PortalProvider, usePortalContext] = createDialogContext(PORTAL_NAME, { forceMount: void 0 });
+var DialogPortal$1 = (props) => {
+	const { __scopeDialog, forceMount, children, container } = props;
+	const context = useDialogContext(PORTAL_NAME, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PortalProvider, {
+		scope: __scopeDialog,
+		forceMount,
+		children: import_react.Children.map(children, (child) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
+			present: forceMount || context.open,
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Portal, {
+				asChild: true,
+				container,
+				children: child
+			})
+		}))
+	});
+};
+DialogPortal$1.displayName = PORTAL_NAME;
+var OVERLAY_NAME = "DialogOverlay";
+var DialogOverlay$1 = import_react.forwardRef((props, forwardedRef) => {
+	const portalContext = usePortalContext(OVERLAY_NAME, props.__scopeDialog);
+	const { forceMount = portalContext.forceMount, ...overlayProps } = props;
+	const context = useDialogContext(OVERLAY_NAME, props.__scopeDialog);
+	return context.modal ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
+		present: forceMount || context.open,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogOverlayImpl, {
+			...overlayProps,
+			ref: forwardedRef
+		})
+	}) : null;
+});
+DialogOverlay$1.displayName = OVERLAY_NAME;
+var Slot = /* @__PURE__ */ createSlot("DialogOverlay.RemoveScroll");
+var DialogOverlayImpl = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...overlayProps } = props;
+	const context = useDialogContext(OVERLAY_NAME, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Combination_default, {
+		as: Slot,
+		allowPinchZoom: true,
+		shards: [context.contentRef],
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+			"data-state": getState$1(context.open),
+			...overlayProps,
+			ref: forwardedRef,
+			style: {
+				pointerEvents: "auto",
+				...overlayProps.style
+			}
+		})
+	});
+});
+var CONTENT_NAME = "DialogContent";
+var DialogContent$1 = import_react.forwardRef((props, forwardedRef) => {
+	const portalContext = usePortalContext(CONTENT_NAME, props.__scopeDialog);
+	const { forceMount = portalContext.forceMount, ...contentProps } = props;
+	const context = useDialogContext(CONTENT_NAME, props.__scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
+		present: forceMount || context.open,
+		children: context.modal ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentModal, {
+			...contentProps,
+			ref: forwardedRef
+		}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentNonModal, {
+			...contentProps,
+			ref: forwardedRef
+		})
+	});
+});
+DialogContent$1.displayName = CONTENT_NAME;
+var DialogContentModal = import_react.forwardRef((props, forwardedRef) => {
+	const context = useDialogContext(CONTENT_NAME, props.__scopeDialog);
+	const contentRef = import_react.useRef(null);
+	const composedRefs = useComposedRefs(forwardedRef, context.contentRef, contentRef);
+	import_react.useEffect(() => {
+		const content = contentRef.current;
+		if (content) return hideOthers(content);
+	}, []);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentImpl, {
+		...props,
+		ref: composedRefs,
+		trapFocus: context.open,
+		disableOutsidePointerEvents: true,
+		onCloseAutoFocus: composeEventHandlers(props.onCloseAutoFocus, (event) => {
+			event.preventDefault();
+			context.triggerRef.current?.focus();
+		}),
+		onPointerDownOutside: composeEventHandlers(props.onPointerDownOutside, (event) => {
+			const originalEvent = event.detail.originalEvent;
+			const ctrlLeftClick = originalEvent.button === 0 && originalEvent.ctrlKey === true;
+			if (originalEvent.button === 2 || ctrlLeftClick) event.preventDefault();
+		}),
+		onFocusOutside: composeEventHandlers(props.onFocusOutside, (event) => event.preventDefault())
+	});
+});
+var DialogContentNonModal = import_react.forwardRef((props, forwardedRef) => {
+	const context = useDialogContext(CONTENT_NAME, props.__scopeDialog);
+	const hasInteractedOutsideRef = import_react.useRef(false);
+	const hasPointerDownOutsideRef = import_react.useRef(false);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentImpl, {
+		...props,
+		ref: forwardedRef,
+		trapFocus: false,
+		disableOutsidePointerEvents: false,
+		onCloseAutoFocus: (event) => {
+			props.onCloseAutoFocus?.(event);
+			if (!event.defaultPrevented) {
+				if (!hasInteractedOutsideRef.current) context.triggerRef.current?.focus();
+				event.preventDefault();
+			}
+			hasInteractedOutsideRef.current = false;
+			hasPointerDownOutsideRef.current = false;
+		},
+		onInteractOutside: (event) => {
+			props.onInteractOutside?.(event);
+			if (!event.defaultPrevented) {
+				hasInteractedOutsideRef.current = true;
+				if (event.detail.originalEvent.type === "pointerdown") hasPointerDownOutsideRef.current = true;
+			}
+			const target = event.target;
+			if (context.triggerRef.current?.contains(target)) event.preventDefault();
+			if (event.detail.originalEvent.type === "focusin" && hasPointerDownOutsideRef.current) event.preventDefault();
+		}
+	});
+});
+var DialogContentImpl = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, trapFocus, onOpenAutoFocus, onCloseAutoFocus, ...contentProps } = props;
+	const context = useDialogContext(CONTENT_NAME, __scopeDialog);
+	const contentRef = import_react.useRef(null);
+	const composedRefs = useComposedRefs(forwardedRef, contentRef);
+	useFocusGuards();
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FocusScope, {
+		asChild: true,
+		loop: true,
+		trapped: trapFocus,
+		onMountAutoFocus: onOpenAutoFocus,
+		onUnmountAutoFocus: onCloseAutoFocus,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DismissableLayer, {
+			role: "dialog",
+			id: context.contentId,
+			"aria-describedby": context.descriptionId,
+			"aria-labelledby": context.titleId,
+			"data-state": getState$1(context.open),
+			...contentProps,
+			ref: composedRefs,
+			onDismiss: () => context.onOpenChange(false)
+		})
+	}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TitleWarning, { titleId: context.titleId }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DescriptionWarning, {
+		contentRef,
+		descriptionId: context.descriptionId
+	})] })] });
+});
+var TITLE_NAME = "DialogTitle";
+var DialogTitle$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...titleProps } = props;
+	const context = useDialogContext(TITLE_NAME, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.h2, {
+		id: context.titleId,
+		...titleProps,
+		ref: forwardedRef
+	});
+});
+DialogTitle$1.displayName = TITLE_NAME;
+var DESCRIPTION_NAME = "DialogDescription";
+var DialogDescription$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...descriptionProps } = props;
+	const context = useDialogContext(DESCRIPTION_NAME, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.p, {
+		id: context.descriptionId,
+		...descriptionProps,
+		ref: forwardedRef
+	});
+});
+DialogDescription$1.displayName = DESCRIPTION_NAME;
+var CLOSE_NAME = "DialogClose";
+var DialogClose$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...closeProps } = props;
+	const context = useDialogContext(CLOSE_NAME, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.button, {
+		type: "button",
+		...closeProps,
+		ref: forwardedRef,
+		onClick: composeEventHandlers(props.onClick, () => context.onOpenChange(false))
+	});
+});
+DialogClose$1.displayName = CLOSE_NAME;
+function getState$1(open) {
+	return open ? "open" : "closed";
+}
+var TITLE_WARNING_NAME = "DialogTitleWarning";
+var [WarningProvider, useWarningContext] = createContext2(TITLE_WARNING_NAME, {
+	contentName: CONTENT_NAME,
+	titleName: TITLE_NAME,
+	docsSlug: "dialog"
+});
+var TitleWarning = ({ titleId }) => {
+	const titleWarningContext = useWarningContext(TITLE_WARNING_NAME);
+	const MESSAGE = `\`${titleWarningContext.contentName}\` requires a \`${titleWarningContext.titleName}\` for the component to be accessible for screen reader users.
+
+If you want to hide the \`${titleWarningContext.titleName}\`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/${titleWarningContext.docsSlug}`;
+	import_react.useEffect(() => {
+		if (titleId) {
+			if (!document.getElementById(titleId)) console.error(MESSAGE);
+		}
+	}, [MESSAGE, titleId]);
+	return null;
+};
+var DESCRIPTION_WARNING_NAME = "DialogDescriptionWarning";
+var DescriptionWarning = ({ contentRef, descriptionId }) => {
+	const MESSAGE = `Warning: Missing \`Description\` or \`aria-describedby={undefined}\` for {${useWarningContext(DESCRIPTION_WARNING_NAME).contentName}}.`;
+	import_react.useEffect(() => {
+		const describedById = contentRef.current?.getAttribute("aria-describedby");
+		if (descriptionId && describedById) {
+			if (!document.getElementById(descriptionId)) console.warn(MESSAGE);
+		}
+	}, [
+		MESSAGE,
+		contentRef,
+		descriptionId
+	]);
+	return null;
+};
+var Root$1 = Dialog$1;
+var Portal$1 = DialogPortal$1;
+var Overlay = DialogOverlay$1;
+var Content = DialogContent$1;
+var Title = DialogTitle$1;
+var Description = DialogDescription$1;
+var Close = DialogClose$1;
+var Dialog = Root$1;
+var DialogPortal = Portal$1;
+var DialogOverlay = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Overlay, {
+	ref,
+	className: cn("fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0", className),
+	...props
+}));
+DialogOverlay.displayName = Overlay.displayName;
+var DialogContent = import_react.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogPortal, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogOverlay, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Content, {
+	ref,
+	className: cn("fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg overflow-y-auto max-h-screen", className),
+	...props,
+	children: [children, /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Close, {
+		className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-4 w-4" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+			className: "sr-only",
+			children: "Close"
+		})]
+	})]
+})] }));
+DialogContent.displayName = Content.displayName;
+var DialogHeader = ({ className, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	className: cn("flex flex-col space-y-1.5 text-center sm:text-left", className),
+	...props
+});
+DialogHeader.displayName = "DialogHeader";
+var DialogFooter = ({ className, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	className: cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className),
+	...props
+});
+DialogFooter.displayName = "DialogFooter";
+var DialogTitle = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Title, {
+	ref,
+	className: cn("text-lg font-semibold leading-none tracking-tight", className),
+	...props
+}));
+DialogTitle.displayName = Title.displayName;
+var DialogDescription = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Description, {
+	ref,
+	className: cn("text-sm text-muted-foreground", className),
+	...props
+}));
+DialogDescription.displayName = Description.displayName;
 function WizardStepEcosystem() {
 	const { proposal, updateProposal } = useProposal();
 	const [newItem, setNewItem] = (0, import_react.useState)("");
 	const [activeList, setActiveList] = (0, import_react.useState)("trafficSources");
+	const [editingIndex, setEditingIndex] = (0, import_react.useState)(null);
+	const [editValue, setEditValue] = (0, import_react.useState)("");
 	const addItem = () => {
 		if (!newItem) return;
 		const current = proposal[activeList] || [];
@@ -38340,6 +38782,19 @@ function WizardStepEcosystem() {
 		const current = [...proposal[activeList] || []];
 		current.splice(index$1, 1);
 		updateProposal({ [activeList]: current });
+	};
+	const startEdit = (index$1) => {
+		setEditingIndex(index$1);
+		setEditValue(proposal[activeList][index$1]);
+	};
+	const saveEdit = () => {
+		if (editingIndex !== null) {
+			const current = [...proposal[activeList] || []];
+			current[editingIndex] = editValue;
+			updateProposal({ [activeList]: current });
+			setEditingIndex(null);
+			setEditValue("");
+		}
 	};
 	const lists = [
 		{
@@ -38359,59 +38814,91 @@ function WizardStepEcosystem() {
 		}
 	];
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "space-y-6 animate-fade-in pb-10",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "grid grid-cols-2 gap-4",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-				value: proposal.ecosystemTitle,
-				onChange: (e) => updateProposal({ ecosystemTitle: e.target.value })
-			})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-				value: proposal.ecosystemSubtitle,
-				onChange: (e) => updateProposal({ ecosystemSubtitle: e.target.value })
-			})] })]
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "border-t border-slate-200 pt-4",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "flex gap-2 mb-4 overflow-x-auto pb-2",
-				children: lists.map((l) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-					onClick: () => setActiveList(l.key),
-					className: `px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors border ${activeList === l.key ? `bg-slate-900 text-white border-slate-900` : "bg-white text-slate-500 border-slate-200 hover:bg-slate-50"}`,
-					children: l.label
-				}, l.key))
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "space-y-2",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Label, {
-						className: `text-sm ${lists.find((l) => l.key === activeList)?.color}`,
-						children: ["Editar: ", lists.find((l) => l.key === activeList)?.label]
+		className: "space-y-6 animate-fade-in pb-10 pr-2",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dialog, {
+				open: editingIndex !== null,
+				onOpenChange: (open) => !open && setEditingIndex(null),
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogContent, { children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogHeader, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogTitle, { children: "Editar Item" }) }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+						value: editValue,
+						onChange: (e) => setEditValue(e.target.value),
+						onKeyDown: (e) => e.key === "Enter" && saveEdit()
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex gap-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-							value: newItem,
-							onChange: (e) => setNewItem(e.target.value),
-							placeholder: "Adicionar item...",
-							onKeyDown: (e) => e.key === "Enter" && addItem()
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-							onClick: addItem,
-							size: "icon",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4" })
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "space-y-1 mt-2 max-h-[300px] overflow-y-auto",
-						children: proposal[activeList]?.map((item, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "flex items-center justify-between bg-slate-50 p-2 rounded text-sm border border-slate-100",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: item }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-								onClick: () => removeItem(i),
-								className: "text-slate-400 hover:text-red-500",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "w-4 h-4" })
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogFooter, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						onClick: saveEdit,
+						children: "Salvar"
+					}) })
+				] })
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "grid grid-cols-2 gap-4",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+					value: proposal.ecosystemTitle,
+					onChange: (e) => updateProposal({ ecosystemTitle: e.target.value })
+				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+					value: proposal.ecosystemSubtitle,
+					onChange: (e) => updateProposal({ ecosystemSubtitle: e.target.value })
+				})] })]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "border-t border-slate-200 pt-4",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "flex gap-2 mb-4 overflow-x-auto pb-2 flex-wrap",
+					children: lists.map((l) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+						onClick: () => setActiveList(l.key),
+						className: `px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors border ${activeList === l.key ? `bg-slate-900 text-white border-slate-900` : "bg-white text-slate-500 border-slate-200 hover:bg-slate-50"}`,
+						children: l.label
+					}, l.key))
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "space-y-2",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Label, {
+							className: `text-sm ${lists.find((l) => l.key === activeList)?.color}`,
+							children: ["Editar: ", lists.find((l) => l.key === activeList)?.label]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "flex gap-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								value: newItem,
+								onChange: (e) => setNewItem(e.target.value),
+								placeholder: "Adicionar item...",
+								onKeyDown: (e) => e.key === "Enter" && addItem()
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+								onClick: addItem,
+								size: "icon",
+								className: "shrink-0",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4" })
 							})]
-						}, i))
-					})
-				]
-			})]
-		})]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "space-y-1 mt-2 max-h-[300px] overflow-y-auto",
+							children: proposal[activeList]?.map((item, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex items-center justify-between bg-slate-50 p-2 rounded text-sm border border-slate-100 group hover:border-sky-200 transition-colors",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									className: "truncate flex-1 mr-2",
+									children: item
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "flex gap-1 shrink-0 opacity-100",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+										onClick: () => startEdit(i),
+										className: "p-1 text-slate-400 hover:text-sky-500 hover:bg-white rounded",
+										title: "Editar",
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { className: "w-3 h-3" })
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+										onClick: () => removeItem(i),
+										className: "p-1 text-slate-400 hover:text-red-500 hover:bg-white rounded",
+										title: "Remover",
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "w-3 h-3" })
+									})]
+								})]
+							}, i))
+						})
+					]
+				})]
+			})
+		]
 	});
 }
 function WizardStepTimeline() {
@@ -38957,9 +39444,9 @@ function CheckboxProvider(props) {
 		children: isFunction(internal_do_not_use_render) ? internal_do_not_use_render(context) : children
 	});
 }
-var TRIGGER_NAME$1 = "CheckboxTrigger";
+var TRIGGER_NAME = "CheckboxTrigger";
 var CheckboxTrigger = import_react.forwardRef(({ __scopeCheckbox, onKeyDown, onClick, ...checkboxProps }, forwardedRef) => {
-	const { control, value, disabled, checked, required, setControl, setChecked, hasConsumerStoppedPropagationRef, isFormControl, bubbleInput } = useCheckboxContext(TRIGGER_NAME$1, __scopeCheckbox);
+	const { control, value, disabled, checked, required, setControl, setChecked, hasConsumerStoppedPropagationRef, isFormControl, bubbleInput } = useCheckboxContext(TRIGGER_NAME, __scopeCheckbox);
 	const composedRefs = useComposedRefs(forwardedRef, setControl);
 	const initialCheckedStateRef = import_react.useRef(checked);
 	import_react.useEffect(() => {
@@ -38975,7 +39462,7 @@ var CheckboxTrigger = import_react.forwardRef(({ __scopeCheckbox, onKeyDown, onC
 		role: "checkbox",
 		"aria-checked": isIndeterminate(checked) ? "mixed" : checked,
 		"aria-required": required,
-		"data-state": getState$1(checked),
+		"data-state": getState(checked),
 		"data-disabled": disabled ? "" : void 0,
 		disabled,
 		value,
@@ -38993,7 +39480,7 @@ var CheckboxTrigger = import_react.forwardRef(({ __scopeCheckbox, onKeyDown, onC
 		})
 	});
 });
-CheckboxTrigger.displayName = TRIGGER_NAME$1;
+CheckboxTrigger.displayName = TRIGGER_NAME;
 var Checkbox$1 = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeCheckbox, name, checked, defaultChecked, required, disabled, value, onCheckedChange, form, ...checkboxProps } = props;
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CheckboxProvider, {
@@ -39021,7 +39508,7 @@ var CheckboxIndicator = import_react.forwardRef((props, forwardedRef) => {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
 		present: forceMount || isIndeterminate(context.checked) || context.checked === true,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.span, {
-			"data-state": getState$1(context.checked),
+			"data-state": getState(context.checked),
 			"data-disabled": context.disabled ? "" : void 0,
 			...indicatorProps,
 			ref: forwardedRef,
@@ -39088,7 +39575,7 @@ function isFunction(value) {
 function isIndeterminate(checked) {
 	return checked === "indeterminate";
 }
-function getState$1(checked) {
+function getState(checked) {
 	return isIndeterminate(checked) ? "indeterminate" : checked ? "checked" : "unchecked";
 }
 var Checkbox = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Checkbox$1, {
@@ -39235,324 +39722,6 @@ function WizardStepGantt({ pageId }) {
 		})]
 	});
 }
-var DIALOG_NAME = "Dialog";
-var [createDialogContext, createDialogScope] = createContextScope(DIALOG_NAME);
-var [DialogProvider, useDialogContext] = createDialogContext(DIALOG_NAME);
-var Dialog$1 = (props) => {
-	const { __scopeDialog, children, open: openProp, defaultOpen, onOpenChange, modal = true } = props;
-	const triggerRef = import_react.useRef(null);
-	const contentRef = import_react.useRef(null);
-	const [open, setOpen] = useControllableState({
-		prop: openProp,
-		defaultProp: defaultOpen ?? false,
-		onChange: onOpenChange,
-		caller: DIALOG_NAME
-	});
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogProvider, {
-		scope: __scopeDialog,
-		triggerRef,
-		contentRef,
-		contentId: useId(),
-		titleId: useId(),
-		descriptionId: useId(),
-		open,
-		onOpenChange: setOpen,
-		onOpenToggle: import_react.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen]),
-		modal,
-		children
-	});
-};
-Dialog$1.displayName = DIALOG_NAME;
-var TRIGGER_NAME = "DialogTrigger";
-var DialogTrigger$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeDialog, ...triggerProps } = props;
-	const context = useDialogContext(TRIGGER_NAME, __scopeDialog);
-	const composedTriggerRef = useComposedRefs(forwardedRef, context.triggerRef);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.button, {
-		type: "button",
-		"aria-haspopup": "dialog",
-		"aria-expanded": context.open,
-		"aria-controls": context.contentId,
-		"data-state": getState(context.open),
-		...triggerProps,
-		ref: composedTriggerRef,
-		onClick: composeEventHandlers(props.onClick, context.onOpenToggle)
-	});
-});
-DialogTrigger$1.displayName = TRIGGER_NAME;
-var PORTAL_NAME = "DialogPortal";
-var [PortalProvider, usePortalContext] = createDialogContext(PORTAL_NAME, { forceMount: void 0 });
-var DialogPortal$1 = (props) => {
-	const { __scopeDialog, forceMount, children, container } = props;
-	const context = useDialogContext(PORTAL_NAME, __scopeDialog);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PortalProvider, {
-		scope: __scopeDialog,
-		forceMount,
-		children: import_react.Children.map(children, (child) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
-			present: forceMount || context.open,
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Portal, {
-				asChild: true,
-				container,
-				children: child
-			})
-		}))
-	});
-};
-DialogPortal$1.displayName = PORTAL_NAME;
-var OVERLAY_NAME = "DialogOverlay";
-var DialogOverlay$1 = import_react.forwardRef((props, forwardedRef) => {
-	const portalContext = usePortalContext(OVERLAY_NAME, props.__scopeDialog);
-	const { forceMount = portalContext.forceMount, ...overlayProps } = props;
-	const context = useDialogContext(OVERLAY_NAME, props.__scopeDialog);
-	return context.modal ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
-		present: forceMount || context.open,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogOverlayImpl, {
-			...overlayProps,
-			ref: forwardedRef
-		})
-	}) : null;
-});
-DialogOverlay$1.displayName = OVERLAY_NAME;
-var Slot = /* @__PURE__ */ createSlot("DialogOverlay.RemoveScroll");
-var DialogOverlayImpl = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeDialog, ...overlayProps } = props;
-	const context = useDialogContext(OVERLAY_NAME, __scopeDialog);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Combination_default, {
-		as: Slot,
-		allowPinchZoom: true,
-		shards: [context.contentRef],
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
-			"data-state": getState(context.open),
-			...overlayProps,
-			ref: forwardedRef,
-			style: {
-				pointerEvents: "auto",
-				...overlayProps.style
-			}
-		})
-	});
-});
-var CONTENT_NAME = "DialogContent";
-var DialogContent$1 = import_react.forwardRef((props, forwardedRef) => {
-	const portalContext = usePortalContext(CONTENT_NAME, props.__scopeDialog);
-	const { forceMount = portalContext.forceMount, ...contentProps } = props;
-	const context = useDialogContext(CONTENT_NAME, props.__scopeDialog);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
-		present: forceMount || context.open,
-		children: context.modal ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentModal, {
-			...contentProps,
-			ref: forwardedRef
-		}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentNonModal, {
-			...contentProps,
-			ref: forwardedRef
-		})
-	});
-});
-DialogContent$1.displayName = CONTENT_NAME;
-var DialogContentModal = import_react.forwardRef((props, forwardedRef) => {
-	const context = useDialogContext(CONTENT_NAME, props.__scopeDialog);
-	const contentRef = import_react.useRef(null);
-	const composedRefs = useComposedRefs(forwardedRef, context.contentRef, contentRef);
-	import_react.useEffect(() => {
-		const content = contentRef.current;
-		if (content) return hideOthers(content);
-	}, []);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentImpl, {
-		...props,
-		ref: composedRefs,
-		trapFocus: context.open,
-		disableOutsidePointerEvents: true,
-		onCloseAutoFocus: composeEventHandlers(props.onCloseAutoFocus, (event) => {
-			event.preventDefault();
-			context.triggerRef.current?.focus();
-		}),
-		onPointerDownOutside: composeEventHandlers(props.onPointerDownOutside, (event) => {
-			const originalEvent = event.detail.originalEvent;
-			const ctrlLeftClick = originalEvent.button === 0 && originalEvent.ctrlKey === true;
-			if (originalEvent.button === 2 || ctrlLeftClick) event.preventDefault();
-		}),
-		onFocusOutside: composeEventHandlers(props.onFocusOutside, (event) => event.preventDefault())
-	});
-});
-var DialogContentNonModal = import_react.forwardRef((props, forwardedRef) => {
-	const context = useDialogContext(CONTENT_NAME, props.__scopeDialog);
-	const hasInteractedOutsideRef = import_react.useRef(false);
-	const hasPointerDownOutsideRef = import_react.useRef(false);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentImpl, {
-		...props,
-		ref: forwardedRef,
-		trapFocus: false,
-		disableOutsidePointerEvents: false,
-		onCloseAutoFocus: (event) => {
-			props.onCloseAutoFocus?.(event);
-			if (!event.defaultPrevented) {
-				if (!hasInteractedOutsideRef.current) context.triggerRef.current?.focus();
-				event.preventDefault();
-			}
-			hasInteractedOutsideRef.current = false;
-			hasPointerDownOutsideRef.current = false;
-		},
-		onInteractOutside: (event) => {
-			props.onInteractOutside?.(event);
-			if (!event.defaultPrevented) {
-				hasInteractedOutsideRef.current = true;
-				if (event.detail.originalEvent.type === "pointerdown") hasPointerDownOutsideRef.current = true;
-			}
-			const target = event.target;
-			if (context.triggerRef.current?.contains(target)) event.preventDefault();
-			if (event.detail.originalEvent.type === "focusin" && hasPointerDownOutsideRef.current) event.preventDefault();
-		}
-	});
-});
-var DialogContentImpl = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeDialog, trapFocus, onOpenAutoFocus, onCloseAutoFocus, ...contentProps } = props;
-	const context = useDialogContext(CONTENT_NAME, __scopeDialog);
-	const contentRef = import_react.useRef(null);
-	const composedRefs = useComposedRefs(forwardedRef, contentRef);
-	useFocusGuards();
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FocusScope, {
-		asChild: true,
-		loop: true,
-		trapped: trapFocus,
-		onMountAutoFocus: onOpenAutoFocus,
-		onUnmountAutoFocus: onCloseAutoFocus,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DismissableLayer, {
-			role: "dialog",
-			id: context.contentId,
-			"aria-describedby": context.descriptionId,
-			"aria-labelledby": context.titleId,
-			"data-state": getState(context.open),
-			...contentProps,
-			ref: composedRefs,
-			onDismiss: () => context.onOpenChange(false)
-		})
-	}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TitleWarning, { titleId: context.titleId }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DescriptionWarning, {
-		contentRef,
-		descriptionId: context.descriptionId
-	})] })] });
-});
-var TITLE_NAME = "DialogTitle";
-var DialogTitle$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeDialog, ...titleProps } = props;
-	const context = useDialogContext(TITLE_NAME, __scopeDialog);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.h2, {
-		id: context.titleId,
-		...titleProps,
-		ref: forwardedRef
-	});
-});
-DialogTitle$1.displayName = TITLE_NAME;
-var DESCRIPTION_NAME = "DialogDescription";
-var DialogDescription$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeDialog, ...descriptionProps } = props;
-	const context = useDialogContext(DESCRIPTION_NAME, __scopeDialog);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.p, {
-		id: context.descriptionId,
-		...descriptionProps,
-		ref: forwardedRef
-	});
-});
-DialogDescription$1.displayName = DESCRIPTION_NAME;
-var CLOSE_NAME = "DialogClose";
-var DialogClose$1 = import_react.forwardRef((props, forwardedRef) => {
-	const { __scopeDialog, ...closeProps } = props;
-	const context = useDialogContext(CLOSE_NAME, __scopeDialog);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.button, {
-		type: "button",
-		...closeProps,
-		ref: forwardedRef,
-		onClick: composeEventHandlers(props.onClick, () => context.onOpenChange(false))
-	});
-});
-DialogClose$1.displayName = CLOSE_NAME;
-function getState(open) {
-	return open ? "open" : "closed";
-}
-var TITLE_WARNING_NAME = "DialogTitleWarning";
-var [WarningProvider, useWarningContext] = createContext2(TITLE_WARNING_NAME, {
-	contentName: CONTENT_NAME,
-	titleName: TITLE_NAME,
-	docsSlug: "dialog"
-});
-var TitleWarning = ({ titleId }) => {
-	const titleWarningContext = useWarningContext(TITLE_WARNING_NAME);
-	const MESSAGE = `\`${titleWarningContext.contentName}\` requires a \`${titleWarningContext.titleName}\` for the component to be accessible for screen reader users.
-
-If you want to hide the \`${titleWarningContext.titleName}\`, you can wrap it with our VisuallyHidden component.
-
-For more information, see https://radix-ui.com/primitives/docs/components/${titleWarningContext.docsSlug}`;
-	import_react.useEffect(() => {
-		if (titleId) {
-			if (!document.getElementById(titleId)) console.error(MESSAGE);
-		}
-	}, [MESSAGE, titleId]);
-	return null;
-};
-var DESCRIPTION_WARNING_NAME = "DialogDescriptionWarning";
-var DescriptionWarning = ({ contentRef, descriptionId }) => {
-	const MESSAGE = `Warning: Missing \`Description\` or \`aria-describedby={undefined}\` for {${useWarningContext(DESCRIPTION_WARNING_NAME).contentName}}.`;
-	import_react.useEffect(() => {
-		const describedById = contentRef.current?.getAttribute("aria-describedby");
-		if (descriptionId && describedById) {
-			if (!document.getElementById(descriptionId)) console.warn(MESSAGE);
-		}
-	}, [
-		MESSAGE,
-		contentRef,
-		descriptionId
-	]);
-	return null;
-};
-var Root$1 = Dialog$1;
-var Portal$1 = DialogPortal$1;
-var Overlay = DialogOverlay$1;
-var Content = DialogContent$1;
-var Title = DialogTitle$1;
-var Description = DialogDescription$1;
-var Close = DialogClose$1;
-var Dialog = Root$1;
-var DialogPortal = Portal$1;
-var DialogOverlay = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Overlay, {
-	ref,
-	className: cn("fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0", className),
-	...props
-}));
-DialogOverlay.displayName = Overlay.displayName;
-var DialogContent = import_react.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogPortal, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogOverlay, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Content, {
-	ref,
-	className: cn("fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg overflow-y-auto max-h-screen", className),
-	...props,
-	children: [children, /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Close, {
-		className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-4 w-4" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-			className: "sr-only",
-			children: "Close"
-		})]
-	})]
-})] }));
-DialogContent.displayName = Content.displayName;
-var DialogHeader = ({ className, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-	className: cn("flex flex-col space-y-1.5 text-center sm:text-left", className),
-	...props
-});
-DialogHeader.displayName = "DialogHeader";
-var DialogFooter = ({ className, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-	className: cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className),
-	...props
-});
-DialogFooter.displayName = "DialogFooter";
-var DialogTitle = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Title, {
-	ref,
-	className: cn("text-lg font-semibold leading-none tracking-tight", className),
-	...props
-}));
-DialogTitle.displayName = Title.displayName;
-var DialogDescription = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Description, {
-	ref,
-	className: cn("text-sm text-muted-foreground", className),
-	...props
-}));
-DialogDescription.displayName = Description.displayName;
 function ProfileModal({ open, onOpenChange }) {
 	const { proposal, updateProposal } = useProposal();
 	const { profile } = proposal;
@@ -40374,13 +40543,97 @@ var ScrollBar = import_react.forwardRef(({ className, orientation = "vertical", 
 	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ScrollAreaThumb, { className: "relative flex-1 rounded-full bg-border" })
 }));
 ScrollBar.displayName = ScrollAreaScrollbar.displayName;
+function TemplateSelectionModal({ open, onOpenChange, onSelect }) {
+	const [templates, setTemplates] = (0, import_react.useState)([]);
+	const [loading, setLoading] = (0, import_react.useState)(false);
+	(0, import_react.useEffect)(() => {
+		if (open) fetchTemplates();
+	}, [open]);
+	const fetchTemplates = async () => {
+		setLoading(true);
+		try {
+			const { data, error } = await supabase.from("templates").select("*").order("created_at", { ascending: false });
+			if (!error && data) setTemplates(data);
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setLoading(false);
+		}
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dialog, {
+		open,
+		onOpenChange,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogContent, {
+			className: "sm:max-w-[800px] h-[80vh] flex flex-col p-0",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogHeader, {
+					className: "px-6 py-4 border-b border-slate-100",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogTitle, { children: "Adicionar Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogDescription, { children: "Escolha um modelo da biblioteca ou uma página em branco." })]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "flex-1 overflow-hidden bg-slate-50",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ScrollArea, {
+						className: "h-full p-6",
+						children: loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "flex items-center justify-center h-40",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-8 h-8 animate-spin text-slate-400" })
+						}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "grid grid-cols-2 md:grid-cols-3 gap-4",
+							children: [templates.map((template) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "group cursor-pointer bg-white rounded-lg border border-slate-200 overflow-hidden hover:ring-2 hover:ring-sky-500 transition-all hover:shadow-md",
+								onClick: () => {
+									onSelect(template);
+									onOpenChange(false);
+								},
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "aspect-video bg-slate-100 relative",
+									children: [template.thumbnail_url ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+										src: template.thumbnail_url,
+										alt: template.name,
+										className: "w-full h-full object-cover"
+									}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "flex items-center justify-center w-full h-full",
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-10 h-10 text-slate-300" })
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center",
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-8 h-8 text-white opacity-0 group-hover:opacity-100 drop-shadow-md transform scale-50 group-hover:scale-100 transition-all" })
+									})]
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "p-3",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+										className: "font-bold text-sm text-slate-900 truncate",
+										children: template.name
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										className: "text-xs text-slate-500 capitalize",
+										children: template.type || "Slide"
+									})]
+								})]
+							}, template.id)), templates.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "col-span-full py-10 text-center text-slate-400",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Nenhum modelo salvo na biblioteca." })
+							})]
+						})
+					})
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "p-4 border-t border-slate-100 flex justify-end",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						variant: "outline",
+						onClick: () => onOpenChange(false),
+						children: "Cancelar"
+					})
+				})
+			]
+		})
+	});
+}
 function EditorContent() {
-	const { proposal, updateProposal, duplicatePage, removePage, restorePage, saveProposal, isLoading } = useProposal();
+	const { proposal, updateProposal, duplicatePage, removePage, saveProposal, saveSlideToLibrary, insertTemplate, isLoading } = useProposal();
 	const [activeTab, setActiveTab] = (0, import_react.useState)("parts");
 	const [leftOpen, setLeftOpen] = (0, import_react.useState)(true);
 	const [rightOpen, setRightOpen] = (0, import_react.useState)(true);
 	const [profileOpen, setProfileOpen] = (0, import_react.useState)(false);
-	const [libraryOpen, setLibraryOpen] = (0, import_react.useState)(false);
+	const [templateModalOpen, setTemplateModalOpen] = (0, import_react.useState)(false);
 	const [draggedItem, setDraggedItem] = (0, import_react.useState)(null);
 	const handleShare = () => {
 		if (proposal.id === "new") {
@@ -40388,25 +40641,6 @@ function EditorContent() {
 			return;
 		}
 		window.open(`/share/${proposal.id}`, "_blank");
-	};
-	const addNewGanttPage = () => {
-		const newId = `gantt-${v4_default().slice(0, 8)}`;
-		const newPage = {
-			id: newId,
-			title: "Cronograma Detalhado",
-			subtitle: "Visão Semanal",
-			month: "NOVO MÊS",
-			tasks: []
-		};
-		const timelineIndex = proposal.pageOrder.indexOf("timeline");
-		const insertIndex = timelineIndex !== -1 ? timelineIndex + 1 : proposal.pageOrder.length;
-		const newOrder = [...proposal.pageOrder];
-		newOrder.splice(insertIndex, 0, newId);
-		updateProposal({
-			ganttPages: [...proposal.ganttPages, newPage],
-			pageOrder: newOrder
-		});
-		setActiveTab(newId);
 	};
 	const staticComponents = {
 		parts: {
@@ -40535,6 +40769,11 @@ function EditorContent() {
 				open: profileOpen,
 				onOpenChange: setProfileOpen
 			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TemplateSelectionModal, {
+				open: templateModalOpen,
+				onOpenChange: setTemplateModalOpen,
+				onSelect: (t) => insertTemplate(t)
+			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("aside", {
 				className: cn("flex flex-col bg-white border-r border-slate-200 z-20 shadow-xl flex-shrink-0 transition-all duration-300", leftOpen ? "w-64" : "w-14"),
 				children: [
@@ -40564,96 +40803,50 @@ function EditorContent() {
 					}),
 					leftOpen && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "flex-1 overflow-hidden flex flex-col",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "p-3 bg-slate-50 border-b border-slate-100 flex justify-between items-center",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "text-xs font-bold text-slate-400 uppercase tracking-wider",
-									children: "Páginas"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "flex gap-1",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-										size: "icon",
-										variant: "ghost",
-										className: "h-6 w-6",
-										onClick: () => setLibraryOpen(!libraryOpen),
-										title: "Biblioteca",
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-4 h-4 text-slate-500" })
-									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-										size: "icon",
-										variant: "ghost",
-										className: "h-6 w-6",
-										onClick: addNewGanttPage,
-										title: "Add Gantt",
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 text-slate-500" })
-									})]
-								})]
-							}),
-							libraryOpen && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "bg-slate-100 p-2 border-b border-slate-200 max-h-60 overflow-y-auto",
-								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-										className: "text-xs font-bold text-slate-500 mb-2",
-										children: "Biblioteca de Páginas"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "grid grid-cols-2 gap-2 mb-4",
-										children: Object.entries(staticComponents).filter(([key]) => key !== "parts").map(([key, conf]) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-											onClick: () => restorePage(key),
-											className: "bg-white p-2 rounded border border-slate-200 cursor-pointer hover:border-sky-400 text-center",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(conf.icon, { className: "w-6 h-6 mx-auto text-slate-400 mb-1" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-												className: "text-[10px] block font-medium text-slate-600 truncate",
-												children: conf.label
-											})]
-										}, key))
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-										className: "text-xs font-bold text-slate-500 mb-2 border-t border-slate-200 pt-2",
-										children: "Removidas"
-									}),
-									proposal.library?.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-										className: "text-[10px] text-slate-400 italic",
-										children: "Nenhuma página removida."
-									}),
-									proposal.library?.map((id) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-										className: "flex justify-between items-center bg-white p-1 rounded mb-1 border border-slate-200 text-xs",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: getTabLabel(id).label }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-											size: "icon",
-											variant: "ghost",
-											className: "h-5 w-5",
-											onClick: () => restorePage(id),
-											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-3 h-3 text-green-500" })
-										})]
-									}, id))
-								]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ScrollArea, {
-								className: "flex-1",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "p-2 space-y-1",
-									children: proposal.pageOrder.map((id) => {
-										const { label, icon: Icon$2 } = getTabLabel(id);
-										const isActive = activeTab === id;
-										return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-											draggable: true,
-											onDragStart: (e) => onDragStart(e, id),
-											onDragOver: (e) => onDragOver(e, id),
-											onDragEnd,
-											className: cn("flex items-center gap-2 px-2 py-2 rounded-md text-sm cursor-pointer transition-all border group relative", isActive ? "bg-sky-50 border-sky-200 text-sky-700 font-semibold shadow-sm" : "bg-transparent border-transparent text-slate-600 hover:bg-slate-50 hover:text-slate-900"),
-											onClick: () => handleTabClick(id),
-											children: [
-												/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-													className: "cursor-grab active:cursor-grabbing text-slate-300 group-hover:text-slate-400",
-													children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(GripVertical, { className: "w-3 h-3" })
-												}),
-												/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon$2, { className: cn("w-4 h-4", isActive ? "text-sky-500" : "text-slate-400") }),
-												/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-													className: "truncate flex-1 text-xs",
-													children: label
-												}),
-												/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-													className: "flex opacity-0 group-hover:opacity-100 transition-opacity",
-													children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "p-3 bg-slate-50 border-b border-slate-100 flex justify-between items-center",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "text-xs font-bold text-slate-400 uppercase tracking-wider",
+								children: "Páginas"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "flex gap-1",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+									size: "icon",
+									variant: "ghost",
+									className: "h-6 w-6",
+									onClick: () => setTemplateModalOpen(true),
+									title: "Adicionar Página",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 text-sky-600" })
+								})
+							})]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ScrollArea, {
+							className: "flex-1",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "p-2 space-y-1",
+								children: proposal.pageOrder.map((id) => {
+									const { label, icon: Icon$2 } = getTabLabel(id);
+									const isActive = activeTab === id;
+									return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										draggable: true,
+										onDragStart: (e) => onDragStart(e, id),
+										onDragOver: (e) => onDragOver(e, id),
+										onDragEnd,
+										className: cn("flex items-center gap-2 px-2 py-2 rounded-md text-sm cursor-pointer transition-all border group relative", isActive ? "bg-sky-50 border-sky-200 text-sky-700 font-semibold shadow-sm" : "bg-transparent border-transparent text-slate-600 hover:bg-slate-50 hover:text-slate-900"),
+										onClick: () => handleTabClick(id),
+										children: [
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+												className: "cursor-grab active:cursor-grabbing text-slate-300 group-hover:text-slate-400",
+												children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(GripVertical, { className: "w-3 h-3" })
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon$2, { className: cn("w-4 h-4", isActive ? "text-sky-500" : "text-slate-400") }),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+												className: "truncate flex-1 text-xs",
+												children: label
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+												className: "flex opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 backdrop-blur-sm rounded absolute right-1 top-1 bottom-1 items-center px-1 shadow-sm",
+												children: [
+													/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 														variant: "ghost",
 														size: "icon",
 														className: "h-6 w-6 text-slate-400 hover:text-sky-500",
@@ -40663,7 +40856,19 @@ function EditorContent() {
 														},
 														title: "Duplicar",
 														children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Copy, { className: "w-3 h-3" })
-													}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+													}),
+													/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+														variant: "ghost",
+														size: "icon",
+														className: "h-6 w-6 text-slate-400 hover:text-emerald-500",
+														onClick: (e) => {
+															e.stopPropagation();
+															saveSlideToLibrary(id);
+														},
+														title: "Salvar na Biblioteca",
+														children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FolderPlus, { className: "w-3 h-3" })
+													}),
+													/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 														variant: "ghost",
 														size: "icon",
 														className: "h-6 w-6 text-slate-400 hover:text-red-500",
@@ -40673,43 +40878,75 @@ function EditorContent() {
 														},
 														title: "Remover",
 														children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "w-3 h-3" })
-													})]
-												})
-											]
-										}, id);
-									})
+													})
+												]
+											})
+										]
+									}, id);
 								})
 							})
-						]
+						})]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 						className: cn("p-2 border-t border-slate-100 bg-white flex flex-col gap-2", !leftOpen && "items-center"),
-						children: leftOpen ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
-							variant: "outline",
-							size: "sm",
-							onClick: () => setProfileOpen(true),
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleUser, { className: "w-4 h-4 mr-2" }), " Perfil"]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "flex gap-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+						children: leftOpen ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenu, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuTrigger, {
+							asChild: true,
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
 								variant: "outline",
 								size: "sm",
-								className: "flex-1",
+								className: "w-full justify-start",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleUser, { className: "w-4 h-4 mr-2" }), " Menu"]
+							})
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuContent, {
+							align: "end",
+							className: "w-56",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
+									onClick: () => setProfileOpen(true),
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleUser, { className: "w-4 h-4 mr-2" }), " Perfil"]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+									to: "/biblioteca",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-4 h-4 mr-2" }), " Biblioteca"] })
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+									to: "/",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogOut, { className: "w-4 h-4 mr-2" }), " Sair"] })
+								})
+							]
+						})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "flex gap-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+								variant: "default",
+								size: "sm",
+								className: "flex-1 bg-emerald-600 hover:bg-emerald-700 text-white",
 								onClick: saveProposal,
 								disabled: isLoading,
 								children: [isLoading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-4 h-4 mr-2 animate-spin" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Save, { className: "w-4 h-4 mr-2" }), "Salvar"]
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
 								size: "sm",
-								className: "flex-1 bg-sky-500 hover:bg-sky-600",
+								variant: "outline",
+								className: "flex-1",
 								onClick: handleShare,
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Share2, { className: "w-4 h-4 mr-2" }), "Share"]
 							})]
-						})] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-							size: "icon",
-							variant: "ghost",
-							onClick: () => setProfileOpen(true),
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleUser, { className: "w-5 h-5" })
-						})
+						})] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenu, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuTrigger, {
+							asChild: true,
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+								size: "icon",
+								variant: "ghost",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleUser, { className: "w-5 h-5" })
+							})
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuContent, {
+							side: "right",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuItem, {
+								onClick: () => setProfileOpen(true),
+								children: "Perfil"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/biblioteca",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuItem, { children: "Biblioteca" })
+							})]
+						})] })
 					})
 				]
 			}),
@@ -40752,15 +40989,24 @@ function EditorContent() {
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
 				className: "flex-1 flex flex-col h-screen overflow-hidden bg-slate-100 relative",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", {
 					className: "h-12 border-b border-slate-200 bg-white flex items-center justify-between px-6 no-print shrink-0",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "flex items-center gap-2 text-sm text-slate-500",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 							className: "bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full text-xs font-bold uppercase",
 							children: "Live Preview"
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: proposal.clientName })]
-					})
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "flex items-center gap-2",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+							size: "sm",
+							variant: "ghost",
+							className: "text-xs text-slate-400",
+							onClick: saveProposal,
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Save, { className: "w-3 h-3 mr-1" }), " Auto-save off"]
+						})
+					})]
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "flex-1 overflow-auto p-8 flex justify-center bg-slate-200/50",
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -40774,6 +41020,166 @@ function EditorContent() {
 }
 function Editor() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProposalProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EditorContent, {}) });
+}
+function Library() {
+	const [templates, setTemplates] = (0, import_react.useState)([]);
+	const [loading, setLoading] = (0, import_react.useState)(true);
+	const [search, setSearch] = (0, import_react.useState)("");
+	const { toast: toast$2 } = useToast();
+	const { user } = useAuth();
+	(0, import_react.useEffect)(() => {
+		fetchTemplates();
+	}, [user]);
+	const fetchTemplates = async () => {
+		if (!user) return;
+		try {
+			const { data, error } = await supabase.from("templates").select("*").order("created_at", { ascending: false });
+			if (error) throw error;
+			setTemplates(data || []);
+		} catch (error) {
+			console.error("Error fetching templates:", error);
+			toast$2({
+				title: "Erro",
+				description: "Não foi possível carregar os modelos.",
+				variant: "destructive"
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
+	const deleteTemplate = async (id) => {
+		if (!confirm("Tem certeza que deseja excluir este modelo?")) return;
+		try {
+			const { error } = await supabase.from("templates").delete().eq("id", id);
+			if (error) throw error;
+			setTemplates(templates.filter((t) => t.id !== id));
+			toast$2({ title: "Modelo excluído com sucesso!" });
+		} catch (error) {
+			toast$2({
+				title: "Erro ao excluir",
+				description: error.message,
+				variant: "destructive"
+			});
+		}
+	};
+	const duplicateTemplate = async (template) => {
+		try {
+			const { id, created_at, ...rest } = template;
+			const { data, error } = await supabase.from("templates").insert([{
+				...rest,
+				name: `${template.name} (Cópia)`
+			}]).select().single();
+			if (error) throw error;
+			if (data) {
+				setTemplates([data, ...templates]);
+				toast$2({ title: "Modelo duplicado com sucesso!" });
+			}
+		} catch (error) {
+			toast$2({
+				title: "Erro ao duplicar",
+				description: error.message,
+				variant: "destructive"
+			});
+		}
+	};
+	const filteredTemplates = templates.filter((t) => t.name.toLowerCase().includes(search.toLowerCase()));
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "min-h-screen bg-slate-50 font-sans",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
+			className: "bg-white border-b border-slate-200 py-6 px-8",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "max-w-7xl mx-auto flex items-center gap-4",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+						to: "/",
+						className: "p-2 hover:bg-slate-100 rounded-full transition-colors",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { className: "w-5 h-5 text-slate-500" })
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex-1",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
+							className: "text-2xl font-bold text-slate-900 flex items-center gap-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-6 h-6 text-sky-500" }), "Biblioteca de Modelos"]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-slate-500",
+							children: "Gerencie seus slides e templates reutilizáveis"
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "relative",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							className: "pl-9 w-64",
+							placeholder: "Buscar modelos...",
+							value: search,
+							onChange: (e) => setSearch(e.target.value)
+						})]
+					})
+				]
+			})
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("main", {
+			className: "max-w-7xl mx-auto py-12 px-8",
+			children: loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "text-center py-20 text-slate-500",
+				children: "Carregando modelos..."
+			}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6",
+				children: [filteredTemplates.map((template) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
+					className: "group overflow-hidden border-slate-200 hover:shadow-lg transition-all",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "aspect-video bg-slate-100 relative overflow-hidden border-b border-slate-100",
+							children: template.thumbnail_url ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+								src: template.thumbnail_url,
+								alt: template.name,
+								className: "w-full h-full object-cover"
+							}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "flex items-center justify-center w-full h-full text-slate-300",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-12 h-12 opacity-50" })
+							})
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardHeader, {
+							className: "p-4 pb-2",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+								className: "text-base font-bold truncate",
+								title: template.name,
+								children: template.name
+							})
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardFooter, {
+							className: "p-4 pt-0 flex justify-between items-center",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "text-xs text-slate-500 capitalize",
+								children: template.type || "Slide"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex gap-1",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+									variant: "ghost",
+									size: "icon",
+									className: "h-8 w-8 text-slate-400 hover:text-sky-500",
+									onClick: () => duplicateTemplate(template),
+									title: "Duplicar",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Copy, { className: "w-4 h-4" })
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+									variant: "ghost",
+									size: "icon",
+									className: "h-8 w-8 text-slate-400 hover:text-red-500",
+									onClick: () => deleteTemplate(template.id),
+									title: "Excluir",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "w-4 h-4" })
+								})]
+							})]
+						})
+					]
+				}, template.id)), filteredTemplates.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "col-span-full py-12 text-center text-slate-400 bg-white rounded-lg border border-dashed border-slate-300",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Nenhum modelo encontrado." }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "text-sm mt-2",
+						children: "Salve slides como modelos através do Editor."
+					})]
+				})]
+			})
+		})]
+	});
 }
 function ShareContent() {
 	const { proposal } = useProposal();
@@ -40858,13 +41264,20 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
 		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Routes, { children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Route, {
 				element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Layout, {}),
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
-					path: "/",
-					element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Index_default, {})
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
-					path: "/editor",
-					element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Editor, {})
-				})]
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+						path: "/",
+						element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Index_default, {})
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+						path: "/editor",
+						element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Editor, {})
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+						path: "/biblioteca",
+						element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Library, {})
+					})
+				]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
 				path: "/share/:id",
@@ -40880,4 +41293,4 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-CyEzRxaK.js.map
+//# sourceMappingURL=index-DtFLx049.js.map

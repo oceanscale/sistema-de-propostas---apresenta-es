@@ -1027,6 +1027,7 @@ export type Database = {
           address: string | null
           cnpj: string | null
           company_name: string | null
+          cpf: string | null
           created_at: string | null
           favicon_url: string | null
           id: string
@@ -1048,6 +1049,7 @@ export type Database = {
           address?: string | null
           cnpj?: string | null
           company_name?: string | null
+          cpf?: string | null
           created_at?: string | null
           favicon_url?: string | null
           id: string
@@ -1069,6 +1071,7 @@ export type Database = {
           address?: string | null
           cnpj?: string | null
           company_name?: string | null
+          cpf?: string | null
           created_at?: string | null
           favicon_url?: string | null
           id?: string
@@ -1191,6 +1194,7 @@ export type Database = {
           client_name: string
           company_name: string | null
           considerations: string | null
+          content: Json | null
           contract_duration: string | null
           created_at: string
           email: string | null
@@ -1214,6 +1218,7 @@ export type Database = {
           client_name: string
           company_name?: string | null
           considerations?: string | null
+          content?: Json | null
           contract_duration?: string | null
           created_at?: string
           email?: string | null
@@ -1237,6 +1242,7 @@ export type Database = {
           client_name?: string
           company_name?: string | null
           considerations?: string | null
+          content?: Json | null
           contract_duration?: string | null
           created_at?: string
           email?: string | null

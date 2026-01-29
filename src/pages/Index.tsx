@@ -7,7 +7,15 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Plus, Search, FileText, Trash2, LogOut, User } from 'lucide-react'
+import {
+  Plus,
+  Search,
+  FileText,
+  Trash2,
+  LogOut,
+  User,
+  LayoutTemplate,
+} from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import {
@@ -16,16 +24,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-// We cannot use ProfileModal here without ProposalProvider if ProfileModal depends on useProposal context.
-// However, the User Story asks for "User Profile Management".
-// Since we only have ProposalContext which is local to the Editor (it wraps EditorContent),
-// we can't share state between Index and Editor easily without lifting state up or mocking.
-// For this task, I'll keep the Profile accessible within the Editor as implemented.
-// If needed globally, I would need to wrap App in ProposalProvider or a new ProfileProvider.
-// Given the constraints, I will leave Index as is regarding Profile, or just show a toast "Profile available in Editor".
-// Actually, I can just make the profile button inside Editor the main access point as per my previous implementation.
-// But to be cleaner, let's allow it here but realizing it won't persist to Editor unless we use local storage or lift context.
-// I'll stick to Editor implementation as it's the core request.
 
 const INITIAL_PROJECTS = [
   {
@@ -76,6 +74,11 @@ const Index = () => {
                 <DropdownMenuItem disabled>
                   <User className="w-4 h-4 mr-2" /> Perfil (Acesse no Editor)
                 </DropdownMenuItem>
+                <Link to="/biblioteca">
+                  <DropdownMenuItem>
+                    <LayoutTemplate className="w-4 h-4 mr-2" /> Biblioteca
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuItem className="text-red-600">
                   <LogOut className="w-4 h-4 mr-2" /> Sair
                 </DropdownMenuItem>
