@@ -8,10 +8,10 @@ export function SlideDiagnosis({ proposal }: { proposal: Proposal }) {
       <div className="flex justify-between items-end mb-12 border-b border-slate-100 pb-6">
         <div>
           <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-2">
-            Análise de Cenário
+            {proposal.diagnosisSubtitle}
           </p>
           <h2 className="text-4xl font-heading font-bold text-slate-900">
-            Diagnóstico & Oportunidades
+            {proposal.diagnosisTitle}
           </h2>
         </div>
       </div>
@@ -34,8 +34,8 @@ export function SlideDiagnosis({ proposal }: { proposal: Proposal }) {
           </div>
 
           <ul className="space-y-4">
-            {proposal.gaps.length > 0 ? (
-              proposal.gaps.map((gap, i) => (
+            {proposal.gaps?.length > 0 ? (
+              proposal.gaps.slice(0, 7).map((gap, i) => (
                 <li
                   key={i}
                   className="flex items-start gap-4 p-4 bg-white rounded-xl border border-red-100 shadow-sm"
@@ -46,15 +46,9 @@ export function SlideDiagnosis({ proposal }: { proposal: Proposal }) {
               ))
             ) : (
               <li className="text-slate-500 italic p-4">
-                Nenhum ponto crítico listado manualmente.
+                Nenhum ponto crítico listado.
               </li>
             )}
-            <li className="flex items-start gap-4 p-4 bg-white rounded-xl border border-red-100 shadow-sm">
-              <XCircle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
-              <span className="text-slate-700 font-medium">
-                Falta de rastreamento avançado de conversões
-              </span>
-            </li>
           </ul>
         </div>
 
@@ -75,34 +69,21 @@ export function SlideDiagnosis({ proposal }: { proposal: Proposal }) {
           </div>
 
           <ul className="space-y-4">
-            {proposal.channels.slice(0, 2).map((channel, i) => (
-              <li
-                key={i}
-                className="flex items-start gap-4 p-4 bg-white rounded-xl border border-emerald-100 shadow-sm"
-              >
-                <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" />
-                <span className="text-slate-700 font-medium">
-                  Exploração agressiva de {channel}
-                </span>
+            {proposal.growthLevers?.length > 0 ? (
+              proposal.growthLevers.slice(0, 7).map((lever, i) => (
+                <li
+                  key={i}
+                  className="flex items-start gap-4 p-4 bg-white rounded-xl border border-emerald-100 shadow-sm"
+                >
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" />
+                  <span className="text-slate-700 font-medium">{lever}</span>
+                </li>
+              ))
+            ) : (
+              <li className="text-slate-500 italic p-4">
+                Nenhuma alavanca listada.
               </li>
-            ))}
-            {proposal.addons.slice(0, 2).map((addon, i) => (
-              <li
-                key={`add-${i}`}
-                className="flex items-start gap-4 p-4 bg-white rounded-xl border border-emerald-100 shadow-sm"
-              >
-                <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" />
-                <span className="text-slate-700 font-medium">
-                  Implementação de {addon}
-                </span>
-              </li>
-            ))}
-            <li className="flex items-start gap-4 p-4 bg-white rounded-xl border border-emerald-100 shadow-sm">
-              <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" />
-              <span className="text-slate-700 font-medium">
-                Otimização de Taxa de Conversão (CRO)
-              </span>
-            </li>
+            )}
           </ul>
         </div>
       </div>

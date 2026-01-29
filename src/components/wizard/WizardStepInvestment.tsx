@@ -22,11 +22,32 @@ export function WizardStepInvestment() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label>Título da Página</Label>
+          <Input
+            value={proposal.investmentTitle}
+            onChange={(e) =>
+              updateProposal({ investmentTitle: e.target.value })
+            }
+          />
+        </div>
+        <div>
+          <Label>Subtítulo da Página</Label>
+          <Input
+            value={proposal.investmentSubtitle}
+            onChange={(e) =>
+              updateProposal({ investmentSubtitle: e.target.value })
+            }
+          />
+        </div>
+      </div>
+
+      <div className="border-t border-slate-200 pt-4 space-y-4">
         <Label>Custos Operacionais</Label>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label className="text-xs">Verba Mídia (Sugerida)</Label>
+            <Label className="text-xs">Verba Mídia (R$)</Label>
             <Input
               type="number"
               value={proposal.mediaBudget}
@@ -36,7 +57,7 @@ export function WizardStepInvestment() {
             />
           </div>
           <div>
-            <Label className="text-xs">Custo Software</Label>
+            <Label className="text-xs">Software (R$)</Label>
             <Input
               type="number"
               value={proposal.softwareCost}
@@ -49,7 +70,7 @@ export function WizardStepInvestment() {
       </div>
 
       <div className="border-t border-slate-100 pt-4">
-        <Label className="mb-4 block">Configuração dos Planos</Label>
+        <Label className="mb-4 block">Planos</Label>
         <div className="flex space-x-2 border-b border-slate-200 pb-2 mb-4">
           {proposal.investmentTiers.map((tier, i) => (
             <button

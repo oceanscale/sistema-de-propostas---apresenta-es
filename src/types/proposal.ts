@@ -17,45 +17,90 @@ export interface CompetitorItem {
   website: string
   presence: string
   strengths: string[]
+  weaknesses: string[]
+}
+
+export interface SummaryLink {
+  title: string
+  url: string
 }
 
 export interface Proposal {
   id: string
-  // Agency
+  // Agency & Client (Parts)
   agencyName: string
   agencyCnpj: string
   agencyRep: string
-
-  // Client
   clientName: string
   clientUrl: string
-  ctaUrl: string
   sector: string
   location: string
 
   // Images
   coverImage: string
-  summaryImage: string
+  summaryPageImage: string // New: Background for Summary Page (optional or used somewhere)
+  summaryBoxImage: string // New: Background for the Summary Box
 
-  // Diagnosis
+  // Page Titles & Subtitles
+  coverTitle: string
+  coverSubtitle: string
+
+  summaryTitle: string
+  summarySubtitle: string
+
+  competitorsTitle: string
+  competitorsSubtitle: string
+
+  diagnosisTitle: string
+  diagnosisSubtitle: string
+
+  ecosystemTitle: string
+  ecosystemSubtitle: string
+
+  timelineTitle: string
+  timelineSubtitle: string
+
+  methodologyTitle: string
+  methodologySubtitle: string
+
+  projectionTitle: string
+  projectionSubtitle: string
+
+  investmentTitle: string
+  investmentSubtitle: string
+
+  roiTitle: string
+  roiSubtitle: string
+
+  closingTitle: string
+  closingSubtitle: string
+
+  // Closing
+  ctaUrl: string
+
+  // Diagnosis Data
+  gaps: string[] // Renamed in UI to Pontos de Atenção
+  growthLevers: string[] // New: Alavancas de Crescimento
+
+  // Competitors Data
+  competitorsData: CompetitorItem[]
+  marketBenchmarking: string
+
+  // Ecosystem Data (Strategy)
+  trafficSources: string[] // Formerly channels
+  conversionZone: string[] // Formerly addons
+  salesIntelligence: string[] // New
+
+  // Timeline Data
+  timelinePhases: TimelinePhase[]
+
+  // Projection Data (Formerly Funnel + Investment Context)
   currentInvestment: number
   currentCPA: number
   currentRevenue: number
   currentLeads: number
-  gaps: string[]
+  currentSales: number // Added for ROI calc
 
-  // Competitors
-  competitorsData: CompetitorItem[]
-  marketBenchmarking: string
-
-  // Strategy
-  channels: string[]
-  addons: string[]
-
-  // Timeline
-  timelinePhases: TimelinePhase[]
-
-  // Funnel
   funnelCurrent: {
     clicks: number
     leads: number
@@ -76,10 +121,11 @@ export interface Proposal {
   softwareCost: number
   investmentTiers: InvestmentTier[]
 
-  // Text
+  // Text Content
   strategyText: string
   executiveSummary: string
   methodologyText: string
+  summaryLinks: SummaryLink[] // New
 
   createdAt: string
   status: 'draft' | 'sent' | 'approved'
@@ -94,22 +140,4 @@ export const SECTORS = [
   'Finanças / Fintech',
   'Automotivo',
   'Outro',
-]
-
-export const CHANNELS = [
-  'Google Ads',
-  'Meta Ads (Facebook/Instagram)',
-  'LinkedIn Ads',
-  'TikTok Ads',
-  'Pinterest Ads',
-  'YouTube Ads',
-  'SEO / Conteúdo',
-]
-
-export const ADDONS = [
-  'Landing Page High-Convert',
-  'CRM Proprietário',
-  'Automação de Leads (Zapier)',
-  'Gestão Google Meu Negócio',
-  'Triagem com IA',
 ]

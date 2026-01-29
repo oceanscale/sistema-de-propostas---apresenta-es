@@ -30,10 +30,10 @@ export function SlideTimeline({ proposal }: { proposal: Proposal }) {
       <div className="flex justify-between items-end mb-12 border-b border-slate-100 pb-6">
         <div>
           <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-2">
-            Roadmap de Implementação
+            {proposal.timelineSubtitle}
           </p>
           <h2 className="text-4xl font-heading font-bold text-slate-900">
-            Cronograma - 90 Dias
+            {proposal.timelineTitle}
           </h2>
         </div>
       </div>

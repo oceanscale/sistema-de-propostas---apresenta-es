@@ -8,10 +8,10 @@ export function SlideInvestment({ proposal }: { proposal: Proposal }) {
       <div className="flex justify-between items-end mb-8 border-b border-slate-100 pb-4">
         <div>
           <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-1">
-            Proposta Comercial
+            {proposal.investmentSubtitle}
           </p>
           <h2 className="text-4xl font-heading font-bold text-slate-900">
-            Investimento
+            {proposal.investmentTitle}
           </h2>
         </div>
       </div>
@@ -52,8 +52,7 @@ export function SlideInvestment({ proposal }: { proposal: Proposal }) {
             </div>
           </div>
           <div className="text-xs text-slate-400 italic">
-            * Valores de mídia podem ser ajustados conforme a estratégia de
-            escala.
+            * Valores de mídia podem ser ajustados conforme a estratégia.
           </div>
         </div>
 

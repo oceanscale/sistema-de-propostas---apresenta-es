@@ -15,13 +15,11 @@ export function SlideClosing({ proposal }: { proposal: Proposal }) {
 
       <div className="relative z-10 text-center max-w-4xl mx-auto space-y-10">
         <h2 className="text-6xl font-heading font-bold text-white leading-tight">
-          Vamos acelerar o <br />
-          <span className="text-sky-400">crescimento</span> juntos?
+          {proposal.closingTitle}
         </h2>
 
         <p className="text-2xl text-slate-300 font-light max-w-2xl mx-auto">
-          "Do tráfego à venda real. Essa é a promessa da{' '}
-          <span className="font-bold text-white">{proposal.agencyName}</span>."
+          "{proposal.closingSubtitle}"
         </p>
 
         <div className="pt-8">

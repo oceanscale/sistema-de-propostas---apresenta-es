@@ -7,10 +7,17 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Plus, Search, FileText, MoreHorizontal } from 'lucide-react'
+import { Plus, Search, FileText, Trash2, LogOut, User } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
-const MOCK_PROJECTS = [
+const INITIAL_PROJECTS = [
   {
     id: '1',
     name: 'Tyrreno Imóveis',
@@ -22,13 +29,19 @@ const MOCK_PROJECTS = [
 ]
 
 const Index = () => {
+  const [projects, setProjects] = useState(INITIAL_PROJECTS)
+
+  const deleteProject = (id: string) => {
+    setProjects(projects.filter((p) => p.id !== id))
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
       <header className="bg-white border-b border-slate-200 py-6 px-8">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">
-              GrowthProposal OS
+              OCEAN PROPOSAL
             </h1>
             <p className="text-slate-500">
               Gerenciador de Propostas de Performance
@@ -39,12 +52,25 @@ const Index = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <Input className="pl-9 w-64" placeholder="Buscar projetos..." />
             </div>
-            <div className="w-10 h-10 rounded-full bg-slate-200 overflow-hidden">
-              <img
-                src="https://img.usecurling.com/ppl/thumbnail?gender=male"
-                alt="User"
-              />
-            </div>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="w-10 h-10 rounded-full bg-slate-200 overflow-hidden outline-none ring-offset-2 focus:ring-2 focus:ring-slate-400 transition-all">
+                  <img
+                    src="https://img.usecurling.com/ppl/thumbnail?gender=male"
+                    alt="User"
+                  />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>
+                  <User className="w-4 h-4 mr-2" /> Perfil
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-red-600">
+                  <LogOut className="w-4 h-4 mr-2" /> Sair
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </header>
@@ -62,17 +88,22 @@ const Index = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {MOCK_PROJECTS.map((project) => (
+          {projects.map((project) => (
             <Card
               key={project.id}
-              className="hover:shadow-lg transition-shadow border-slate-200"
+              className="hover:shadow-lg transition-shadow border-slate-200 group"
             >
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500">
                   <FileText className="w-5 h-5" />
                 </div>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <MoreHorizontal className="w-4 h-4" />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-slate-400 hover:text-red-500 hover:bg-red-50"
+                  onClick={() => deleteProject(project.id)}
+                >
+                  <Trash2 className="w-4 h-4" />
                 </Button>
               </CardHeader>
               <CardContent>
@@ -101,6 +132,17 @@ const Index = () => {
               </CardFooter>
             </Card>
           ))}
+
+          {projects.length === 0 && (
+            <div className="col-span-full py-12 text-center text-slate-400 bg-slate-50 rounded-lg border border-dashed border-slate-300">
+              <p>Nenhuma proposta encontrada.</p>
+              <Link to="/editor">
+                <Button variant="link" className="text-sky-500">
+                  Criar primeira proposta
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </main>
     </div>

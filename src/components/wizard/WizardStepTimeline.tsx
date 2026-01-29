@@ -33,65 +33,90 @@ export function WizardStepTimeline() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="flex space-x-2 border-b border-slate-200 pb-2">
-        {proposal.timelinePhases.map((phase, i) => (
-          <button
-            key={i}
-            onClick={() => setActivePhaseIndex(i)}
-            className={`px-3 py-1 text-sm font-medium rounded-full transition-colors ${
-              activePhaseIndex === i
-                ? 'bg-sky-100 text-sky-700'
-                : 'text-slate-500 hover:bg-slate-100'
-            }`}
-          >
-            {phase.month}
-          </button>
-        ))}
-      </div>
-
-      <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>Título da Fase</Label>
+          <Label>Título da Página</Label>
           <Input
-            value={proposal.timelinePhases[activePhaseIndex].title}
-            onChange={(e) => updatePhaseTitle(activePhaseIndex, e.target.value)}
+            value={proposal.timelineTitle}
+            onChange={(e) => updateProposal({ timelineTitle: e.target.value })}
           />
         </div>
-
         <div>
-          <Label>Ações / Entregáveis</Label>
-          <div className="flex gap-2 mb-2">
-            <Input
-              value={newItemText}
-              onChange={(e) => setNewItemText(e.target.value)}
-              placeholder="Nova ação..."
-              onKeyDown={(e) => e.key === 'Enter' && addItem(activePhaseIndex)}
-            />
-            <Button
-              onClick={() => addItem(activePhaseIndex)}
-              size="icon"
-              className="shrink-0"
+          <Label>Subtítulo da Página</Label>
+          <Input
+            value={proposal.timelineSubtitle}
+            onChange={(e) =>
+              updateProposal({ timelineSubtitle: e.target.value })
+            }
+          />
+        </div>
+      </div>
+
+      <div className="border-t border-slate-200 pt-4">
+        <div className="flex space-x-2 border-b border-slate-200 pb-2 mb-4">
+          {proposal.timelinePhases.map((phase, i) => (
+            <button
+              key={i}
+              onClick={() => setActivePhaseIndex(i)}
+              className={`px-3 py-1 text-sm font-medium rounded-full transition-colors ${
+                activePhaseIndex === i
+                  ? 'bg-sky-100 text-sky-700'
+                  : 'text-slate-500 hover:bg-slate-100'
+              }`}
             >
-              <Plus className="w-4 h-4" />
-            </Button>
+              {phase.month}
+            </button>
+          ))}
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <Label>Título da Fase</Label>
+            <Input
+              value={proposal.timelinePhases[activePhaseIndex].title}
+              onChange={(e) =>
+                updatePhaseTitle(activePhaseIndex, e.target.value)
+              }
+            />
           </div>
-          <div className="space-y-2">
-            {proposal.timelinePhases[activePhaseIndex].items.map(
-              (item, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center justify-between bg-slate-50 p-2 rounded border border-slate-100 text-sm"
-                >
-                  <span>{item}</span>
-                  <button
-                    onClick={() => removeItem(activePhaseIndex, idx)}
-                    className="text-slate-400 hover:text-red-500"
+
+          <div>
+            <Label>Ações / Entregáveis</Label>
+            <div className="flex gap-2 mb-2">
+              <Input
+                value={newItemText}
+                onChange={(e) => setNewItemText(e.target.value)}
+                placeholder="Nova ação..."
+                onKeyDown={(e) =>
+                  e.key === 'Enter' && addItem(activePhaseIndex)
+                }
+              />
+              <Button
+                onClick={() => addItem(activePhaseIndex)}
+                size="icon"
+                className="shrink-0"
+              >
+                <Plus className="w-4 h-4" />
+              </Button>
+            </div>
+            <div className="space-y-2">
+              {proposal.timelinePhases[activePhaseIndex].items.map(
+                (item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between bg-slate-50 p-2 rounded border border-slate-100 text-sm"
                   >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              ),
-            )}
+                    <span>{item}</span>
+                    <button
+                      onClick={() => removeItem(activePhaseIndex, idx)}
+                      className="text-slate-400 hover:text-red-500"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ),
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { SlideContainer } from '@/components/SlideContainer'
 import { Proposal } from '@/types/proposal'
-import { Cpu, BarChart3, Search, Share2, ShieldCheck, Zap } from 'lucide-react'
+import { Cpu, BarChart3, Search, ShieldCheck, Zap } from 'lucide-react'
 
 export function SlideMethodology({ proposal }: { proposal: Proposal }) {
   return (
@@ -8,10 +8,10 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
       <div className="flex justify-between items-end mb-10 border-b border-slate-100 pb-6">
         <div>
           <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-2">
-            Diferenciais Competitivos
+            {proposal.methodologySubtitle}
           </p>
           <h2 className="text-4xl font-heading font-bold text-slate-900">
-            Metodologia e Tecnologia
+            {proposal.methodologyTitle}
           </h2>
         </div>
       </div>
@@ -30,8 +30,7 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
               </h3>
               <p className="text-slate-400 text-sm leading-relaxed">
                 Nossa tecnologia proprietária analisa leads em tempo real,
-                pontuando a intenção de compra antes mesmo do contato comercial,
-                priorizando o que realmente converte.
+                pontuando a intenção de compra antes mesmo do contato comercial.
               </p>
             </div>
           </div>
@@ -47,7 +46,7 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
               </h3>
               <p className="text-slate-600 text-sm leading-relaxed">
                 Transparência radical. Acesso 24/7 a um painel financeiro para
-                acompanhar cada centavo investido e o retorno gerado (ROAS).
+                acompanhar cada centavo investido e o retorno gerado.
               </p>
             </div>
           </div>
@@ -63,7 +62,7 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
               </h3>
               <p className="text-slate-600 text-sm leading-relaxed">
                 Rotina dupla de otimização: algoritmos preditivos para lances e
-                curadoria humana sênior para criativos e estratégia.
+                curadoria humana sênior para criativos.
               </p>
             </div>
           </div>
@@ -101,15 +100,12 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
                     Transparência Total de Dados
                   </span>
                 </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-sky-500 font-bold text-sm">
-                    4
-                  </div>
-                  <span className="text-slate-700 font-medium">
-                    Implementação de CRM Proprietário
-                  </span>
-                </li>
               </ul>
+              {proposal.methodologyText && (
+                <div className="mt-6 p-4 bg-white rounded-lg border border-slate-100 text-sm text-slate-600 italic">
+                  "{proposal.methodologyText}"
+                </div>
+              )}
             </div>
 
             <div className="bg-white p-4 rounded-xl border border-slate-200 mt-8">
@@ -120,9 +116,8 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
                 </p>
               </div>
               <p className="text-xs text-slate-500">
-                Integração total entre{' '}
-                {proposal.channels.slice(0, 2).join(', ')} e CRM. O dado que
-                entra em um canal alimenta a inteligência do outro.
+                Integração total entre canais e CRM. O dado que entra em um
+                canal alimenta a inteligência do outro.
               </p>
             </div>
           </div>

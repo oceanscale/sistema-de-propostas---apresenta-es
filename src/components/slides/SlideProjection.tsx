@@ -85,10 +85,10 @@ export function SlideProjection({ proposal }: { proposal: Proposal }) {
       <div className="flex justify-between items-end mb-8 border-b border-slate-100 pb-6">
         <div>
           <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-2">
-            Funil de Vendas & Performance
+            {proposal.projectionSubtitle}
           </p>
           <h2 className="text-4xl font-heading font-bold text-slate-900">
-            Projeção de Resultados
+            {proposal.projectionTitle}
           </h2>
         </div>
       </div>
@@ -165,6 +165,26 @@ export function SlideProjection({ proposal }: { proposal: Proposal }) {
               </AreaChart>
             </ChartContainer>
           </div>
+          <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
+            <div className="bg-slate-50 p-2 rounded">
+              <span className="block text-slate-500">Inv. Atual</span>
+              <span className="font-bold text-slate-800">
+                R$ {proposal.currentInvestment}
+              </span>
+            </div>
+            <div className="bg-slate-50 p-2 rounded">
+              <span className="block text-slate-500">CPA Atual</span>
+              <span className="font-bold text-slate-800">
+                R$ {proposal.currentCPA}
+              </span>
+            </div>
+            <div className="bg-slate-50 p-2 rounded">
+              <span className="block text-slate-500">Leads Atual</span>
+              <span className="font-bold text-slate-800">
+                {proposal.currentLeads}
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* Right: Funnel Visualization */}
@@ -187,7 +207,6 @@ export function SlideProjection({ proposal }: { proposal: Proposal }) {
                   <span className="font-bold text-xl">
                     {stage.value.toLocaleString()}
                   </span>
-                  {/* Conversion Rate Tooltip Simulation */}
                   {i > 0 && (
                     <div className="absolute -right-16 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">
                       {Math.round(

@@ -23,14 +23,11 @@ export function SlideCover({ proposal }: { proposal: Proposal }) {
           </div>
 
           <h1 className="text-7xl font-heading font-bold leading-tight text-white max-w-4xl">
-            Plano de Aceleração <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">
-              & Performance
-            </span>
+            {proposal.coverTitle}
           </h1>
 
           <p className="text-3xl text-slate-300 font-light max-w-2xl">
-            Estratégia comercial personalizada para{' '}
+            {proposal.coverSubtitle}{' '}
             <span className="font-semibold text-white">
               {proposal.clientName}
             </span>

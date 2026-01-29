@@ -3,21 +3,16 @@ import { Proposal } from '@/types/proposal'
 import { TrendingUp, DollarSign } from 'lucide-react'
 
 export function SlideROI({ proposal }: { proposal: Proposal }) {
-  // Use recommended tier for calculation or average
   const recommendedTier =
     proposal.investmentTiers.find((t) => t.recommended) ||
     proposal.investmentTiers[1]
   const totalInvestment =
     proposal.mediaBudget + proposal.softwareCost + recommendedTier.fee
 
-  const estimatedRevenue = proposal.funnelProjected.sales * 2500 // Assuming ticket medio placeholder or adding a field for it? Using implied value.
-  // Better logic: ROI = (Revenue - Investment) / Investment
-  // Let's assume a simplified ROAS logic based on input if available, or just use projected revenue from context if it existed.
-  // We'll calculate revenue based on Projected Sales * Ticket Medio (derived from current revenue/current sales if possible, else mock)
   const ticketMedio =
     proposal.currentSales && proposal.currentRevenue
       ? proposal.currentRevenue / proposal.currentSales
-      : proposal.currentRevenue / (proposal.funnelCurrent.sales || 1) // Fallback
+      : 2500 // Fallback
 
   const projectedRevenue = proposal.funnelProjected.sales * ticketMedio
   const roi = Math.round(
@@ -29,10 +24,10 @@ export function SlideROI({ proposal }: { proposal: Proposal }) {
       <div className="flex justify-between items-end mb-12 border-b border-slate-100 pb-6">
         <div>
           <p className="text-sky-500 font-bold text-sm tracking-wider uppercase mb-2">
-            Retorno sobre Investimento
+            {proposal.roiSubtitle}
           </p>
           <h2 className="text-4xl font-heading font-bold text-slate-900">
-            ROI Estimado (Plano {recommendedTier.name})
+            {proposal.roiTitle}
           </h2>
         </div>
       </div>
@@ -104,15 +99,10 @@ export function SlideROI({ proposal }: { proposal: Proposal }) {
                 </div>
                 <div className="w-full bg-emerald-100 h-3 rounded-full overflow-hidden relative">
                   <div className="bg-emerald-500 h-full w-full animate-pulse"></div>
-                  <div className="absolute inset-0 bg-white/50 w-[30%]"></div>{' '}
-                  {/* Visual comparision */}
+                  <div className="absolute inset-0 bg-white/50 w-[30%]"></div>
                 </div>
               </div>
             </div>
-            <p className="text-sm text-slate-500 mt-6">
-              * Estimativa baseada na taxa de conversão atual mantida com o
-              aumento de volume de tráfego qualificado.
-            </p>
           </div>
 
           <div className="bg-sky-50 border border-sky-100 p-8 rounded-2xl">

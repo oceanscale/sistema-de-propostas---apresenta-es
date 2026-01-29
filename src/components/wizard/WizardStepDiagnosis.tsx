@@ -8,84 +8,119 @@ import { useState } from 'react'
 export function WizardStepDiagnosis() {
   const { proposal, updateProposal } = useProposal()
   const [newGap, setNewGap] = useState('')
+  const [newLever, setNewLever] = useState('')
 
-  const addGap = () => {
-    if (newGap) {
-      updateProposal({ gaps: [...proposal.gaps, newGap] })
-      setNewGap('')
-    }
+  const addItem = (type: 'gaps' | 'growthLevers', value: string) => {
+    if (!value) return
+    const current = proposal[type] || []
+    if (current.length >= 7) return
+    updateProposal({ [type]: [...current, value] })
   }
 
-  const removeGap = (index: number) => {
-    const newGaps = [...proposal.gaps]
-    newGaps.splice(index, 1)
-    updateProposal({ gaps: newGaps })
+  const removeItem = (type: 'gaps' | 'growthLevers', index: number) => {
+    const current = [...(proposal[type] || [])]
+    current.splice(index, 1)
+    updateProposal({ [type]: current })
   }
 
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>Investimento Atual (R$)</Label>
+          <Label>Título da Página</Label>
           <Input
-            type="number"
-            value={proposal.currentInvestment}
-            onChange={(e) =>
-              updateProposal({ currentInvestment: Number(e.target.value) })
-            }
+            value={proposal.diagnosisTitle}
+            onChange={(e) => updateProposal({ diagnosisTitle: e.target.value })}
           />
         </div>
         <div>
-          <Label>CPA Atual (R$)</Label>
+          <Label>Subtítulo da Página</Label>
           <Input
-            type="number"
-            value={proposal.currentCPA}
+            value={proposal.diagnosisSubtitle}
             onChange={(e) =>
-              updateProposal({ currentCPA: Number(e.target.value) })
-            }
-          />
-        </div>
-        <div>
-          <Label>Leads Atuais (Mensal)</Label>
-          <Input
-            type="number"
-            value={proposal.currentLeads}
-            onChange={(e) =>
-              updateProposal({ currentLeads: Number(e.target.value) })
+              updateProposal({ diagnosisSubtitle: e.target.value })
             }
           />
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label>GAPs Identificados (Diagnóstico)</Label>
-        <div className="flex gap-2">
-          <Input
-            value={newGap}
-            onChange={(e) => setNewGap(e.target.value)}
-            placeholder="Ex: Site lento no mobile"
-            onKeyDown={(e) => e.key === 'Enter' && addGap()}
-          />
-          <Button onClick={addGap} size="icon">
-            <Plus className="w-4 h-4" />
-          </Button>
+      <div className="space-y-4 border-t border-slate-200 pt-4">
+        <div className="space-y-2">
+          <Label className="text-red-600 font-semibold">
+            Pontos de Atenção (Max 7)
+          </Label>
+          <div className="flex gap-2">
+            <Input
+              value={newGap}
+              onChange={(e) => setNewGap(e.target.value)}
+              placeholder="Ex: Site lento..."
+              onKeyDown={(e) =>
+                e.key === 'Enter' && (addItem('gaps', newGap), setNewGap(''))
+              }
+            />
+            <Button
+              onClick={() => {
+                addItem('gaps', newGap)
+                setNewGap('')
+              }}
+              size="icon"
+            >
+              <Plus className="w-4 h-4" />
+            </Button>
+          </div>
+          <div className="space-y-1">
+            {proposal.gaps.map((gap, i) => (
+              <div
+                key={i}
+                className="flex items-center justify-between bg-red-50 p-2 rounded text-sm text-red-800"
+              >
+                <span>{gap}</span>
+                <button onClick={() => removeItem('gaps', i)}>
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="space-y-2 mt-2">
-          {proposal.gaps.map((gap, i) => (
-            <div
-              key={i}
-              className="flex items-center justify-between bg-slate-100 p-2 rounded text-sm"
+        <div className="space-y-2">
+          <Label className="text-emerald-600 font-semibold">
+            Alavancas de Crescimento (Max 7)
+          </Label>
+          <div className="flex gap-2">
+            <Input
+              value={newLever}
+              onChange={(e) => setNewLever(e.target.value)}
+              placeholder="Ex: Expansão de Canais..."
+              onKeyDown={(e) =>
+                e.key === 'Enter' &&
+                (addItem('growthLevers', newLever), setNewLever(''))
+              }
+            />
+            <Button
+              onClick={() => {
+                addItem('growthLevers', newLever)
+                setNewLever('')
+              }}
+              size="icon"
+              className="bg-emerald-600 hover:bg-emerald-700"
             >
-              <span>{gap}</span>
-              <button
-                onClick={() => removeGap(i)}
-                className="text-slate-400 hover:text-red-500"
+              <Plus className="w-4 h-4" />
+            </Button>
+          </div>
+          <div className="space-y-1">
+            {proposal.growthLevers?.map((lever, i) => (
+              <div
+                key={i}
+                className="flex items-center justify-between bg-emerald-50 p-2 rounded text-sm text-emerald-800"
               >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          ))}
+                <span>{lever}</span>
+                <button onClick={() => removeItem('growthLevers', i)}>
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

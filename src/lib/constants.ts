@@ -2,48 +2,99 @@ import { Proposal } from '@/types/proposal'
 
 export const DEFAULT_PROPOSAL: Proposal = {
   id: 'new',
-  agencyName: 'GrowthProposal OS',
+  // Parts
+  agencyName: 'OCEAN PROPOSAL',
   agencyCnpj: '00.000.000/0001-00',
   agencyRep: 'Seu Nome',
-
   clientName: 'Cliente Exemplo',
   clientUrl: 'www.exemplo.com.br',
-  ctaUrl: 'https://wa.me/5511999999999',
   sector: 'Imóveis de Alto Padrão',
   location: 'São Paulo, SP',
 
+  // Images
   coverImage:
     'https://img.usecurling.com/p/1200/800?q=modern%20skyscrapers%20corporate&color=black',
-  summaryImage:
+  summaryPageImage:
+    'https://img.usecurling.com/p/1200/800?q=white%20minimalist%20office&color=white',
+  summaryBoxImage:
     'https://img.usecurling.com/p/1200/800?q=abstract%20technology%20network&color=blue',
 
+  // Titles & Subtitles
+  coverTitle: 'Plano de Aceleração & Performance',
+  coverSubtitle: 'Estratégia comercial personalizada',
+
+  summaryTitle: 'Sumário Executivo',
+  summarySubtitle: 'Visão Geral do Projeto',
+
+  competitorsTitle: 'Análise Competitiva',
+  competitorsSubtitle: 'Inteligência de Mercado',
+
+  diagnosisTitle: 'Diagnóstico & Oportunidades',
+  diagnosisSubtitle: 'Análise de Cenário',
+
+  ecosystemTitle: 'O Ecossistema de Performance',
+  ecosystemSubtitle: 'Jornada do Cliente',
+
+  timelineTitle: 'Cronograma - 90 Dias',
+  timelineSubtitle: 'Roadmap de Implementação',
+
+  methodologyTitle: 'Metodologia e Tecnologia',
+  methodologySubtitle: 'Diferenciais Competitivos',
+
+  projectionTitle: 'Projeção de Resultados',
+  projectionSubtitle: 'Funil de Vendas & Performance',
+
+  investmentTitle: 'Investimento',
+  investmentSubtitle: 'Proposta Comercial',
+
+  roiTitle: 'ROI Estimado',
+  roiSubtitle: 'Retorno sobre Investimento',
+
+  closingTitle: 'Vamos acelerar o crescimento juntos?',
+  closingSubtitle: 'Do tráfego à venda real.',
+
+  ctaUrl: 'https://wa.me/5511999999999',
+
+  // Data
   currentInvestment: 15000,
   currentCPA: 120,
   currentRevenue: 150000,
   currentLeads: 125,
+  currentSales: 10,
   gaps: ['Ausência de Tagueamento Avançado', 'Baixa conversão na Landing Page'],
+  growthLevers: [
+    'Exploração de Google Ads',
+    'Otimização de CRO',
+    'Automação de Leads',
+  ],
 
   competitorsData: [
     {
       name: 'Concorrente A',
       website: 'www.concorrente-a.com.br',
-      presence:
-        'Forte presença no Instagram com influenciadores, mas site lento e sem otimização mobile.',
-      strengths: ['Preço Competitivo', 'Entrega Rápida'],
-    },
-    {
-      name: 'Concorrente B',
-      website: 'www.concorrente-b.com',
-      presence:
-        'Investe pesado em Google Ads, porém com criativos genéricos e baixa retenção.',
-      strengths: ['Marca Forte', 'Variedade de Produtos'],
+      presence: 'Forte presença no Instagram.',
+      strengths: ['Preço', 'Entrega'],
+      weaknesses: ['Site Lento', 'Sem SEO'],
     },
   ],
-  marketBenchmarking:
-    'O mercado apresenta saturação em canais tradicionais, abrindo oportunidade para estratégias de tráfego pago segmentado focadas em experiência do usuário.',
+  marketBenchmarking: 'O mercado apresenta saturação em canais tradicionais.',
 
-  channels: ['Google Ads', 'Meta Ads (Facebook/Instagram)'],
-  addons: ['Landing Page High-Convert', 'Triagem com IA'],
+  // Ecosystem Lists
+  trafficSources: [
+    'Google ADS (Pesquisa)',
+    'Meta Ads (Facebook/Instagram)',
+    'Linkedin Ads',
+  ],
+  conversionZone: [
+    'Landing Page (High-Convert)',
+    'Automação de Leads',
+    'Website',
+  ],
+  salesIntelligence: [
+    'CRM',
+    'Dashboard de Campanhas',
+    'Acompanhamento Comercial',
+  ],
 
   timelinePhases: [
     {
@@ -123,11 +174,11 @@ export const DEFAULT_PROPOSAL: Proposal = {
   ],
 
   strategyText:
-    'Nossa abordagem integra captação de Fundo de Funil com Google Ads e Geração de Demanda visual via Meta Ads, suportada por nossa Tecnologia Proprietária de Triagem com IA.',
+    'Nossa abordagem integra captação de Fundo de Funil com Google Ads e Geração de Demanda visual via Meta Ads.',
   executiveSummary:
-    'O objetivo principal é escalar a geração de leads qualificados reduzindo o CAC atual em 20% nos primeiros 90 dias, utilizando inteligência de dados para maximizar o ROI.',
-  methodologyText:
-    'Utilizamos uma metodologia proprietária baseada em dados, combinando inteligência artificial para triagem de leads e expertise humana para estratégia criativa.',
+    'O objetivo principal é escalar a geração de leads qualificados reduzindo o CAC atual em 20%.',
+  methodologyText: 'Utilizamos uma metodologia proprietária baseada em dados.',
+  summaryLinks: [{ title: 'Ver Site', url: 'https://example.com' }],
 
   createdAt: new Date().toISOString(),
   status: 'draft',

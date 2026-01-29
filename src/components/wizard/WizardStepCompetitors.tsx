@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import { Plus, X, Globe, Trophy, Search, AlertTriangle } from 'lucide-react'
+import { Plus, X, Globe, AlertTriangle } from 'lucide-react'
 import { useState } from 'react'
 import { CompetitorItem } from '@/types/proposal'
 import { cn } from '@/lib/utils'
@@ -16,23 +16,24 @@ export function WizardStepCompetitors() {
     website: '',
     presence: '',
     strengths: [],
+    weaknesses: [],
   })
 
   const [currentStrength, setCurrentStrength] = useState('')
+  const [currentWeakness, setCurrentWeakness] = useState('')
 
-  const handleAddStrength = () => {
-    if (!currentStrength) return
+  const handleAddTag = (type: 'strengths' | 'weaknesses', value: string) => {
+    if (!value) return
     setNewComp((prev) => ({
       ...prev,
-      strengths: [...(prev.strengths || []), currentStrength],
+      [type]: [...(prev[type] || []), value],
     }))
-    setCurrentStrength('')
   }
 
-  const handleRemoveStrength = (index: number) => {
+  const handleRemoveTag = (type: 'strengths' | 'weaknesses', index: number) => {
     setNewComp((prev) => ({
       ...prev,
-      strengths: prev.strengths?.filter((_, i) => i !== index),
+      [type]: prev[type]?.filter((_, i) => i !== index),
     }))
   }
 
@@ -44,13 +45,15 @@ export function WizardStepCompetitors() {
           newComp as CompetitorItem,
         ],
       })
-      // Reset form
       setNewComp({
         name: '',
         website: '',
         presence: '',
         strengths: [],
+        weaknesses: [],
       })
+      setCurrentStrength('')
+      setCurrentWeakness('')
     }
   }
 
@@ -64,18 +67,34 @@ export function WizardStepCompetitors() {
 
   return (
     <div className="space-y-8 animate-fade-in pb-8">
-      {/* Context Section */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label>Título da Página</Label>
+          <Input
+            value={proposal.competitorsTitle}
+            onChange={(e) =>
+              updateProposal({ competitorsTitle: e.target.value })
+            }
+          />
+        </div>
+        <div>
+          <Label>Subtítulo da Página</Label>
+          <Input
+            value={proposal.competitorsSubtitle}
+            onChange={(e) =>
+              updateProposal({ competitorsSubtitle: e.target.value })
+            }
+          />
+        </div>
+      </div>
+
       <div className="space-y-3">
-        <Label className="flex items-center gap-2">
-          <Search className="w-4 h-4 text-slate-500" />
-          Análise de Mercado (Benchmarking)
-        </Label>
+        <Label>Análise de Mercado (Texto Livre)</Label>
         <Textarea
           value={proposal.marketBenchmarking}
           onChange={(e) =>
             updateProposal({ marketBenchmarking: e.target.value })
           }
-          placeholder="Descreva o cenário atual do mercado..."
           className="h-20 text-sm"
         />
       </div>
@@ -93,155 +112,159 @@ export function WizardStepCompetitors() {
                 : 'bg-slate-100 text-slate-600',
             )}
           >
-            {proposal.competitorsData.length}/5 Utilizados
+            {proposal.competitorsData.length}/5
           </span>
         </div>
 
-        {/* Add Form */}
         {!isMaxReached ? (
           <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label className="text-xs">Nome do Concorrente</Label>
-                <div className="relative">
-                  <Trophy className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
-                  <Input
-                    value={newComp.name}
-                    onChange={(e) =>
-                      setNewComp({ ...newComp, name: e.target.value })
-                    }
-                    placeholder="Ex: Empresa X"
-                    className="pl-9"
-                  />
-                </div>
+                <Label className="text-xs">Nome</Label>
+                <Input
+                  value={newComp.name}
+                  onChange={(e) =>
+                    setNewComp({ ...newComp, name: e.target.value })
+                  }
+                  placeholder="Empresa X"
+                />
               </div>
               <div className="space-y-2">
                 <Label className="text-xs">Website</Label>
-                <div className="relative">
-                  <Globe className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
-                  <Input
-                    value={newComp.website}
-                    onChange={(e) =>
-                      setNewComp({ ...newComp, website: e.target.value })
-                    }
-                    placeholder="Ex: www.empresax.com"
-                    className="pl-9"
-                  />
-                </div>
+                <Input
+                  value={newComp.website}
+                  onChange={(e) =>
+                    setNewComp({ ...newComp, website: e.target.value })
+                  }
+                  placeholder="www.site.com"
+                />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label className="text-xs">Presença Digital (Resumo)</Label>
+              <Label className="text-xs">Presença Digital</Label>
               <Textarea
                 value={newComp.presence}
                 onChange={(e) =>
                   setNewComp({ ...newComp, presence: e.target.value })
                 }
-                placeholder="Como eles atuam no digital? Pontos de atenção..."
-                className="h-20"
+                placeholder="Resumo da atuação..."
+                className="h-16"
               />
             </div>
 
-            <div className="space-y-2">
-              <Label className="text-xs">Pontos Fortes (Tags)</Label>
-              <div className="flex gap-2">
-                <Input
-                  value={currentStrength}
-                  onChange={(e) => setCurrentStrength(e.target.value)}
-                  placeholder="Digite e aperte Enter..."
-                  onKeyDown={(e) => e.key === 'Enter' && handleAddStrength()}
-                />
-                <Button
-                  onClick={handleAddStrength}
-                  size="icon"
-                  variant="outline"
-                  className="shrink-0"
-                >
-                  <Plus className="w-4 h-4" />
-                </Button>
-              </div>
-              {newComp.strengths && newComp.strengths.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {newComp.strengths.map((s, idx) => (
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-xs text-emerald-600">
+                  Pontos Fortes
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    value={currentStrength}
+                    onChange={(e) => setCurrentStrength(e.target.value)}
+                    onKeyDown={(e) =>
+                      e.key === 'Enter' &&
+                      (handleAddTag('strengths', currentStrength),
+                      setCurrentStrength(''))
+                    }
+                  />
+                  <Button
+                    onClick={() => {
+                      handleAddTag('strengths', currentStrength)
+                      setCurrentStrength('')
+                    }}
+                    size="icon"
+                    variant="outline"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </Button>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {newComp.strengths?.map((s, idx) => (
                     <span
                       key={idx}
-                      className="bg-white border border-slate-200 text-slate-700 text-xs px-2 py-1 rounded-md flex items-center gap-1"
+                      className="text-[10px] bg-emerald-100 text-emerald-700 px-1 rounded flex items-center"
                     >
                       {s}
-                      <button
-                        onClick={() => handleRemoveStrength(idx)}
-                        className="text-slate-400 hover:text-red-500"
-                      >
-                        <X className="w-3 h-3" />
-                      </button>
+                      <X
+                        className="w-3 h-3 ml-1 cursor-pointer"
+                        onClick={() => handleRemoveTag('strengths', idx)}
+                      />
                     </span>
                   ))}
                 </div>
-              )}
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-xs text-red-600">Pontos Fracos</Label>
+                <div className="flex gap-2">
+                  <Input
+                    value={currentWeakness}
+                    onChange={(e) => setCurrentWeakness(e.target.value)}
+                    onKeyDown={(e) =>
+                      e.key === 'Enter' &&
+                      (handleAddTag('weaknesses', currentWeakness),
+                      setCurrentWeakness(''))
+                    }
+                  />
+                  <Button
+                    onClick={() => {
+                      handleAddTag('weaknesses', currentWeakness)
+                      setCurrentWeakness('')
+                    }}
+                    size="icon"
+                    variant="outline"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </Button>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {newComp.weaknesses?.map((w, idx) => (
+                    <span
+                      key={idx}
+                      className="text-[10px] bg-red-100 text-red-700 px-1 rounded flex items-center"
+                    >
+                      {w}
+                      <X
+                        className="w-3 h-3 ml-1 cursor-pointer"
+                        onClick={() => handleRemoveTag('weaknesses', idx)}
+                      />
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
 
             <Button
               onClick={addCompetitor}
-              className="w-full bg-slate-900 hover:bg-slate-800"
-              disabled={!newComp.name || !newComp.website}
+              className="w-full bg-slate-900"
+              disabled={!newComp.name}
             >
-              <Plus className="w-4 h-4 mr-2" /> Adicionar à Tabela
+              Adicionar
             </Button>
           </div>
         ) : (
-          <div className="bg-yellow-50 text-yellow-800 p-4 rounded-lg text-sm flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4" />
-            Limite máximo de 5 concorrentes atingido.
+          <div className="bg-yellow-50 text-yellow-800 p-2 rounded text-xs">
+            Limite atingido.
           </div>
         )}
 
-        {/* List of Added Competitors */}
-        <div className="space-y-3 mt-6">
-          <Label>Lista de Concorrentes</Label>
-          {proposal.competitorsData.length === 0 && (
-            <p className="text-sm text-slate-400 italic">
-              Nenhum concorrente adicionado.
-            </p>
-          )}
+        <div className="space-y-2 mt-4">
           {proposal.competitorsData.map((comp, i) => (
             <div
               key={i}
-              className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm relative group hover:border-sky-300 transition-colors"
+              className="bg-white p-3 rounded border border-slate-200 relative"
             >
               <button
                 onClick={() => removeCompetitor(i)}
-                className="absolute top-3 right-3 text-slate-400 hover:text-red-500 hover:bg-red-50 p-1 rounded transition-colors"
+                className="absolute top-2 right-2 text-red-400"
               >
                 <X className="w-4 h-4" />
               </button>
-
-              <div className="flex items-center gap-2 mb-2">
-                <h4 className="font-bold text-slate-800">{comp.name}</h4>
-                <a
-                  href={`https://${comp.website}`}
-                  target="_blank"
-                  className="text-xs text-sky-500 hover:underline flex items-center gap-0.5"
-                  rel="noreferrer"
-                >
-                  <Globe className="w-3 h-3" />
-                  {comp.website}
-                </a>
-              </div>
-
-              <p className="text-xs text-slate-600 mb-3 line-clamp-2">
-                {comp.presence}
-              </p>
-
-              <div className="flex flex-wrap gap-1.5">
-                {comp.strengths.map((s, idx) => (
-                  <span
-                    key={idx}
-                    className="text-[10px] font-bold uppercase bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded border border-emerald-100"
-                  >
-                    {s}
-                  </span>
-                ))}
+              <h4 className="font-bold">{comp.name}</h4>
+              <div className="flex gap-2 text-xs text-slate-500 mt-1">
+                <span>{comp.strengths.length} Forças</span>
+                <span>{comp.weaknesses.length} Fraquezas</span>
               </div>
             </div>
           ))}
