@@ -1,6 +1,6 @@
-import { ReactNode } from 'react'
+import { ReactNode, useContext } from 'react'
 import { cn } from '@/lib/utils'
-import { useProposal } from '@/context/ProposalContext'
+import { ProposalContext } from '@/context/ProposalContext'
 
 interface SlideContainerProps {
   children: ReactNode
@@ -16,11 +16,9 @@ export function SlideContainer({
   id,
 }: SlideContainerProps) {
   // We need to access proposal data here for footer
-  // Since SlideContainer is used inside ProposalContext, we can use the hook
-  // But SlideContainer might be used outside? No, strictly inside.
-
-  // Wait, I can't use `useProposal` if I'm not sure it's wrapped.
-  // FullDeck wraps it. It should be fine.
+  // Using useContext directly to avoid throwing error if used outside provider (e.g. tests)
+  // This replaces the try-catch block around useProposal which violated hooks rules
+  const context = useContext(ProposalContext)
 
   let footerText: string[] = [
     'Time Sênior',
@@ -28,13 +26,8 @@ export function SlideContainer({
     'Transparência de Dados',
   ]
 
-  try {
-    const { proposal } = useProposal()
-    if (proposal.footerText && proposal.footerText.length > 0) {
-      footerText = proposal.footerText
-    }
-  } catch (e) {
-    // Fallback if context is missing (e.g. unit tests or isolated preview)
+  if (context?.proposal?.footerText && context.proposal.footerText.length > 0) {
+    footerText = context.proposal.footerText
   }
 
   return (

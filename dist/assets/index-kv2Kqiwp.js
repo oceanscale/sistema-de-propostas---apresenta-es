@@ -27043,7 +27043,7 @@ function v4(options$1, buf, offset$3) {
 	return unsafeStringify(rnds);
 }
 var v4_default = v4;
-var ProposalContext = (0, import_react.createContext)(void 0);
+const ProposalContext = (0, import_react.createContext)(void 0);
 const ProposalProvider = ({ children }) => {
 	const [proposal, setProposal] = (0, import_react.useState)(DEFAULT_PROPOSAL);
 	const [isGenerating, setIsGenerating] = (0, import_react.useState)(false);
@@ -27127,15 +27127,13 @@ const useProposal = () => {
 	return context;
 };
 function SlideContainer({ children, className, dark = false, id }) {
+	const context = (0, import_react.useContext)(ProposalContext);
 	let footerText = [
 		"Time Sênior",
 		"APIs Oficiais",
 		"Transparência de Dados"
 	];
-	try {
-		const { proposal } = useProposal();
-		if (proposal.footerText && proposal.footerText.length > 0) footerText = proposal.footerText;
-	} catch (e) {}
+	if (context?.proposal?.footerText && context.proposal.footerText.length > 0) footerText = context.proposal.footerText;
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		id,
 		className: "flex justify-center mb-8 print:mb-0 scroll-mt-24",
@@ -32984,4 +32982,4 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-o1kCFQAy.js.map
+//# sourceMappingURL=index-kv2Kqiwp.js.map
