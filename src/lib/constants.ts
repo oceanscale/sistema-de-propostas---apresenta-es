@@ -11,9 +11,20 @@ export const DEFAULT_PROPOSAL: Proposal = {
   sector: 'Imóveis de Alto Padrão',
   location: 'São Paulo, SP',
 
+  profile: {
+    name: 'Seu Nome',
+    cpf: '',
+    company: 'OCEAN PROPOSAL',
+    cnpj: '00.000.000/0001-00',
+    logo: 'https://img.usecurling.com/i?q=ocean&color=blue',
+  },
+
   // Images
   coverImage:
     'https://img.usecurling.com/p/1200/800?q=modern%20skyscrapers%20corporate&color=black',
+  overlayColor: '#000000',
+  overlayOpacity: 40,
+
   summaryPageImage:
     'https://img.usecurling.com/p/1200/800?q=white%20minimalist%20office&color=white',
   summaryBoxImage:
@@ -299,6 +310,20 @@ export const DEFAULT_PROPOSAL: Proposal = {
     },
   ],
 
+  methodologyFeatures: [
+    'Time Sênior Dedicado (Sem Juniors)',
+    'Acesso a APIs Oficiais (Meta/Google)',
+    'Transparência Total de Dados',
+  ],
+
+  methodologyExtra: {
+    title: 'Omnichannel Nativo',
+    text: 'Integração total entre canais e CRM. O dado que entra em um canal alimenta a inteligência do outro.',
+    icon: 'zap',
+  },
+
+  footerText: ['Time Sênior', 'APIs Oficiais', 'Transparência de Dados'],
+
   pageOrder: [
     'parts',
     'cover',
@@ -314,6 +339,8 @@ export const DEFAULT_PROPOSAL: Proposal = {
     'roi',
     'closing',
   ],
+
+  library: [],
 
   createdAt: new Date().toISOString(),
   status: 'draft',

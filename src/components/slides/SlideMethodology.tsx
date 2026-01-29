@@ -90,30 +90,16 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
                 Garantia de Qualidade
               </h3>
               <ul className="space-y-4">
-                <li className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-sky-500 font-bold text-sm">
-                    1
-                  </div>
-                  <span className="text-slate-700 font-medium">
-                    Time Sênior Dedicado (Sem Juniors)
-                  </span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-sky-500 font-bold text-sm">
-                    2
-                  </div>
-                  <span className="text-slate-700 font-medium">
-                    Acesso a APIs Oficiais (Meta/Google)
-                  </span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-sky-500 font-bold text-sm">
-                    3
-                  </div>
-                  <span className="text-slate-700 font-medium">
-                    Transparência Total de Dados
-                  </span>
-                </li>
+                {proposal.methodologyFeatures?.map((feature, i) => (
+                  <li key={i} className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-sky-500 font-bold text-sm shrink-0">
+                      {i + 1}
+                    </div>
+                    <span className="text-slate-700 font-medium leading-tight">
+                      {feature}
+                    </span>
+                  </li>
+                ))}
               </ul>
               {proposal.methodologyText && (
                 <div className="mt-6 p-4 bg-white rounded-lg border border-slate-100 text-sm text-slate-600 italic">
@@ -126,12 +112,12 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
               <div className="flex items-center gap-3 mb-2">
                 <Zap className="w-5 h-5 text-yellow-500" />
                 <p className="font-bold text-slate-900 text-sm">
-                  Omnichannel Nativo
+                  {proposal.methodologyExtra?.title || 'Omnichannel Nativo'}
                 </p>
               </div>
               <p className="text-xs text-slate-500">
-                Integração total entre canais e CRM. O dado que entra em um
-                canal alimenta a inteligência do outro.
+                {proposal.methodologyExtra?.text ||
+                  'Integração total entre canais...'}
               </p>
             </div>
           </div>

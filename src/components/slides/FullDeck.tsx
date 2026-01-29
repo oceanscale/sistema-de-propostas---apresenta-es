@@ -21,7 +21,10 @@ export function FullDeck({ proposal }: { proposal: Proposal }) {
       return null
     }
 
-    switch (id) {
+    // Handle duplicate pages (e.g. cover-copy-123 -> cover)
+    const baseId = id.split('-copy-')[0]
+
+    switch (baseId) {
       case 'cover':
         return <SlideCover key={id} proposal={proposal} />
       case 'summary':
@@ -55,22 +58,9 @@ export function FullDeck({ proposal }: { proposal: Proposal }) {
   return (
     <div className="flex flex-col items-center gap-8 py-8 bg-slate-100 min-h-screen print:bg-white print:py-0 print:gap-0 print:block">
       {slides.map((id) => {
-        // Special wrapper to ensure ID is on the container for scrolling
         const component = renderSlide(id)
         if (!component) return null
 
-        // The id is passed to the component which passes it to SlideContainer
-        // But for components that don't support ID prop yet, we might need a wrapper.
-        // However, I updated SlideContainer to accept ID and specific Slides to pass it.
-        // Cover, Competitors, etc need to be updated to pass ID?
-        // Let's rely on the updated components.
-        // Note: SlideSummary, SlideMethodology, SlideEcosystem, SlideTimeline, SlideProjection, SlideGantt were updated.
-        // Others (Cover, Competitors, Diagnosis, Investment, ROI, Closing) need ID injection.
-
-        // Since I can't update ALL files, I will wrap them here if needed?
-        // No, the user story says "Anchor Navigation ... Sidebar pages act as anchor links".
-        // I updated 6 components. I need to make sure others have IDs too.
-        // Wait, I can wrap them in a div with ID here.
         return (
           <div key={id} id={id} className="print:break-after-page">
             {component}

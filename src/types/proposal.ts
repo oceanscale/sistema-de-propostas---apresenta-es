@@ -62,6 +62,14 @@ export interface GanttPage {
   tasks: GanttTask[]
 }
 
+export interface ProfileData {
+  name: string
+  cpf: string
+  company: string
+  cnpj: string
+  logo: string
+}
+
 export interface Proposal {
   id: string
   // Agency & Client (Parts)
@@ -73,8 +81,14 @@ export interface Proposal {
   sector: string
   location: string
 
-  // Images
+  // Profile (New)
+  profile: ProfileData
+
+  // Images & Overlay (New)
   coverImage: string
+  overlayColor: string
+  overlayOpacity: number
+
   summaryPageImage: string
   summaryBoxImage: string
 
@@ -131,7 +145,7 @@ export interface Proposal {
   // Timeline Data
   timelinePhases: TimelinePhase[]
 
-  // Gantt Data (New)
+  // Gantt Data
   ganttPages: GanttPage[]
 
   // Projection Data
@@ -156,7 +170,7 @@ export interface Proposal {
     sales: number
   }
 
-  // New Editable Projection Cards
+  // Projection Cards
   projectionCards: ProjectionCard[]
 
   // Financials
@@ -167,15 +181,27 @@ export interface Proposal {
   // Text Content
   strategyText: string
   executiveSummary: string
-  methodologyText: string
+  methodologyText: string // Used for quote/guarantee text
   summaryLinks: SummaryLink[]
 
-  // New Editable Arrays
+  // Methodology Details (New)
+  methodologyFeatures: string[]
+  methodologyExtra: {
+    title: string
+    text: string
+    icon: string
+  }
+
+  // Footer (New)
+  footerText: string[]
+
+  // Editable Arrays
   summaryMetrics: SummaryMetric[]
   methodologyItems: MethodologyItem[]
 
-  // Order of pages
+  // Order of pages & Library (New)
   pageOrder: string[]
+  library: string[] // IDs of removed pages
 
   createdAt: string
   status: 'draft' | 'sent' | 'approved'

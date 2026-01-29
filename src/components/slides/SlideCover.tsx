@@ -2,15 +2,25 @@ import { SlideContainer } from '@/components/SlideContainer'
 import { Proposal } from '@/types/proposal'
 
 export function SlideCover({ proposal }: { proposal: Proposal }) {
+  // Convert hex to rgb for opacity handling if needed, but we can use opacity style
+  // Assuming overlayColor is hex.
+
   return (
     <SlideContainer dark className="relative">
-      {/* Background Image Overlay */}
-      <div className="absolute inset-0 z-0 opacity-40">
+      {/* Background Image & Overlay */}
+      <div className="absolute inset-0 z-0">
         <img
           src={proposal.coverImage}
           alt="Background"
           className="w-full h-full object-cover grayscale mix-blend-overlay"
         />
+        <div
+          className="absolute inset-0 transition-all"
+          style={{
+            backgroundColor: proposal.overlayColor || '#000000',
+            opacity: (proposal.overlayOpacity ?? 40) / 100,
+          }}
+        ></div>
       </div>
 
       <div className="relative z-10 flex flex-col justify-between h-full pb-8">
