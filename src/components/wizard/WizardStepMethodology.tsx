@@ -18,8 +18,12 @@ export function WizardStepMethodology() {
 
   const addFeature = () => {
     if (!newFeature) return
-    const features = [...(proposal.methodologyFeatures || [])]
-    updateProposal({ methodologyFeatures: [...features, newFeature] })
+    updateProposal({
+      methodologyFeatures: [
+        ...(proposal.methodologyFeatures || []),
+        newFeature,
+      ],
+    })
     setNewFeature('')
   }
 
@@ -33,7 +37,7 @@ export function WizardStepMethodology() {
     <div className="space-y-6 animate-fade-in pb-10">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>Título da Página</Label>
+          <Label>Título</Label>
           <Input
             value={proposal.methodologyTitle}
             onChange={(e) =>
@@ -42,7 +46,7 @@ export function WizardStepMethodology() {
           />
         </div>
         <div>
-          <Label>Subtítulo da Página</Label>
+          <Label>Subtítulo</Label>
           <Input
             value={proposal.methodologySubtitle}
             onChange={(e) =>
@@ -53,13 +57,11 @@ export function WizardStepMethodology() {
       </div>
 
       <div className="border-t border-slate-200 pt-4 space-y-4">
-        <Label className="text-base font-bold">
-          Cards de Diferenciais (Esquerda)
-        </Label>
+        <Label className="font-bold text-base">Diferenciais (Esquerda)</Label>
         {proposal.methodologyItems?.map((item, i) => (
           <div
             key={i}
-            className="bg-slate-50 p-4 rounded-lg border border-slate-200"
+            className="bg-slate-50 p-4 rounded border border-slate-200"
           >
             <div className="mb-2">
               <Label className="text-xs">Título</Label>
@@ -73,11 +75,11 @@ export function WizardStepMethodology() {
               <Textarea
                 value={item.description}
                 onChange={(e) => updateItem(i, 'description', e.target.value)}
-                className="h-20"
+                className="h-16"
               />
             </div>
             <div>
-              <Label className="text-xs">Ícone (cpu, barChart, search)</Label>
+              <Label className="text-xs">Ícone</Label>
               <Input
                 value={item.icon}
                 onChange={(e) => updateItem(i, 'icon', e.target.value)}
@@ -88,9 +90,34 @@ export function WizardStepMethodology() {
       </div>
 
       <div className="border-t border-slate-200 pt-4 space-y-4">
-        <Label className="text-base font-bold">
-          Garantia de Qualidade (Direita)
-        </Label>
+        <div className="flex justify-between items-center">
+          <Label className="font-bold text-base">
+            Garantia de Qualidade (Direita)
+          </Label>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label>Título da Seção</Label>
+            <Input
+              value={proposal.methodologyQaTitle}
+              onChange={(e) =>
+                updateProposal({ methodologyQaTitle: e.target.value })
+              }
+              placeholder="Garantia de Qualidade"
+            />
+          </div>
+          <div>
+            <Label>Ícone (Lucide)</Label>
+            <Input
+              value={proposal.methodologyQaIcon}
+              onChange={(e) =>
+                updateProposal({ methodologyQaIcon: e.target.value })
+              }
+              placeholder="ShieldCheck"
+            />
+          </div>
+        </div>
+
         <div className="flex gap-2">
           <Input
             value={newFeature}
@@ -109,18 +136,14 @@ export function WizardStepMethodology() {
               className="flex items-center justify-between bg-slate-50 p-2 rounded text-sm border border-slate-100"
             >
               <span>{feat}</span>
-              <button
-                onClick={() => removeFeature(i)}
-                className="text-slate-400 hover:text-red-500"
-              >
+              <button onClick={() => removeFeature(i)} className="text-red-500">
                 <X className="w-4 h-4" />
               </button>
             </div>
           ))}
         </div>
-
-        <div className="space-y-2 pt-2">
-          <Label>Texto de Citação</Label>
+        <div>
+          <Label>Citação / Texto Extra</Label>
           <Textarea
             value={proposal.methodologyText}
             onChange={(e) =>
@@ -132,11 +155,11 @@ export function WizardStepMethodology() {
       </div>
 
       <div className="border-t border-slate-200 pt-4 space-y-4">
-        <Label className="text-base font-bold">Box Extra (Omnichannel)</Label>
+        <Label className="font-bold text-base">Box Extra (Omnichannel)</Label>
         <div>
-          <Label className="text-xs">Título</Label>
+          <Label>Título</Label>
           <Input
-            value={proposal.methodologyExtra?.title || ''}
+            value={proposal.methodologyExtra?.title}
             onChange={(e) =>
               updateProposal({
                 methodologyExtra: {
@@ -148,9 +171,9 @@ export function WizardStepMethodology() {
           />
         </div>
         <div>
-          <Label className="text-xs">Texto</Label>
+          <Label>Texto</Label>
           <Textarea
-            value={proposal.methodologyExtra?.text || ''}
+            value={proposal.methodologyExtra?.text}
             onChange={(e) =>
               updateProposal({
                 methodologyExtra: {

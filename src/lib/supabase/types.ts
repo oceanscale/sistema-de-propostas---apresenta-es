@@ -1207,6 +1207,7 @@ export type Database = {
           payment_installments: number | null
           phone: string | null
           status: string | null
+          tags: string[] | null
           template_name: string | null
           thank_you_video_url: string | null
           title: string | null
@@ -1231,6 +1232,7 @@ export type Database = {
           payment_installments?: number | null
           phone?: string | null
           status?: string | null
+          tags?: string[] | null
           template_name?: string | null
           thank_you_video_url?: string | null
           title?: string | null
@@ -1255,6 +1257,7 @@ export type Database = {
           payment_installments?: number | null
           phone?: string | null
           status?: string | null
+          tags?: string[] | null
           template_name?: string | null
           thank_you_video_url?: string | null
           title?: string | null
@@ -1478,6 +1481,7 @@ export type Database = {
           id: string
           name: string
           sections: Json | null
+          tags: string[] | null
           thumbnail_url: string | null
           type: string | null
         }
@@ -1490,6 +1494,7 @@ export type Database = {
           id?: string
           name: string
           sections?: Json | null
+          tags?: string[] | null
           thumbnail_url?: string | null
           type?: string | null
         }
@@ -1502,6 +1507,7 @@ export type Database = {
           id?: string
           name?: string
           sections?: Json | null
+          tags?: string[] | null
           thumbnail_url?: string | null
           type?: string | null
         }

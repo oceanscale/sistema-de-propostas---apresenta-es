@@ -1,13 +1,17 @@
 import { SlideContainer } from '@/components/SlideContainer'
 import { Proposal } from '@/types/proposal'
-import { Target, TrendingUp, Users, Zap } from 'lucide-react'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { Info } from 'lucide-react'
 
 export function SlideProjection({ proposal }: { proposal: Proposal }) {
   const currentInvestment = proposal.currentInvestment
-  const projectedInvestment =
-    proposal.mediaBudget +
-    proposal.softwareCost +
-    (proposal.investmentTiers.find((t) => t.recommended)?.fee || 0)
+  const suggestedInvestment = proposal.suggestedInvestment || 0
+  const funnelSteps = proposal.funnelSteps || []
 
   return (
     <SlideContainer id="projection">
@@ -23,70 +27,30 @@ export function SlideProjection({ proposal }: { proposal: Proposal }) {
       </div>
 
       <div className="flex gap-8 h-full">
-        {/* Left Side - Context */}
-        <div className="w-1/3 bg-slate-900 rounded-2xl p-8 text-white flex flex-col justify-between relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
-
-          <div className="relative z-10">
-            <h3 className="text-2xl font-bold mb-6">
-              Comparativo de
-              <br />
-              Cenários
-            </h3>
-            <p className="text-slate-400">
-              A projeção baseia-se na otimização de campanhas, melhoria de CRO e
-              implementação de inteligência de vendas.
-            </p>
-          </div>
-
-          <div className="space-y-6 relative z-10">
-            <div className="bg-white/10 p-4 rounded-lg border border-white/10">
-              <p className="text-xs text-slate-400 uppercase font-bold mb-1">
-                Investimento Atual
-              </p>
-              <p className="text-2xl font-bold">
-                {new Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                  maximumFractionDigits: 0,
-                }).format(currentInvestment)}
-              </p>
-            </div>
-            <div className="bg-emerald-500/20 p-4 rounded-lg border border-emerald-500/30">
-              <p className="text-xs text-emerald-300 uppercase font-bold mb-1">
-                Investimento Sugerido
-              </p>
-              <p className="text-2xl font-bold text-emerald-400">
-                {new Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                  maximumFractionDigits: 0,
-                }).format(projectedInvestment)}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side - Cards Grid */}
-        <div className="flex-1 grid grid-cols-2 gap-6 content-start">
+        {/* Left Side - Cards */}
+        <div className="w-1/3 flex flex-col gap-4">
           {proposal.projectionCards?.map((card, i) => (
             <div
               key={i}
               className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group"
             >
-              <div className="absolute top-0 right-0 p-3 opacity-50">
-                {i === 0 && <Users className="w-6 h-6 text-slate-300" />}
-                {i === 1 && <Zap className="w-6 h-6 text-slate-300" />}
-                {i === 2 && <Target className="w-6 h-6 text-slate-300" />}
-                {i === 3 && <TrendingUp className="w-6 h-6 text-slate-300" />}
-              </div>
-
-              <div className="mb-4">
+              <div className="flex justify-between items-start mb-2">
                 <span className="bg-sky-50 text-sky-600 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
                   {card.tag}
                 </span>
+                {card.tooltip && (
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Info className="w-4 h-4 text-slate-300 hover:text-sky-500 transition-colors" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{card.tooltip}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                )}
               </div>
-
               <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-1">
                 {card.title}
               </h3>
@@ -94,10 +58,71 @@ export function SlideProjection({ proposal }: { proposal: Proposal }) {
                 {card.metric}
               </p>
               <p className="text-xs text-slate-400">{card.subtext}</p>
-
               <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-sky-400 to-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
             </div>
           ))}
+        </div>
+
+        {/* Middle - Funnel */}
+        <div className="w-1/3 flex flex-col justify-center items-center">
+          <div className="w-full space-y-2">
+            {funnelSteps.map((step, i) => (
+              <div key={i} className="relative group">
+                <div
+                  className="h-16 flex items-center justify-center text-white font-bold text-lg shadow-lg transition-transform group-hover:scale-105"
+                  style={{
+                    backgroundColor: step.color,
+                    width: `${100 - i * 15}%`,
+                    margin: '0 auto',
+                    clipPath: 'polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%)', // Funnel shape approx
+                    borderRadius: '4px',
+                  }}
+                >
+                  {step.value}
+                </div>
+                <p className="text-center text-xs font-bold text-slate-500 uppercase mt-1">
+                  {step.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right - Investment Context */}
+        <div className="w-1/3 bg-slate-900 rounded-2xl p-8 text-white flex flex-col justify-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
+          <h3 className="text-xl font-bold mb-8 relative z-10">
+            Cenário de
+            <br />
+            Investimento
+          </h3>
+
+          <div className="space-y-8 relative z-10">
+            <div>
+              <p className="text-xs text-slate-400 uppercase font-bold mb-1">
+                Atual
+              </p>
+              <p className="text-3xl font-bold text-slate-200">
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                  maximumFractionDigits: 0,
+                }).format(currentInvestment)}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs text-emerald-400 uppercase font-bold mb-1">
+                Sugerido
+              </p>
+              <p className="text-4xl font-bold text-white">
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                  maximumFractionDigits: 0,
+                }).format(suggestedInvestment)}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </SlideContainer>

@@ -21,43 +21,33 @@ export default function Profile() {
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [passwordLoading, setPasswordLoading] = useState(false)
-
   const [formData, setFormData] = useState({
     representative_name: '',
     company_name: '',
     representative_email: '',
   })
-
   const [passwordData, setPasswordData] = useState({
     password: '',
     confirmPassword: '',
   })
 
   useEffect(() => {
-    if (user) {
-      fetchProfile()
-    }
+    if (user) fetchProfile()
   }, [user])
 
   const fetchProfile = async () => {
     if (!user) return
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single()
-
-      if (error) throw error
-      if (data) {
-        setFormData({
-          representative_name: data.representative_name || '',
-          company_name: data.company_name || '',
-          representative_email: data.representative_email || user.email || '',
-        })
-      }
-    } catch (error) {
-      console.error(error)
+    const { data } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single()
+    if (data) {
+      setFormData({
+        representative_name: data.representative_name || '',
+        company_name: data.company_name || '',
+        representative_email: data.representative_email || user.email || '',
+      })
     }
   }
 
@@ -65,7 +55,6 @@ export default function Profile() {
     e.preventDefault()
     if (!user) return
     setLoading(true)
-
     try {
       const { error } = await supabase
         .from('profiles')
@@ -75,16 +64,11 @@ export default function Profile() {
           representative_email: formData.representative_email,
         })
         .eq('id', user.id)
-
       if (error) throw error
-
-      toast({
-        title: 'Perfil atualizado',
-        description: 'Suas informações foram salvas com sucesso.',
-      })
+      toast({ title: 'Perfil atualizado!' })
     } catch (error: any) {
       toast({
-        title: 'Erro ao atualizar',
+        title: 'Erro',
         description: error.message,
         variant: 'destructive',
       })
@@ -98,37 +82,22 @@ export default function Profile() {
     if (passwordData.password !== passwordData.confirmPassword) {
       toast({
         title: 'Erro',
-        description: 'As senhas não coincidem.',
+        description: 'Senhas não coincidem.',
         variant: 'destructive',
       })
       return
     }
-
-    if (passwordData.password.length < 6) {
-      toast({
-        title: 'Erro',
-        description: 'A senha deve ter no mínimo 6 caracteres.',
-        variant: 'destructive',
-      })
-      return
-    }
-
     setPasswordLoading(true)
     try {
       const { error } = await supabase.auth.updateUser({
         password: passwordData.password,
       })
-
       if (error) throw error
-
-      toast({
-        title: 'Senha atualizada',
-        description: 'Sua senha foi alterada com sucesso.',
-      })
+      toast({ title: 'Senha atualizada!' })
       setPasswordData({ password: '', confirmPassword: '' })
     } catch (error: any) {
       toast({
-        title: 'Erro ao alterar senha',
+        title: 'Erro',
         description: error.message,
         variant: 'destructive',
       })
@@ -147,83 +116,55 @@ export default function Profile() {
           >
             <ArrowLeft className="w-5 h-5 text-slate-500" />
           </Link>
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">Meu Perfil</h1>
-            <p className="text-slate-500">
-              Gerencie suas informações pessoais e de segurança
-            </p>
-          </div>
+          <h1 className="text-2xl font-bold text-slate-900">Meu Perfil</h1>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
           <Card>
             <CardHeader>
-              <CardTitle>Informações Pessoais</CardTitle>
-              <CardDescription>Atualize seus dados de cadastro</CardDescription>
+              <CardTitle>Dados Pessoais</CardTitle>
+              <CardDescription>Atualize suas informações</CardDescription>
             </CardHeader>
             <form onSubmit={handleUpdateProfile}>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Nome Completo</Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <Input
-                      id="name"
-                      className="pl-9"
-                      value={formData.representative_name}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          representative_name: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
+                  <Label>Nome</Label>
+                  <Input
+                    value={formData.representative_name}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        representative_name: e.target.value,
+                      })
+                    }
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="company">Empresa</Label>
-                  <div className="relative">
-                    <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <Input
-                      id="company"
-                      className="pl-9"
-                      value={formData.company_name}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          company_name: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
+                  <Label>Empresa</Label>
+                  <Input
+                    value={formData.company_name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, company_name: e.target.value })
+                    }
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email de Contato</Label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <Input
-                      id="email"
-                      className="pl-9"
-                      type="email"
-                      value={formData.representative_email}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          representative_email: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
+                  <Label>Email</Label>
+                  <Input
+                    value={formData.representative_email}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        representative_email: e.target.value,
+                      })
+                    }
+                  />
                 </div>
               </CardContent>
               <CardFooter>
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  className="ml-auto bg-sky-500 hover:bg-sky-600"
-                >
-                  {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                  Salvar Alterações
+                <Button type="submit" disabled={loading}>
+                  {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}{' '}
+                  Salvar
                 </Button>
               </CardFooter>
             </form>
@@ -232,45 +173,35 @@ export default function Profile() {
           <Card>
             <CardHeader>
               <CardTitle>Segurança</CardTitle>
-              <CardDescription>Altere sua senha de acesso</CardDescription>
+              <CardDescription>Alterar senha</CardDescription>
             </CardHeader>
             <form onSubmit={handleUpdatePassword}>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="password">Nova Senha</Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <Input
-                      id="password"
-                      type="password"
-                      className="pl-9"
-                      value={passwordData.password}
-                      onChange={(e) =>
-                        setPasswordData({
-                          ...passwordData,
-                          password: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
+                  <Label>Nova Senha</Label>
+                  <Input
+                    type="password"
+                    value={passwordData.password}
+                    onChange={(e) =>
+                      setPasswordData({
+                        ...passwordData,
+                        password: e.target.value,
+                      })
+                    }
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirmar Nova Senha</Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <Input
-                      id="confirmPassword"
-                      type="password"
-                      className="pl-9"
-                      value={passwordData.confirmPassword}
-                      onChange={(e) =>
-                        setPasswordData({
-                          ...passwordData,
-                          confirmPassword: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
+                  <Label>Confirmar</Label>
+                  <Input
+                    type="password"
+                    value={passwordData.confirmPassword}
+                    onChange={(e) =>
+                      setPasswordData({
+                        ...passwordData,
+                        confirmPassword: e.target.value,
+                      })
+                    }
+                  />
                 </div>
               </CardContent>
               <CardFooter>
@@ -278,12 +209,11 @@ export default function Profile() {
                   type="submit"
                   disabled={passwordLoading}
                   variant="outline"
-                  className="ml-auto text-slate-600"
                 >
                   {passwordLoading && (
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  )}
-                  Alterar Senha
+                  )}{' '}
+                  Atualizar Senha
                 </Button>
               </CardFooter>
             </form>

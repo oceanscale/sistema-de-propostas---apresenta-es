@@ -49,11 +49,10 @@ export default function Users() {
       .select('role')
       .eq('id', user.id)
       .single()
-
     if (data?.role !== 'admin') {
       toast({
         title: 'Acesso Negado',
-        description: 'Você não tem permissão para acessar esta página.',
+        description: 'Área restrita a administradores.',
         variant: 'destructive',
       })
       navigate('/')
@@ -71,12 +70,11 @@ export default function Users() {
           'id, representative_name, representative_email, company_name, role',
         )
         .order('representative_name')
-
       if (error) throw error
       setUsers(data || [])
     } catch (error: any) {
       toast({
-        title: 'Erro ao carregar usuários',
+        title: 'Erro',
         description: error.message,
         variant: 'destructive',
       })
@@ -91,16 +89,14 @@ export default function Users() {
         .from('profiles')
         .update({ role: newRole })
         .eq('id', userId)
-
       if (error) throw error
-
       setUsers(
         users.map((u) => (u.id === userId ? { ...u, role: newRole } : u)),
       )
-      toast({ title: 'Permissão atualizada com sucesso!' })
+      toast({ title: 'Permissão atualizada!' })
     } catch (error: any) {
       toast({
-        title: 'Erro ao atualizar permissão',
+        title: 'Erro',
         description: error.message,
         variant: 'destructive',
       })
@@ -116,8 +112,6 @@ export default function Users() {
       user.representative_email
         ?.toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
-      '' ||
-      user.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       '',
   )
 
@@ -133,18 +127,14 @@ export default function Users() {
           </Link>
           <div className="flex-1">
             <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-              <UsersIcon className="w-6 h-6 text-sky-500" />
-              Gestão de Usuários
+              <UsersIcon className="w-6 h-6 text-sky-500" /> Gestão de Usuários
             </h1>
-            <p className="text-slate-500">
-              Gerencie perfis e permissões de acesso
-            </p>
           </div>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <Input
               className="pl-9 w-64"
-              placeholder="Buscar usuários..."
+              placeholder="Buscar..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -169,42 +159,29 @@ export default function Users() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredUsers.length > 0 ? (
-                  filteredUsers.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell className="font-medium">
-                        {user.representative_name || '-'}
-                      </TableCell>
-                      <TableCell>{user.representative_email || '-'}</TableCell>
-                      <TableCell>{user.company_name || '-'}</TableCell>
-                      <TableCell>
-                        <Select
-                          value={user.role || 'user'}
-                          onValueChange={(val) =>
-                            handleRoleChange(user.id, val)
-                          }
-                        >
-                          <SelectTrigger className="w-[140px] h-8">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="user">Usuário</SelectItem>
-                            <SelectItem value="admin">Administrador</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={4}
-                      className="text-center py-10 text-slate-500"
-                    >
-                      Nenhum usuário encontrado.
+                {filteredUsers.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell className="font-medium">
+                      {user.representative_name || '-'}
+                    </TableCell>
+                    <TableCell>{user.representative_email || '-'}</TableCell>
+                    <TableCell>{user.company_name || '-'}</TableCell>
+                    <TableCell>
+                      <Select
+                        value={user.role || 'user'}
+                        onValueChange={(val) => handleRoleChange(user.id, val)}
+                      >
+                        <SelectTrigger className="w-[140px] h-8">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="user">Usuário</SelectItem>
+                          <SelectItem value="admin">Administrador</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </TableCell>
                   </TableRow>
-                )}
+                ))}
               </TableBody>
             </Table>
           )}

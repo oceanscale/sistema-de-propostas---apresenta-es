@@ -3,11 +3,7 @@ import { Proposal } from '@/types/proposal'
 import { Check, Star } from 'lucide-react'
 
 export function SlideInvestment({ proposal }: { proposal: Proposal }) {
-  // Backwards compatibility if operationalCosts is missing
-  const costs = proposal.operationalCosts || [
-    { id: '1', name: 'Verba Mídia', value: proposal.mediaBudget },
-    { id: '2', name: 'Software/Tech', value: proposal.softwareCost },
-  ]
+  const costs = proposal.operationalCosts || []
 
   return (
     <SlideContainer>
@@ -23,12 +19,15 @@ export function SlideInvestment({ proposal }: { proposal: Proposal }) {
       </div>
 
       <div className="grid grid-cols-12 gap-6 h-full items-stretch">
-        {/* Left Sidebar - Costs Context */}
-        <div className="col-span-3 bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-center space-y-8">
+        {/* Left Sidebar - Costs */}
+        <div className="col-span-3 bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-between">
           <div>
-            <h4 className="font-bold text-slate-900 text-lg mb-4">
-              Custos Operacionais
+            <h4 className="font-bold text-slate-900 text-lg mb-1">
+              {proposal.costsTitle || 'Custos Operacionais'}
             </h4>
+            <p className="text-xs text-slate-500 mb-6">
+              {proposal.costsSubtitle || 'Pagamentos diretos'}
+            </p>
             <div className="space-y-4">
               {costs.map((cost, i) => (
                 <div
@@ -48,20 +47,23 @@ export function SlideInvestment({ proposal }: { proposal: Proposal }) {
               ))}
             </div>
           </div>
-          <div className="text-xs text-slate-400 italic">
-            * Valores pagos diretamente às plataformas ou fornecedores.
+          <div className="space-y-2">
+            {proposal.costDisclaimers?.map((disc, i) => (
+              <p
+                key={i}
+                className="text-[10px] text-slate-400 italic leading-tight"
+              >
+                * {disc}
+              </p>
+            ))}
           </div>
         </div>
 
-        {/* 3 Tiers Columns */}
+        {/* Tiers */}
         {proposal.investmentTiers.map((tier, i) => (
           <div
             key={i}
-            className={`col-span-3 rounded-2xl p-6 flex flex-col relative transition-transform hover:-translate-y-2 duration-300 ${
-              tier.recommended
-                ? 'bg-slate-900 text-white shadow-2xl scale-105 z-10 border-2 border-sky-500'
-                : 'bg-white border border-slate-200 shadow-lg text-slate-900'
-            }`}
+            className={`col-span-3 rounded-2xl p-6 flex flex-col relative transition-transform hover:-translate-y-2 duration-300 ${tier.recommended ? 'bg-slate-900 text-white shadow-2xl scale-105 z-10 border-2 border-sky-500' : 'bg-white border border-slate-200 shadow-lg text-slate-900'}`}
           >
             {tier.recommended && (
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-sky-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1 shadow-lg">
@@ -76,7 +78,7 @@ export function SlideInvestment({ proposal }: { proposal: Proposal }) {
                 {tier.name}
               </h3>
               <p
-                className={`text-xs ${tier.recommended ? 'text-slate-300' : 'text-slate-500'} h-8`}
+                className={`text-xs ${tier.recommended ? 'text-slate-300' : 'text-slate-500'} h-8 leading-snug`}
               >
                 {tier.description}
               </p>
@@ -117,15 +119,21 @@ export function SlideInvestment({ proposal }: { proposal: Proposal }) {
             </ul>
 
             <div className="mt-8">
-              <button
-                className={`w-full py-3 rounded-lg font-bold text-sm transition-colors ${
-                  tier.recommended
-                    ? 'bg-sky-500 hover:bg-sky-400 text-white'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
-                }`}
+              <a
+                href={tier.buttonUrl || '#'}
+                target="_blank"
+                className="block w-full py-3 rounded-lg font-bold text-sm text-center transition-opacity hover:opacity-90"
+                style={{
+                  backgroundColor:
+                    tier.buttonColor ||
+                    (tier.recommended ? '#0ea5e9' : '#f1f5f9'),
+                  color:
+                    tier.buttonTextColor ||
+                    (tier.recommended ? '#ffffff' : '#0f172a'),
+                }}
               >
-                Selecionar
-              </button>
+                {tier.buttonText || 'Selecionar'}
+              </a>
             </div>
           </div>
         ))}

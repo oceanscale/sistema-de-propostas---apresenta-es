@@ -1,9 +1,17 @@
 import { SlideContainer } from '@/components/SlideContainer'
 import { Proposal } from '@/types/proposal'
-import { Cpu, BarChart3, Search, ShieldCheck, Zap } from 'lucide-react'
+import {
+  Cpu,
+  BarChart3,
+  Search,
+  ShieldCheck,
+  Zap,
+  Award,
+  CheckCircle,
+} from 'lucide-react'
 
 export function SlideMethodology({ proposal }: { proposal: Proposal }) {
-  const getIcon = (name: string) => {
+  const getIcon = (name?: string) => {
     switch (name) {
       case 'cpu':
         return Cpu
@@ -11,8 +19,14 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
         return BarChart3
       case 'search':
         return Search
+      case 'ShieldCheck':
+        return ShieldCheck
+      case 'Award':
+        return Award
+      case 'CheckCircle':
+        return CheckCircle
       default:
-        return Cpu
+        return ShieldCheck
     }
   }
 
@@ -40,6 +54,8 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
     },
   ]
 
+  const QaIcon = getIcon(proposal.methodologyQaIcon)
+
   return (
     <SlideContainer id="methodology">
       <div className="flex justify-between items-end mb-10 border-b border-slate-100 pb-6">
@@ -64,7 +80,7 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
                 className={`${style.bg} p-6 rounded-2xl border ${i === 0 ? 'border-slate-800' : 'border-slate-200'} flex gap-4 items-start shadow-sm relative overflow-hidden group`}
               >
                 {i === 0 && (
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl -mr-8 -mt-8 transition-opacity opacity-50 group-hover:opacity-100"></div>
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl -mr-8 -mt-8"></div>
                 )}
                 <div className={`${style.iconBg} p-3 rounded-xl`}>
                   <Icon className={`w-8 h-8 ${style.iconColor}`} />
@@ -86,8 +102,8 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
           <div className="bg-slate-50 p-8 rounded-2xl border border-slate-200 h-full flex flex-col justify-between">
             <div>
               <h3 className="font-bold text-xl text-slate-900 mb-6 flex items-center gap-2">
-                <ShieldCheck className="w-6 h-6 text-slate-700" />
-                Garantia de Qualidade
+                <QaIcon className="w-6 h-6 text-slate-700" />
+                {proposal.methodologyQaTitle || 'Garantia de Qualidade'}
               </h3>
               <ul className="space-y-4">
                 {proposal.methodologyFeatures?.map((feature, i) => (
@@ -112,12 +128,11 @@ export function SlideMethodology({ proposal }: { proposal: Proposal }) {
               <div className="flex items-center gap-3 mb-2">
                 <Zap className="w-5 h-5 text-yellow-500" />
                 <p className="font-bold text-slate-900 text-sm">
-                  {proposal.methodologyExtra?.title || 'Omnichannel Nativo'}
+                  {proposal.methodologyExtra?.title}
                 </p>
               </div>
               <p className="text-xs text-slate-500">
-                {proposal.methodologyExtra?.text ||
-                  'Integração total entre canais...'}
+                {proposal.methodologyExtra?.text}
               </p>
             </div>
           </div>

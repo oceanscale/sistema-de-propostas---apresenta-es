@@ -16439,6 +16439,21 @@ function isModifiedEvent(event) {
 function shouldProcessLinkClick(event, target) {
 	return event.button === 0 && (!target || target === "_self") && !isModifiedEvent(event);
 }
+function createSearchParams(init = "") {
+	return new URLSearchParams(typeof init === "string" || Array.isArray(init) || init instanceof URLSearchParams ? init : Object.keys(init).reduce((memo2, key) => {
+		let value = init[key];
+		return memo2.concat(Array.isArray(value) ? value.map((v) => [key, v]) : [[key, value]]);
+	}, []));
+}
+function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
+	let searchParams = createSearchParams(locationSearch);
+	if (defaultSearchParams) defaultSearchParams.forEach((_$1, key) => {
+		if (!searchParams.has(key)) defaultSearchParams.getAll(key).forEach((value) => {
+			searchParams.append(key, value);
+		});
+	});
+	return searchParams;
+}
 var _formDataSupportsSubmitter = null;
 function isFormDataSubmitterSupported() {
 	if (_formDataSupportsSubmitter === null) try {
@@ -17070,6 +17085,19 @@ function useLinkClickHandler(to, { target, replace: replaceProp, state, preventS
 		unstable_defaultShouldRevalidate,
 		unstable_useTransitions
 	]);
+}
+function useSearchParams(defaultInit) {
+	warning(typeof URLSearchParams !== "undefined", `You cannot use the \`useSearchParams\` hook in a browser that does not support the URLSearchParams API. If you need to support Internet Explorer 11, we recommend you load a polyfill such as https://github.com/ungap/url-search-params.`);
+	let defaultSearchParamsRef = import_react.useRef(createSearchParams(defaultInit));
+	let hasSetSearchParamsRef = import_react.useRef(false);
+	let location = useLocation();
+	let searchParams = import_react.useMemo(() => getSearchParamsForLocation(location.search, hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current), [location.search]);
+	let navigate = useNavigate();
+	return [searchParams, import_react.useCallback((nextInit, navigateOptions) => {
+		const newSearchParams = createSearchParams(typeof nextInit === "function" ? nextInit(new URLSearchParams(searchParams)) : nextInit);
+		hasSetSearchParamsRef.current = true;
+		navigate("?" + newSearchParams, navigateOptions);
+	}, [navigate, searchParams])];
 }
 var fetcherId = 0;
 var getUniqueFetcherId = () => `__${String(++fetcherId)}__`;
@@ -18771,7 +18799,7 @@ function focusFirst$3(candidates) {
 }
 var Provider$1 = ToastProvider$1;
 var Viewport$2 = ToastViewport$1;
-var Root2$3 = Toast$2;
+var Root2$4 = Toast$2;
 var Title$1 = ToastTitle$1;
 var Description$1 = ToastDescription$1;
 var Action = ToastAction$1;
@@ -18908,6 +18936,15 @@ var ArrowRight = createLucideIcon("arrow-right", [["path", {
 	d: "m12 5 7 7-7 7",
 	key: "xquz4c"
 }]]);
+var Award = createLucideIcon("award", [["path", {
+	d: "m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526",
+	key: "1yiouv"
+}], ["circle", {
+	cx: "12",
+	cy: "8",
+	r: "6",
+	key: "1vp47v"
+}]]);
 var Brain = createLucideIcon("brain", [
 	["path", {
 		d: "M12 18V5",
@@ -18973,56 +19010,6 @@ var Building2 = createLucideIcon("building-2", [
 	["path", {
 		d: "M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16",
 		key: "16ra0t"
-	}]
-]);
-var Building = createLucideIcon("building", [
-	["path", {
-		d: "M12 10h.01",
-		key: "1nrarc"
-	}],
-	["path", {
-		d: "M12 14h.01",
-		key: "1etili"
-	}],
-	["path", {
-		d: "M12 6h.01",
-		key: "1vi96p"
-	}],
-	["path", {
-		d: "M16 10h.01",
-		key: "1m94wz"
-	}],
-	["path", {
-		d: "M16 14h.01",
-		key: "1gbofw"
-	}],
-	["path", {
-		d: "M16 6h.01",
-		key: "1x0f13"
-	}],
-	["path", {
-		d: "M8 10h.01",
-		key: "19clt8"
-	}],
-	["path", {
-		d: "M8 14h.01",
-		key: "6423bh"
-	}],
-	["path", {
-		d: "M8 6h.01",
-		key: "1dz90k"
-	}],
-	["path", {
-		d: "M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3",
-		key: "cabbwy"
-	}],
-	["rect", {
-		x: "4",
-		y: "2",
-		width: "16",
-		height: "20",
-		rx: "2",
-		key: "1uxh74"
 	}]
 ]);
 var Calendar = createLucideIcon("calendar", [
@@ -19323,6 +19310,28 @@ var FileText = createLucideIcon("file-text", [
 		key: "z1uh3a"
 	}]
 ]);
+var FileType = createLucideIcon("file-type", [
+	["path", {
+		d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
+		key: "1oefj6"
+	}],
+	["path", {
+		d: "M14 2v5a1 1 0 0 0 1 1h5",
+		key: "wfsgrz"
+	}],
+	["path", {
+		d: "M11 18h2",
+		key: "12mj7e"
+	}],
+	["path", {
+		d: "M12 12v6",
+		key: "3ahymv"
+	}],
+	["path", {
+		d: "M9 13v-.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v.5",
+		key: "qbrxap"
+	}]
+]);
 var FolderPlus = createLucideIcon("folder-plus", [
 	["path", {
 		d: "M12 10v6",
@@ -19391,6 +19400,22 @@ var GripVertical = createLucideIcon("grip-vertical", [
 		key: "f4zoj3"
 	}]
 ]);
+var Info = createLucideIcon("info", [
+	["circle", {
+		cx: "12",
+		cy: "12",
+		r: "10",
+		key: "1mglay"
+	}],
+	["path", {
+		d: "M12 16v-4",
+		key: "1dtifu"
+	}],
+	["path", {
+		d: "M12 8h.01",
+		key: "e9boi3"
+	}]
+]);
 var KeyRound = createLucideIcon("key-round", [["path", {
 	d: "M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z",
 	key: "1s6t7t"
@@ -19431,18 +19456,6 @@ var LoaderCircle = createLucideIcon("loader-circle", [["path", {
 	d: "M21 12a9 9 0 1 1-6.219-8.56",
 	key: "13zald"
 }]]);
-var Lock = createLucideIcon("lock", [["rect", {
-	width: "18",
-	height: "11",
-	x: "3",
-	y: "11",
-	rx: "2",
-	ry: "2",
-	key: "1w4ew1"
-}], ["path", {
-	d: "M7 11V7a5 5 0 0 1 10 0v4",
-	key: "fwvmzm"
-}]]);
 var LogIn = createLucideIcon("log-in", [
 	["path", {
 		d: "m10 17 5-5-5-5",
@@ -19482,6 +19495,30 @@ var Mail = createLucideIcon("mail", [["path", {
 	rx: "2",
 	key: "izxlao"
 }]]);
+var Monitor = createLucideIcon("monitor", [
+	["rect", {
+		width: "20",
+		height: "14",
+		x: "2",
+		y: "3",
+		rx: "2",
+		key: "48i651"
+	}],
+	["line", {
+		x1: "8",
+		x2: "16",
+		y1: "21",
+		y2: "21",
+		key: "1svkeh"
+	}],
+	["line", {
+		x1: "12",
+		x2: "12",
+		y1: "17",
+		y2: "21",
+		key: "vw1qmm"
+	}]
+]);
 var MousePointerClick = createLucideIcon("mouse-pointer-click", [
 	["path", {
 		d: "M14 4.1 12 6",
@@ -21183,13 +21220,13 @@ var toastVariants = cva("group pointer-events-auto relative flex w-full items-ce
 	defaultVariants: { variant: "default" }
 });
 var Toast$1 = import_react.forwardRef(({ className, variant, ...props }, ref) => {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$3, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$4, {
 		ref,
 		className: cn(toastVariants({ variant }), className),
 		...props
 	});
 });
-Toast$1.displayName = Root2$3.displayName;
+Toast$1.displayName = Root2$4.displayName;
 var ToastAction = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Action, {
 	ref,
 	className: cn("inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive", className),
@@ -21569,10 +21606,10 @@ var Observer = class {
 			if (typeof id !== "string" && typeof id !== "number") return { unwrap };
 			else return Object.assign(id, { unwrap });
 		};
-		this.custom = (jsx$24, data) => {
+		this.custom = (jsx$25, data) => {
 			const id = (data == null ? void 0 : data.id) || toastsCounter++;
 			this.create({
-				jsx: jsx$24(id),
+				jsx: jsx$25(id),
 				id,
 				...data
 			});
@@ -23980,7 +24017,7 @@ function getSideAndAlignFromPlacement(placement) {
 	const [side, align = "center"] = placement.split("-");
 	return [side, align];
 }
-var Root2$2 = Popper;
+var Root2$3 = Popper;
 var Anchor = PopperAnchor;
 var Content$1 = PopperContent;
 var Arrow = PopperArrow;
@@ -24074,7 +24111,7 @@ var Tooltip$1 = (props) => {
 			}
 		};
 	}, []);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$2, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$3, {
 		...popperScope,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TooltipContextProvider, {
 			scope: __scopeTooltip,
@@ -24459,8 +24496,12 @@ function getHullPresorted(points) {
 	else return upperHull.concat(lowerHull);
 }
 var Provider = TooltipProvider$1;
+var Root3$1 = Tooltip$1;
+var Trigger$3 = TooltipTrigger$1;
 var Content2$3 = TooltipContent$1;
 var TooltipProvider = Provider;
+var Tooltip = Root3$1;
+var TooltipTrigger = Trigger$3;
 var TooltipContent = import_react.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Content2$3, {
 	ref,
 	sideOffset,
@@ -24941,12 +24982,12 @@ var RovingFocusGroupImpl = import_react.forwardRef((props, forwardedRef) => {
 		})
 	});
 });
-var ITEM_NAME$3 = "RovingFocusGroupItem";
+var ITEM_NAME$4 = "RovingFocusGroupItem";
 var RovingFocusGroupItem = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeRovingFocusGroup, focusable = true, active = false, tabStopId, children, ...itemProps } = props;
 	const autoId = useId();
 	const id = tabStopId || autoId;
-	const context = useRovingFocusContext(ITEM_NAME$3, __scopeRovingFocusGroup);
+	const context = useRovingFocusContext(ITEM_NAME$4, __scopeRovingFocusGroup);
 	const isCurrentTabStop = context.currentTabStopId === id;
 	const getItems = useCollection$3(__scopeRovingFocusGroup);
 	const { onFocusableItemAdd, onFocusableItemRemove, currentTabStopId } = context;
@@ -25002,7 +25043,7 @@ var RovingFocusGroupItem = import_react.forwardRef((props, forwardedRef) => {
 		})
 	});
 });
-RovingFocusGroupItem.displayName = ITEM_NAME$3;
+RovingFocusGroupItem.displayName = ITEM_NAME$4;
 var MAP_KEY_TO_FOCUS_INTENT = {
 	ArrowLeft: "prev",
 	ArrowUp: "prev",
@@ -25783,7 +25824,7 @@ var [createMenuContext, createMenuScope] = createContextScope(MENU_NAME, [
 	createRovingFocusGroupScope
 ]);
 var usePopperScope$1 = createPopperScope();
-var useRovingFocusGroupScope = createRovingFocusGroupScope();
+var useRovingFocusGroupScope$1 = createRovingFocusGroupScope();
 var [MenuProvider, useMenuContext] = createMenuContext(MENU_NAME);
 var [MenuRootProvider, useMenuRootContext] = createMenuContext(MENU_NAME);
 var Menu = (props) => {
@@ -25813,7 +25854,7 @@ var Menu = (props) => {
 			document.removeEventListener("pointermove", handlePointer, { capture: true });
 		};
 	}, []);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$2, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$3, {
 		...popperScope,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MenuProvider, {
 			scope: __scopeMenu,
@@ -25922,7 +25963,7 @@ var MenuContentImpl = import_react.forwardRef((props, forwardedRef) => {
 	const context = useMenuContext(CONTENT_NAME$3, __scopeMenu);
 	const rootContext = useMenuRootContext(CONTENT_NAME$3, __scopeMenu);
 	const popperScope = usePopperScope$1(__scopeMenu);
-	const rovingFocusGroupScope = useRovingFocusGroupScope(__scopeMenu);
+	const rovingFocusGroupScope = useRovingFocusGroupScope$1(__scopeMenu);
 	const getItems = useCollection$2(__scopeMenu);
 	const [currentItemId, setCurrentItemId] = import_react.useState(null);
 	const contentRef = import_react.useRef(null);
@@ -26077,13 +26118,13 @@ var MenuLabel = import_react.forwardRef((props, forwardedRef) => {
 	});
 });
 MenuLabel.displayName = LABEL_NAME$2;
-var ITEM_NAME$2 = "MenuItem";
+var ITEM_NAME$3 = "MenuItem";
 var ITEM_SELECT = "menu.itemSelect";
 var MenuItem = import_react.forwardRef((props, forwardedRef) => {
 	const { disabled = false, onSelect, ...itemProps } = props;
 	const ref = import_react.useRef(null);
-	const rootContext = useMenuRootContext(ITEM_NAME$2, props.__scopeMenu);
-	const contentContext = useMenuContentContext(ITEM_NAME$2, props.__scopeMenu);
+	const rootContext = useMenuRootContext(ITEM_NAME$3, props.__scopeMenu);
+	const contentContext = useMenuContentContext(ITEM_NAME$3, props.__scopeMenu);
 	const composedRefs = useComposedRefs(forwardedRef, ref);
 	const isPointerDownRef = import_react.useRef(false);
 	const handleSelect = () => {
@@ -26121,11 +26162,11 @@ var MenuItem = import_react.forwardRef((props, forwardedRef) => {
 		})
 	});
 });
-MenuItem.displayName = ITEM_NAME$2;
+MenuItem.displayName = ITEM_NAME$3;
 var MenuItemImpl = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeMenu, disabled = false, textValue, ...itemProps } = props;
-	const contentContext = useMenuContentContext(ITEM_NAME$2, __scopeMenu);
-	const rovingFocusGroupScope = useRovingFocusGroupScope(__scopeMenu);
+	const contentContext = useMenuContentContext(ITEM_NAME$3, __scopeMenu);
+	const rovingFocusGroupScope = useRovingFocusGroupScope$1(__scopeMenu);
 	const ref = import_react.useRef(null);
 	const composedRefs = useComposedRefs(forwardedRef, ref);
 	const [isFocused, setIsFocused] = import_react.useState(false);
@@ -26180,15 +26221,15 @@ var MenuCheckboxItem = import_react.forwardRef((props, forwardedRef) => {
 	});
 });
 MenuCheckboxItem.displayName = CHECKBOX_ITEM_NAME$1;
-var RADIO_GROUP_NAME$1 = "MenuRadioGroup";
-var [RadioGroupProvider, useRadioGroupContext] = createMenuContext(RADIO_GROUP_NAME$1, {
+var RADIO_GROUP_NAME$2 = "MenuRadioGroup";
+var [RadioGroupProvider$1, useRadioGroupContext$1] = createMenuContext(RADIO_GROUP_NAME$2, {
 	value: void 0,
 	onValueChange: () => {}
 });
 var MenuRadioGroup = import_react.forwardRef((props, forwardedRef) => {
 	const { value, onValueChange, ...groupProps } = props;
 	const handleValueChange = useCallbackRef(onValueChange);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RadioGroupProvider, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RadioGroupProvider$1, {
 		scope: props.__scopeMenu,
 		value,
 		onValueChange: handleValueChange,
@@ -26198,11 +26239,11 @@ var MenuRadioGroup = import_react.forwardRef((props, forwardedRef) => {
 		})
 	});
 });
-MenuRadioGroup.displayName = RADIO_GROUP_NAME$1;
+MenuRadioGroup.displayName = RADIO_GROUP_NAME$2;
 var RADIO_ITEM_NAME$1 = "MenuRadioItem";
 var MenuRadioItem = import_react.forwardRef((props, forwardedRef) => {
 	const { value, ...radioItemProps } = props;
-	const context = useRadioGroupContext(RADIO_ITEM_NAME$1, props.__scopeMenu);
+	const context = useRadioGroupContext$1(RADIO_ITEM_NAME$1, props.__scopeMenu);
 	const checked = value === context.value;
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ItemIndicatorProvider, {
 		scope: props.__scopeMenu,
@@ -26268,7 +26309,7 @@ var MenuSub = (props) => {
 		if (parentMenuContext.open === false) handleOpenChange(false);
 		return () => handleOpenChange(false);
 	}, [parentMenuContext.open, handleOpenChange]);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$2, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$3, {
 		...popperScope,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MenuProvider, {
 			scope: __scopeMenu,
@@ -26502,9 +26543,9 @@ var Portal$3 = MenuPortal;
 var Content2$2 = MenuContent;
 var Group$1 = MenuGroup;
 var Label$3 = MenuLabel;
-var Item2$1 = MenuItem;
+var Item2$2 = MenuItem;
 var CheckboxItem = MenuCheckboxItem;
-var RadioGroup = MenuRadioGroup;
+var RadioGroup$2 = MenuRadioGroup;
 var RadioItem = MenuRadioItem;
 var ItemIndicator$1 = MenuItemIndicator;
 var Separator$1 = MenuSeparator;
@@ -26650,17 +26691,17 @@ var DropdownMenuLabel$1 = import_react.forwardRef((props, forwardedRef) => {
 	});
 });
 DropdownMenuLabel$1.displayName = LABEL_NAME$1;
-var ITEM_NAME$1 = "DropdownMenuItem";
+var ITEM_NAME$2 = "DropdownMenuItem";
 var DropdownMenuItem$1 = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeDropdownMenu, ...itemProps } = props;
 	const menuScope = useMenuScope(__scopeDropdownMenu);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Item2$1, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Item2$2, {
 		...menuScope,
 		...itemProps,
 		ref: forwardedRef
 	});
 });
-DropdownMenuItem$1.displayName = ITEM_NAME$1;
+DropdownMenuItem$1.displayName = ITEM_NAME$2;
 var CHECKBOX_ITEM_NAME = "DropdownMenuCheckboxItem";
 var DropdownMenuCheckboxItem$1 = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeDropdownMenu, ...checkboxItemProps } = props;
@@ -26672,17 +26713,17 @@ var DropdownMenuCheckboxItem$1 = import_react.forwardRef((props, forwardedRef) =
 	});
 });
 DropdownMenuCheckboxItem$1.displayName = CHECKBOX_ITEM_NAME;
-var RADIO_GROUP_NAME = "DropdownMenuRadioGroup";
+var RADIO_GROUP_NAME$1 = "DropdownMenuRadioGroup";
 var DropdownMenuRadioGroup$1 = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeDropdownMenu, ...radioGroupProps } = props;
 	const menuScope = useMenuScope(__scopeDropdownMenu);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RadioGroup, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RadioGroup$2, {
 		...menuScope,
 		...radioGroupProps,
 		ref: forwardedRef
 	});
 });
-DropdownMenuRadioGroup$1.displayName = RADIO_GROUP_NAME;
+DropdownMenuRadioGroup$1.displayName = RADIO_GROUP_NAME$1;
 var RADIO_ITEM_NAME = "DropdownMenuRadioItem";
 var DropdownMenuRadioItem$1 = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeDropdownMenu, ...radioItemProps } = props;
@@ -26694,7 +26735,7 @@ var DropdownMenuRadioItem$1 = import_react.forwardRef((props, forwardedRef) => {
 	});
 });
 DropdownMenuRadioItem$1.displayName = RADIO_ITEM_NAME;
-var INDICATOR_NAME$1 = "DropdownMenuItemIndicator";
+var INDICATOR_NAME$2 = "DropdownMenuItemIndicator";
 var DropdownMenuItemIndicator = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeDropdownMenu, ...itemIndicatorProps } = props;
 	const menuScope = useMenuScope(__scopeDropdownMenu);
@@ -26704,7 +26745,7 @@ var DropdownMenuItemIndicator = import_react.forwardRef((props, forwardedRef) =>
 		ref: forwardedRef
 	});
 });
-DropdownMenuItemIndicator.displayName = INDICATOR_NAME$1;
+DropdownMenuItemIndicator.displayName = INDICATOR_NAME$2;
 var SEPARATOR_NAME$1 = "DropdownMenuSeparator";
 var DropdownMenuSeparator$1 = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeDropdownMenu, ...separatorProps } = props;
@@ -26757,19 +26798,19 @@ var DropdownMenuSubContent$1 = import_react.forwardRef((props, forwardedRef) => 
 	});
 });
 DropdownMenuSubContent$1.displayName = SUB_CONTENT_NAME;
-var Root2$1 = DropdownMenu$1;
+var Root2$2 = DropdownMenu$1;
 var Trigger$2 = DropdownMenuTrigger$1;
 var Portal2 = DropdownMenuPortal$1;
 var Content2$1 = DropdownMenuContent$1;
 var Label2 = DropdownMenuLabel$1;
-var Item2 = DropdownMenuItem$1;
+var Item2$1 = DropdownMenuItem$1;
 var CheckboxItem2 = DropdownMenuCheckboxItem$1;
 var RadioItem2 = DropdownMenuRadioItem$1;
 var ItemIndicator2 = DropdownMenuItemIndicator;
 var Separator2 = DropdownMenuSeparator$1;
 var SubTrigger2 = DropdownMenuSubTrigger$1;
 var SubContent2 = DropdownMenuSubContent$1;
-var DropdownMenu = Root2$1;
+var DropdownMenu = Root2$2;
 var DropdownMenuTrigger = Trigger$2;
 var DropdownMenuSubTrigger = import_react.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SubTrigger2, {
 	ref,
@@ -26791,12 +26832,12 @@ var DropdownMenuContent = import_react.forwardRef(({ className, sideOffset = 4, 
 	...props
 }) }));
 DropdownMenuContent.displayName = Content2$1.displayName;
-var DropdownMenuItem = import_react.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Item2, {
+var DropdownMenuItem = import_react.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Item2$1, {
 	ref,
 	className: cn("relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0", inset && "pl-8", className),
 	...props
 }));
-DropdownMenuItem.displayName = Item2.displayName;
+DropdownMenuItem.displayName = Item2$1.displayName;
 var DropdownMenuCheckboxItem = import_react.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CheckboxItem2, {
 	ref,
 	className: cn("relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50", className),
@@ -26875,7 +26916,7 @@ var DialogTrigger$1 = import_react.forwardRef((props, forwardedRef) => {
 		"aria-haspopup": "dialog",
 		"aria-expanded": context.open,
 		"aria-controls": context.contentId,
-		"data-state": getState$1(context.open),
+		"data-state": getState$2(context.open),
 		...triggerProps,
 		ref: composedTriggerRef,
 		onClick: composeEventHandlers(props.onClick, context.onOpenToggle)
@@ -26924,7 +26965,7 @@ var DialogOverlayImpl = import_react.forwardRef((props, forwardedRef) => {
 		allowPinchZoom: true,
 		shards: [context.contentRef],
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
-			"data-state": getState$1(context.open),
+			"data-state": getState$2(context.open),
 			...overlayProps,
 			ref: forwardedRef,
 			style: {
@@ -27023,7 +27064,7 @@ var DialogContentImpl = import_react.forwardRef((props, forwardedRef) => {
 			id: context.contentId,
 			"aria-describedby": context.descriptionId,
 			"aria-labelledby": context.titleId,
-			"data-state": getState$1(context.open),
+			"data-state": getState$2(context.open),
 			...contentProps,
 			ref: composedRefs,
 			onDismiss: () => context.onOpenChange(false)
@@ -27067,7 +27108,7 @@ var DialogClose$1 = import_react.forwardRef((props, forwardedRef) => {
 	});
 });
 DialogClose$1.displayName = CLOSE_NAME;
-function getState$1(open) {
+function getState$2(open) {
 	return open ? "open" : "closed";
 }
 var TITLE_WARNING_NAME = "DialogTitleWarning";
@@ -27208,7 +27249,7 @@ var Select$1 = (props) => {
 	const isFormControl = trigger ? form || !!trigger.closest("form") : true;
 	const [nativeOptionsSet, setNativeOptionsSet] = import_react.useState(/* @__PURE__ */ new Set());
 	const nativeSelectKey = Array.from(nativeOptionsSet).map((option) => option.props.value).join(";");
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$2, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$3, {
 		...popperScope,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SelectProvider, {
 			required,
@@ -27807,12 +27848,12 @@ var SelectLabel$1 = import_react.forwardRef((props, forwardedRef) => {
 	});
 });
 SelectLabel$1.displayName = LABEL_NAME;
-var ITEM_NAME = "SelectItem";
-var [SelectItemContextProvider, useSelectItemContext] = createSelectContext(ITEM_NAME);
+var ITEM_NAME$1 = "SelectItem";
+var [SelectItemContextProvider, useSelectItemContext] = createSelectContext(ITEM_NAME$1);
 var SelectItem$1 = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeSelect, value, disabled = false, textValue: textValueProp, ...itemProps } = props;
-	const context = useSelectContext(ITEM_NAME, __scopeSelect);
-	const contentContext = useSelectContentContext(ITEM_NAME, __scopeSelect);
+	const context = useSelectContext(ITEM_NAME$1, __scopeSelect);
+	const contentContext = useSelectContentContext(ITEM_NAME$1, __scopeSelect);
 	const isSelected = context.value === value;
 	const [textValue, setTextValue] = import_react.useState(textValueProp ?? "");
 	const [isFocused, setIsFocused] = import_react.useState(false);
@@ -27879,7 +27920,7 @@ var SelectItem$1 = import_react.forwardRef((props, forwardedRef) => {
 		})
 	});
 });
-SelectItem$1.displayName = ITEM_NAME;
+SelectItem$1.displayName = ITEM_NAME$1;
 var ITEM_TEXT_NAME = "SelectItemText";
 var SelectItemText = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeSelect, className, style, ...itemTextProps } = props;
@@ -28040,7 +28081,7 @@ var SelectArrow = import_react.forwardRef((props, forwardedRef) => {
 	}) : null;
 });
 SelectArrow.displayName = ARROW_NAME;
-var BUBBLE_INPUT_NAME$2 = "SelectBubbleInput";
+var BUBBLE_INPUT_NAME$3 = "SelectBubbleInput";
 var SelectBubbleInput = import_react.forwardRef(({ __scopeSelect, value, ...props }, forwardedRef) => {
 	const ref = import_react.useRef(null);
 	const composedRefs = useComposedRefs(forwardedRef, ref);
@@ -28066,7 +28107,7 @@ var SelectBubbleInput = import_react.forwardRef(({ __scopeSelect, value, ...prop
 		defaultValue: value
 	});
 });
-SelectBubbleInput.displayName = BUBBLE_INPUT_NAME$2;
+SelectBubbleInput.displayName = BUBBLE_INPUT_NAME$3;
 function shouldShowPlaceholder(value) {
 	return value === "" || value === void 0;
 }
@@ -28107,7 +28148,7 @@ function findNextItem(items, search, currentItem) {
 function wrapArray(array, startIndex) {
 	return array.map((_$1, index$1) => array[(startIndex + index$1) % array.length]);
 }
-var Root2 = Select$1;
+var Root2$1 = Select$1;
 var Trigger = SelectTrigger$1;
 var Value = SelectValue$1;
 var Icon = SelectIcon;
@@ -28121,7 +28162,7 @@ var ItemIndicator = SelectItemIndicator;
 var ScrollUpButton = SelectScrollUpButton$1;
 var ScrollDownButton = SelectScrollDownButton$1;
 var Separator = SelectSeparator$1;
-var Select = Root2;
+var Select = Root2$1;
 var SelectValue = Value;
 var SelectTrigger = import_react.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Trigger, {
 	ref,
@@ -35808,7 +35849,7 @@ function Index() {
 		if (user) fetchProposals();
 	}, [user]);
 	const fetchProposals = async () => {
-		const { data, error } = await supabase.from("proposals").select("id, client_name, created_at, updated_at, content").order("updated_at", { ascending: false });
+		const { data, error } = await supabase.from("proposals").select("id, client_name, created_at, updated_at, content, tags").order("updated_at", { ascending: false });
 		if (error) {
 			console.error(error);
 			return;
@@ -35824,7 +35865,7 @@ function Index() {
 					minute: "2-digit"
 				}),
 				status: content?.status || "draft",
-				tags: content?.tags || []
+				tags: p.tags || content?.tags || []
 			};
 		}));
 	};
@@ -35854,6 +35895,7 @@ function Index() {
 				client_name: "Nova Proposta",
 				title: "Plano de Aceleração",
 				content: { tags: [newProposalTag] },
+				tags: [newProposalTag],
 				updated_at: (/* @__PURE__ */ new Date()).toISOString()
 			}).select().single();
 			if (error) throw error;
@@ -35973,7 +36015,7 @@ function Index() {
 										className: "text-xs text-slate-500 space-y-1",
 										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { children: ["Criado em: ", project.date] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
 											className: "font-medium text-slate-600",
-											children: ["Última atualização: ", project.updatedAt]
+											children: ["Atualizado: ", project.updatedAt]
 										})]
 									}),
 									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -35988,7 +36030,7 @@ function Index() {
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardFooter, {
 								className: "pt-0 flex justify-between items-center",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: `text-xs font-bold px-2 py-1 rounded-full ${project.status === "Aprovado" ? "bg-emerald-100 text-emerald-700" : project.status === "Enviado" ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-600"}`,
+									className: `text-xs font-bold px-2 py-1 rounded-full ${project.status === "Aprovado" ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-600"}`,
 									children: project.status === "draft" ? "Rascunho" : project.status
 								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 									variant: "link",
@@ -36063,9 +36105,11 @@ const DEFAULT_PROPOSAL = {
 	agencyRep: "Seu Nome",
 	clientName: "Cliente Exemplo",
 	clientUrl: "www.exemplo.com.br",
+	clientObjective: "Escalar vendas e reduzir custo por lead.",
 	sector: "Imóveis de Alto Padrão",
 	location: "São Paulo, SP",
 	tags: [],
+	viewMode: "document",
 	profile: {
 		name: "Seu Nome",
 		cpf: "",
@@ -36108,6 +36152,7 @@ const DEFAULT_PROPOSAL = {
 	ctaUrl: "https://wa.me/5511999999999",
 	closingButtonText: "APROVAR PLANO ESTRATÉGICO",
 	currentInvestment: 15e3,
+	suggestedInvestment: 0,
 	currentCPA: 120,
 	currentRevenue: 15e4,
 	currentLeads: 125,
@@ -36146,28 +36191,30 @@ const DEFAULT_PROPOSAL = {
 			month: "Mês 1",
 			title: "Setup & Estruturação",
 			items: [
-				"Auditoria de Tagueamento",
-				"Criação de LPs",
-				"Setup de Campanhas"
+				"Auditoria",
+				"LPs",
+				"Setup",
+				"Tagueamento"
 			]
 		},
 		{
 			month: "Mês 2",
 			title: "Validação & Testes",
 			items: [
-				"Testes A/B de Criativos",
-				"Otimização de Públicos",
-				"Refinamento de Keywords",
-				"Análise de Métricas"
+				"Testes A/B",
+				"Públicos",
+				"Keywords",
+				"Métricas"
 			]
 		},
 		{
 			month: "Mês 3",
 			title: "Escala & Otimização",
 			items: [
-				"Escala de Verba",
-				"Redução de CAC",
-				"Expansão de Canais"
+				"Escala Verba",
+				"Redução CAC",
+				"Novos Canais",
+				"Reports"
 			]
 		}
 	],
@@ -36178,44 +36225,49 @@ const DEFAULT_PROPOSAL = {
 		month: "MÊS 1",
 		tasks: [
 			{
-				name: "Setup de Business Manager",
+				name: "Setup de BM",
 				s1: true,
 				s2: true,
 				s3: false,
 				s4: false,
-				type: "planning"
+				type: "planning",
+				pillar: "Setup"
 			},
 			{
-				name: "Criação de Landing Pages",
+				name: "Criação de LPs",
 				s1: false,
 				s2: true,
 				s3: true,
 				s4: false,
-				type: "execution"
+				type: "execution",
+				pillar: "Setup"
 			},
 			{
-				name: "Configuração de Pixel/API",
+				name: "Config Pixel",
 				s1: true,
 				s2: false,
 				s3: false,
 				s4: false,
-				type: "planning"
+				type: "planning",
+				pillar: "Tracking"
 			},
 			{
-				name: "Produção de Criativos",
+				name: "Criativos",
 				s1: false,
 				s2: true,
 				s3: true,
 				s4: false,
-				type: "execution"
+				type: "execution",
+				pillar: "Criativos"
 			},
 			{
-				name: "Lançamento de Campanhas",
+				name: "Lançamento",
 				s1: false,
 				s2: false,
 				s3: false,
 				s4: true,
-				type: "review"
+				type: "review",
+				pillar: "Mídia"
 			}
 		]
 	}],
@@ -36233,30 +36285,49 @@ const DEFAULT_PROPOSAL = {
 		sql: 50,
 		sales: 18
 	},
+	funnelSteps: [
+		{
+			label: "Impressões",
+			value: "1.5M",
+			color: "#38bdf8"
+		},
+		{
+			label: "Cliques",
+			value: "15k",
+			color: "#0ea5e9"
+		},
+		{
+			label: "Leads",
+			value: "450",
+			color: "#0284c7"
+		},
+		{
+			label: "Vendas",
+			value: "25",
+			color: "#0369a1"
+		}
+	],
 	projectionCards: [
 		{
 			title: "Leads Qualificados",
 			metric: "+100%",
 			subtext: "Aumento de volume",
-			tag: "Meta Principal"
+			tag: "Meta Principal",
+			tooltip: "Baseado no aumento de verba."
 		},
 		{
 			title: "Redução de CAC",
 			metric: "-20%",
 			subtext: "Otimização de custos",
-			tag: "Eficiência"
-		},
-		{
-			title: "Taxa de Conversão",
-			metric: "15%",
-			subtext: "Landing Pages",
-			tag: "CRO"
+			tag: "Eficiência",
+			tooltip: "Otimização de campanhas."
 		},
 		{
 			title: "Novas Vendas",
 			metric: "+15",
 			subtext: "Incremental mensal",
-			tag: "Receita"
+			tag: "Receita",
+			tooltip: "Conversão de leads qualificados."
 		}
 	],
 	operationalCosts: [{
@@ -36268,6 +36339,9 @@ const DEFAULT_PROPOSAL = {
 		name: "Software/Tech",
 		value: 1500
 	}],
+	costsTitle: "Custos Operacionais",
+	costsSubtitle: "Valores para terceiros",
+	costDisclaimers: ["Pagamento direto via cartão de crédito.", "Valores estimados."],
 	investmentTiers: [
 		{
 			name: "Essencial",
@@ -36278,7 +36352,11 @@ const DEFAULT_PROPOSAL = {
 				"Relatório Mensal",
 				"Setup Básico"
 			],
-			recommended: false
+			recommended: false,
+			buttonText: "Selecionar Essencial",
+			buttonUrl: "#",
+			buttonColor: "#f1f5f9",
+			buttonTextColor: "#0f172a"
 		},
 		{
 			name: "Growth",
@@ -36290,7 +36368,11 @@ const DEFAULT_PROPOSAL = {
 				"Landing Pages",
 				"Otimização Semanal"
 			],
-			recommended: true
+			recommended: true,
+			buttonText: "Contratar Growth",
+			buttonUrl: "#",
+			buttonColor: "#0ea5e9",
+			buttonTextColor: "#ffffff"
 		},
 		{
 			name: "Scale",
@@ -36302,9 +36384,44 @@ const DEFAULT_PROPOSAL = {
 				"CRO Avançado",
 				"Design Premium"
 			],
-			recommended: false
+			recommended: false,
+			buttonText: "Falar com Consultor",
+			buttonUrl: "#",
+			buttonColor: "#f1f5f9",
+			buttonTextColor: "#0f172a"
 		}
 	],
+	roiBenchmarks: [
+		{
+			label: "Receita",
+			current: 15e4,
+			projected: 35e4,
+			unit: "R$"
+		},
+		{
+			label: "Leads",
+			current: 125,
+			projected: 350,
+			unit: ""
+		},
+		{
+			label: "Vendas",
+			current: 10,
+			projected: 25,
+			unit: ""
+		},
+		{
+			label: "ROAS",
+			current: 4,
+			projected: 8,
+			unit: "x"
+		}
+	],
+	roasProjected: {
+		roi: "550%",
+		label: "ROI Estimado",
+		note: "Sobre o investimento total"
+	},
 	strategyText: "Nossa abordagem integra captação de Fundo de Funil com Google Ads e Geração de Demanda visual via Meta Ads.",
 	executiveSummary: "O objetivo principal é escalar a geração de leads qualificados reduzindo o CAC atual em 20%.",
 	summaryTriad: {
@@ -36359,6 +36476,8 @@ const DEFAULT_PROPOSAL = {
 		"Acesso a APIs Oficiais (Meta/Google)",
 		"Transparência Total de Dados"
 	],
+	methodologyQaTitle: "Garantia de Qualidade",
+	methodologyQaIcon: "ShieldCheck",
 	methodologyExtra: {
 		title: "Omnichannel Nativo",
 		text: "Integração total entre canais e CRM. O dado que entra em um canal alimenta a inteligência do outro.",
@@ -36425,9 +36544,12 @@ const ProposalProvider = ({ children }) => {
 	const [proposal, setProposal] = (0, import_react.useState)(DEFAULT_PROPOSAL);
 	const [isGenerating, setIsGenerating] = (0, import_react.useState)(false);
 	const [isLoading, setIsLoading] = (0, import_react.useState)(false);
+	const [mode, setMode] = (0, import_react.useState)("proposal");
+	const [templateId, setTemplateId] = (0, import_react.useState)(void 0);
 	const { user } = useAuth();
 	const { toast: toast$2 } = useToast();
 	const location = useLocation();
+	const [searchParams] = useSearchParams();
 	(0, import_react.useEffect)(() => {
 		const loadProfile = async () => {
 			if (!user) return;
@@ -36451,8 +36573,16 @@ const ProposalProvider = ({ children }) => {
 	}, [user]);
 	(0, import_react.useEffect)(() => {
 		const state = location.state;
-		if (state?.proposalId) loadProposal(state.proposalId);
-	}, [location.state]);
+		const tmplId = searchParams.get("templateId");
+		if (tmplId) {
+			setMode("template");
+			setTemplateId(tmplId);
+			loadTemplate(tmplId);
+		} else if (state?.proposalId) {
+			setMode("proposal");
+			loadProposal(state.proposalId);
+		}
+	}, [location.state, searchParams]);
 	const loadProposal = async (id) => {
 		setIsLoading(true);
 		try {
@@ -36474,6 +36604,32 @@ const ProposalProvider = ({ children }) => {
 			setIsLoading(false);
 		}
 	};
+	const loadTemplate = async (id) => {
+		setIsLoading(true);
+		try {
+			const { data, error } = await supabase.from("templates").select("*").eq("id", id).single();
+			if (error) throw error;
+			if (data && data.snapshot) setProposal((prev) => ({
+				...prev,
+				...data.snapshot,
+				id: "template-edit"
+			}));
+			else if (data && data.content && data.content.proposalSnapshot) setProposal((prev) => ({
+				...prev,
+				...data.content.proposalSnapshot,
+				id: "template-edit"
+			}));
+		} catch (e) {
+			console.error(e);
+			toast$2({
+				title: "Erro ao carregar modelo",
+				description: e.message,
+				variant: "destructive"
+			});
+		} finally {
+			setIsLoading(false);
+		}
+	};
 	const updateProposal = (data) => {
 		setProposal((prev) => ({
 			...prev,
@@ -36483,47 +36639,57 @@ const ProposalProvider = ({ children }) => {
 	const saveProposal = async () => {
 		if (!user) {
 			toast$2({
-				title: "Erro ao salvar",
-				description: "Você precisa estar logado para salvar.",
+				title: "Erro",
+				description: "Faça login.",
 				variant: "destructive"
 			});
 			return;
 		}
 		setIsLoading(true);
 		try {
-			const { id, content, ...rest } = proposal;
-			const proposalId = proposal.id === "new" ? void 0 : proposal.id;
-			const payload = {
-				client_name: proposal.clientName,
-				title: proposal.coverTitle,
-				content: proposal,
-				updated_at: (/* @__PURE__ */ new Date()).toISOString(),
-				lead_id: null
-			};
-			let result;
-			if (proposalId) result = await supabase.from("proposals").update(payload).eq("id", proposalId).select();
-			else result = await supabase.from("proposals").insert([{
-				...payload,
-				created_at: (/* @__PURE__ */ new Date()).toISOString()
-			}]).select();
-			if (result.error) throw result.error;
-			if (result.data && result.data[0]) {
-				const savedId = result.data[0].id;
-				setProposal((prev) => ({
-					...prev,
-					id: savedId,
-					updatedAt: (/* @__PURE__ */ new Date()).toISOString()
-				}));
+			if (mode === "template" && templateId) {
+				const { error } = await supabase.from("templates").update({ snapshot: proposal }).eq("id", templateId);
+				if (error) throw error;
 				toast$2({
-					title: "Proposta salva!",
-					description: "Suas alterações foram sincronizadas."
+					title: "Modelo Atualizado",
+					description: "Alterações salvas na biblioteca."
 				});
+			} else {
+				const { id, content, ...rest } = proposal;
+				const proposalId = proposal.id === "new" ? void 0 : proposal.id;
+				const payload = {
+					client_name: proposal.clientName,
+					title: proposal.coverTitle,
+					content: proposal,
+					updated_at: (/* @__PURE__ */ new Date()).toISOString(),
+					tags: proposal.tags,
+					view_mode: proposal.viewMode
+				};
+				let result;
+				if (proposalId) result = await supabase.from("proposals").update(payload).eq("id", proposalId).select();
+				else result = await supabase.from("proposals").insert([{
+					...payload,
+					created_at: (/* @__PURE__ */ new Date()).toISOString()
+				}]).select();
+				if (result.error) throw result.error;
+				if (result.data && result.data[0]) {
+					const savedId = result.data[0].id;
+					setProposal((prev) => ({
+						...prev,
+						id: savedId,
+						updatedAt: (/* @__PURE__ */ new Date()).toISOString()
+					}));
+					toast$2({
+						title: "Proposta salva!",
+						description: "Suas alterações foram sincronizadas."
+					});
+				}
 			}
 		} catch (error) {
 			console.error(error);
 			toast$2({
 				title: "Erro ao salvar",
-				description: error.message || "Ocorreu um erro desconhecido",
+				description: error.message,
 				variant: "destructive"
 			});
 		} finally {
@@ -36562,30 +36728,22 @@ const ProposalProvider = ({ children }) => {
 		});
 	};
 	const saveSlideToLibrary = async (pageId) => {
-		if (!user) {
-			toast$2({
-				title: "Faça login para salvar modelos.",
-				variant: "destructive"
-			});
-			return;
-		}
+		if (!user) return;
 		try {
 			const slideData = {};
 			let type = pageId;
-			if (pageId.startsWith("gantt-")) {
-				type = "gantt";
-				const ganttPage = proposal.ganttPages.find((p) => p.id === pageId);
-				if (ganttPage) slideData.ganttPage = ganttPage;
-			} else type = pageId.split("-copy-")[0];
+			if (pageId.startsWith("gantt-")) type = "gantt";
+			else type = pageId.split("-copy-")[0];
 			slideData.proposalSnapshot = proposal;
 			slideData.activeType = type;
 			const { error } = await supabase.from("templates").insert({
 				name: `Modelo ${type} - ${(/* @__PURE__ */ new Date()).toLocaleDateString()}`,
 				description: `Salvo em ${(/* @__PURE__ */ new Date()).toLocaleString()}`,
 				content: slideData,
+				snapshot: proposal,
 				type,
 				tags: proposal.tags,
-				thumbnail_url: null
+				category: proposal.tags[0] || "General"
 			});
 			if (error) throw error;
 			toast$2({
@@ -36602,51 +36760,29 @@ const ProposalProvider = ({ children }) => {
 		}
 	};
 	const insertTemplate = (template) => {
-		if (template.content && template.content.activeType) {
-			const type = template.content.activeType;
-			const snapshot = template.content.proposalSnapshot;
-			if (type === "gantt") {
-				const newId = `gantt-${v4_default().slice(0, 8)}`;
-				if (snapshot.ganttPages) {
-					const sourceGantt = snapshot.ganttPages.find((p) => p.id.startsWith("gantt")) || snapshot.ganttPages[0];
-					if (sourceGantt) {
-						const newGantt = {
+		const snapshot = template.snapshot || template.content && template.content.proposalSnapshot;
+		if (snapshot) {
+			const type = template.type || template.content?.activeType;
+			if (type) {
+				if (type === "gantt") {
+					const newId = `gantt-${v4_default().slice(0, 8)}`;
+					const sourceGantt = snapshot.ganttPages?.[0] || DEFAULT_PROPOSAL.ganttPages[0];
+					updateProposal({
+						ganttPages: [...proposal.ganttPages, {
 							...sourceGantt,
-							id: newId,
-							title: `${sourceGantt.title} (Imp)`
-						};
-						updateProposal({
-							ganttPages: [...proposal.ganttPages, newGantt],
-							pageOrder: [...proposal.pageOrder, newId]
-						});
-					}
-				}
-			} else {
-				if (type === "cover") {
-					updateProposal({
-						coverTitle: snapshot.coverTitle,
-						coverSubtitle: snapshot.coverSubtitle,
-						coverImage: snapshot.coverImage,
-						coverOverlayColor: snapshot.coverOverlayColor,
-						coverOverlayOpacity: snapshot.coverOverlayOpacity
+							id: newId
+						}],
+						pageOrder: [...proposal.pageOrder, newId]
 					});
-					if (!proposal.pageOrder.includes("cover")) updateProposal({ pageOrder: [...proposal.pageOrder, "cover"] });
-				} else if (type === "summary") {
-					updateProposal({
-						summaryTitle: snapshot.summaryTitle,
-						summarySubtitle: snapshot.summarySubtitle,
-						executiveSummary: snapshot.executiveSummary,
-						summaryMetrics: snapshot.summaryMetrics,
-						summaryLinks: snapshot.summaryLinks,
-						summaryPageImage: snapshot.summaryPageImage,
-						summaryBoxImage: snapshot.summaryBoxImage,
-						summaryTriad: snapshot.summaryTriad
-					});
-					if (!proposal.pageOrder.includes("summary")) updateProposal({ pageOrder: [...proposal.pageOrder, "summary"] });
-				} else updateProposal(snapshot);
+				} else updateProposal({
+					...snapshot,
+					id: proposal.id,
+					pageOrder: proposal.pageOrder,
+					ganttPages: proposal.ganttPages
+				});
 				toast$2({
 					title: "Modelo Aplicado",
-					description: `Dados do modelo ${type} foram carregados.`
+					description: "Conteúdo atualizado com sucesso."
 				});
 			}
 		}
@@ -36654,21 +36790,7 @@ const ProposalProvider = ({ children }) => {
 	const generateAI = () => {
 		setIsGenerating(true);
 		setTimeout(() => {
-			let strategy = "";
-			let summary = "";
-			const hasGoogle = proposal.trafficSources.includes("Google ADS (Pesquisa)");
-			const hasSocial = proposal.trafficSources.includes("Meta Ads (Facebook/Instagram)");
-			const hasLinkedIn = proposal.trafficSources.includes("Linkedin Ads");
-			strategy += "Estratégia Full-Funnel focada em performance. ";
-			if (hasGoogle) strategy += "Prioridade em capturar a intenção de compra (Fundo de Funil) através de campanhas de Pesquisa de alta relevância. ";
-			if (hasSocial) strategy += "Foco em Geração de Demanda e nutrição de audiências frias utilizando Criativos de Alto Impacto visual. ";
-			if (hasLinkedIn) strategy += "Abordagem Account-Based Marketing (ABM) para atingir decisores B2B com precisão cirúrgica. ";
-			strategy += "Todo o ecossistema será monitorado por nossa tecnologia de Dashboards em Tempo Real e Triagem com IA, garantindo que apenas leads qualificados cheguem ao comercial.";
-			summary = `Plano de aceleração para ${proposal.clientName} focado em transformar o investimento de mídia em receita previsível. `;
-			updateProposal({
-				strategyText: strategy,
-				executiveSummary: summary
-			});
+			updateProposal({ strategyText: "Estratégia Gerada por IA..." });
 			setIsGenerating(false);
 		}, 1500);
 	};
@@ -36684,7 +36806,9 @@ const ProposalProvider = ({ children }) => {
 			saveProposal,
 			saveSlideToLibrary,
 			insertTemplate,
-			isLoading
+			isLoading,
+			mode,
+			templateId
 		},
 		children
 	});
@@ -36803,14 +36927,6 @@ function SlideCover({ proposal }) {
 	});
 }
 function SlideSummary({ proposal }) {
-	const getIcon = (name) => {
-		switch (name) {
-			case "target": return Target;
-			case "trending": return TrendingUp;
-			case "users": return Users$1;
-			default: return Target;
-		}
-	};
 	const triad = proposal.summaryTriad || {
 		marketing: "",
 		ai: "",
@@ -36849,157 +36965,129 @@ function SlideSummary({ proposal }) {
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "relative z-10 grid grid-cols-12 gap-8 h-full",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "col-span-4 bg-slate-50 rounded-2xl p-6 border border-slate-200 h-fit shadow-sm",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
-						className: "text-xl font-bold text-slate-900 mb-6 flex items-center gap-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users$1, { className: "w-5 h-5 text-sky-500" }), " Perfil do Cliente"]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "space-y-6",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-xs text-slate-500 uppercase font-bold",
-								children: "Empresa"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-lg font-medium text-slate-900",
-								children: proposal.clientName
-							})] }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-xs text-slate-500 uppercase font-bold",
-								children: "Localização"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-lg font-medium text-slate-900",
-								children: proposal.location || "Nacional"
-							})] }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-xs text-slate-500 uppercase font-bold",
-								children: "Setor"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-lg font-medium text-slate-900",
-								children: proposal.sector
-							})] }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-xs text-slate-500 uppercase font-bold",
-								children: "Links Importantes"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "space-y-1",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-									href: `https://${proposal.clientUrl}`,
-									target: "_blank",
-									className: "text-sm font-medium text-sky-600 hover:underline block truncate",
-									rel: "noreferrer",
-									children: "Website Oficial"
-								}), proposal.summaryLinks?.map((link, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-									href: link.url,
-									target: "_blank",
-									className: "text-sm font-medium text-slate-600 hover:text-sky-600 hover:underline block truncate flex items-center gap-1",
-									rel: "noreferrer",
-									children: [
-										link.title,
-										" ",
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ExternalLink, { className: "w-3 h-3" })
-									]
-								}, i))]
-							})] })
-						]
-					})]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "col-span-8 flex flex-col justify-between",
+					className: "col-span-12 mb-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-start",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "bg-slate-900 text-white p-6 rounded-2xl mb-8 flex-grow relative overflow-hidden shadow-xl",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "absolute inset-0 transition-all z-0",
-							style: { opacity: (proposal.summaryOverlayOpacity ?? 30) / 100 },
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-								src: proposal.summaryBoxImage || proposal.summaryPageImage,
-								className: "w-full h-full object-cover mix-blend-overlay",
-								alt: "Summary Box Bg"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "absolute inset-0",
-								style: {
-									backgroundColor: proposal.summaryOverlayColor || "#000000",
-									opacity: .5
-								}
-							})]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "relative z-10 h-full flex flex-col",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
-								className: "text-2xl font-bold mb-6 flex items-center gap-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Zap, { className: "w-6 h-6 text-yellow-400" }), "Estratégia e Foco"]
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "grid grid-cols-1 md:grid-cols-3 gap-6 flex-1",
+						className: "space-y-4 flex-1 mr-8",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-xs text-slate-500 uppercase font-bold",
+							children: "Objetivo Principal"
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-lg font-medium text-slate-900 leading-snug",
+							children: proposal.clientObjective || "Definir objetivo no editor."
+						})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "flex gap-6",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-xs text-slate-500 uppercase font-bold",
+								children: "Site"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: `https://${proposal.clientUrl}`,
+								target: "_blank",
+								className: "text-sky-600 hover:underline font-medium",
+								children: proposal.clientUrl
+							})] }), proposal.summaryLinks?.map((link, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-xs text-slate-500 uppercase font-bold",
+								children: link.title
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+								href: link.url,
+								target: "_blank",
+								className: "text-slate-600 hover:underline flex items-center gap-1",
 								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-										className: "bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm",
-										children: [
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-												className: "bg-sky-500/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3",
-												children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Target, { className: "w-5 h-5 text-sky-400" })
-											}),
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
-												className: "font-bold text-sky-200 mb-2",
-												children: "Marketing"
-											}),
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-												className: "text-sm text-slate-300 leading-snug",
-												children: triad.marketing
-											})
-										]
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-										className: "bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm",
-										children: [
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-												className: "bg-purple-500/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3",
-												children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Brain, { className: "w-5 h-5 text-purple-400" })
-											}),
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
-												className: "font-bold text-purple-200 mb-2",
-												children: "Inteligência (IA)"
-											}),
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-												className: "text-sm text-slate-300 leading-snug",
-												children: triad.ai
-											})
-										]
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-										className: "bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm",
-										children: [
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-												className: "bg-emerald-500/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3",
-												children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Briefcase, { className: "w-5 h-5 text-emerald-400" })
-											}),
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
-												className: "font-bold text-emerald-200 mb-2",
-												children: "Comercial"
-											}),
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-												className: "text-sm text-slate-300 leading-snug",
-												children: triad.commercial
-											})
-										]
-									})
+									link.url.replace(/^https?:\/\//, ""),
+									" ",
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ExternalLink, { className: "w-3 h-3" })
 								]
-							})]
+							})] }, i))]
 						})]
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "grid grid-cols-3 gap-6",
-						children: proposal.summaryMetrics?.slice(0, 3).map((metric, i) => {
-							return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "bg-white border border-slate-200 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow",
-								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(getIcon(metric.icon), { className: "w-8 h-8 text-sky-500 mb-3" }),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-										className: "text-3xl font-bold text-slate-900",
-										children: metric.value
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-										className: "text-slate-500 text-sm font-medium",
-										children: metric.label
-									})
-								]
-							}, i);
+						className: "w-48 text-right",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "bg-sky-50 p-4 rounded-xl inline-block text-center",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-3xl font-bold text-sky-600",
+								children: proposal.summaryMetrics?.[0]?.value
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-xs text-slate-500 uppercase font-bold",
+								children: proposal.summaryMetrics?.[0]?.label
+							})]
 						})
+					})]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "col-span-12 bg-slate-900 text-white p-8 rounded-2xl flex-grow relative overflow-hidden shadow-xl min-h-[400px]",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "absolute inset-0 transition-all z-0",
+						style: { opacity: (proposal.summaryOverlayOpacity ?? 30) / 100 },
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+							src: proposal.summaryBoxImage || proposal.summaryPageImage,
+							className: "w-full h-full object-cover mix-blend-overlay",
+							alt: "Summary Box Bg"
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "absolute inset-0",
+							style: {
+								backgroundColor: proposal.summaryOverlayColor || "#000000",
+								opacity: .5
+							}
+						})]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "relative z-10 h-full flex flex-col",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
+							className: "text-2xl font-bold mb-8 flex items-center gap-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Zap, { className: "w-6 h-6 text-yellow-400" }), "Tríade de Performance"]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "grid grid-cols-3 gap-8 flex-1",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm",
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "bg-sky-500/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4",
+											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Target, { className: "w-6 h-6 text-sky-400" })
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+											className: "font-bold text-xl text-sky-200 mb-3",
+											children: "Marketing"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+											className: "text-slate-300 leading-relaxed",
+											children: triad.marketing
+										})
+									]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm",
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "bg-purple-500/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4",
+											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Brain, { className: "w-6 h-6 text-purple-400" })
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+											className: "font-bold text-xl text-purple-200 mb-3",
+											children: "Inteligência (IA)"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+											className: "text-slate-300 leading-relaxed",
+											children: triad.ai
+										})
+									]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm",
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "bg-emerald-500/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4",
+											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Briefcase, { className: "w-6 h-6 text-emerald-400" })
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+											className: "font-bold text-xl text-emerald-200 mb-3",
+											children: "Comercial"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+											className: "text-slate-300 leading-relaxed",
+											children: triad.commercial
+										})
+									]
+								})
+							]
+						})]
 					})]
 				})]
 			})
@@ -37161,20 +37249,17 @@ function SlideDiagnosis({ proposal }) {
 					children: "Pontos de Atenção"
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "text-red-400 text-sm",
-					children: "Lacunas identificadas no processo atual"
+					children: "Lacunas identificadas"
 				})] })]
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", {
 				className: "space-y-4",
-				children: proposal.gaps?.length > 0 ? proposal.gaps.slice(0, 7).map((gap, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
+				children: proposal.gaps?.slice(0, 7).map((gap, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
 					className: "flex items-start gap-4 p-4 bg-white rounded-xl border border-red-100 shadow-sm",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleX, { className: "w-5 h-5 text-red-500 mt-0.5 shrink-0" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 						className: "text-slate-700 font-medium",
 						children: gap
 					})]
-				}, i)) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", {
-					className: "text-slate-500 italic p-4",
-					children: "Nenhum ponto crítico listado."
-				})
+				}, i))
 			})]
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "bg-emerald-50/30 rounded-2xl p-8 border border-emerald-100 h-full",
@@ -37188,20 +37273,17 @@ function SlideDiagnosis({ proposal }) {
 					children: "Alavancas de Crescimento"
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "text-emerald-500 text-sm",
-					children: "Oportunidades de escala imediata"
+					children: "Oportunidades de escala"
 				})] })]
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", {
 				className: "space-y-4",
-				children: proposal.growthLevers?.length > 0 ? proposal.growthLevers.slice(0, 7).map((lever, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
+				children: proposal.growthLevers?.slice(0, 7).map((lever, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
 					className: "flex items-start gap-4 p-4 bg-white rounded-xl border border-emerald-100 shadow-sm",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { className: "w-5 h-5 text-emerald-500 mt-0.5 shrink-0" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 						className: "text-slate-700 font-medium",
 						children: lever
 					})]
-				}, i)) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", {
-					className: "text-slate-500 italic p-4",
-					children: "Nenhuma alavanca listada."
-				})
+				}, i))
 			})]
 		})]
 	})] });
@@ -37394,7 +37476,10 @@ function SlideMethodology({ proposal }) {
 			case "cpu": return Cpu;
 			case "barChart": return ChartColumn;
 			case "search": return Search;
-			default: return Cpu;
+			case "ShieldCheck": return ShieldCheck;
+			case "Award": return Award;
+			case "CheckCircle": return CircleCheckBig;
+			default: return ShieldCheck;
 		}
 	};
 	const colors = [
@@ -37420,6 +37505,7 @@ function SlideMethodology({ proposal }) {
 			desc: "text-slate-600"
 		}
 	];
+	const QaIcon = getIcon(proposal.methodologyQaIcon);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SlideContainer, {
 		id: "methodology",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -37441,7 +37527,7 @@ function SlideMethodology({ proposal }) {
 					return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: `${style.bg} p-6 rounded-2xl border ${i === 0 ? "border-slate-800" : "border-slate-200"} flex gap-4 items-start shadow-sm relative overflow-hidden group`,
 						children: [
-							i === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl -mr-8 -mt-8 transition-opacity opacity-50 group-hover:opacity-100" }),
+							i === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl -mr-8 -mt-8" }),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 								className: `${style.iconBg} p-3 rounded-xl`,
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon$2, { className: `w-8 h-8 ${style.iconColor}` })
@@ -37466,7 +37552,7 @@ function SlideMethodology({ proposal }) {
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
 							className: "font-bold text-xl text-slate-900 mb-6 flex items-center gap-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ShieldCheck, { className: "w-6 h-6 text-slate-700" }), "Garantia de Qualidade"]
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(QaIcon, { className: "w-6 h-6 text-slate-700" }), proposal.methodologyQaTitle || "Garantia de Qualidade"]
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", {
 							className: "space-y-4",
@@ -37495,11 +37581,11 @@ function SlideMethodology({ proposal }) {
 							className: "flex items-center gap-3 mb-2",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Zap, { className: "w-5 h-5 text-yellow-500" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 								className: "font-bold text-slate-900 text-sm",
-								children: proposal.methodologyExtra?.title || "Omnichannel Nativo"
+								children: proposal.methodologyExtra?.title
 							})]
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "text-xs text-slate-500",
-							children: proposal.methodologyExtra?.text || "Integração total entre canais..."
+							children: proposal.methodologyExtra?.text
 						})]
 					})]
 				})
@@ -37509,7 +37595,8 @@ function SlideMethodology({ proposal }) {
 }
 function SlideProjection({ proposal }) {
 	const currentInvestment = proposal.currentInvestment;
-	const projectedInvestment = proposal.mediaBudget + proposal.softwareCost + (proposal.investmentTiers.find((t) => t.recommended)?.fee || 0);
+	const suggestedInvestment = proposal.suggestedInvestment || 0;
+	const funnelSteps = proposal.funnelSteps || [];
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SlideContainer, {
 		id: "projection",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -37523,105 +37610,102 @@ function SlideProjection({ proposal }) {
 			})] })
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "flex gap-8 h-full",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "w-1/3 bg-slate-900 rounded-2xl p-8 text-white flex flex-col justify-between relative overflow-hidden",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl -mr-16 -mt-16" }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "relative z-10",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
-							className: "text-2xl font-bold mb-6",
-							children: [
-								"Comparativo de",
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
-								"Cenários"
-							]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-slate-400",
-							children: "A projeção baseia-se na otimização de campanhas, melhoria de CRO e implementação de inteligência de vendas."
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "space-y-6 relative z-10",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "bg-white/10 p-4 rounded-lg border border-white/10",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-xs text-slate-400 uppercase font-bold mb-1",
-								children: "Investimento Atual"
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "w-1/3 flex flex-col gap-4",
+					children: proposal.projectionCards?.map((card, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex justify-between items-start mb-2",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									className: "bg-sky-50 text-sky-600 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider",
+									children: card.tag
+								}), card.tooltip && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TooltipProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Tooltip, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TooltipTrigger, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Info, { className: "w-4 h-4 text-slate-300 hover:text-sky-500 transition-colors" }) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TooltipContent, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: card.tooltip }) })] }) })]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+								className: "text-sm font-bold text-slate-500 uppercase tracking-wide mb-1",
+								children: card.title
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-4xl font-bold text-slate-900 tracking-tight mb-2",
+								children: card.metric
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-xs text-slate-400",
+								children: card.subtext
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-sky-400 to-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" })
+						]
+					}, i))
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "w-1/3 flex flex-col justify-center items-center",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "w-full space-y-2",
+						children: funnelSteps.map((step, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "relative group",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "h-16 flex items-center justify-center text-white font-bold text-lg shadow-lg transition-transform group-hover:scale-105",
+								style: {
+									backgroundColor: step.color,
+									width: `${100 - i * 15}%`,
+									margin: "0 auto",
+									clipPath: "polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%)",
+									borderRadius: "4px"
+								},
+								children: step.value
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-2xl font-bold",
+								className: "text-center text-xs font-bold text-slate-500 uppercase mt-1",
+								children: step.label
+							})]
+						}, i))
+					})
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "w-1/3 bg-slate-900 rounded-2xl p-8 text-white flex flex-col justify-center relative overflow-hidden",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl -mr-16 -mt-16" }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
+							className: "text-xl font-bold mb-8 relative z-10",
+							children: [
+								"Cenário de",
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
+								"Investimento"
+							]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "space-y-8 relative z-10",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-xs text-slate-400 uppercase font-bold mb-1",
+								children: "Atual"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-3xl font-bold text-slate-200",
 								children: new Intl.NumberFormat("pt-BR", {
 									style: "currency",
 									currency: "BRL",
 									maximumFractionDigits: 0
 								}).format(currentInvestment)
-							})]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "bg-emerald-500/20 p-4 rounded-lg border border-emerald-500/30",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-xs text-emerald-300 uppercase font-bold mb-1",
-								children: "Investimento Sugerido"
+							})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-xs text-emerald-400 uppercase font-bold mb-1",
+								children: "Sugerido"
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-2xl font-bold text-emerald-400",
+								className: "text-4xl font-bold text-white",
 								children: new Intl.NumberFormat("pt-BR", {
 									style: "currency",
 									currency: "BRL",
 									maximumFractionDigits: 0
-								}).format(projectedInvestment)
-							})]
-						})]
-					})
-				]
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "flex-1 grid grid-cols-2 gap-6 content-start",
-				children: proposal.projectionCards?.map((card, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "absolute top-0 right-0 p-3 opacity-50",
-							children: [
-								i === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users$1, { className: "w-6 h-6 text-slate-300" }),
-								i === 1 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Zap, { className: "w-6 h-6 text-slate-300" }),
-								i === 2 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Target, { className: "w-6 h-6 text-slate-300" }),
-								i === 3 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TrendingUp, { className: "w-6 h-6 text-slate-300" })
-							]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "mb-4",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "bg-sky-50 text-sky-600 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider",
-								children: card.tag
-							})
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-							className: "text-sm font-bold text-slate-500 uppercase tracking-wide mb-1",
-							children: card.title
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-4xl font-bold text-slate-900 tracking-tight mb-2",
-							children: card.metric
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-xs text-slate-400",
-							children: card.subtext
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-sky-400 to-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" })
+								}).format(suggestedInvestment)
+							})] })]
+						})
 					]
-				}, i))
-			})]
+				})
+			]
 		})]
 	});
 }
 function SlideInvestment({ proposal }) {
-	const costs = proposal.operationalCosts || [{
-		id: "1",
-		name: "Verba Mídia",
-		value: proposal.mediaBudget
-	}, {
-		id: "2",
-		name: "Software/Tech",
-		value: proposal.softwareCost
-	}];
+	const costs = proposal.operationalCosts || [];
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SlideContainer, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		className: "flex justify-between items-end mb-8 border-b border-slate-100 pb-4",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
@@ -37634,28 +37718,38 @@ function SlideInvestment({ proposal }) {
 	}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "grid grid-cols-12 gap-6 h-full items-stretch",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "col-span-3 bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-center space-y-8",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
-				className: "font-bold text-slate-900 text-lg mb-4",
-				children: "Custos Operacionais"
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "space-y-4",
-				children: costs.map((cost, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "bg-white p-4 rounded-lg border border-slate-200 shadow-sm",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "text-xs font-bold text-slate-500 uppercase",
-						children: cost.name
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "text-xl font-bold text-slate-900",
-						children: new Intl.NumberFormat("pt-BR", {
-							style: "currency",
-							currency: "BRL"
-						}).format(cost.value)
-					})]
+			className: "col-span-3 bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-between",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+					className: "font-bold text-slate-900 text-lg mb-1",
+					children: proposal.costsTitle || "Custos Operacionais"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "text-xs text-slate-500 mb-6",
+					children: proposal.costsSubtitle || "Pagamentos diretos"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "space-y-4",
+					children: costs.map((cost, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "bg-white p-4 rounded-lg border border-slate-200 shadow-sm",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-xs font-bold text-slate-500 uppercase",
+							children: cost.name
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-xl font-bold text-slate-900",
+							children: new Intl.NumberFormat("pt-BR", {
+								style: "currency",
+								currency: "BRL"
+							}).format(cost.value)
+						})]
+					}, i))
+				})
+			] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "space-y-2",
+				children: proposal.costDisclaimers?.map((disc, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+					className: "text-[10px] text-slate-400 italic leading-tight",
+					children: ["* ", disc]
 				}, i))
-			})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "text-xs text-slate-400 italic",
-				children: "* Valores pagos diretamente às plataformas ou fornecedores."
 			})]
 		}), proposal.investmentTiers.map((tier, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: `col-span-3 rounded-2xl p-6 flex flex-col relative transition-transform hover:-translate-y-2 duration-300 ${tier.recommended ? "bg-slate-900 text-white shadow-2xl scale-105 z-10 border-2 border-sky-500" : "bg-white border border-slate-200 shadow-lg text-slate-900"}`,
@@ -37670,7 +37764,7 @@ function SlideInvestment({ proposal }) {
 						className: `text-xl font-bold mb-2 ${tier.recommended ? "text-white" : "text-slate-800"}`,
 						children: tier.name
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: `text-xs ${tier.recommended ? "text-slate-300" : "text-slate-500"} h-8`,
+						className: `text-xs ${tier.recommended ? "text-slate-300" : "text-slate-500"} h-8 leading-snug`,
 						children: tier.description
 					})]
 				}),
@@ -37703,9 +37797,15 @@ function SlideInvestment({ proposal }) {
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "mt-8",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-						className: `w-full py-3 rounded-lg font-bold text-sm transition-colors ${tier.recommended ? "bg-sky-500 hover:bg-sky-400 text-white" : "bg-slate-100 hover:bg-slate-200 text-slate-800"}`,
-						children: "Selecionar"
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+						href: tier.buttonUrl || "#",
+						target: "_blank",
+						className: "block w-full py-3 rounded-lg font-bold text-sm text-center transition-opacity hover:opacity-90",
+						style: {
+							backgroundColor: tier.buttonColor || (tier.recommended ? "#0ea5e9" : "#f1f5f9"),
+							color: tier.buttonTextColor || (tier.recommended ? "#ffffff" : "#0f172a")
+						},
+						children: tier.buttonText || "Selecionar"
 					})
 				})
 			]
@@ -37713,13 +37813,12 @@ function SlideInvestment({ proposal }) {
 	})] });
 }
 function SlideROI({ proposal }) {
-	const recommendedTier = proposal.investmentTiers.find((t) => t.recommended) || proposal.investmentTiers[1];
-	const totalInvestment = (proposal.operationalCosts || []).reduce((acc, curr) => acc + curr.value, 0) + recommendedTier.fee;
-	const ticketMedio = proposal.currentSales && proposal.currentRevenue ? proposal.currentRevenue / proposal.currentSales : 2500;
-	const projectedRevenue = proposal.funnelProjected.sales * ticketMedio;
-	const currentRevenue = proposal.currentRevenue;
-	const roi = Math.round((projectedRevenue - totalInvestment) / totalInvestment * 100);
-	const maxValue = Math.max(currentRevenue, projectedRevenue) * 1.1;
+	const roas = proposal.roasProjected || {
+		roi: "0%",
+		label: "ROI",
+		note: ""
+	};
+	const benchmarks = proposal.roiBenchmarks || [];
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SlideContainer, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		className: "flex justify-between items-end mb-8 border-b border-slate-100 pb-4",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
@@ -37737,92 +37836,72 @@ function SlideROI({ proposal }) {
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute top-0 right-0 w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl -mr-20 -mt-20" }),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "text-slate-300 text-sm font-bold uppercase tracking-widest mb-6 relative z-10",
-					children: "ROI Projetado"
+					children: roas.label
 				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "text-9xl font-bold text-white mb-4 relative z-10 tracking-tighter",
-					children: [roi, "%"]
+					children: roas.roi
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "text-slate-300 text-lg relative z-10 max-w-xs",
-					children: "Sobre o investimento total (Fee + Mídia + Tech)"
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "mt-8 flex gap-4 relative z-10",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "bg-white/10 px-4 py-3 rounded-xl backdrop-blur-sm border border-white/10 text-left",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-xs text-slate-400 uppercase font-bold",
-							children: "Investimento Total"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "font-bold text-lg text-white",
-							children: new Intl.NumberFormat("pt-BR", {
-								style: "currency",
-								currency: "BRL",
-								maximumFractionDigits: 0
-							}).format(totalInvestment)
-						})]
-					})
+					children: roas.note
 				})
 			]
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "flex flex-col justify-center",
-			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
-					className: "text-xl font-bold text-slate-800 mb-8 flex items-center gap-2",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TrendingUp, { className: "w-6 h-6 text-sky-500" }), "Crescimento de Receita"]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "space-y-8",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex justify-between mb-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "font-bold text-slate-600",
-							children: "Atual"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "font-bold text-slate-900",
-							children: new Intl.NumberFormat("pt-BR", {
-								style: "currency",
-								currency: "BRL"
-							}).format(currentRevenue)
-						})]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "w-full bg-slate-100 rounded-full h-8 overflow-hidden",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "h-full bg-slate-400 rounded-full",
-							style: { width: `${currentRevenue / maxValue * 100}%` }
+			className: "flex flex-col justify-center space-y-8",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
+				className: "text-xl font-bold text-slate-800 mb-2 flex items-center gap-2",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TrendingUp, { className: "w-6 h-6 text-sky-500" }), "Crescimento Projetado"]
+			}), benchmarks.map((bench, i) => {
+				const max$1 = Math.max(bench.current, bench.projected) * 1.1;
+				const currentPercent = bench.current / max$1 * 100;
+				const projectedPercent = bench.projected / max$1 * 100;
+				const format = (val) => {
+					if (bench.unit === "R$") return new Intl.NumberFormat("pt-BR", {
+						style: "currency",
+						currency: "BRL",
+						maximumFractionDigits: 0
+					}).format(val);
+					if (bench.unit === "x") return `${val}x`;
+					return val;
+				};
+				return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex justify-between mb-1 text-sm font-bold",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+						className: "text-slate-700",
+						children: bench.label
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex gap-4",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "text-slate-400",
+								children: format(bench.current)
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "w-4 h-4 text-slate-300" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "text-emerald-600",
+								children: format(bench.projected)
+							})
+						]
+					})]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "w-full bg-slate-100 rounded-full h-4 relative overflow-hidden",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "absolute top-0 left-0 h-full bg-emerald-100 rounded-full",
+							style: { width: `${projectedPercent}%` }
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "absolute top-0 left-0 h-full bg-slate-400 rounded-full z-10",
+							style: { width: `${currentPercent}%` }
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "absolute top-0 left-0 h-full bg-emerald-500 rounded-full z-0",
+							style: { width: `${projectedPercent}%` }
 						})
-					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex justify-between mb-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "font-bold text-emerald-600",
-							children: "Projetado (90 Dias)"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "font-bold text-emerald-600",
-							children: new Intl.NumberFormat("pt-BR", {
-								style: "currency",
-								currency: "BRL"
-							}).format(projectedRevenue)
-						})]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "w-full bg-emerald-100 rounded-full h-8 overflow-hidden relative shadow-inner",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "h-full bg-emerald-500 rounded-full",
-							style: { width: `${projectedRevenue / maxValue * 100}%` }
-						})
-					})] })]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "mt-12 bg-sky-50 border border-sky-100 p-6 rounded-xl",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-						className: "text-sky-800 text-sm leading-relaxed",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "font-bold",
-							children: "Payback Acelerado:"
-						}), " Com a estrutura otimizada, o ponto de equilíbrio ocorre entre o Mês 1 e 2, maximizando a margem de contribuição."]
-					})
-				})
-			]
+					]
+				})] }, i);
+			})]
 		})]
 	})] });
 }
@@ -37921,88 +38000,94 @@ function SlideGantt({ page }) {
 			default: return "bg-slate-300";
 		}
 	};
-	const getStatusLabel = (type) => {
-		switch (type) {
-			case "planning": return "Planejamento";
-			case "execution": return "Execução";
-			case "review": return "Revisão / Otimização";
-			default: return "Geral";
-		}
-	};
+	const groupedTasks = {};
+	page.tasks.forEach((task) => {
+		const pillar = task.pillar || "Geral";
+		if (!groupedTasks[pillar]) groupedTasks[pillar] = [];
+		groupedTasks[pillar].push(task);
+	});
+	const pillars = Object.keys(groupedTasks);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SlideContainer, {
 		id: page.id,
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "flex justify-between items-end mb-8 border-b border-slate-100 pb-6",
+			className: "flex justify-between items-end mb-6 border-b border-slate-100 pb-4",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 				className: "text-sky-500 font-bold text-sm tracking-wider uppercase mb-2",
 				children: page.subtitle
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 				className: "text-4xl font-heading font-bold text-slate-900",
 				children: page.title
-			})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "flex gap-4",
 				children: [
-					"planning",
-					"execution",
-					"review"
-				].map((type) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex items-center gap-2",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: `w-3 h-3 rounded-full ${getStatusColor(type)}` }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-						className: "text-xs text-slate-500 uppercase font-bold",
-						children: getStatusLabel(type)
-					})]
-				}, type))
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex items-center gap-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "w-3 h-3 rounded-full bg-sky-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "text-xs font-bold text-slate-500",
+							children: "PLANEJAMENTO"
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex items-center gap-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "w-3 h-3 rounded-full bg-emerald-500" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "text-xs font-bold text-slate-500",
+							children: "EXECUÇÃO"
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex items-center gap-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "w-3 h-3 rounded-full bg-purple-500" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "text-xs font-bold text-slate-500",
+							children: "REVISÃO"
+						})]
+					})
+				]
 			})]
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "w-full",
-			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "grid grid-cols-12 gap-1 mb-2",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "col-span-6" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "col-span-6 bg-slate-900 text-white text-center py-2 rounded-t-lg font-bold text-sm tracking-wider",
-						children: page.month
-					})]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "grid grid-cols-12 gap-1 mb-4",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "col-span-6 font-bold text-slate-700 text-xs uppercase px-4 flex items-end pb-2 border-b border-slate-200",
-						children: "Ação / Entregável"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "col-span-6 grid grid-cols-4 gap-1",
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			className: "flex gap-4 h-full items-start",
+			children: pillars.map((pillar, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex-1 bg-slate-50 border border-slate-200 rounded-xl overflow-hidden flex flex-col h-full max-h-[600px]",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "bg-slate-900 text-white p-3 text-center font-bold text-sm uppercase tracking-wider",
+						children: pillar
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "grid grid-cols-4 gap-1 p-2 bg-white border-b border-slate-100",
 						children: [
 							"S1",
 							"S2",
 							"S3",
 							"S4"
-						].map((w, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "bg-slate-100 text-slate-500 text-[12px] font-bold py-1 text-center rounded",
+						].map((w) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "text-center text-[10px] font-bold text-slate-400 bg-slate-50 rounded py-1",
 							children: w
-						}, i))
-					})]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "space-y-3",
-					children: [page.tasks?.slice(0, 8).map((task, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "grid grid-cols-12 gap-1 items-center bg-white p-2 rounded-lg border border-slate-100 shadow-sm min-h-[50px]",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "col-span-6 px-4 font-medium text-slate-800 text-sm",
-							children: task.name
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "col-span-6 grid grid-cols-4 gap-1 h-8",
-							children: [
-								task.s1,
-								task.s2,
-								task.s3,
-								task.s4
-							].map((active, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "relative h-full flex items-center justify-center",
-								children: active && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: cn("w-full h-4 rounded-full opacity-90 transition-all", getStatusColor(task.type)) })
-							}, idx))
-						})]
-					}, i)), Array.from({ length: Math.max(0, 8 - (page.tasks?.length || 0)) }).map((_$1, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "grid grid-cols-12 gap-1 items-center bg-slate-50/50 p-2 rounded-lg border border-dashed border-slate-200 min-h-[50px]" }, `empty-${i}`))]
-				})
-			]
+						}, w))
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "p-2 space-y-2 overflow-y-auto flex-1",
+						children: groupedTasks[pillar].map((task, tIdx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "bg-white border border-slate-100 rounded-lg p-2 shadow-sm",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-xs font-bold text-slate-700 mb-2 truncate",
+								title: task.name,
+								children: task.name
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "grid grid-cols-4 gap-1 h-2",
+								children: [
+									task.s1,
+									task.s2,
+									task.s3,
+									task.s4
+								].map((active, wIdx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									className: "rounded-full bg-slate-100 relative",
+									children: active && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: cn("absolute inset-0 rounded-full", getStatusColor(task.type)) })
+								}, wIdx))
+							})]
+						}, tIdx))
+					})
+				]
+			}, idx))
 		})]
 	});
 }
@@ -38052,7 +38137,7 @@ const SECTORS = [
 	"Outro"
 ];
 var PAGE_KEYS = ["PageUp", "PageDown"];
-var ARROW_KEYS = [
+var ARROW_KEYS$1 = [
 	"ArrowUp",
 	"ArrowDown",
 	"ArrowLeft",
@@ -38158,7 +38243,7 @@ var Slider$1 = import_react.forwardRef((props, forwardedRef) => {
 					onEndKeyDown: () => !disabled && updateValues(max$1, values.length - 1, { commit: true }),
 					onStepKeyDown: ({ event, direction: stepDirection }) => {
 						if (!disabled) {
-							const multiplier = PAGE_KEYS.includes(event.key) || event.shiftKey && ARROW_KEYS.includes(event.key) ? 10 : 1;
+							const multiplier = PAGE_KEYS.includes(event.key) || event.shiftKey && ARROW_KEYS$1.includes(event.key) ? 10 : 1;
 							const atIndex = valueIndexToChangeRef.current;
 							const value2 = values[atIndex];
 							updateValues(value2 + step * multiplier * stepDirection, atIndex, { commit: true });
@@ -38288,7 +38373,7 @@ var SliderImpl = import_react.forwardRef((props, forwardedRef) => {
 			} else if (event.key === "End") {
 				onEndKeyDown(event);
 				event.preventDefault();
-			} else if (PAGE_KEYS.concat(ARROW_KEYS).includes(event.key)) {
+			} else if (PAGE_KEYS.concat(ARROW_KEYS$1).includes(event.key)) {
 				onStepKeyDown(event);
 				event.preventDefault();
 			}
@@ -38413,7 +38498,7 @@ var SliderThumbImpl = import_react.forwardRef((props, forwardedRef) => {
 	});
 });
 SliderThumb.displayName = THUMB_NAME$1;
-var BUBBLE_INPUT_NAME$1 = "RadioBubbleInput";
+var BUBBLE_INPUT_NAME$2 = "RadioBubbleInput";
 var SliderBubbleInput = import_react.forwardRef(({ __scopeSlider, value, ...props }, forwardedRef) => {
 	const ref = import_react.useRef(null);
 	const composedRefs = useComposedRefs(ref, forwardedRef);
@@ -38436,7 +38521,7 @@ var SliderBubbleInput = import_react.forwardRef(({ __scopeSlider, value, ...prop
 		defaultValue: value
 	});
 });
-SliderBubbleInput.displayName = BUBBLE_INPUT_NAME$1;
+SliderBubbleInput.displayName = BUBBLE_INPUT_NAME$2;
 function getNextSortedValues(prevValues = [], nextValue, atIndex) {
 	const nextValues = [...prevValues];
 	nextValues[atIndex] = nextValue;
@@ -38678,14 +38763,6 @@ function WizardStepSummary() {
 		newLinks.splice(index$1, 1);
 		updateProposal({ summaryLinks: newLinks });
 	};
-	const updateMetric = (index$1, field, value) => {
-		const newMetrics = [...proposal.summaryMetrics];
-		newMetrics[index$1] = {
-			...newMetrics[index$1],
-			[field]: value
-		};
-		updateProposal({ summaryMetrics: newMetrics });
-	};
 	const updateTriad = (field, value) => {
 		updateProposal({ summaryTriad: {
 			...proposal.summaryTriad,
@@ -38697,38 +38774,109 @@ function WizardStepSummary() {
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "space-y-4",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-					value: proposal.summaryTitle,
-					onChange: (e) => updateProposal({ summaryTitle: e.target.value })
-				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-					value: proposal.summarySubtitle,
-					onChange: (e) => updateProposal({ summarySubtitle: e.target.value })
-				})] })]
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+					className: "font-bold text-slate-800 border-b pb-2",
+					children: "Cabeçalho"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "grid grid-cols-2 gap-4",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+						value: proposal.summaryTitle,
+						onChange: (e) => updateProposal({ summaryTitle: e.target.value })
+					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+						value: proposal.summarySubtitle,
+						onChange: (e) => updateProposal({ summarySubtitle: e.target.value })
+					})] })]
+				})]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "border-t border-slate-200 pt-4 space-y-4",
+				className: "space-y-4 pt-4",
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-						className: "font-bold text-slate-800",
+						className: "font-bold text-slate-800 border-b pb-2",
+						children: "Informações do Cliente"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Objetivo do Projeto" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
+						value: proposal.clientObjective,
+						onChange: (e) => updateProposal({ clientObjective: e.target.value }),
+						className: "h-20"
+					})] }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+							className: "mb-2 block",
+							children: "Links Rápidos"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "grid grid-cols-3 gap-2 mb-2",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									placeholder: "Título",
+									value: newLink.title,
+									onChange: (e) => setNewLink({
+										...newLink,
+										title: e.target.value
+									})
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									placeholder: "URL",
+									value: newLink.url,
+									onChange: (e) => setNewLink({
+										...newLink,
+										url: e.target.value
+									})
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+									onClick: addLink,
+									size: "icon",
+									variant: "secondary",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4" })
+								})
+							]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "space-y-2",
+							children: proposal.summaryLinks?.map((link, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex items-center justify-between bg-slate-50 p-2 rounded text-sm border border-slate-100",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+									className: "truncate",
+									children: [
+										link.title,
+										": ",
+										link.url
+									]
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+									onClick: () => removeLink(i),
+									className: "text-red-500",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "w-4 h-4" })
+								})]
+							}, i))
+						})
+					] })
+				]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "space-y-4 pt-4",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+						className: "font-bold text-slate-800 border-b pb-2",
 						children: "Tríade Estratégica"
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
 						className: "text-sky-600",
-						children: "Marketing (Pilar 1)"
+						children: "Marketing"
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
 						value: proposal.summaryTriad?.marketing,
 						onChange: (e) => updateTriad("marketing", e.target.value)
 					})] }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
 						className: "text-purple-600",
-						children: "Inteligência IA (Pilar 2)"
+						children: "Inteligência (IA)"
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
 						value: proposal.summaryTriad?.ai,
 						onChange: (e) => updateTriad("ai", e.target.value)
 					})] }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
 						className: "text-emerald-600",
-						children: "Comercial (Pilar 3)"
+						children: "Comercial"
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
 						value: proposal.summaryTriad?.commercial,
 						onChange: (e) => updateTriad("commercial", e.target.value)
@@ -38736,135 +38884,37 @@ function WizardStepSummary() {
 				]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "border-t border-slate-200 pt-4 space-y-4",
+				className: "space-y-4 pt-4",
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-						className: "font-bold text-slate-900",
-						children: "Customização Visual"
+						className: "font-bold text-slate-800 border-b pb-2",
+						children: "Visual"
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Imagem de Fundo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Imagem Fundo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 						value: proposal.summaryPageImage,
-						onChange: (e) => updateProposal({ summaryPageImage: e.target.value }),
-						placeholder: "https://..."
+						onChange: (e) => updateProposal({ summaryPageImage: e.target.value })
 					})] }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Imagem do Box" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Imagem Box" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 						value: proposal.summaryBoxImage,
-						onChange: (e) => updateProposal({ summaryBoxImage: e.target.value }),
-						placeholder: "https://..."
+						onChange: (e) => updateProposal({ summaryBoxImage: e.target.value })
 					})] }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "grid grid-cols-2 gap-4",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Cor da Overlay (Box)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "flex gap-2 items-center mt-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Cor Overlay" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "flex gap-2 mt-2",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
 								type: "color",
 								value: proposal.summaryOverlayColor || "#000000",
 								onChange: (e) => updateProposal({ summaryOverlayColor: e.target.value }),
 								className: "h-8 w-8 cursor-pointer border rounded"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "text-xs text-slate-500",
-								children: proposal.summaryOverlayColor
-							})]
-						})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Label, { children: [
-							"Opacidade (",
-							proposal.summaryOverlayOpacity ?? 30,
-							"%)"
-						] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Slider, {
+							})
+						})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Opacidade" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Slider, {
 							defaultValue: [proposal.summaryOverlayOpacity ?? 30],
 							max: 100,
 							step: 1,
 							onValueChange: (val) => updateProposal({ summaryOverlayOpacity: val[0] }),
 							className: "mt-3"
 						})] })]
-					})
-				]
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "border-t border-slate-200 pt-4",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-					className: "mb-4 block text-base",
-					children: "Métricas em Destaque"
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "grid gap-4",
-					children: proposal.summaryMetrics?.map((metric, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "bg-slate-50 p-3 rounded border border-slate-200",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "grid grid-cols-2 gap-2 mb-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-								className: "text-xs",
-								children: "Valor (ex: +100%)"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-								value: metric.value,
-								onChange: (e) => updateMetric(i, "value", e.target.value)
-							})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-								className: "text-xs",
-								children: "Label (ex: Leads)"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-								value: metric.label,
-								onChange: (e) => updateMetric(i, "label", e.target.value)
-							})] })]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-							className: "text-xs",
-							children: "Ícone (target, trending, users)"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-							value: metric.icon,
-							onChange: (e) => updateMetric(i, "icon", e.target.value)
-						})] })]
-					}, i))
-				})]
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "border-t border-slate-200 pt-4",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-						className: "mb-2 block",
-						children: "Links Adicionais"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "grid grid-cols-2 gap-2 mb-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-							placeholder: "Título (ex: Ver Site)",
-							value: newLink.title,
-							onChange: (e) => setNewLink({
-								...newLink,
-								title: e.target.value
-							})
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "flex gap-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-								placeholder: "URL",
-								value: newLink.url,
-								onChange: (e) => setNewLink({
-									...newLink,
-									url: e.target.value
-								})
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-								onClick: addLink,
-								size: "icon",
-								variant: "secondary",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4" })
-							})]
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "space-y-2",
-						children: proposal.summaryLinks?.map((link, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "flex items-center justify-between bg-slate-50 p-2 rounded text-sm border border-slate-100",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "flex gap-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-									className: "font-bold",
-									children: [link.title, ":"]
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "text-slate-500 truncate max-w-[150px]",
-									children: link.url
-								})]
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-								onClick: () => removeLink(i),
-								className: "text-slate-400 hover:text-red-500",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "w-4 h-4" })
-							})]
-						}, i))
 					})
 				]
 			})
@@ -39125,10 +39175,10 @@ function WizardStepDiagnosis() {
 		className: "space-y-6 animate-fade-in",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "grid grid-cols-2 gap-4",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 				value: proposal.diagnosisTitle,
 				onChange: (e) => updateProposal({ diagnosisTitle: e.target.value })
-			})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+			})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 				value: proposal.diagnosisSubtitle,
 				onChange: (e) => updateProposal({ diagnosisSubtitle: e.target.value })
 			})] })]
@@ -39146,7 +39196,7 @@ function WizardStepDiagnosis() {
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 							value: newGap,
 							onChange: (e) => setNewGap(e.target.value),
-							placeholder: "Ex: Site lento...",
+							placeholder: "Novo ponto...",
 							onKeyDown: (e) => e.key === "Enter" && (addItem("gaps", newGap), setNewGap(""))
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 							onClick: () => {
@@ -39180,7 +39230,7 @@ function WizardStepDiagnosis() {
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 							value: newLever,
 							onChange: (e) => setNewLever(e.target.value),
-							placeholder: "Ex: Expansão de Canais...",
+							placeholder: "Nova alavanca...",
 							onKeyDown: (e) => e.key === "Enter" && (addItem("growthLevers", newLever), setNewLever(""))
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 							onClick: () => {
@@ -39188,7 +39238,7 @@ function WizardStepDiagnosis() {
 								setNewLever("");
 							},
 							size: "icon",
-							className: "bg-emerald-600 hover:bg-emerald-700",
+							className: "bg-emerald-600",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4" })
 						})]
 					}),
@@ -39451,7 +39501,7 @@ function WizardStepMethodology() {
 	};
 	const addFeature = () => {
 		if (!newFeature) return;
-		updateProposal({ methodologyFeatures: [...[...proposal.methodologyFeatures || []], newFeature] });
+		updateProposal({ methodologyFeatures: [...proposal.methodologyFeatures || [], newFeature] });
 		setNewFeature("");
 	};
 	const removeFeature = (index$1) => {
@@ -39464,10 +39514,10 @@ function WizardStepMethodology() {
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "grid grid-cols-2 gap-4",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 					value: proposal.methodologyTitle,
 					onChange: (e) => updateProposal({ methodologyTitle: e.target.value })
-				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 					value: proposal.methodologySubtitle,
 					onChange: (e) => updateProposal({ methodologySubtitle: e.target.value })
 				})] })]
@@ -39475,10 +39525,10 @@ function WizardStepMethodology() {
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "border-t border-slate-200 pt-4 space-y-4",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-					className: "text-base font-bold",
-					children: "Cards de Diferenciais (Esquerda)"
+					className: "font-bold text-base",
+					children: "Diferenciais (Esquerda)"
 				}), proposal.methodologyItems?.map((item, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "bg-slate-50 p-4 rounded-lg border border-slate-200",
+					className: "bg-slate-50 p-4 rounded border border-slate-200",
 					children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 							className: "mb-2",
@@ -39498,12 +39548,12 @@ function WizardStepMethodology() {
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
 								value: item.description,
 								onChange: (e) => updateItem(i, "description", e.target.value),
-								className: "h-20"
+								className: "h-16"
 							})]
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
 							className: "text-xs",
-							children: "Ícone (cpu, barChart, search)"
+							children: "Ícone"
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 							value: item.icon,
 							onChange: (e) => updateItem(i, "icon", e.target.value)
@@ -39514,9 +39564,24 @@ function WizardStepMethodology() {
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "border-t border-slate-200 pt-4 space-y-4",
 				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-						className: "text-base font-bold",
-						children: "Garantia de Qualidade (Direita)"
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "flex justify-between items-center",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+							className: "font-bold text-base",
+							children: "Garantia de Qualidade (Direita)"
+						})
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "grid grid-cols-2 gap-4",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Seção" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							value: proposal.methodologyQaTitle,
+							onChange: (e) => updateProposal({ methodologyQaTitle: e.target.value }),
+							placeholder: "Garantia de Qualidade"
+						})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Ícone (Lucide)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							value: proposal.methodologyQaIcon,
+							onChange: (e) => updateProposal({ methodologyQaIcon: e.target.value }),
+							placeholder: "ShieldCheck"
+						})] })]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "flex gap-2",
@@ -39537,43 +39602,34 @@ function WizardStepMethodology() {
 							className: "flex items-center justify-between bg-slate-50 p-2 rounded text-sm border border-slate-100",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: feat }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 								onClick: () => removeFeature(i),
-								className: "text-slate-400 hover:text-red-500",
+								className: "text-red-500",
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "w-4 h-4" })
 							})]
 						}, i))
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "space-y-2 pt-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Texto de Citação" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
-							value: proposal.methodologyText,
-							onChange: (e) => updateProposal({ methodologyText: e.target.value }),
-							className: "h-20"
-						})]
-					})
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Citação / Texto Extra" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
+						value: proposal.methodologyText,
+						onChange: (e) => updateProposal({ methodologyText: e.target.value }),
+						className: "h-20"
+					})] })
 				]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "border-t border-slate-200 pt-4 space-y-4",
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-						className: "text-base font-bold",
+						className: "font-bold text-base",
 						children: "Box Extra (Omnichannel)"
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-						className: "text-xs",
-						children: "Título"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-						value: proposal.methodologyExtra?.title || "",
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+						value: proposal.methodologyExtra?.title,
 						onChange: (e) => updateProposal({ methodologyExtra: {
 							...proposal.methodologyExtra,
 							title: e.target.value
 						} })
 					})] }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-						className: "text-xs",
-						children: "Texto"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
-						value: proposal.methodologyExtra?.text || "",
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Texto" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
+						value: proposal.methodologyExtra?.text,
 						onChange: (e) => updateProposal({ methodologyExtra: {
 							...proposal.methodologyExtra,
 							text: e.target.value
@@ -39594,15 +39650,59 @@ function WizardStepProjection() {
 		};
 		updateProposal({ projectionCards: newCards });
 	};
+	const addCard = () => {
+		if (proposal.projectionCards.length >= 3) return;
+		updateProposal({ projectionCards: [...proposal.projectionCards, {
+			title: "Novo Card",
+			metric: "0",
+			subtext: "Desc",
+			tag: "Tag"
+		}] });
+	};
+	const removeCard = (index$1) => {
+		const newCards = [...proposal.projectionCards];
+		newCards.splice(index$1, 1);
+		updateProposal({ projectionCards: newCards });
+	};
+	const updateFunnel = (index$1, field, value) => {
+		const newSteps = [...proposal.funnelSteps || []];
+		newSteps[index$1] = {
+			...newSteps[index$1],
+			[field]: value
+		};
+		updateProposal({ funnelSteps: newSteps });
+	};
+	const funnelSteps = proposal.funnelSteps || [
+		{
+			label: "Impressões",
+			value: "0",
+			color: "#38bdf8"
+		},
+		{
+			label: "Cliques",
+			value: "0",
+			color: "#0ea5e9"
+		},
+		{
+			label: "Leads",
+			value: "0",
+			color: "#0284c7"
+		},
+		{
+			label: "Vendas",
+			value: "0",
+			color: "#0369a1"
+		}
+	];
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "space-y-8 animate-fade-in pb-10",
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "grid grid-cols-2 gap-4",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 					value: proposal.projectionTitle,
 					onChange: (e) => updateProposal({ projectionTitle: e.target.value })
-				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 					value: proposal.projectionSubtitle,
 					onChange: (e) => updateProposal({ projectionSubtitle: e.target.value })
 				})] })]
@@ -39611,58 +39711,135 @@ function WizardStepProjection() {
 				className: "border-t border-slate-200 pt-4 space-y-4",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 					className: "font-bold text-slate-800",
-					children: "Dados Comparativos"
+					children: "Investimento"
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "grid grid-cols-2 gap-4",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Investimento Atual (R$)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 						type: "number",
 						value: proposal.currentInvestment,
 						onChange: (e) => updateProposal({ currentInvestment: Number(e.target.value) })
-					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Investimento Sugerido (Auto)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "text-sm text-slate-500 mt-2",
-						children: "Calculado automaticamente com base na página de Investimento."
+					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Investimento Sugerido (R$)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+						type: "number",
+						value: proposal.suggestedInvestment,
+						onChange: (e) => updateProposal({ suggestedInvestment: Number(e.target.value) })
 					})] })]
 				})]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "border-t border-slate-200 pt-4 space-y-4",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex justify-between",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+						className: "font-bold text-slate-800",
+						children: "Cards de Projeção (Max 3)"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						size: "sm",
+						onClick: addCard,
+						disabled: proposal.projectionCards.length >= 3,
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4" })
+					})]
+				}), proposal.projectionCards?.map((card, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-3 relative",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							onClick: () => removeCard(i),
+							className: "absolute top-2 right-2 text-red-500",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "w-4 h-4" })
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "grid grid-cols-2 gap-3",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+								className: "text-xs",
+								children: "Título"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								value: card.title,
+								onChange: (e) => updateCard(i, "title", e.target.value)
+							})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+								className: "text-xs",
+								children: "Tag"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								value: card.tag,
+								onChange: (e) => updateCard(i, "tag", e.target.value)
+							})] })]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "grid grid-cols-2 gap-3",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+								className: "text-xs",
+								children: "Métrica"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								value: card.metric,
+								onChange: (e) => updateCard(i, "metric", e.target.value)
+							})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+								className: "text-xs",
+								children: "Subtexto"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								value: card.subtext,
+								onChange: (e) => updateCard(i, "subtext", e.target.value)
+							})] })]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+							className: "text-xs",
+							children: "Tooltip (Hover)"
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							value: card.tooltip,
+							onChange: (e) => updateCard(i, "tooltip", e.target.value),
+							placeholder: "Texto explicativo..."
+						})] })
+					]
+				}, i))]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "border-t border-slate-200 pt-4 space-y-4",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 					className: "font-bold text-slate-800",
-					children: "Cards de Projeção"
-				}), proposal.projectionCards?.map((card, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-3",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "grid grid-cols-2 gap-3",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-							className: "text-xs",
-							children: "Título"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-							value: card.title,
-							onChange: (e) => updateCard(i, "title", e.target.value)
-						})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-							className: "text-xs",
-							children: "Tag"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-							value: card.tag,
-							onChange: (e) => updateCard(i, "tag", e.target.value)
-						})] })]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "grid grid-cols-2 gap-3",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-							className: "text-xs",
-							children: "Métrica (ex: +100%)"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-							value: card.metric,
-							onChange: (e) => updateCard(i, "metric", e.target.value)
-						})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-							className: "text-xs",
-							children: "Subtexto"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-							value: card.subtext,
-							onChange: (e) => updateCard(i, "subtext", e.target.value)
-						})] })]
-					})]
-				}, i))]
+					children: "Funil de Vendas (4 Etapas)"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "grid grid-cols-1 gap-2",
+					children: funnelSteps.map((step, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex gap-2 items-end",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex-1",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Label, {
+									className: "text-xs",
+									children: ["Etapa ", i + 1]
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									value: step.label,
+									onChange: (e) => updateFunnel(i, "label", e.target.value)
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex-1",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									className: "text-xs",
+									children: "Valor"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									value: step.value,
+									onChange: (e) => updateFunnel(i, "value", e.target.value)
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "w-16",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									className: "text-xs",
+									children: "Cor"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "h-10 border rounded flex items-center justify-center",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+										type: "color",
+										value: step.color,
+										onChange: (e) => updateFunnel(i, "color", e.target.value),
+										className: "w-full h-full opacity-0 cursor-pointer absolute"
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "w-6 h-6 rounded-full",
+										style: { backgroundColor: step.color }
+									})]
+								})]
+							})
+						]
+					}, i))
+				})]
 			})
 		]
 	});
@@ -39670,15 +39847,8 @@ function WizardStepProjection() {
 function WizardStepInvestment() {
 	const { proposal, updateProposal } = useProposal();
 	const [activeTierIndex, setActiveTierIndex] = (0, import_react.useState)(0);
-	const costs = proposal.operationalCosts || [{
-		id: "1",
-		name: "Verba Mídia",
-		value: proposal.mediaBudget
-	}, {
-		id: "2",
-		name: "Software/Tech",
-		value: proposal.softwareCost
-	}];
+	const [newDisclaimer, setNewDisclaimer] = (0, import_react.useState)("");
+	const costs = proposal.operationalCosts || [];
 	const updateCost = (index$1, field, value) => {
 		const newCosts = [...costs];
 		newCosts[index$1] = {
@@ -39712,72 +39882,115 @@ function WizardStepInvestment() {
 		newTiers[activeTierIndex].features[index$1] = value;
 		updateProposal({ investmentTiers: newTiers });
 	};
+	const addDisclaimer = () => {
+		if (newDisclaimer) {
+			updateProposal({ costDisclaimers: [...proposal.costDisclaimers || [], newDisclaimer] });
+			setNewDisclaimer("");
+		}
+	};
+	const removeDisclaimer = (index$1) => {
+		const newDisclaimers = [...proposal.costDisclaimers || []];
+		newDisclaimers.splice(index$1, 1);
+		updateProposal({ costDisclaimers: newDisclaimers });
+	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "space-y-6 animate-fade-in pb-10",
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "grid grid-cols-2 gap-4",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 					value: proposal.investmentTitle,
 					onChange: (e) => updateProposal({ investmentTitle: e.target.value })
-				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 					value: proposal.investmentSubtitle,
 					onChange: (e) => updateProposal({ investmentSubtitle: e.target.value })
 				})] })]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "border-t border-slate-200 pt-4 space-y-4",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex justify-between items-center",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Custos Operacionais (Terceiros)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
-						size: "sm",
-						variant: "ghost",
-						onClick: addCost,
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 mr-2" }), " Adicionar Custo"]
-					})]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "space-y-3",
-					children: costs.map((cost, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex gap-2 items-end bg-slate-50 p-3 rounded border border-slate-100",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "flex-1",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-									className: "text-xs",
-									children: "Nome"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+						className: "font-bold text-slate-800",
+						children: "Custos de Terceiros"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "grid grid-cols-2 gap-4",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Seção" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							value: proposal.costsTitle,
+							onChange: (e) => updateProposal({ costsTitle: e.target.value })
+						})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							value: proposal.costsSubtitle,
+							onChange: (e) => updateProposal({ costsSubtitle: e.target.value })
+						})] })]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "space-y-2",
+						children: [costs.map((cost, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "flex gap-2 items-center bg-slate-50 p-2 rounded",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 									value: cost.name,
-									onChange: (e) => updateCost(i, "name", e.target.value)
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "w-32",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-									className: "text-xs",
-									children: "Valor (R$)"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									onChange: (e) => updateCost(i, "name", e.target.value),
+									className: "flex-1"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 									type: "number",
 									value: cost.value,
-									onChange: (e) => updateCost(i, "value", Number(e.target.value))
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+									onChange: (e) => updateCost(i, "value", Number(e.target.value)),
+									className: "w-24"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+									size: "icon",
+									variant: "ghost",
+									onClick: () => removeCost(i),
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "w-4 h-4 text-red-500" })
+								})
+							]
+						}, i)), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+							size: "sm",
+							variant: "outline",
+							onClick: addCost,
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 mr-2" }), " Adicionar Custo"]
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+							className: "mb-2 block",
+							children: "Disclaimers / Notas"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "flex gap-2 mb-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								value: newDisclaimer,
+								onChange: (e) => setNewDisclaimer(e.target.value),
+								placeholder: "Nota...",
+								onKeyDown: (e) => e.key === "Enter" && addDisclaimer()
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 								size: "icon",
-								variant: "ghost",
-								className: "h-10 w-10 text-red-500",
-								onClick: () => removeCost(i),
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "w-4 h-4" })
-							})
-						]
-					}, i))
-				})]
+								onClick: addDisclaimer,
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4" })
+							})]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "space-y-1",
+							children: proposal.costDisclaimers?.map((disc, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex justify-between items-center text-sm bg-slate-50 p-2 rounded",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: disc }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+									onClick: () => removeDisclaimer(i),
+									className: "text-red-500",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "w-3 h-3" })
+								})]
+							}, i))
+						})
+					] })
+				]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "border-t border-slate-100 pt-4",
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-						className: "mb-4 block",
-						children: "Planos de Serviço"
+						className: "mb-4 block text-base font-bold",
+						children: "Planos de Serviço (Fee)"
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 						className: "flex space-x-2 border-b border-slate-200 pb-2 mb-4",
@@ -39790,22 +40003,68 @@ function WizardStepInvestment() {
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "space-y-4",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Nome do Plano" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-								value: proposal.investmentTiers[activeTierIndex].name,
-								onChange: (e) => updateTier("name", e.target.value)
-							})] }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Valor do Fee (R$)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-								type: "number",
-								value: proposal.investmentTiers[activeTierIndex].fee,
-								onChange: (e) => updateTier("fee", Number(e.target.value))
-							})] }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Descrição Curta" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "grid grid-cols-2 gap-4",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Nome" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									value: proposal.investmentTiers[activeTierIndex].name,
+									onChange: (e) => updateTier("name", e.target.value)
+								})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Fee (R$)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									type: "number",
+									value: proposal.investmentTiers[activeTierIndex].fee,
+									onChange: (e) => updateTier("fee", Number(e.target.value))
+								})] })]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Descrição" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
 								value: proposal.investmentTiers[activeTierIndex].description,
-								onChange: (e) => updateTier("description", e.target.value),
-								className: "h-20"
+								onChange: (e) => updateTier("description", e.target.value)
 							})] }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Features (Uma por linha)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "space-y-2",
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "bg-slate-50 p-4 rounded border",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+										className: "mb-2 block font-bold text-xs uppercase",
+										children: "Botão de Ação (CTA)"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "grid grid-cols-2 gap-2 mb-2",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+											placeholder: "Texto",
+											value: proposal.investmentTiers[activeTierIndex].buttonText,
+											onChange: (e) => updateTier("buttonText", e.target.value)
+										}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+											placeholder: "URL",
+											value: proposal.investmentTiers[activeTierIndex].buttonUrl,
+											onChange: (e) => updateTier("buttonUrl", e.target.value)
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "grid grid-cols-2 gap-2",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+											className: "flex items-center gap-2",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+												className: "text-[10px]",
+												children: "Fundo"
+											}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+												type: "color",
+												value: proposal.investmentTiers[activeTierIndex].buttonColor || "#000000",
+												onChange: (e) => updateTier("buttonColor", e.target.value)
+											})]
+										}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+											className: "flex items-center gap-2",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+												className: "text-[10px]",
+												children: "Texto"
+											}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+												type: "color",
+												value: proposal.investmentTiers[activeTierIndex].buttonTextColor || "#ffffff",
+												onChange: (e) => updateTier("buttonTextColor", e.target.value)
+											})]
+										})]
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Features" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "space-y-2 mt-2",
 								children: proposal.investmentTiers[activeTierIndex].features.map((feat, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 									value: feat,
 									onChange: (e) => updateFeature(idx, e.target.value)
@@ -39820,52 +40079,138 @@ function WizardStepInvestment() {
 }
 function WizardStepROI() {
 	const { proposal, updateProposal } = useProposal();
+	const updateBenchmark = (index$1, field, value) => {
+		const newBench = [...proposal.roiBenchmarks || []];
+		newBench[index$1] = {
+			...newBench[index$1],
+			[field]: value
+		};
+		updateProposal({ roiBenchmarks: newBench });
+	};
+	const addBenchmark = () => {
+		if ((proposal.roiBenchmarks || []).length >= 4) return;
+		updateProposal({ roiBenchmarks: [...proposal.roiBenchmarks || [], {
+			label: "Nova Métrica",
+			current: 0,
+			projected: 0,
+			unit: ""
+		}] });
+	};
+	const removeBenchmark = (index$1) => {
+		const newBench = [...proposal.roiBenchmarks || []];
+		newBench.splice(index$1, 1);
+		updateProposal({ roiBenchmarks: newBench });
+	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "space-y-6 animate-fade-in pb-10",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "grid grid-cols-2 gap-4",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-				value: proposal.roiTitle,
-				onChange: (e) => updateProposal({ roiTitle: e.target.value })
-			})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-				value: proposal.roiSubtitle,
-				onChange: (e) => updateProposal({ roiSubtitle: e.target.value })
-			})] })]
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "border-t border-slate-200 pt-4",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-				className: "font-bold text-slate-800 mb-2",
-				children: "Base de Cálculo (Receita)"
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "space-y-4",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "grid grid-cols-2 gap-4",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Receita Mensal Atual (R$)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-						type: "number",
-						value: proposal.currentRevenue,
-						onChange: (e) => updateProposal({ currentRevenue: Number(e.target.value) })
-					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Vendas Mensais Atuais (Qtd)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-						type: "number",
-						value: proposal.currentSales,
-						onChange: (e) => updateProposal({ currentSales: Number(e.target.value) })
-					})] })]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "grid grid-cols-2 gap-4",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Vendas Projetadas (Funil)" }),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-							disabled: true,
-							value: proposal.funnelProjected.sales,
-							className: "bg-slate-100"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "text-xs text-slate-500",
-							children: "Editável na etapa de Funil"
-						})
-					] })
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "grid grid-cols-2 gap-4",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+					value: proposal.roiTitle,
+					onChange: (e) => updateProposal({ roiTitle: e.target.value })
+				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+					value: proposal.roiSubtitle,
+					onChange: (e) => updateProposal({ roiSubtitle: e.target.value })
+				})] })]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "border-t border-slate-200 pt-4",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+					className: "font-bold text-slate-800 mb-4",
+					children: "ROAS Projetado (Destaque)"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "grid grid-cols-3 gap-4",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "ROI/ROAS (%)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							value: proposal.roasProjected?.roi,
+							onChange: (e) => updateProposal({ roasProjected: {
+								...proposal.roasProjected,
+								roi: e.target.value
+							} })
+						})] }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Label" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							value: proposal.roasProjected?.label,
+							onChange: (e) => updateProposal({ roasProjected: {
+								...proposal.roasProjected,
+								label: e.target.value
+							} })
+						})] }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Nota" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+							value: proposal.roasProjected?.note,
+							onChange: (e) => updateProposal({ roasProjected: {
+								...proposal.roasProjected,
+								note: e.target.value
+							} })
+						})] })
+					]
 				})]
-			})]
-		})]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "border-t border-slate-200 pt-4",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex justify-between items-center mb-4",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+						className: "font-bold text-slate-800",
+						children: "Comparativo de Evolução (Max 4)"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						size: "sm",
+						onClick: addBenchmark,
+						disabled: (proposal.roiBenchmarks?.length || 0) >= 4,
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4" })
+					})]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "space-y-4",
+					children: proposal.roiBenchmarks?.map((bench, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "bg-slate-50 p-3 rounded border border-slate-200 relative",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+								onClick: () => removeBenchmark(i),
+								className: "absolute top-2 right-2 text-red-500",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "w-4 h-4" })
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "grid grid-cols-4 gap-2",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "col-span-2",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+										className: "text-xs",
+										children: "Métrica"
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+										value: bench.label,
+										onChange: (e) => updateBenchmark(i, "label", e.target.value)
+									})]
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									className: "text-xs",
+									children: "Unidade (Ex: R$)"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									value: bench.unit,
+									onChange: (e) => updateBenchmark(i, "unit", e.target.value)
+								})] })]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "grid grid-cols-2 gap-2 mt-2",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									className: "text-xs",
+									children: "Valor Atual"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									type: "number",
+									value: bench.current,
+									onChange: (e) => updateBenchmark(i, "current", Number(e.target.value))
+								})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									className: "text-xs",
+									children: "Valor Projetado"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									type: "number",
+									value: bench.projected,
+									onChange: (e) => updateBenchmark(i, "projected", Number(e.target.value))
+								})] })]
+							})
+						]
+					}, i))
+				})]
+			})
+		]
 	});
 }
 function WizardStepClosing() {
@@ -39992,7 +40337,7 @@ var CheckboxTrigger = import_react.forwardRef(({ __scopeCheckbox, onKeyDown, onC
 		role: "checkbox",
 		"aria-checked": isIndeterminate(checked) ? "mixed" : checked,
 		"aria-required": required,
-		"data-state": getState(checked),
+		"data-state": getState$1(checked),
 		"data-disabled": disabled ? "" : void 0,
 		disabled,
 		value,
@@ -40031,14 +40376,14 @@ var Checkbox$1 = import_react.forwardRef((props, forwardedRef) => {
 	});
 });
 Checkbox$1.displayName = CHECKBOX_NAME;
-var INDICATOR_NAME = "CheckboxIndicator";
+var INDICATOR_NAME$1 = "CheckboxIndicator";
 var CheckboxIndicator = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeCheckbox, forceMount, ...indicatorProps } = props;
-	const context = useCheckboxContext(INDICATOR_NAME, __scopeCheckbox);
+	const context = useCheckboxContext(INDICATOR_NAME$1, __scopeCheckbox);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
 		present: forceMount || isIndeterminate(context.checked) || context.checked === true,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.span, {
-			"data-state": getState(context.checked),
+			"data-state": getState$1(context.checked),
 			"data-disabled": context.disabled ? "" : void 0,
 			...indicatorProps,
 			ref: forwardedRef,
@@ -40049,10 +40394,10 @@ var CheckboxIndicator = import_react.forwardRef((props, forwardedRef) => {
 		})
 	});
 });
-CheckboxIndicator.displayName = INDICATOR_NAME;
-var BUBBLE_INPUT_NAME = "CheckboxBubbleInput";
+CheckboxIndicator.displayName = INDICATOR_NAME$1;
+var BUBBLE_INPUT_NAME$1 = "CheckboxBubbleInput";
 var CheckboxBubbleInput = import_react.forwardRef(({ __scopeCheckbox, ...props }, forwardedRef) => {
-	const { control, hasConsumerStoppedPropagationRef, checked, defaultChecked, required, disabled, name, value, form, bubbleInput, setBubbleInput } = useCheckboxContext(BUBBLE_INPUT_NAME, __scopeCheckbox);
+	const { control, hasConsumerStoppedPropagationRef, checked, defaultChecked, required, disabled, name, value, form, bubbleInput, setBubbleInput } = useCheckboxContext(BUBBLE_INPUT_NAME$1, __scopeCheckbox);
 	const composedRefs = useComposedRefs(forwardedRef, setBubbleInput);
 	const prevChecked = usePrevious(checked);
 	const controlSize = useSize(control);
@@ -40098,14 +40443,14 @@ var CheckboxBubbleInput = import_react.forwardRef(({ __scopeCheckbox, ...props }
 		}
 	});
 });
-CheckboxBubbleInput.displayName = BUBBLE_INPUT_NAME;
+CheckboxBubbleInput.displayName = BUBBLE_INPUT_NAME$1;
 function isFunction(value) {
 	return typeof value === "function";
 }
 function isIndeterminate(checked) {
 	return checked === "indeterminate";
 }
-function getState(checked) {
+function getState$1(checked) {
 	return isIndeterminate(checked) ? "indeterminate" : checked ? "checked" : "unchecked";
 }
 var Checkbox = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Checkbox$1, {
@@ -40132,14 +40477,15 @@ function WizardStepGantt({ pageId }) {
 		updateProposal({ ganttPages: newPages });
 	};
 	const addTask = () => {
-		if (page.tasks.length >= 8) return;
+		if (page.tasks.length >= 12) return;
 		const newTask = {
 			name: "Nova Ação",
 			s1: false,
 			s2: false,
 			s3: false,
 			s4: false,
-			type: "planning"
+			type: "planning",
+			pillar: "Geral"
 		};
 		updatePage({ tasks: [...page.tasks, newTask] });
 	};
@@ -40156,20 +40502,21 @@ function WizardStepGantt({ pageId }) {
 		};
 		updatePage({ tasks: newTasks });
 	};
+	Array.from(new Set(page.tasks.map((t) => t.pillar || "Geral")));
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "space-y-6 animate-fade-in pb-10",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "grid grid-cols-2 gap-4",
 			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Título" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 					value: page.title,
 					onChange: (e) => updatePage({ title: e.target.value })
 				})] }),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo da Página" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Subtítulo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 					value: page.subtitle,
 					onChange: (e) => updatePage({ subtitle: e.target.value })
 				})] }),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Mês de Referência" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Mês" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 					value: page.month,
 					onChange: (e) => updatePage({ month: e.target.value })
 				})] })
@@ -40180,70 +40527,94 @@ function WizardStepGantt({ pageId }) {
 				className: "flex justify-between items-center",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 					className: "font-bold text-slate-800",
-					children: "Cronograma (Max 8 linhas)"
+					children: "Cronograma (Agrupado por Pilar)"
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
 					size: "sm",
 					onClick: addTask,
-					disabled: page.tasks.length >= 8,
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 mr-2" }), " Adicionar Linha"]
+					disabled: page.tasks.length >= 12,
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 mr-2" }), " Adicionar"]
 				})]
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				className: "space-y-3",
 				children: page.tasks.map((task, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "bg-slate-50 p-3 rounded border border-slate-200",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex justify-between mb-2",
+						className: "flex gap-2 mb-2",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-								value: task.name,
-								onChange: (e) => updateTask(i, "name", e.target.value),
-								className: "h-8 w-[60%]",
-								placeholder: "Nome da Ação"
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "w-1/3",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									className: "text-[10px]",
+									children: "Pilar"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									value: task.pillar,
+									onChange: (e) => updateTask(i, "pillar", e.target.value),
+									className: "h-8",
+									placeholder: "Ex: Setup"
+								})]
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Select, {
-								value: task.type,
-								onValueChange: (val) => updateTask(i, "type", val),
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectTrigger, {
-									className: "h-8 w-[30%]",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectValue, {})
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SelectContent, { children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItem, {
-										value: "planning",
-										children: "Planejamento"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItem, {
-										value: "execution",
-										children: "Execução"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItem, {
-										value: "review",
-										children: "Revisão"
-									})
-								] })]
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex-1",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									className: "text-[10px]",
+									children: "Ação"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									value: task.name,
+									onChange: (e) => updateTask(i, "name", e.target.value),
+									className: "h-8",
+									placeholder: "Nome da Ação"
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "w-24",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+									className: "text-[10px]",
+									children: "Tipo"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Select, {
+									value: task.type,
+									onValueChange: (val) => updateTask(i, "type", val),
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectTrigger, {
+										className: "h-8",
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectValue, {})
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SelectContent, { children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItem, {
+											value: "planning",
+											children: "Plan"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItem, {
+											value: "execution",
+											children: "Exec"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SelectItem, {
+											value: "review",
+											children: "Rev"
+										})
+									] })]
+								})]
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 								size: "icon",
 								variant: "ghost",
-								className: "h-8 w-8 text-red-500",
+								className: "h-8 w-8 mt-4 text-red-500",
 								onClick: () => removeTask(i),
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "w-4 h-4" })
 							})
 						]
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "flex justify-between px-2",
+						className: "flex justify-between px-2 bg-white rounded border border-slate-100 py-1",
 						children: [
 							"s1",
 							"s2",
 							"s3",
 							"s4"
 						].map((week) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "flex flex-col items-center gap-1",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "text-[10px] font-bold uppercase",
-								children: week.toUpperCase()
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Checkbox, {
+							className: "flex items-center gap-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Checkbox, {
 								checked: task[week],
 								onCheckedChange: (checked) => updateTask(i, week, checked)
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "text-[10px] font-bold uppercase text-slate-500",
+								children: week.toUpperCase()
 							})]
 						}, week))
 					})]
@@ -41157,8 +41528,236 @@ function TemplateSelectionModal({ open, onOpenChange, onSelect }) {
 		})
 	});
 }
+var RADIO_NAME = "Radio";
+var [createRadioContext, createRadioScope] = createContextScope(RADIO_NAME);
+var [RadioProvider, useRadioContext] = createRadioContext(RADIO_NAME);
+var Radio = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeRadio, name, checked = false, required, disabled, value = "on", onCheck, form, ...radioProps } = props;
+	const [button, setButton] = import_react.useState(null);
+	const composedRefs = useComposedRefs(forwardedRef, (node) => setButton(node));
+	const hasConsumerStoppedPropagationRef = import_react.useRef(false);
+	const isFormControl = button ? form || !!button.closest("form") : true;
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(RadioProvider, {
+		scope: __scopeRadio,
+		checked,
+		disabled,
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.button, {
+			type: "button",
+			role: "radio",
+			"aria-checked": checked,
+			"data-state": getState(checked),
+			"data-disabled": disabled ? "" : void 0,
+			disabled,
+			value,
+			...radioProps,
+			ref: composedRefs,
+			onClick: composeEventHandlers(props.onClick, (event) => {
+				if (!checked) onCheck?.();
+				if (isFormControl) {
+					hasConsumerStoppedPropagationRef.current = event.isPropagationStopped();
+					if (!hasConsumerStoppedPropagationRef.current) event.stopPropagation();
+				}
+			})
+		}), isFormControl && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RadioBubbleInput, {
+			control: button,
+			bubbles: !hasConsumerStoppedPropagationRef.current,
+			name,
+			value,
+			checked,
+			required,
+			disabled,
+			form,
+			style: { transform: "translateX(-100%)" }
+		})]
+	});
+});
+Radio.displayName = RADIO_NAME;
+var INDICATOR_NAME = "RadioIndicator";
+var RadioIndicator = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeRadio, forceMount, ...indicatorProps } = props;
+	const context = useRadioContext(INDICATOR_NAME, __scopeRadio);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
+		present: forceMount || context.checked,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.span, {
+			"data-state": getState(context.checked),
+			"data-disabled": context.disabled ? "" : void 0,
+			...indicatorProps,
+			ref: forwardedRef
+		})
+	});
+});
+RadioIndicator.displayName = INDICATOR_NAME;
+var BUBBLE_INPUT_NAME = "RadioBubbleInput";
+var RadioBubbleInput = import_react.forwardRef(({ __scopeRadio, control, checked, bubbles = true, ...props }, forwardedRef) => {
+	const ref = import_react.useRef(null);
+	const composedRefs = useComposedRefs(ref, forwardedRef);
+	const prevChecked = usePrevious(checked);
+	const controlSize = useSize(control);
+	import_react.useEffect(() => {
+		const input = ref.current;
+		if (!input) return;
+		const inputProto = window.HTMLInputElement.prototype;
+		const setChecked = Object.getOwnPropertyDescriptor(inputProto, "checked").set;
+		if (prevChecked !== checked && setChecked) {
+			const event = new Event("click", { bubbles });
+			setChecked.call(input, checked);
+			input.dispatchEvent(event);
+		}
+	}, [
+		prevChecked,
+		checked,
+		bubbles
+	]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.input, {
+		type: "radio",
+		"aria-hidden": true,
+		defaultChecked: checked,
+		...props,
+		tabIndex: -1,
+		ref: composedRefs,
+		style: {
+			...props.style,
+			...controlSize,
+			position: "absolute",
+			pointerEvents: "none",
+			opacity: 0,
+			margin: 0
+		}
+	});
+});
+RadioBubbleInput.displayName = BUBBLE_INPUT_NAME;
+function getState(checked) {
+	return checked ? "checked" : "unchecked";
+}
+var ARROW_KEYS = [
+	"ArrowUp",
+	"ArrowDown",
+	"ArrowLeft",
+	"ArrowRight"
+];
+var RADIO_GROUP_NAME = "RadioGroup";
+var [createRadioGroupContext, createRadioGroupScope] = createContextScope(RADIO_GROUP_NAME, [createRovingFocusGroupScope, createRadioScope]);
+var useRovingFocusGroupScope = createRovingFocusGroupScope();
+var useRadioScope = createRadioScope();
+var [RadioGroupProvider, useRadioGroupContext] = createRadioGroupContext(RADIO_GROUP_NAME);
+var RadioGroup$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeRadioGroup, name, defaultValue, value: valueProp, required = false, disabled = false, orientation, dir, loop = true, onValueChange, ...groupProps } = props;
+	const rovingFocusGroupScope = useRovingFocusGroupScope(__scopeRadioGroup);
+	const direction = useDirection(dir);
+	const [value, setValue] = useControllableState({
+		prop: valueProp,
+		defaultProp: defaultValue ?? null,
+		onChange: onValueChange,
+		caller: RADIO_GROUP_NAME
+	});
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RadioGroupProvider, {
+		scope: __scopeRadioGroup,
+		name,
+		required,
+		disabled,
+		value,
+		onValueChange: setValue,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root$4, {
+			asChild: true,
+			...rovingFocusGroupScope,
+			orientation,
+			dir: direction,
+			loop,
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+				role: "radiogroup",
+				"aria-required": required,
+				"aria-orientation": orientation,
+				"data-disabled": disabled ? "" : void 0,
+				dir: direction,
+				...groupProps,
+				ref: forwardedRef
+			})
+		})
+	});
+});
+RadioGroup$1.displayName = RADIO_GROUP_NAME;
+var ITEM_NAME = "RadioGroupItem";
+var RadioGroupItem$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeRadioGroup, disabled, ...itemProps } = props;
+	const context = useRadioGroupContext(ITEM_NAME, __scopeRadioGroup);
+	const isDisabled = context.disabled || disabled;
+	const rovingFocusGroupScope = useRovingFocusGroupScope(__scopeRadioGroup);
+	const radioScope = useRadioScope(__scopeRadioGroup);
+	const ref = import_react.useRef(null);
+	const composedRefs = useComposedRefs(forwardedRef, ref);
+	const checked = context.value === itemProps.value;
+	const isArrowKeyPressedRef = import_react.useRef(false);
+	import_react.useEffect(() => {
+		const handleKeyDown = (event) => {
+			if (ARROW_KEYS.includes(event.key)) isArrowKeyPressedRef.current = true;
+		};
+		const handleKeyUp = () => isArrowKeyPressedRef.current = false;
+		document.addEventListener("keydown", handleKeyDown);
+		document.addEventListener("keyup", handleKeyUp);
+		return () => {
+			document.removeEventListener("keydown", handleKeyDown);
+			document.removeEventListener("keyup", handleKeyUp);
+		};
+	}, []);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Item$1, {
+		asChild: true,
+		...rovingFocusGroupScope,
+		focusable: !isDisabled,
+		active: checked,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Radio, {
+			disabled: isDisabled,
+			required: context.required,
+			checked,
+			...radioScope,
+			...itemProps,
+			name: context.name,
+			ref: composedRefs,
+			onCheck: () => context.onValueChange(itemProps.value),
+			onKeyDown: composeEventHandlers((event) => {
+				if (event.key === "Enter") event.preventDefault();
+			}),
+			onFocus: composeEventHandlers(itemProps.onFocus, () => {
+				if (isArrowKeyPressedRef.current) ref.current?.click();
+			})
+		})
+	});
+});
+RadioGroupItem$1.displayName = ITEM_NAME;
+var INDICATOR_NAME2 = "RadioGroupIndicator";
+var RadioGroupIndicator = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeRadioGroup, ...indicatorProps } = props;
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RadioIndicator, {
+		...useRadioScope(__scopeRadioGroup),
+		...indicatorProps,
+		ref: forwardedRef
+	});
+});
+RadioGroupIndicator.displayName = INDICATOR_NAME2;
+var Root2 = RadioGroup$1;
+var Item2 = RadioGroupItem$1;
+var Indicator = RadioGroupIndicator;
+var RadioGroup = import_react.forwardRef(({ className, ...props }, ref) => {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2, {
+		className: cn("grid gap-2", className),
+		...props,
+		ref
+	});
+});
+RadioGroup.displayName = Root2.displayName;
+var RadioGroupItem = import_react.forwardRef(({ className, ...props }, ref) => {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Item2, {
+		ref,
+		className: cn("aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50", className),
+		...props,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Indicator, {
+			className: "flex items-center justify-center",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Circle, { className: "h-2.5 w-2.5 fill-current text-current" })
+		})
+	});
+});
+RadioGroupItem.displayName = Item2.displayName;
 function EditorContent() {
-	const { proposal, updateProposal, duplicatePage, removePage, saveProposal, saveSlideToLibrary, insertTemplate, isLoading } = useProposal();
+	const { proposal, updateProposal, duplicatePage, removePage, saveProposal, saveSlideToLibrary, insertTemplate, isLoading, mode } = useProposal();
 	const { signOut } = useAuth();
 	const navigate = useNavigate();
 	const [activeTab, setActiveTab] = (0, import_react.useState)("parts");
@@ -41166,14 +41765,8 @@ function EditorContent() {
 	const [rightOpen, setRightOpen] = (0, import_react.useState)(true);
 	const [profileOpen, setProfileOpen] = (0, import_react.useState)(false);
 	const [templateModalOpen, setTemplateModalOpen] = (0, import_react.useState)(false);
+	const [shareModalOpen, setShareModalOpen] = (0, import_react.useState)(false);
 	const [draggedItem, setDraggedItem] = (0, import_react.useState)(null);
-	const handleShare = () => {
-		if (proposal.id === "new") {
-			alert("Salve a proposta antes de compartilhar.");
-			return;
-		}
-		window.open(`/share/${proposal.id}`, "_blank");
-	};
 	const handleSignOut = async () => {
 		await signOut();
 		navigate("/login");
@@ -41247,10 +41840,6 @@ function EditorContent() {
 			const Comp = conf.component;
 			return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Comp, {});
 		}
-		if (staticComponents[activeTab]) {
-			const Comp = staticComponents[activeTab].component;
-			return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Comp, {});
-		}
 		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(WizardStepParts, {});
 	};
 	const getTabLabel = (id) => {
@@ -41298,6 +41887,10 @@ function EditorContent() {
 		setActiveTab(id);
 		if (id !== "parts") scrollToSlide(id);
 	};
+	const handleShareConfirm = () => {
+		setShareModalOpen(false);
+		window.open(`/share/${proposal.id}`, "_blank");
+	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "flex h-screen overflow-hidden bg-slate-100 font-sans",
 		children: [
@@ -41310,6 +41903,49 @@ function EditorContent() {
 				onOpenChange: setTemplateModalOpen,
 				onSelect: (t) => insertTemplate(t)
 			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dialog, {
+				open: shareModalOpen,
+				onOpenChange: setShareModalOpen,
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogContent, { children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogTitle, { children: "Compartilhar Proposta" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogDescription, { children: "Escolha o formato de visualização para o cliente." })] }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "py-4",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(RadioGroup, {
+							value: proposal.viewMode,
+							onValueChange: (val) => updateProposal({ viewMode: val }),
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex items-center space-x-2 border p-4 rounded-lg cursor-pointer hover:bg-slate-50",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RadioGroupItem, {
+									value: "document",
+									id: "doc"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Label, {
+									htmlFor: "doc",
+									className: "flex items-center gap-2 cursor-pointer font-bold",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileType, { className: "w-4 h-4 text-slate-500" }), " Documento (Scroll Contínuo)"]
+								})]
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex items-center space-x-2 border p-4 rounded-lg cursor-pointer hover:bg-slate-50",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RadioGroupItem, {
+									value: "slide",
+									id: "slide"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Label, {
+									htmlFor: "slide",
+									className: "flex items-center gap-2 cursor-pointer font-bold",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Monitor, { className: "w-4 h-4 text-slate-500" }), " Apresentação (Slide por Slide)"]
+								})]
+							})]
+						})
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						variant: "outline",
+						onClick: () => setShareModalOpen(false),
+						children: "Cancelar"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						onClick: handleShareConfirm,
+						children: "Gerar Link"
+					})] })
+				] })
+			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("aside", {
 				className: cn("flex flex-col bg-white border-r border-slate-200 z-20 shadow-xl flex-shrink-0 transition-all duration-300", leftOpen ? "w-64" : "w-14"),
 				children: [
@@ -41318,12 +41954,12 @@ function EditorContent() {
 						children: [leftOpen ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 							className: "flex items-center gap-2",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-								to: "/",
+								to: mode === "template" ? "/biblioteca" : "/",
 								className: "p-1 hover:bg-slate-100 rounded transition-colors",
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronLeft, { className: "w-5 h-5 text-slate-500" })
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 								className: "font-bold text-slate-900 text-sm",
-								children: "OCEAN"
+								children: mode === "template" ? "EDITOR DE MODELO" : "OCEAN"
 							})]
 						}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
 							to: "/",
@@ -41344,16 +41980,13 @@ function EditorContent() {
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 								className: "text-xs font-bold text-slate-400 uppercase tracking-wider",
 								children: "Páginas"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "flex gap-1",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-									size: "icon",
-									variant: "ghost",
-									className: "h-6 w-6",
-									onClick: () => setTemplateModalOpen(true),
-									title: "Adicionar Página",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 text-sky-600" })
-								})
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+								size: "icon",
+								variant: "ghost",
+								className: "h-6 w-6",
+								onClick: () => setTemplateModalOpen(true),
+								title: "Adicionar Página",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "w-4 h-4 text-sky-600" })
 							})]
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ScrollArea, {
 							className: "flex-1",
@@ -41464,33 +42097,15 @@ function EditorContent() {
 								size: "sm",
 								variant: "outline",
 								className: "flex-1",
-								onClick: handleShare,
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Share2, { className: "w-4 h-4 mr-2" }), "Share"]
+								onClick: () => setShareModalOpen(true),
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Share2, { className: "w-4 h-4 mr-2" }), "Compartilhar"]
 							})]
-						})] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenu, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuTrigger, {
-							asChild: true,
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-								size: "icon",
-								variant: "ghost",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleUser, { className: "w-5 h-5" })
-							})
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuContent, {
-							side: "right",
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuItem, {
-									onClick: () => setProfileOpen(true),
-									children: "Perfil"
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-									to: "/biblioteca",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuItem, { children: "Biblioteca" })
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuItem, {
-									onClick: handleSignOut,
-									children: "Sair"
-								})
-							]
-						})] })
+						})] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+							size: "icon",
+							variant: "ghost",
+							onClick: saveProposal,
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Save, { className: "w-5 h-5 text-emerald-600" })
+						})
 					})
 				]
 			}),
@@ -41533,24 +42148,15 @@ function EditorContent() {
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
 				className: "flex-1 flex flex-col h-screen overflow-hidden bg-slate-100 relative",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
 					className: "h-12 border-b border-slate-200 bg-white flex items-center justify-between px-6 no-print shrink-0",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "flex items-center gap-2 text-sm text-slate-500",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 							className: "bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full text-xs font-bold uppercase",
 							children: "Live Preview"
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: proposal.clientName })]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "flex items-center gap-2",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
-							size: "sm",
-							variant: "ghost",
-							className: "text-xs text-slate-400",
-							onClick: saveProposal,
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Save, { className: "w-3 h-3 mr-1" }), " Auto-save off"]
-						})
-					})]
+					})
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "flex-1 overflow-auto p-8 flex justify-center bg-slate-200/50",
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -41580,11 +42186,19 @@ function Badge({ className, variant, ...props }) {
 		...props
 	});
 }
+var CATEGORIES = [
+	"Todas",
+	"Marketing",
+	"Comercial",
+	"CS",
+	"Personalizada",
+	"General"
+];
 function Library() {
 	const [templates, setTemplates] = (0, import_react.useState)([]);
 	const [loading, setLoading] = (0, import_react.useState)(true);
 	const [search, setSearch] = (0, import_react.useState)("");
-	const [editingTemplate, setEditingTemplate] = (0, import_react.useState)(null);
+	const [selectedCategory, setSelectedCategory] = (0, import_react.useState)("Todas");
 	const { toast: toast$2 } = useToast();
 	const { user, signOut } = useAuth();
 	const navigate = useNavigate();
@@ -41598,7 +42212,7 @@ function Library() {
 			if (error) throw error;
 			setTemplates(data || []);
 		} catch (error) {
-			console.error("Error fetching templates:", error);
+			console.error(error);
 			toast$2({
 				title: "Erro",
 				description: "Não foi possível carregar os modelos.",
@@ -41609,238 +42223,233 @@ function Library() {
 		}
 	};
 	const deleteTemplate = async (id) => {
-		if (!confirm("Tem certeza que deseja excluir este modelo?")) return;
+		if (!confirm("Tem certeza?")) return;
 		try {
 			const { error } = await supabase.from("templates").delete().eq("id", id);
 			if (error) throw error;
 			setTemplates(templates.filter((t) => t.id !== id));
-			toast$2({ title: "Modelo excluído com sucesso!" });
+			toast$2({ title: "Modelo excluído." });
 		} catch (error) {
 			toast$2({
-				title: "Erro ao excluir",
+				title: "Erro",
 				description: error.message,
 				variant: "destructive"
 			});
 		}
 	};
-	const duplicateTemplate = async (template) => {
-		try {
-			const { id, created_at, ...rest } = template;
-			const { data, error } = await supabase.from("templates").insert([{
-				...rest,
-				name: `${template.name} (Cópia)`
-			}]).select().single();
-			if (error) throw error;
-			if (data) {
-				setTemplates([data, ...templates]);
-				toast$2({ title: "Modelo duplicado com sucesso!" });
-			}
-		} catch (error) {
-			toast$2({
-				title: "Erro ao duplicar",
-				description: error.message,
-				variant: "destructive"
-			});
-		}
-	};
-	const handleUpdateTemplate = async () => {
-		if (!editingTemplate) return;
-		try {
-			const { error } = await supabase.from("templates").update({
-				name: editingTemplate.name,
-				tags: editingTemplate.tags
-			}).eq("id", editingTemplate.id);
-			if (error) throw error;
-			setTemplates(templates.map((t) => t.id === editingTemplate.id ? editingTemplate : t));
-			setEditingTemplate(null);
-			toast$2({ title: "Modelo atualizado!" });
-		} catch (error) {
-			toast$2({
-				title: "Erro ao atualizar",
-				description: error.message,
-				variant: "destructive"
-			});
-		}
+	const handleEdit = (template) => {
+		navigate(`/editor?templateId=${template.id}`);
 	};
 	const handleSignOut = async () => {
 		await signOut();
 		navigate("/login");
 	};
-	const filteredTemplates = templates.filter((t) => t.name.toLowerCase().includes(search.toLowerCase()) || t.tags?.some((tag) => tag.toLowerCase().includes(search.toLowerCase())));
+	const filteredTemplates = templates.filter((t) => {
+		const matchesSearch = t.name.toLowerCase().includes(search.toLowerCase()) || t.tags?.some((tag) => tag.toLowerCase().includes(search.toLowerCase()));
+		const matchesCategory = selectedCategory === "Todas" || t.category === selectedCategory || t.tags && t.tags.includes(selectedCategory);
+		return matchesSearch && matchesCategory;
+	});
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "min-h-screen bg-slate-50 font-sans",
-		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
-				className: "bg-white border-b border-slate-200 py-6 px-8",
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "max-w-7xl mx-auto flex items-center justify-between",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex items-center gap-4 flex-1",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-							to: "/",
-							className: "p-2 hover:bg-slate-100 rounded-full transition-colors",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { className: "w-5 h-5 text-slate-500" })
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
-							className: "text-2xl font-bold text-slate-900 flex items-center gap-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-6 h-6 text-sky-500" }), "Biblioteca de Modelos"]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-slate-500",
-							children: "Gerencie seus slides e templates reutilizáveis"
-						})] })]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex items-center gap-4",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "relative",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-								className: "pl-9 w-64",
-								placeholder: "Buscar modelos ou tags...",
-								value: search,
-								onChange: (e) => setSearch(e.target.value)
-							})]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenu, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuTrigger, {
-							asChild: true,
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-								className: "w-10 h-10 rounded-full bg-slate-200 overflow-hidden outline-none ring-offset-2 focus:ring-2 focus:ring-slate-400 transition-all flex items-center justify-center",
-								children: user?.email?.charAt(0).toUpperCase() || /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleUser, { className: "w-5 h-5 text-slate-500" })
-							})
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuContent, {
-							align: "end",
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-									to: "/perfil",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleUser, { className: "w-4 h-4 mr-2" }), " Perfil"] })
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-									to: "/usuarios",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users$1, { className: "w-4 h-4 mr-2" }), " Usuários"] })
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuItem, {
-									className: "text-red-600",
-									onClick: handleSignOut,
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogOut, { className: "w-4 h-4 mr-2" }), " Sair"]
-								})
-							]
-						})] })]
-					})]
-				})
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("main", {
-				className: "max-w-7xl mx-auto py-12 px-8",
-				children: loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "text-center py-20 text-slate-500",
-					children: "Carregando modelos..."
-				}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6",
-					children: [filteredTemplates.map((template) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
-						className: "group overflow-hidden border-slate-200 hover:shadow-lg transition-all flex flex-col",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
+			className: "bg-white border-b border-slate-200 py-6 px-8",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "max-w-7xl mx-auto flex items-center justify-between",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex items-center gap-4 flex-1",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+						to: "/",
+						className: "p-2 hover:bg-slate-100 rounded-full transition-colors",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { className: "w-5 h-5 text-slate-500" })
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
+						className: "text-2xl font-bold text-slate-900 flex items-center gap-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-6 h-6 text-sky-500" }), "Biblioteca de Modelos"]
+					}) })]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "flex items-center gap-4",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenu, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuTrigger, {
+						asChild: true,
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							className: "w-10 h-10 rounded-full bg-slate-200 overflow-hidden outline-none ring-offset-2 focus:ring-2 focus:ring-slate-400 transition-all flex items-center justify-center",
+							children: user?.email?.charAt(0).toUpperCase() || /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleUser, { className: "w-5 h-5 text-slate-500" })
+						})
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DropdownMenuContent, {
+						align: "end",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "aspect-video bg-slate-100 relative overflow-hidden border-b border-slate-100",
-								children: [template.thumbnail_url ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-									src: template.thumbnail_url,
-									alt: template.name,
-									className: "w-full h-full object-cover"
-								}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "flex items-center justify-center w-full h-full text-slate-300",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-12 h-12 opacity-50" })
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
-										variant: "secondary",
-										size: "sm",
-										onClick: () => setEditingTemplate(template),
-										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { className: "w-4 h-4 mr-1" }), " Editar"]
-									})
-								})]
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/perfil",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuItem, { children: "Perfil" })
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, {
-								className: "p-4 pb-2 flex-1",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
-									className: "text-base font-bold truncate",
-									title: template.name,
-									children: template.name
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "flex flex-wrap gap-1 mt-2",
-									children: template.tags && template.tags.map((tag) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Badge, {
-										variant: "secondary",
-										className: "text-[10px] px-1 py-0",
-										children: tag
-									}, tag))
-								})]
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/usuarios",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuItem, { children: "Usuários" })
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardFooter, {
-								className: "p-4 pt-0 flex justify-between items-center mt-auto",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "text-xs text-slate-500 capitalize",
-									children: template.type || "Slide"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "flex gap-1",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-										variant: "ghost",
-										size: "icon",
-										className: "h-8 w-8 text-slate-400 hover:text-sky-500",
-										onClick: () => duplicateTemplate(template),
-										title: "Duplicar",
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Copy, { className: "w-4 h-4" })
-									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-										variant: "ghost",
-										size: "icon",
-										className: "h-8 w-8 text-slate-400 hover:text-red-500",
-										onClick: () => deleteTemplate(template.id),
-										title: "Excluir",
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "w-4 h-4" })
-									})]
-								})]
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropdownMenuItem, {
+								className: "text-red-600",
+								onClick: handleSignOut,
+								children: "Sair"
 							})
 						]
-					}, template.id)), filteredTemplates.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "col-span-full py-12 text-center text-slate-400 bg-white rounded-lg border border-dashed border-slate-300",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Nenhum modelo encontrado." }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-sm mt-2",
-							children: "Salve slides como modelos através do Editor."
-						})]
+					})] })
+				})]
+			})
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
+			className: "max-w-7xl mx-auto py-12 px-8",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex justify-between items-center mb-6",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "flex gap-2",
+					children: CATEGORIES.map((cat) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						variant: selectedCategory === cat ? "default" : "outline",
+						size: "sm",
+						onClick: () => setSelectedCategory(cat),
+						className: selectedCategory === cat ? "bg-slate-900" : "",
+						children: cat
+					}, cat))
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "relative",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+						className: "pl-9 w-64",
+						placeholder: "Buscar...",
+						value: search,
+						onChange: (e) => setSearch(e.target.value)
 					})]
-				})
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dialog, {
-				open: !!editingTemplate,
-				onOpenChange: (open) => !open && setEditingTemplate(null),
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogContent, { children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogTitle, { children: "Editar Modelo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogDescription, { children: "Atualize as informações do modelo." })] }),
-					editingTemplate && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "space-y-4 py-4",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "space-y-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Nome do Modelo" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-								value: editingTemplate.name,
-								onChange: (e) => setEditingTemplate({
-									...editingTemplate,
-									name: e.target.value
+				})]
+			}), loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "text-center py-20 text-slate-500",
+				children: "Carregando modelos..."
+			}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6",
+				children: filteredTemplates.map((template) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
+					className: "group overflow-hidden border-slate-200 hover:shadow-lg transition-all flex flex-col",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "aspect-video bg-slate-100 relative overflow-hidden border-b border-slate-100 group-hover:opacity-90 transition-opacity",
+							children: [template.thumbnail_url ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+								src: template.thumbnail_url,
+								alt: template.name,
+								className: "w-full h-full object-cover"
+							}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "w-full h-full flex flex-col items-center justify-center bg-slate-50 text-slate-300",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LayoutTemplate, { className: "w-10 h-10 mb-2" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									className: "text-xs uppercase font-bold",
+									children: "Sem Preview"
+								})]
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+									variant: "secondary",
+									size: "sm",
+									onClick: () => handleEdit(template),
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { className: "w-4 h-4 mr-1" }), " Editar Conteúdo"]
 								})
 							})]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "space-y-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Tags (separadas por vírgula)" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-								value: editingTemplate.tags?.join(", ") || "",
-								onChange: (e) => setEditingTemplate({
-									...editingTemplate,
-									tags: e.target.value.split(",").map((t) => t.trim()).filter(Boolean)
-								}),
-								placeholder: "Ex: Marketing, Vendas, Q1"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, {
+							className: "p-4 pb-2 flex-1",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+								className: "text-base font-bold truncate",
+								title: template.name,
+								children: template.name
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex flex-wrap gap-1 mt-2",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Badge, {
+									variant: "outline",
+									className: "text-[10px]",
+									children: template.category || "Geral"
+								}), template.tags?.map((tag) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Badge, {
+									variant: "secondary",
+									className: "text-[10px] px-1 py-0",
+									children: tag
+								}, tag))]
 							})]
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-						variant: "outline",
-						onClick: () => setEditingTemplate(null),
-						children: "Cancelar"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-						onClick: handleUpdateTemplate,
-						children: "Salvar"
-					})] })
-				] })
-			})
-		]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardFooter, {
+							className: "p-4 pt-0 flex justify-between items-center mt-auto",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "text-xs text-slate-500 capitalize",
+								children: template.type || "Slide"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+								variant: "ghost",
+								size: "icon",
+								className: "h-8 w-8 text-slate-400 hover:text-red-500",
+								onClick: () => deleteTemplate(template.id),
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "w-4 h-4" })
+							})]
+						})
+					]
+				}, template.id))
+			})]
+		})]
+	});
+}
+function PresentationView() {
+	const { proposal } = useProposal();
+	const [currentIndex, setCurrentIndex] = (0, import_react.useState)(0);
+	const slides = proposal.pageOrder.filter((id) => id !== "parts");
+	const next = () => setCurrentIndex((p) => Math.min(p + 1, slides.length - 1));
+	const prev = () => setCurrentIndex((p) => Math.max(p - 1, 0));
+	(0, import_react.useEffect)(() => {
+		const handleKey = (e) => {
+			if (e.key === "ArrowRight") next();
+			if (e.key === "ArrowLeft") prev();
+		};
+		window.addEventListener("keydown", handleKey);
+		return () => window.removeEventListener("keydown", handleKey);
+	}, [slides.length]);
+	const currentId = slides[currentIndex];
+	const renderSlide = (id) => {
+		if (id.startsWith("gantt-")) {
+			const page = proposal.ganttPages.find((p) => p.id === id);
+			return page ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlideGantt, { page }) : null;
+		}
+		switch (id.split("-copy-")[0]) {
+			case "cover": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlideCover, { proposal });
+			case "summary": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlideSummary, { proposal });
+			case "competitors": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlideCompetitors, { proposal });
+			case "diagnosis": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlideDiagnosis, { proposal });
+			case "ecosystem": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlideEcosystem, { proposal });
+			case "timeline": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlideTimeline, { proposal });
+			case "methodology": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlideMethodology, { proposal });
+			case "projection": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlideProjection, { proposal });
+			case "financials": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlideInvestment, { proposal });
+			case "roi": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlideROI, { proposal });
+			case "closing": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlideClosing, { proposal });
+			default: return null;
+		}
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "flex flex-col items-center justify-center min-h-screen bg-black",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			className: "transform scale-[0.8] md:scale-[1]",
+			children: renderSlide(currentId)
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "fixed bottom-0 left-0 right-0 p-4 bg-black/50 backdrop-blur text-white flex justify-between items-center z-50",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+					variant: "ghost",
+					className: "text-white hover:bg-white/20",
+					onClick: prev,
+					disabled: currentIndex === 0,
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronLeft, { className: "w-6 h-6" })
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+					className: "text-sm font-bold",
+					children: [
+						currentIndex + 1,
+						" / ",
+						slides.length
+					]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+					variant: "ghost",
+					className: "text-white hover:bg-white/20",
+					onClick: next,
+					disabled: currentIndex === slides.length - 1,
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronRight, { className: "w-6 h-6" })
+				})
+			]
+		})]
 	});
 }
 function ShareContent() {
@@ -41848,6 +42457,7 @@ function ShareContent() {
 	(0, import_react.useEffect)(() => {
 		document.title = `Proposta - ${proposal.clientName}`;
 	}, [proposal]);
+	if (proposal.viewMode === "slide") return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PresentationView, {});
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "min-h-screen bg-slate-100",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -41867,7 +42477,7 @@ function ShareContent() {
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
 				onClick: () => window.print(),
 				variant: "outline",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Printer, { className: "w-4 h-4 mr-2" }), "Salvar PDF"]
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Printer, { className: "w-4 h-4 mr-2" }), " Salvar PDF"]
 			})]
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 			className: "pt-24 pb-12 flex justify-center",
@@ -41948,7 +42558,7 @@ function Users() {
 		if (data?.role !== "admin") {
 			toast$2({
 				title: "Acesso Negado",
-				description: "Você não tem permissão para acessar esta página.",
+				description: "Área restrita a administradores.",
 				variant: "destructive"
 			});
 			navigate("/");
@@ -41962,7 +42572,7 @@ function Users() {
 			setUsers(data || []);
 		} catch (error) {
 			toast$2({
-				title: "Erro ao carregar usuários",
+				title: "Erro",
 				description: error.message,
 				variant: "destructive"
 			});
@@ -41978,16 +42588,16 @@ function Users() {
 				...u,
 				role: newRole
 			} : u));
-			toast$2({ title: "Permissão atualizada com sucesso!" });
+			toast$2({ title: "Permissão atualizada!" });
 		} catch (error) {
 			toast$2({
-				title: "Erro ao atualizar permissão",
+				title: "Erro",
 				description: error.message,
 				variant: "destructive"
 			});
 		}
 	};
-	const filteredUsers = users.filter((user$1) => user$1.representative_name?.toLowerCase().includes(searchTerm.toLowerCase()) || user$1.representative_email?.toLowerCase().includes(searchTerm.toLowerCase()) || user$1.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) || "");
+	const filteredUsers = users.filter((user$1) => user$1.representative_name?.toLowerCase().includes(searchTerm.toLowerCase()) || user$1.representative_email?.toLowerCase().includes(searchTerm.toLowerCase()) || "");
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "min-h-screen bg-slate-50 font-sans",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
@@ -42000,21 +42610,18 @@ function Users() {
 						className: "p-2 hover:bg-slate-100 rounded-full transition-colors",
 						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { className: "w-5 h-5 text-slate-500" })
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 						className: "flex-1",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
 							className: "text-2xl font-bold text-slate-900 flex items-center gap-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users$1, { className: "w-6 h-6 text-sky-500" }), "Gestão de Usuários"]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-slate-500",
-							children: "Gerencie perfis e permissões de acesso"
-						})]
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users$1, { className: "w-6 h-6 text-sky-500" }), " Gestão de Usuários"]
+						})
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "relative",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
 							className: "pl-9 w-64",
-							placeholder: "Buscar usuários...",
+							placeholder: "Buscar...",
 							value: searchTerm,
 							onChange: (e) => setSearchTerm(e.target.value)
 						})]
@@ -42033,7 +42640,7 @@ function Users() {
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Email" }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Empresa" }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Função" })
-				] }) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableBody, { children: filteredUsers.length > 0 ? filteredUsers.map((user$1) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
+				] }) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableBody, { children: filteredUsers.map((user$1) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 						className: "font-medium",
 						children: user$1.representative_name || "-"
@@ -42054,11 +42661,7 @@ function Users() {
 							children: "Administrador"
 						})] })]
 					}) })
-				] }, user$1.id)) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableRow, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
-					colSpan: 4,
-					className: "text-center py-10 text-slate-500",
-					children: "Nenhum usuário encontrado."
-				}) }) })] })
+				] }, user$1.id)) })] })
 			})
 		})]
 	});
@@ -42082,17 +42685,12 @@ function Profile() {
 	}, [user]);
 	const fetchProfile = async () => {
 		if (!user) return;
-		try {
-			const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).single();
-			if (error) throw error;
-			if (data) setFormData({
-				representative_name: data.representative_name || "",
-				company_name: data.company_name || "",
-				representative_email: data.representative_email || user.email || ""
-			});
-		} catch (error) {
-			console.error(error);
-		}
+		const { data } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+		if (data) setFormData({
+			representative_name: data.representative_name || "",
+			company_name: data.company_name || "",
+			representative_email: data.representative_email || user.email || ""
+		});
 	};
 	const handleUpdateProfile = async (e) => {
 		e.preventDefault();
@@ -42105,13 +42703,10 @@ function Profile() {
 				representative_email: formData.representative_email
 			}).eq("id", user.id);
 			if (error) throw error;
-			toast$2({
-				title: "Perfil atualizado",
-				description: "Suas informações foram salvas com sucesso."
-			});
+			toast$2({ title: "Perfil atualizado!" });
 		} catch (error) {
 			toast$2({
-				title: "Erro ao atualizar",
+				title: "Erro",
 				description: error.message,
 				variant: "destructive"
 			});
@@ -42124,15 +42719,7 @@ function Profile() {
 		if (passwordData.password !== passwordData.confirmPassword) {
 			toast$2({
 				title: "Erro",
-				description: "As senhas não coincidem.",
-				variant: "destructive"
-			});
-			return;
-		}
-		if (passwordData.password.length < 6) {
-			toast$2({
-				title: "Erro",
-				description: "A senha deve ter no mínimo 6 caracteres.",
+				description: "Senhas não coincidem.",
 				variant: "destructive"
 			});
 			return;
@@ -42141,17 +42728,14 @@ function Profile() {
 		try {
 			const { error } = await supabase.auth.updateUser({ password: passwordData.password });
 			if (error) throw error;
-			toast$2({
-				title: "Senha atualizada",
-				description: "Sua senha foi alterada com sucesso."
-			});
+			toast$2({ title: "Senha atualizada!" });
 			setPasswordData({
 				password: "",
 				confirmPassword: ""
 			});
 		} catch (error) {
 			toast$2({
-				title: "Erro ao alterar senha",
+				title: "Erro",
 				description: error.message,
 				variant: "destructive"
 			});
@@ -42169,129 +42753,91 @@ function Profile() {
 					to: "/",
 					className: "p-2 hover:bg-slate-100 rounded-full transition-colors",
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { className: "w-5 h-5 text-slate-500" })
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
 					className: "text-2xl font-bold text-slate-900",
 					children: "Meu Perfil"
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "text-slate-500",
-					children: "Gerencie suas informações pessoais e de segurança"
-				})] })]
+				})]
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "grid gap-6 md:grid-cols-2",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, { children: "Informações Pessoais" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Atualize seus dados de cadastro" })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, { children: "Dados Pessoais" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Atualize suas informações" })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
 					onSubmit: handleUpdateProfile,
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardContent, {
 						className: "space-y-4",
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-									htmlFor: "name",
-									children: "Nome Completo"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "relative",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(User, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-										id: "name",
-										className: "pl-9",
-										value: formData.representative_name,
-										onChange: (e) => setFormData({
-											...formData,
-											representative_name: e.target.value
-										})
-									})]
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Nome" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									value: formData.representative_name,
+									onChange: (e) => setFormData({
+										...formData,
+										representative_name: e.target.value
+									})
 								})]
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-									htmlFor: "company",
-									children: "Empresa"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "relative",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Building, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-										id: "company",
-										className: "pl-9",
-										value: formData.company_name,
-										onChange: (e) => setFormData({
-											...formData,
-											company_name: e.target.value
-										})
-									})]
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Empresa" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									value: formData.company_name,
+									onChange: (e) => setFormData({
+										...formData,
+										company_name: e.target.value
+									})
 								})]
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-									htmlFor: "email",
-									children: "Email de Contato"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "relative",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-										id: "email",
-										className: "pl-9",
-										type: "email",
-										value: formData.representative_email,
-										onChange: (e) => setFormData({
-											...formData,
-											representative_email: e.target.value
-										})
-									})]
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Email" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									value: formData.representative_email,
+									onChange: (e) => setFormData({
+										...formData,
+										representative_email: e.target.value
+									})
 								})]
 							})
 						]
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardFooter, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
 						type: "submit",
 						disabled: loading,
-						className: "ml-auto bg-sky-500 hover:bg-sky-600",
-						children: [loading && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-4 h-4 mr-2 animate-spin" }), "Salvar Alterações"]
+						children: [
+							loading && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-4 h-4 mr-2 animate-spin" }),
+							" ",
+							"Salvar"
+						]
 					}) })]
-				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, { children: "Segurança" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Altere sua senha de acesso" })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, { children: "Segurança" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Alterar senha" })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
 					onSubmit: handleUpdatePassword,
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardContent, {
 						className: "space-y-4",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 							className: "space-y-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-								htmlFor: "password",
-								children: "Nova Senha"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "relative",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Lock, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-									id: "password",
-									type: "password",
-									className: "pl-9",
-									value: passwordData.password,
-									onChange: (e) => setPasswordData({
-										...passwordData,
-										password: e.target.value
-									})
-								})]
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Nova Senha" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								type: "password",
+								value: passwordData.password,
+								onChange: (e) => setPasswordData({
+									...passwordData,
+									password: e.target.value
+								})
 							})]
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 							className: "space-y-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-								htmlFor: "confirmPassword",
-								children: "Confirmar Nova Senha"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "relative",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Lock, { className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-									id: "confirmPassword",
-									type: "password",
-									className: "pl-9",
-									value: passwordData.confirmPassword,
-									onChange: (e) => setPasswordData({
-										...passwordData,
-										confirmPassword: e.target.value
-									})
-								})]
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, { children: "Confirmar" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								type: "password",
+								value: passwordData.confirmPassword,
+								onChange: (e) => setPasswordData({
+									...passwordData,
+									confirmPassword: e.target.value
+								})
 							})]
 						})]
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardFooter, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
 						type: "submit",
 						disabled: passwordLoading,
 						variant: "outline",
-						className: "ml-auto text-slate-600",
-						children: [passwordLoading && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-4 h-4 mr-2 animate-spin" }), "Alterar Senha"]
+						children: [
+							passwordLoading && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "w-4 h-4 mr-2 animate-spin" }),
+							" ",
+							"Atualizar Senha"
+						]
 					}) })]
 				})] })]
 			})]
@@ -42892,4 +43438,4 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-kBGerI-5.js.map
+//# sourceMappingURL=index-_Fr4LHFF.js.map

@@ -27,14 +27,14 @@ export function WizardStepDiagnosis() {
     <div className="space-y-6 animate-fade-in">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>Título da Página</Label>
+          <Label>Título</Label>
           <Input
             value={proposal.diagnosisTitle}
             onChange={(e) => updateProposal({ diagnosisTitle: e.target.value })}
           />
         </div>
         <div>
-          <Label>Subtítulo da Página</Label>
+          <Label>Subtítulo</Label>
           <Input
             value={proposal.diagnosisSubtitle}
             onChange={(e) =>
@@ -53,7 +53,7 @@ export function WizardStepDiagnosis() {
             <Input
               value={newGap}
               onChange={(e) => setNewGap(e.target.value)}
-              placeholder="Ex: Site lento..."
+              placeholder="Novo ponto..."
               onKeyDown={(e) =>
                 e.key === 'Enter' && (addItem('gaps', newGap), setNewGap(''))
               }
@@ -91,7 +91,7 @@ export function WizardStepDiagnosis() {
             <Input
               value={newLever}
               onChange={(e) => setNewLever(e.target.value)}
-              placeholder="Ex: Expansão de Canais..."
+              placeholder="Nova alavanca..."
               onKeyDown={(e) =>
                 e.key === 'Enter' &&
                 (addItem('growthLevers', newLever), setNewLever(''))
@@ -103,7 +103,7 @@ export function WizardStepDiagnosis() {
                 setNewLever('')
               }}
               size="icon"
-              className="bg-emerald-600 hover:bg-emerald-700"
+              className="bg-emerald-600"
             >
               <Plus className="w-4 h-4" />
             </Button>

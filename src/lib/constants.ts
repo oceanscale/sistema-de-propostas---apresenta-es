@@ -2,15 +2,16 @@ import { Proposal } from '@/types/proposal'
 
 export const DEFAULT_PROPOSAL: Proposal = {
   id: 'new',
-  // Parts
   agencyName: 'OCEAN PROPOSAL',
   agencyCnpj: '00.000.000/0001-00',
   agencyRep: 'Seu Nome',
   clientName: 'Cliente Exemplo',
   clientUrl: 'www.exemplo.com.br',
+  clientObjective: 'Escalar vendas e reduzir custo por lead.',
   sector: 'Imóveis de Alto Padrão',
   location: 'São Paulo, SP',
   tags: [],
+  viewMode: 'document',
 
   profile: {
     name: 'Seu Nome',
@@ -20,7 +21,6 @@ export const DEFAULT_PROPOSAL: Proposal = {
     logo: 'https://img.usecurling.com/i?q=ocean&color=blue',
   },
 
-  // Images
   coverImage:
     'https://img.usecurling.com/p/1200/800?q=modern%20skyscrapers%20corporate&color=black',
   coverOverlayColor: '#000000',
@@ -38,7 +38,6 @@ export const DEFAULT_PROPOSAL: Proposal = {
   closingOverlayColor: '#000000',
   closingOverlayOpacity: 20,
 
-  // Titles
   coverTitle: 'Plano de Aceleração & Performance',
   coverSubtitle: 'Estratégia comercial personalizada',
 
@@ -75,8 +74,8 @@ export const DEFAULT_PROPOSAL: Proposal = {
   ctaUrl: 'https://wa.me/5511999999999',
   closingButtonText: 'APROVAR PLANO ESTRATÉGICO',
 
-  // Data
   currentInvestment: 15000,
+  suggestedInvestment: 0,
   currentCPA: 120,
   currentRevenue: 150000,
   currentLeads: 125,
@@ -119,26 +118,17 @@ export const DEFAULT_PROPOSAL: Proposal = {
     {
       month: 'Mês 1',
       title: 'Setup & Estruturação',
-      items: [
-        'Auditoria de Tagueamento',
-        'Criação de LPs',
-        'Setup de Campanhas',
-      ],
+      items: ['Auditoria', 'LPs', 'Setup', 'Tagueamento'],
     },
     {
       month: 'Mês 2',
       title: 'Validação & Testes',
-      items: [
-        'Testes A/B de Criativos',
-        'Otimização de Públicos',
-        'Refinamento de Keywords',
-        'Análise de Métricas',
-      ],
+      items: ['Testes A/B', 'Públicos', 'Keywords', 'Métricas'],
     },
     {
       month: 'Mês 3',
       title: 'Escala & Otimização',
-      items: ['Escala de Verba', 'Redução de CAC', 'Expansão de Canais'],
+      items: ['Escala Verba', 'Redução CAC', 'Novos Canais', 'Reports'],
     },
   ],
 
@@ -150,44 +140,49 @@ export const DEFAULT_PROPOSAL: Proposal = {
       month: 'MÊS 1',
       tasks: [
         {
-          name: 'Setup de Business Manager',
+          name: 'Setup de BM',
           s1: true,
           s2: true,
           s3: false,
           s4: false,
           type: 'planning',
+          pillar: 'Setup',
         },
         {
-          name: 'Criação de Landing Pages',
+          name: 'Criação de LPs',
           s1: false,
           s2: true,
           s3: true,
           s4: false,
           type: 'execution',
+          pillar: 'Setup',
         },
         {
-          name: 'Configuração de Pixel/API',
+          name: 'Config Pixel',
           s1: true,
           s2: false,
           s3: false,
           s4: false,
           type: 'planning',
+          pillar: 'Tracking',
         },
         {
-          name: 'Produção de Criativos',
+          name: 'Criativos',
           s1: false,
           s2: true,
           s3: true,
           s4: false,
           type: 'execution',
+          pillar: 'Criativos',
         },
         {
-          name: 'Lançamento de Campanhas',
+          name: 'Lançamento',
           s1: false,
           s2: false,
           s3: false,
           s4: true,
           type: 'review',
+          pillar: 'Mídia',
         },
       ],
     },
@@ -208,36 +203,46 @@ export const DEFAULT_PROPOSAL: Proposal = {
     sales: 18,
   },
 
+  funnelSteps: [
+    { label: 'Impressões', value: '1.5M', color: '#38bdf8' },
+    { label: 'Cliques', value: '15k', color: '#0ea5e9' },
+    { label: 'Leads', value: '450', color: '#0284c7' },
+    { label: 'Vendas', value: '25', color: '#0369a1' },
+  ],
+
   projectionCards: [
     {
       title: 'Leads Qualificados',
       metric: '+100%',
       subtext: 'Aumento de volume',
       tag: 'Meta Principal',
+      tooltip: 'Baseado no aumento de verba.',
     },
     {
       title: 'Redução de CAC',
       metric: '-20%',
       subtext: 'Otimização de custos',
       tag: 'Eficiência',
-    },
-    {
-      title: 'Taxa de Conversão',
-      metric: '15%',
-      subtext: 'Landing Pages',
-      tag: 'CRO',
+      tooltip: 'Otimização de campanhas.',
     },
     {
       title: 'Novas Vendas',
       metric: '+15',
       subtext: 'Incremental mensal',
       tag: 'Receita',
+      tooltip: 'Conversão de leads qualificados.',
     },
   ],
 
   operationalCosts: [
     { id: '1', name: 'Verba Mídia (Sug.)', value: 20000 },
     { id: '2', name: 'Software/Tech', value: 1500 },
+  ],
+  costsTitle: 'Custos Operacionais',
+  costsSubtitle: 'Valores para terceiros',
+  costDisclaimers: [
+    'Pagamento direto via cartão de crédito.',
+    'Valores estimados.',
   ],
 
   investmentTiers: [
@@ -247,6 +252,10 @@ export const DEFAULT_PROPOSAL: Proposal = {
       description: 'Para quem está começando a escalar.',
       features: ['Gestão de 2 Canais', 'Relatório Mensal', 'Setup Básico'],
       recommended: false,
+      buttonText: 'Selecionar Essencial',
+      buttonUrl: '#',
+      buttonColor: '#f1f5f9',
+      buttonTextColor: '#0f172a',
     },
     {
       name: 'Growth',
@@ -259,6 +268,10 @@ export const DEFAULT_PROPOSAL: Proposal = {
         'Otimização Semanal',
       ],
       recommended: true,
+      buttonText: 'Contratar Growth',
+      buttonUrl: '#',
+      buttonColor: '#0ea5e9',
+      buttonTextColor: '#ffffff',
     },
     {
       name: 'Scale',
@@ -271,8 +284,25 @@ export const DEFAULT_PROPOSAL: Proposal = {
         'Design Premium',
       ],
       recommended: false,
+      buttonText: 'Falar com Consultor',
+      buttonUrl: '#',
+      buttonColor: '#f1f5f9',
+      buttonTextColor: '#0f172a',
     },
   ],
+
+  roiBenchmarks: [
+    { label: 'Receita', current: 150000, projected: 350000, unit: 'R$' },
+    { label: 'Leads', current: 125, projected: 350, unit: '' },
+    { label: 'Vendas', current: 10, projected: 25, unit: '' },
+    { label: 'ROAS', current: 4, projected: 8, unit: 'x' },
+  ],
+
+  roasProjected: {
+    roi: '550%',
+    label: 'ROI Estimado',
+    note: 'Sobre o investimento total',
+  },
 
   strategyText:
     'Nossa abordagem integra captação de Fundo de Funil com Google Ads e Geração de Demanda visual via Meta Ads.',
@@ -335,6 +365,8 @@ export const DEFAULT_PROPOSAL: Proposal = {
     'Acesso a APIs Oficiais (Meta/Google)',
     'Transparência Total de Dados',
   ],
+  methodologyQaTitle: 'Garantia de Qualidade',
+  methodologyQaIcon: 'ShieldCheck',
 
   methodologyExtra: {
     title: 'Omnichannel Nativo',

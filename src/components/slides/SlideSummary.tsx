@@ -2,7 +2,6 @@ import { SlideContainer } from '@/components/SlideContainer'
 import { Proposal } from '@/types/proposal'
 import {
   Target,
-  TrendingUp,
   Users,
   Zap,
   ExternalLink,
@@ -11,19 +10,6 @@ import {
 } from 'lucide-react'
 
 export function SlideSummary({ proposal }: { proposal: Proposal }) {
-  const getIcon = (name: string) => {
-    switch (name) {
-      case 'target':
-        return Target
-      case 'trending':
-        return TrendingUp
-      case 'users':
-        return Users
-      default:
-        return Target
-    }
-  }
-
   const triad = proposal.summaryTriad || {
     marketing: '',
     ai: '',
@@ -58,147 +44,118 @@ export function SlideSummary({ proposal }: { proposal: Proposal }) {
       </div>
 
       <div className="relative z-10 grid grid-cols-12 gap-8 h-full">
-        <div className="col-span-4 bg-slate-50 rounded-2xl p-6 border border-slate-200 h-fit shadow-sm">
-          <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-            <Users className="w-5 h-5 text-sky-500" /> Perfil do Cliente
-          </h3>
-
-          <div className="space-y-6">
+        <div className="col-span-12 mb-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-start">
+          <div className="space-y-4 flex-1 mr-8">
             <div>
               <p className="text-xs text-slate-500 uppercase font-bold">
-                Empresa
+                Objetivo Principal
               </p>
-              <p className="text-lg font-medium text-slate-900">
-                {proposal.clientName}
+              <p className="text-lg font-medium text-slate-900 leading-snug">
+                {proposal.clientObjective || 'Definir objetivo no editor.'}
               </p>
             </div>
-            <div>
-              <p className="text-xs text-slate-500 uppercase font-bold">
-                Localização
-              </p>
-              <p className="text-lg font-medium text-slate-900">
-                {proposal.location || 'Nacional'}
-              </p>
-            </div>
-            <div>
-              <p className="text-xs text-slate-500 uppercase font-bold">
-                Setor
-              </p>
-              <p className="text-lg font-medium text-slate-900">
-                {proposal.sector}
-              </p>
-            </div>
-            <div>
-              <p className="text-xs text-slate-500 uppercase font-bold">
-                Links Importantes
-              </p>
-              <div className="space-y-1">
+            <div className="flex gap-6">
+              <div>
+                <p className="text-xs text-slate-500 uppercase font-bold">
+                  Site
+                </p>
                 <a
                   href={`https://${proposal.clientUrl}`}
                   target="_blank"
-                  className="text-sm font-medium text-sky-600 hover:underline block truncate"
-                  rel="noreferrer"
+                  className="text-sky-600 hover:underline font-medium"
                 >
-                  Website Oficial
+                  {proposal.clientUrl}
                 </a>
-                {proposal.summaryLinks?.map((link, i) => (
+              </div>
+              {proposal.summaryLinks?.map((link, i) => (
+                <div key={i}>
+                  <p className="text-xs text-slate-500 uppercase font-bold">
+                    {link.title}
+                  </p>
                   <a
-                    key={i}
                     href={link.url}
                     target="_blank"
-                    className="text-sm font-medium text-slate-600 hover:text-sky-600 hover:underline block truncate flex items-center gap-1"
-                    rel="noreferrer"
+                    className="text-slate-600 hover:underline flex items-center gap-1"
                   >
-                    {link.title} <ExternalLink className="w-3 h-3" />
+                    {link.url.replace(/^https?:\/\//, '')}{' '}
+                    <ExternalLink className="w-3 h-3" />
                   </a>
-                ))}
-              </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="w-48 text-right">
+            <div className="bg-sky-50 p-4 rounded-xl inline-block text-center">
+              <p className="text-3xl font-bold text-sky-600">
+                {proposal.summaryMetrics?.[0]?.value}
+              </p>
+              <p className="text-xs text-slate-500 uppercase font-bold">
+                {proposal.summaryMetrics?.[0]?.label}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="col-span-8 flex flex-col justify-between">
-          <div className="bg-slate-900 text-white p-6 rounded-2xl mb-8 flex-grow relative overflow-hidden shadow-xl">
+        <div className="col-span-12 bg-slate-900 text-white p-8 rounded-2xl flex-grow relative overflow-hidden shadow-xl min-h-[400px]">
+          <div
+            className="absolute inset-0 transition-all z-0"
+            style={{ opacity: (proposal.summaryOverlayOpacity ?? 30) / 100 }}
+          >
+            <img
+              src={proposal.summaryBoxImage || proposal.summaryPageImage}
+              className="w-full h-full object-cover mix-blend-overlay"
+              alt="Summary Box Bg"
+            />
             <div
-              className="absolute inset-0 transition-all z-0"
+              className="absolute inset-0"
               style={{
-                opacity: (proposal.summaryOverlayOpacity ?? 30) / 100,
+                backgroundColor: proposal.summaryOverlayColor || '#000000',
+                opacity: 0.5,
               }}
-            >
-              <img
-                src={proposal.summaryBoxImage || proposal.summaryPageImage}
-                className="w-full h-full object-cover mix-blend-overlay"
-                alt="Summary Box Bg"
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundColor: proposal.summaryOverlayColor || '#000000',
-                  opacity: 0.5,
-                }}
-              ></div>
-            </div>
-
-            <div className="relative z-10 h-full flex flex-col">
-              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                <Zap className="w-6 h-6 text-yellow-400" />
-                Estratégia e Foco
-              </h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1">
-                <div className="bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
-                  <div className="bg-sky-500/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3">
-                    <Target className="w-5 h-5 text-sky-400" />
-                  </div>
-                  <h4 className="font-bold text-sky-200 mb-2">Marketing</h4>
-                  <p className="text-sm text-slate-300 leading-snug">
-                    {triad.marketing}
-                  </p>
-                </div>
-
-                <div className="bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
-                  <div className="bg-purple-500/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3">
-                    <Brain className="w-5 h-5 text-purple-400" />
-                  </div>
-                  <h4 className="font-bold text-purple-200 mb-2">
-                    Inteligência (IA)
-                  </h4>
-                  <p className="text-sm text-slate-300 leading-snug">
-                    {triad.ai}
-                  </p>
-                </div>
-
-                <div className="bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
-                  <div className="bg-emerald-500/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3">
-                    <Briefcase className="w-5 h-5 text-emerald-400" />
-                  </div>
-                  <h4 className="font-bold text-emerald-200 mb-2">Comercial</h4>
-                  <p className="text-sm text-slate-300 leading-snug">
-                    {triad.commercial}
-                  </p>
-                </div>
-              </div>
-            </div>
+            ></div>
           </div>
 
-          <div className="grid grid-cols-3 gap-6">
-            {proposal.summaryMetrics?.slice(0, 3).map((metric, i) => {
-              const Icon = getIcon(metric.icon)
-              return (
-                <div
-                  key={i}
-                  className="bg-white border border-slate-200 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <Icon className="w-8 h-8 text-sky-500 mb-3" />
-                  <p className="text-3xl font-bold text-slate-900">
-                    {metric.value}
-                  </p>
-                  <p className="text-slate-500 text-sm font-medium">
-                    {metric.label}
-                  </p>
+          <div className="relative z-10 h-full flex flex-col">
+            <h3 className="text-2xl font-bold mb-8 flex items-center gap-2">
+              <Zap className="w-6 h-6 text-yellow-400" />
+              Tríade de Performance
+            </h3>
+
+            <div className="grid grid-cols-3 gap-8 flex-1">
+              <div className="bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
+                <div className="bg-sky-500/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                  <Target className="w-6 h-6 text-sky-400" />
                 </div>
-              )
-            })}
+                <h4 className="font-bold text-xl text-sky-200 mb-3">
+                  Marketing
+                </h4>
+                <p className="text-slate-300 leading-relaxed">
+                  {triad.marketing}
+                </p>
+              </div>
+
+              <div className="bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
+                <div className="bg-purple-500/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                  <Brain className="w-6 h-6 text-purple-400" />
+                </div>
+                <h4 className="font-bold text-xl text-purple-200 mb-3">
+                  Inteligência (IA)
+                </h4>
+                <p className="text-slate-300 leading-relaxed">{triad.ai}</p>
+              </div>
+
+              <div className="bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
+                <div className="bg-emerald-500/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                  <Briefcase className="w-6 h-6 text-emerald-400" />
+                </div>
+                <h4 className="font-bold text-xl text-emerald-200 mb-3">
+                  Comercial
+                </h4>
+                <p className="text-slate-300 leading-relaxed">
+                  {triad.commercial}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

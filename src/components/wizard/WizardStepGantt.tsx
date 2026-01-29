@@ -28,7 +28,7 @@ export function WizardStepGantt({ pageId }: { pageId: string }) {
   }
 
   const addTask = () => {
-    if (page.tasks.length >= 8) return
+    if (page.tasks.length >= 12) return // Increased limit slightly for 3 pillars
     const newTask: GanttTask = {
       name: 'Nova Ação',
       s1: false,
@@ -36,6 +36,7 @@ export function WizardStepGantt({ pageId }: { pageId: string }) {
       s3: false,
       s4: false,
       type: 'planning',
+      pillar: 'Geral',
     }
     updatePage({ tasks: [...page.tasks, newTask] })
   }
@@ -52,25 +53,30 @@ export function WizardStepGantt({ pageId }: { pageId: string }) {
     updatePage({ tasks: newTasks })
   }
 
+  // Get unique pillars for suggestion, max 3 logically but flexible here
+  const pillars = Array.from(
+    new Set(page.tasks.map((t) => t.pillar || 'Geral')),
+  )
+
   return (
     <div className="space-y-6 animate-fade-in pb-10">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>Título da Página</Label>
+          <Label>Título</Label>
           <Input
             value={page.title}
             onChange={(e) => updatePage({ title: e.target.value })}
           />
         </div>
         <div>
-          <Label>Subtítulo da Página</Label>
+          <Label>Subtítulo</Label>
           <Input
             value={page.subtitle}
             onChange={(e) => updatePage({ subtitle: e.target.value })}
           />
         </div>
         <div>
-          <Label>Mês de Referência</Label>
+          <Label>Mês</Label>
           <Input
             value={page.month}
             onChange={(e) => updatePage({ month: e.target.value })}
@@ -81,10 +87,14 @@ export function WizardStepGantt({ pageId }: { pageId: string }) {
       <div className="border-t border-slate-200 pt-4 space-y-4">
         <div className="flex justify-between items-center">
           <h3 className="font-bold text-slate-800">
-            Cronograma (Max 8 linhas)
+            Cronograma (Agrupado por Pilar)
           </h3>
-          <Button size="sm" onClick={addTask} disabled={page.tasks.length >= 8}>
-            <Plus className="w-4 h-4 mr-2" /> Adicionar Linha
+          <Button
+            size="sm"
+            onClick={addTask}
+            disabled={page.tasks.length >= 12}
+          >
+            <Plus className="w-4 h-4 mr-2" /> Adicionar
           </Button>
         </div>
 
@@ -94,47 +104,62 @@ export function WizardStepGantt({ pageId }: { pageId: string }) {
               key={i}
               className="bg-slate-50 p-3 rounded border border-slate-200"
             >
-              <div className="flex justify-between mb-2">
-                <Input
-                  value={task.name}
-                  onChange={(e) => updateTask(i, 'name', e.target.value)}
-                  className="h-8 w-[60%]"
-                  placeholder="Nome da Ação"
-                />
-                <Select
-                  value={task.type}
-                  onValueChange={(val) => updateTask(i, 'type', val)}
-                >
-                  <SelectTrigger className="h-8 w-[30%]">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="planning">Planejamento</SelectItem>
-                    <SelectItem value="execution">Execução</SelectItem>
-                    <SelectItem value="review">Revisão</SelectItem>
-                  </SelectContent>
-                </Select>
+              <div className="flex gap-2 mb-2">
+                <div className="w-1/3">
+                  <Label className="text-[10px]">Pilar</Label>
+                  <Input
+                    value={task.pillar}
+                    onChange={(e) => updateTask(i, 'pillar', e.target.value)}
+                    className="h-8"
+                    placeholder="Ex: Setup"
+                  />
+                </div>
+                <div className="flex-1">
+                  <Label className="text-[10px]">Ação</Label>
+                  <Input
+                    value={task.name}
+                    onChange={(e) => updateTask(i, 'name', e.target.value)}
+                    className="h-8"
+                    placeholder="Nome da Ação"
+                  />
+                </div>
+                <div className="w-24">
+                  <Label className="text-[10px]">Tipo</Label>
+                  <Select
+                    value={task.type}
+                    onValueChange={(val) => updateTask(i, 'type', val)}
+                  >
+                    <SelectTrigger className="h-8">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="planning">Plan</SelectItem>
+                      <SelectItem value="execution">Exec</SelectItem>
+                      <SelectItem value="review">Rev</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="h-8 w-8 text-red-500"
+                  className="h-8 w-8 mt-4 text-red-500"
                   onClick={() => removeTask(i)}
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
               </div>
-              <div className="flex justify-between px-2">
+              <div className="flex justify-between px-2 bg-white rounded border border-slate-100 py-1">
                 {['s1', 's2', 's3', 's4'].map((week) => (
-                  <div key={week} className="flex flex-col items-center gap-1">
-                    <span className="text-[10px] font-bold uppercase">
-                      {week.toUpperCase()}
-                    </span>
+                  <div key={week} className="flex items-center gap-2">
                     <Checkbox
                       checked={(task as any)[week]}
                       onCheckedChange={(checked) =>
                         updateTask(i, week, checked)
                       }
                     />
+                    <span className="text-[10px] font-bold uppercase text-slate-500">
+                      {week.toUpperCase()}
+                    </span>
                   </div>
                 ))}
               </div>

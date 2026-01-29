@@ -18,7 +18,6 @@ import { WizardStepGantt } from '@/components/wizard/WizardStepGantt'
 import { ProfileModal } from '@/components/modals/ProfileModal'
 import { TemplateSelectionModal } from '@/components/modals/TemplateSelectionModal'
 import { useAuth } from '@/hooks/use-auth'
-
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Link, useNavigate } from 'react-router-dom'
 import {
@@ -47,6 +46,8 @@ import {
   LayoutTemplate,
   LogOut,
   FolderPlus,
+  Monitor,
+  FileType,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
@@ -55,6 +56,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 function EditorContent() {
   const {
@@ -66,6 +77,7 @@ function EditorContent() {
     saveSlideToLibrary,
     insertTemplate,
     isLoading,
+    mode,
   } = useProposal()
   const { signOut } = useAuth()
   const navigate = useNavigate()
@@ -75,15 +87,8 @@ function EditorContent() {
   const [rightOpen, setRightOpen] = useState(true)
   const [profileOpen, setProfileOpen] = useState(false)
   const [templateModalOpen, setTemplateModalOpen] = useState(false)
+  const [shareModalOpen, setShareModalOpen] = useState(false)
   const [draggedItem, setDraggedItem] = useState<string | null>(null)
-
-  const handleShare = () => {
-    if (proposal.id === 'new') {
-      alert('Salve a proposta antes de compartilhar.')
-      return
-    }
-    window.open(`/share/${proposal.id}`, '_blank')
-  }
 
   const handleSignOut = async () => {
     await signOut()
@@ -147,10 +152,6 @@ function EditorContent() {
       const Comp = conf.component
       return <Comp />
     }
-    if (staticComponents[activeTab]) {
-      const Comp = staticComponents[activeTab].component
-      return <Comp />
-    }
     return <WizardStepParts />
   }
 
@@ -201,9 +202,12 @@ function EditorContent() {
 
   const handleTabClick = (id: string) => {
     setActiveTab(id)
-    if (id !== 'parts') {
-      scrollToSlide(id)
-    }
+    if (id !== 'parts') scrollToSlide(id)
+  }
+
+  const handleShareConfirm = () => {
+    setShareModalOpen(false)
+    window.open(`/share/${proposal.id}`, '_blank')
   }
 
   return (
@@ -215,7 +219,52 @@ function EditorContent() {
         onSelect={(t) => insertTemplate(t)}
       />
 
-      {/* Sidebar Navigation (Left) */}
+      {/* Share Modal */}
+      <Dialog open={shareModalOpen} onOpenChange={setShareModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Compartilhar Proposta</DialogTitle>
+            <DialogDescription>
+              Escolha o formato de visualização para o cliente.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <RadioGroup
+              value={proposal.viewMode}
+              onValueChange={(val: any) => updateProposal({ viewMode: val })}
+            >
+              <div className="flex items-center space-x-2 border p-4 rounded-lg cursor-pointer hover:bg-slate-50">
+                <RadioGroupItem value="document" id="doc" />
+                <Label
+                  htmlFor="doc"
+                  className="flex items-center gap-2 cursor-pointer font-bold"
+                >
+                  <FileType className="w-4 h-4 text-slate-500" /> Documento
+                  (Scroll Contínuo)
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2 border p-4 rounded-lg cursor-pointer hover:bg-slate-50">
+                <RadioGroupItem value="slide" id="slide" />
+                <Label
+                  htmlFor="slide"
+                  className="flex items-center gap-2 cursor-pointer font-bold"
+                >
+                  <Monitor className="w-4 h-4 text-slate-500" /> Apresentação
+                  (Slide por Slide)
+                </Label>
+              </div>
+            </RadioGroup>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShareModalOpen(false)}>
+              Cancelar
+            </Button>
+            <Button onClick={handleShareConfirm}>Gerar Link</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Sidebar Navigation */}
       <aside
         className={cn(
           'flex flex-col bg-white border-r border-slate-200 z-20 shadow-xl flex-shrink-0 transition-all duration-300',
@@ -226,12 +275,14 @@ function EditorContent() {
           {leftOpen ? (
             <div className="flex items-center gap-2">
               <Link
-                to="/"
+                to={mode === 'template' ? '/biblioteca' : '/'}
                 className="p-1 hover:bg-slate-100 rounded transition-colors"
               >
                 <ChevronLeft className="w-5 h-5 text-slate-500" />
               </Link>
-              <span className="font-bold text-slate-900 text-sm">OCEAN</span>
+              <span className="font-bold text-slate-900 text-sm">
+                {mode === 'template' ? 'EDITOR DE MODELO' : 'OCEAN'}
+              </span>
             </div>
           ) : (
             <Link to="/" className="mx-auto">
@@ -258,25 +309,21 @@ function EditorContent() {
               <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                 Páginas
               </span>
-              <div className="flex gap-1">
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  className="h-6 w-6"
-                  onClick={() => setTemplateModalOpen(true)}
-                  title="Adicionar Página"
-                >
-                  <Plus className="w-4 h-4 text-sky-600" />
-                </Button>
-              </div>
+              <Button
+                size="icon"
+                variant="ghost"
+                className="h-6 w-6"
+                onClick={() => setTemplateModalOpen(true)}
+                title="Adicionar Página"
+              >
+                <Plus className="w-4 h-4 text-sky-600" />
+              </Button>
             </div>
-
             <ScrollArea className="flex-1">
               <div className="p-2 space-y-1">
                 {proposal.pageOrder.map((id) => {
                   const { label, icon: Icon } = getTabLabel(id)
                   const isActive = activeTab === id
-
                   return (
                     <div
                       key={id}
@@ -302,7 +349,6 @@ function EditorContent() {
                         )}
                       />
                       <span className="truncate flex-1 text-xs">{label}</span>
-
                       <div className="flex opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 backdrop-blur-sm rounded absolute right-1 top-1 bottom-1 items-center px-1 shadow-sm">
                         <Button
                           variant="ghost"
@@ -404,37 +450,22 @@ function EditorContent() {
                   size="sm"
                   variant="outline"
                   className="flex-1"
-                  onClick={handleShare}
+                  onClick={() => setShareModalOpen(true)}
                 >
                   <Share2 className="w-4 h-4 mr-2" />
-                  Share
+                  Compartilhar
                 </Button>
               </div>
             </>
           ) : (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button size="icon" variant="ghost">
-                  <UserCircle className="w-5 h-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent side="right">
-                <DropdownMenuItem onClick={() => setProfileOpen(true)}>
-                  Perfil
-                </DropdownMenuItem>
-                <Link to="/biblioteca">
-                  <DropdownMenuItem>Biblioteca</DropdownMenuItem>
-                </Link>
-                <DropdownMenuItem onClick={handleSignOut}>
-                  Sair
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Button size="icon" variant="ghost" onClick={saveProposal}>
+              <Save className="w-5 h-5 text-emerald-600" />
+            </Button>
           )}
         </div>
       </aside>
 
-      {/* Editor Panel (Middle) - Config for selected Step */}
+      {/* Editor Panel */}
       <aside
         className={cn(
           'flex flex-col bg-white border-r border-slate-200 z-10 flex-shrink-0 transition-all duration-300 relative',
@@ -485,7 +516,7 @@ function EditorContent() {
         )}
       </aside>
 
-      {/* Live Preview (Right) */}
+      {/* Live Preview */}
       <main className="flex-1 flex flex-col h-screen overflow-hidden bg-slate-100 relative">
         <header className="h-12 border-b border-slate-200 bg-white flex items-center justify-between px-6 no-print shrink-0">
           <div className="flex items-center gap-2 text-sm text-slate-500">
@@ -493,16 +524,6 @@ function EditorContent() {
               Live Preview
             </span>
             <span>{proposal.clientName}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              variant="ghost"
-              className="text-xs text-slate-400"
-              onClick={saveProposal}
-            >
-              <Save className="w-3 h-3 mr-1" /> Auto-save off
-            </Button>
           </div>
         </header>
 

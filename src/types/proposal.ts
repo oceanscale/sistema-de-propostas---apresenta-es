@@ -4,6 +4,10 @@ export interface InvestmentTier {
   description: string
   features: string[]
   recommended?: boolean
+  buttonText?: string
+  buttonUrl?: string
+  buttonColor?: string
+  buttonTextColor?: string
 }
 
 export interface OperationalCost {
@@ -49,6 +53,7 @@ export interface ProjectionCard {
   metric: string
   subtext: string
   tag: string
+  tooltip?: string
 }
 
 export interface GanttTask {
@@ -58,6 +63,7 @@ export interface GanttTask {
   s3: boolean
   s4: boolean
   type: 'planning' | 'execution' | 'review'
+  pillar?: string
 }
 
 export interface GanttPage {
@@ -82,6 +88,19 @@ export interface SummaryTriad {
   commercial: string
 }
 
+export interface FunnelStep {
+  label: string
+  value: string
+  color: string
+}
+
+export interface RoiBenchmark {
+  label: string
+  current: number
+  projected: number
+  unit: string
+}
+
 export interface Proposal {
   id: string
   // Agency & Client (Parts)
@@ -90,63 +109,50 @@ export interface Proposal {
   agencyRep: string
   clientName: string
   clientUrl: string
+  clientObjective?: string
   sector: string
   location: string
 
   // Meta
   tags: string[]
+  viewMode: 'document' | 'slide'
 
   // Profile
   profile: ProfileData
 
   // Images & Visuals
-  // Cover
   coverImage: string
   coverOverlayColor: string
   coverOverlayOpacity: number
-
-  // Summary
   summaryPageImage: string
   summaryBoxImage: string
   summaryOverlayColor: string
   summaryOverlayOpacity: number
-
-  // Closing
   closingImage: string
   closingOverlayColor: string
   closingOverlayOpacity: number
 
-  // Page Titles & Subtitles
+  // Titles
   coverTitle: string
   coverSubtitle: string
-
   summaryTitle: string
   summarySubtitle: string
-
   competitorsTitle: string
   competitorsSubtitle: string
-
   diagnosisTitle: string
   diagnosisSubtitle: string
-
   ecosystemTitle: string
   ecosystemSubtitle: string
-
   timelineTitle: string
   timelineSubtitle: string
-
   methodologyTitle: string
   methodologySubtitle: string
-
   projectionTitle: string
   projectionSubtitle: string
-
   investmentTitle: string
   investmentSubtitle: string
-
   roiTitle: string
   roiSubtitle: string
-
   closingTitle: string
   closingSubtitle: string
 
@@ -154,27 +160,28 @@ export interface Proposal {
   ctaUrl: string
   closingButtonText: string
 
-  // Diagnosis Data
+  // Diagnosis
   gaps: string[]
   growthLevers: string[]
 
-  // Competitors Data
+  // Competitors
   competitorsData: CompetitorItem[]
   marketBenchmarking: string
 
-  // Ecosystem Data (Strategy)
+  // Ecosystem
   trafficSources: string[]
   conversionZone: string[]
   salesIntelligence: string[]
 
-  // Timeline Data
+  // Timeline
   timelinePhases: TimelinePhase[]
 
-  // Gantt Data
+  // Gantt
   ganttPages: GanttPage[]
 
-  // Projection Data
+  // Projection
   currentInvestment: number
+  suggestedInvestment?: number
   currentCPA: number
   currentRevenue: number
   currentLeads: number
@@ -195,38 +202,50 @@ export interface Proposal {
     sales: number
   }
 
+  funnelSteps: FunnelStep[]
+
   // Projection Cards
   projectionCards: ProjectionCard[]
 
   // Financials
   operationalCosts: OperationalCost[]
+  costsTitle?: string
+  costsSubtitle?: string
+  costDisclaimers: string[]
   investmentTiers: InvestmentTier[]
+
+  // ROI
+  roiBenchmarks: RoiBenchmark[]
+  roasProjected: {
+    roi: string
+    label: string
+    note: string
+  }
 
   // Text Content
   strategyText: string
-  executiveSummary: string // Kept for backward compatibility or simple layout
+  executiveSummary: string
   summaryTriad: SummaryTriad
   methodologyText: string
   summaryLinks: SummaryLink[]
 
   // Methodology Details
   methodologyFeatures: string[]
+  methodologyQaTitle?: string
+  methodologyQaIcon?: string
   methodologyExtra: {
     title: string
     text: string
     icon: string
   }
+  methodologyItems: MethodologyItem[]
 
   // Footer
   footerText: string[]
 
-  // Editable Arrays
-  summaryMetrics: SummaryMetric[]
-  methodologyItems: MethodologyItem[]
-
   // Order of pages & Library
   pageOrder: string[]
-  library: string[] // IDs of removed pages
+  library: string[]
 
   createdAt: string
   updatedAt: string

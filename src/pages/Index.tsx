@@ -45,14 +45,6 @@ import { useAuth } from '@/hooks/use-auth'
 import { supabase } from '@/lib/supabase/client'
 import { useToast } from '@/hooks/use-toast'
 import { Label } from '@/components/ui/label'
-import { Proposal } from '@/types/proposal'
-import { useProposal } from '@/context/ProposalContext'
-
-// Need to access context, but Index is outside ProposalProvider in App.tsx structure.
-// However, I can wrap Index content or fetch/create logic directly here or move logic to ProposalContext and wrap App.
-// For simplicity and since ProposalContext manages active proposal, I will use local logic to create the row in DB and then Editor will load it.
-// Or even simpler: pass tag to Editor via state/url? No, user story says "New Proposal Modal".
-// I will create the proposal in DB here and redirect to editor with ID.
 
 export default function Index() {
   const [projects, setProjects] = useState<any[]>([])
@@ -74,7 +66,7 @@ export default function Index() {
   const fetchProposals = async () => {
     const { data, error } = await supabase
       .from('proposals')
-      .select('id, client_name, created_at, updated_at, content')
+      .select('id, client_name, created_at, updated_at, content, tags')
       .order('updated_at', { ascending: false })
 
     if (error) {
@@ -96,7 +88,7 @@ export default function Index() {
             minute: '2-digit',
           }),
         status: content?.status || 'draft',
-        tags: content?.tags || [],
+        tags: p.tags || content?.tags || [],
       }
     })
     setProjects(formatted)
@@ -122,7 +114,6 @@ export default function Index() {
       return
     }
     setCreating(true)
-    // Create new proposal in DB
     try {
       const { data, error } = await supabase
         .from('proposals')
@@ -130,6 +121,7 @@ export default function Index() {
           client_name: 'Nova Proposta',
           title: 'Plano de Aceleração',
           content: { tags: [newProposalTag] },
+          tags: [newProposalTag],
           updated_at: new Date().toISOString(),
         })
         .select()
@@ -257,7 +249,7 @@ export default function Index() {
                 <div className="text-xs text-slate-500 space-y-1">
                   <p>Criado em: {project.date}</p>
                   <p className="font-medium text-slate-600">
-                    Última atualização: {project.updatedAt}
+                    Atualizado: {project.updatedAt}
                   </p>
                 </div>
                 <div className="flex gap-1 mt-3">
@@ -273,13 +265,7 @@ export default function Index() {
               </CardContent>
               <CardFooter className="pt-0 flex justify-between items-center">
                 <span
-                  className={`text-xs font-bold px-2 py-1 rounded-full ${
-                    project.status === 'Aprovado'
-                      ? 'bg-emerald-100 text-emerald-700'
-                      : project.status === 'Enviado'
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'bg-slate-100 text-slate-600'
-                  }`}
+                  className={`text-xs font-bold px-2 py-1 rounded-full ${project.status === 'Aprovado' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}
                 >
                   {project.status === 'draft' ? 'Rascunho' : project.status}
                 </span>
@@ -295,7 +281,6 @@ export default function Index() {
               </CardFooter>
             </Card>
           ))}
-
           {filteredProjects.length === 0 && (
             <div className="col-span-full py-12 text-center text-slate-400 bg-slate-50 rounded-lg border border-dashed border-slate-300">
               <p>Nenhuma proposta encontrada.</p>
