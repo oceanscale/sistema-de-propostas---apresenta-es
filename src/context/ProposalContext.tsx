@@ -1,7 +1,16 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react'
 import { Proposal } from '@/types/proposal'
 import { DEFAULT_PROPOSAL } from '@/lib/constants'
 import { v4 as uuidv4 } from 'uuid'
+import { useAuth } from '@/hooks/use-auth'
+import { supabase } from '@/lib/supabase/client'
+import { useToast } from '@/hooks/use-toast'
 
 interface ProposalContextType {
   proposal: Proposal
@@ -10,7 +19,9 @@ interface ProposalContextType {
   duplicatePage: (pageId: string) => void
   removePage: (pageId: string) => void
   restorePage: (pageId: string) => void
+  saveProposal: () => Promise<void>
   isGenerating: boolean
+  isLoading: boolean
 }
 
 export const ProposalContext = createContext<ProposalContextType | undefined>(
@@ -20,9 +31,106 @@ export const ProposalContext = createContext<ProposalContextType | undefined>(
 export const ProposalProvider = ({ children }: { children: ReactNode }) => {
   const [proposal, setProposal] = useState<Proposal>(DEFAULT_PROPOSAL)
   const [isGenerating, setIsGenerating] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const { user } = useAuth()
+  const { toast } = useToast()
+
+  // Load user profile on mount
+  useEffect(() => {
+    const loadProfile = async () => {
+      if (!user) return
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single()
+
+      if (data && !error) {
+        setProposal((prev) => ({
+          ...prev,
+          agencyName: data.company_name || prev.agencyName,
+          agencyCnpj: data.cnpj || prev.agencyCnpj,
+          agencyRep: data.representative_name || prev.agencyRep,
+          profile: {
+            ...prev.profile,
+            name: data.representative_name || prev.profile.name,
+            company: data.company_name || prev.profile.company,
+            cnpj: data.cnpj || prev.profile.cnpj,
+            cpf: data.cpf || prev.profile.cpf,
+            logo: data.logo_url || prev.profile.logo,
+          },
+        }))
+      }
+    }
+
+    loadProfile()
+  }, [user])
 
   const updateProposal = (data: Partial<Proposal>) => {
     setProposal((prev) => ({ ...prev, ...data }))
+  }
+
+  const saveProposal = async () => {
+    if (!user) {
+      toast({
+        title: 'Erro ao salvar',
+        description: 'Você precisa estar logado para salvar.',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      const { id, content, ...rest } = proposal
+      // If ID is 'new', we let supabase generate one or we generate one
+      const proposalId = proposal.id === 'new' ? undefined : proposal.id
+
+      const payload = {
+        client_name: proposal.clientName,
+        title: proposal.coverTitle,
+        content: proposal as any, // Store full JSON
+        updated_at: new Date().toISOString(),
+        lead_id: null, // Assuming no lead relation strictly required for now
+      }
+
+      let result
+
+      if (proposalId) {
+        result = await supabase
+          .from('proposals')
+          .update(payload)
+          .eq('id', proposalId)
+          .select()
+      } else {
+        result = await supabase
+          .from('proposals')
+          .insert([{ ...payload, created_at: new Date().toISOString() }])
+          .select()
+      }
+
+      if (result.error) throw result.error
+
+      if (result.data && result.data[0]) {
+        const savedId = result.data[0].id
+        setProposal((prev) => ({ ...prev, id: savedId }))
+        toast({
+          title: 'Proposta salva!',
+          description: 'Suas alterações foram sincronizadas.',
+        })
+      }
+    } catch (error: any) {
+      console.error(error)
+      toast({
+        title: 'Erro ao salvar',
+        description: error.message || 'Ocorreu um erro desconhecido',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const duplicatePage = (pageId: string) => {
@@ -134,6 +242,8 @@ export const ProposalProvider = ({ children }: { children: ReactNode }) => {
         duplicatePage,
         removePage,
         restorePage,
+        saveProposal,
+        isLoading,
       }}
     >
       {children}

@@ -81,16 +81,25 @@ export interface Proposal {
   sector: string
   location: string
 
-  // Profile (New)
+  // Profile
   profile: ProfileData
 
-  // Images & Overlay (New)
+  // Images & Visuals
+  // Cover
   coverImage: string
-  overlayColor: string
-  overlayOpacity: number
+  coverOverlayColor: string
+  coverOverlayOpacity: number
 
+  // Summary
   summaryPageImage: string
   summaryBoxImage: string
+  summaryOverlayColor: string
+  summaryOverlayOpacity: number
+
+  // Closing
+  closingImage: string
+  closingOverlayColor: string
+  closingOverlayOpacity: number
 
   // Page Titles & Subtitles
   coverTitle: string
@@ -184,7 +193,7 @@ export interface Proposal {
   methodologyText: string // Used for quote/guarantee text
   summaryLinks: SummaryLink[]
 
-  // Methodology Details (New)
+  // Methodology Details
   methodologyFeatures: string[]
   methodologyExtra: {
     title: string
@@ -192,18 +201,20 @@ export interface Proposal {
     icon: string
   }
 
-  // Footer (New)
+  // Footer
   footerText: string[]
 
   // Editable Arrays
   summaryMetrics: SummaryMetric[]
   methodologyItems: MethodologyItem[]
 
-  // Order of pages & Library (New)
+  // Order of pages & Library
   pageOrder: string[]
   library: string[] // IDs of removed pages
 
   createdAt: string
+  updatedAt: string
+  userId?: string
   status: 'draft' | 'sent' | 'approved'
 }
 

@@ -46,9 +46,6 @@ export function SlideEcosystem({ proposal }: { proposal: Proposal }) {
                 ))}
               </div>
             </div>
-            <p className="text-center text-sm font-medium text-slate-500">
-              Aquisição & Atração
-            </p>
           </div>
 
           {/* Destination - Conversão */}
@@ -79,9 +76,6 @@ export function SlideEcosystem({ proposal }: { proposal: Proposal }) {
                 ))}
               </div>
             </div>
-            <p className="text-center text-sm font-medium text-sky-600">
-              Persuasão & Captura.
-            </p>
           </div>
 
           {/* Intelligence - Retenção/Venda */}
@@ -108,9 +102,6 @@ export function SlideEcosystem({ proposal }: { proposal: Proposal }) {
                 ))}
               </div>
             </div>
-            <p className="text-center text-sm font-medium text-emerald-600">
-              Vendas & Otimização
-            </p>
           </div>
         </div>
       </div>

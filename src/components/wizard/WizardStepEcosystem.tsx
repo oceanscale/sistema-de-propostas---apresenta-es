@@ -44,7 +44,7 @@ export function WizardStepEcosystem() {
   ]
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in pb-10">
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label>Título da Página</Label>

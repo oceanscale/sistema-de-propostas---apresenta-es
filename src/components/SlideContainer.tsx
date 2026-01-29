@@ -15,9 +15,6 @@ export function SlideContainer({
   dark = false,
   id,
 }: SlideContainerProps) {
-  // We need to access proposal data here for footer
-  // Using useContext directly to avoid throwing error if used outside provider (e.g. tests)
-  // This replaces the try-catch block around useProposal which violated hooks rules
   const context = useContext(ProposalContext)
 
   let footerText: string[] = [
@@ -29,6 +26,8 @@ export function SlideContainer({
   if (context?.proposal?.footerText && context.proposal.footerText.length > 0) {
     footerText = context.proposal.footerText
   }
+
+  const logoUrl = context?.proposal?.profile?.logo
 
   return (
     <div id={id} className="flex justify-center mb-8 print:mb-0 scroll-mt-24">
@@ -44,12 +43,23 @@ export function SlideContainer({
           className,
         )}
       >
+        {/* Branding Logo - Automatic Top Right */}
+        {logoUrl && (
+          <div className="absolute top-8 right-8 z-50">
+            <img
+              src={logoUrl}
+              alt="Agency Logo"
+              className="h-8 object-contain opacity-80"
+            />
+          </div>
+        )}
+
         <div className="absolute inset-0 flex flex-col p-12">{children}</div>
 
         {/* Watermark / Footer */}
-        <div className="absolute bottom-4 left-12 right-12 flex justify-between items-center border-t border-slate-200/20 pt-2">
+        <div className="absolute bottom-4 left-12 right-12 flex justify-between items-center border-t border-slate-200/20 pt-2 z-40">
           <div className="text-[10px] uppercase tracking-widest font-bold opacity-40">
-            OCEAN PROPOSAL
+            {context?.proposal?.agencyName || 'OCEAN PROPOSAL'}
           </div>
           <div className="flex gap-4 text-[10px] uppercase tracking-wider font-medium opacity-40">
             {footerText.map((text, i) => (

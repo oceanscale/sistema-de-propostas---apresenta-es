@@ -42,9 +42,10 @@ import {
   Trash2,
   BookOpen,
   UserCircle,
+  Loader2,
+  LayoutTemplate,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useToast } from '@/hooks/use-toast'
 import { v4 as uuidv4 } from 'uuid'
 import {
   DropdownMenu,
@@ -54,10 +55,16 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 function EditorContent() {
-  const { proposal, updateProposal, duplicatePage, removePage, restorePage } =
-    useProposal()
+  const {
+    proposal,
+    updateProposal,
+    duplicatePage,
+    removePage,
+    restorePage,
+    saveProposal,
+    isLoading,
+  } = useProposal()
   const [activeTab, setActiveTab] = useState('parts')
-  const { toast } = useToast()
 
   const [leftOpen, setLeftOpen] = useState(true)
   const [rightOpen, setRightOpen] = useState(true)
@@ -66,14 +73,11 @@ function EditorContent() {
 
   const [draggedItem, setDraggedItem] = useState<string | null>(null)
 
-  const handleSave = () => {
-    toast({
-      title: 'Proposta salva com sucesso!',
-      description: 'As alterações foram sincronizadas.',
-    })
-  }
-
   const handleShare = () => {
+    if (proposal.id === 'new') {
+      alert('Salve a proposta antes de compartilhar.')
+      return
+    }
     window.open(`/share/${proposal.id}`, '_blank')
   }
 
@@ -151,14 +155,12 @@ function EditorContent() {
     if (activeTab.startsWith('gantt-')) {
       return <WizardStepGantt pageId={activeTab} />
     }
-    // Handle duplicated pages: remove suffix to find component
     const baseId = activeTab.split('-copy-')[0]
     const conf = staticComponents[baseId]
     if (conf) {
       const Comp = conf.component
       return <Comp />
     }
-    // Fallback
     if (staticComponents[activeTab]) {
       const Comp = staticComponents[activeTab].component
       return <Comp />
@@ -171,7 +173,6 @@ function EditorContent() {
       const page = proposal.ganttPages.find((p) => p.id === id)
       return { label: page?.month || 'Gantt', icon: Calendar }
     }
-    // Handle duplicate
     const baseId = id.split('-copy-')[0]
     const conf = staticComponents[baseId]
     if (conf) {
@@ -180,7 +181,6 @@ function EditorContent() {
         icon: conf.icon,
       }
     }
-
     return staticComponents[id] || { label: id, icon: FileText }
   }
 
@@ -231,7 +231,6 @@ function EditorContent() {
           leftOpen ? 'w-64' : 'w-14',
         )}
       >
-        {/* Header */}
         <div className="p-4 border-b border-slate-100 flex items-center justify-between">
           {leftOpen ? (
             <div className="flex items-center gap-2">
@@ -262,7 +261,6 @@ function EditorContent() {
           </Button>
         </div>
 
-        {/* Page List */}
         {leftOpen && (
           <div className="flex-1 overflow-hidden flex flex-col">
             <div className="p-3 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
@@ -277,7 +275,7 @@ function EditorContent() {
                   onClick={() => setLibraryOpen(!libraryOpen)}
                   title="Biblioteca"
                 >
-                  <BookOpen className="w-4 h-4 text-slate-500" />
+                  <LayoutTemplate className="w-4 h-4 text-slate-500" />
                 </Button>
                 <Button
                   size="icon"
@@ -293,12 +291,37 @@ function EditorContent() {
 
             {/* Library Panel (Inline if open) */}
             {libraryOpen && (
-              <div className="bg-slate-100 p-2 border-b border-slate-200 max-h-40 overflow-y-auto">
+              <div className="bg-slate-100 p-2 border-b border-slate-200 max-h-60 overflow-y-auto">
                 <p className="text-xs font-bold text-slate-500 mb-2">
-                  Biblioteca (Removidos)
+                  Biblioteca de Páginas
+                </p>
+
+                {/* Standard Templates */}
+                <div className="grid grid-cols-2 gap-2 mb-4">
+                  {Object.entries(staticComponents)
+                    .filter(([key]) => key !== 'parts')
+                    .map(([key, conf]) => (
+                      <div
+                        key={key}
+                        onClick={() => restorePage(key)}
+                        className="bg-white p-2 rounded border border-slate-200 cursor-pointer hover:border-sky-400 text-center"
+                      >
+                        <conf.icon className="w-6 h-6 mx-auto text-slate-400 mb-1" />
+                        <span className="text-[10px] block font-medium text-slate-600 truncate">
+                          {conf.label}
+                        </span>
+                      </div>
+                    ))}
+                </div>
+
+                {/* Recoverable */}
+                <p className="text-xs font-bold text-slate-500 mb-2 border-t border-slate-200 pt-2">
+                  Removidas
                 </p>
                 {proposal.library?.length === 0 && (
-                  <p className="text-[10px] text-slate-400 italic">Vazia</p>
+                  <p className="text-[10px] text-slate-400 italic">
+                    Nenhuma página removida.
+                  </p>
                 )}
                 {proposal.library?.map((id) => (
                   <div
@@ -351,31 +374,32 @@ function EditorContent() {
                       />
                       <span className="truncate flex-1 text-xs">{label}</span>
 
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-6 w-6 opacity-0 group-hover:opacity-100"
-                          >
-                            <span className="sr-only">Menu</span>
-                            <div className="w-1 h-1 bg-slate-400 rounded-full mx-0.5"></div>
-                            <div className="w-1 h-1 bg-slate-400 rounded-full mx-0.5"></div>
-                            <div className="w-1 h-1 bg-slate-400 rounded-full mx-0.5"></div>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => duplicatePage(id)}>
-                            <Copy className="w-4 h-4 mr-2" /> Duplicar
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            className="text-red-600"
-                            onClick={() => removePage(id)}
-                          >
-                            <Trash2 className="w-4 h-4 mr-2" /> Remover
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                      <div className="flex opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-6 w-6 text-slate-400 hover:text-sky-500"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            duplicatePage(id)
+                          }}
+                          title="Duplicar"
+                        >
+                          <Copy className="w-3 h-3" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-6 w-6 text-slate-400 hover:text-red-500"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            removePage(id)
+                          }}
+                          title="Remover"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </Button>
+                      </div>
                     </div>
                   )
                 })}
@@ -384,7 +408,6 @@ function EditorContent() {
           </div>
         )}
 
-        {/* Footer Actions */}
         <div
           className={cn(
             'p-2 border-t border-slate-100 bg-white flex flex-col gap-2',
@@ -405,9 +428,14 @@ function EditorContent() {
                   variant="outline"
                   size="sm"
                   className="flex-1"
-                  onClick={handleSave}
+                  onClick={saveProposal}
+                  disabled={isLoading}
                 >
-                  <Save className="w-4 h-4 mr-2" />
+                  {isLoading ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Save className="w-4 h-4 mr-2" />
+                  )}
                   Salvar
                 </Button>
                 <Button

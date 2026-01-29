@@ -3,14 +3,25 @@ import { Proposal } from '@/types/proposal'
 import { ArrowRight } from 'lucide-react'
 
 export function SlideClosing({ proposal }: { proposal: Proposal }) {
+  const bgImage =
+    proposal.closingImage ||
+    'https://img.usecurling.com/p/1200/800?q=handshake%20business%20deal%20close&color=black'
+
   return (
     <SlideContainer dark className="relative flex items-center justify-center">
-      <div className="absolute inset-0 z-0 opacity-20">
+      <div className="absolute inset-0 z-0">
         <img
-          src="https://img.usecurling.com/p/1200/800?q=handshake%20business%20deal%20close&color=black"
+          src={bgImage}
           alt="Background"
           className="w-full h-full object-cover grayscale"
         />
+        <div
+          className="absolute inset-0 transition-all"
+          style={{
+            backgroundColor: proposal.closingOverlayColor || '#000000',
+            opacity: (proposal.closingOverlayOpacity ?? 20) / 100,
+          }}
+        ></div>
       </div>
 
       <div className="relative z-10 text-center max-w-4xl mx-auto space-y-10">
@@ -32,7 +43,6 @@ export function SlideClosing({ proposal }: { proposal: Proposal }) {
             APROVAR PLANO ESTRATÉGICO <ArrowRight className="w-6 h-6" />
           </a>
 
-          {/* Print Only Version */}
           <div className="hidden print:block border-2 border-white/20 p-6 rounded-xl max-w-lg mx-auto bg-slate-800/50 backdrop-blur-sm">
             <p className="text-slate-400 text-sm uppercase font-bold mb-2">
               Para aprovar este plano, acesse:

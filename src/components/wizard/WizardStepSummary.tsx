@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import { Slider } from '@/components/ui/slider'
 import { Plus, X } from 'lucide-react'
 import { useState } from 'react'
 import { SummaryLink } from '@/types/proposal'
@@ -33,7 +34,7 @@ export function WizardStepSummary() {
   }
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in pb-10">
       <div className="space-y-4">
         <div>
           <Label>Título da Página</Label>
@@ -60,6 +61,61 @@ export function WizardStepSummary() {
             }
             className="h-32"
           />
+        </div>
+      </div>
+
+      <div className="border-t border-slate-200 pt-4 space-y-4">
+        <h3 className="font-bold text-slate-900">Customização Visual</h3>
+        <div>
+          <Label>Imagem de Fundo</Label>
+          <Input
+            value={proposal.summaryPageImage}
+            onChange={(e) =>
+              updateProposal({ summaryPageImage: e.target.value })
+            }
+            placeholder="https://..."
+          />
+        </div>
+        <div>
+          <Label>Imagem do Box</Label>
+          <Input
+            value={proposal.summaryBoxImage}
+            onChange={(e) =>
+              updateProposal({ summaryBoxImage: e.target.value })
+            }
+            placeholder="https://..."
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label>Cor da Overlay (Box)</Label>
+            <div className="flex gap-2 items-center mt-2">
+              <input
+                type="color"
+                value={proposal.summaryOverlayColor || '#000000'}
+                onChange={(e) =>
+                  updateProposal({ summaryOverlayColor: e.target.value })
+                }
+                className="h-8 w-8 cursor-pointer border rounded"
+              />
+              <span className="text-xs text-slate-500">
+                {proposal.summaryOverlayColor}
+              </span>
+            </div>
+          </div>
+          <div>
+            <Label>Opacidade ({proposal.summaryOverlayOpacity ?? 30}%)</Label>
+            <Slider
+              defaultValue={[proposal.summaryOverlayOpacity ?? 30]}
+              max={100}
+              step={1}
+              onValueChange={(val) =>
+                updateProposal({ summaryOverlayOpacity: val[0] })
+              }
+              className="mt-3"
+            />
+          </div>
         </div>
       </div>
 

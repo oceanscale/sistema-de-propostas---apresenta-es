@@ -2,9 +2,6 @@ import { SlideContainer } from '@/components/SlideContainer'
 import { Proposal } from '@/types/proposal'
 
 export function SlideCover({ proposal }: { proposal: Proposal }) {
-  // Convert hex to rgb for opacity handling if needed, but we can use opacity style
-  // Assuming overlayColor is hex.
-
   return (
     <SlideContainer dark className="relative">
       {/* Background Image & Overlay */}
@@ -17,8 +14,8 @@ export function SlideCover({ proposal }: { proposal: Proposal }) {
         <div
           className="absolute inset-0 transition-all"
           style={{
-            backgroundColor: proposal.overlayColor || '#000000',
-            opacity: (proposal.overlayOpacity ?? 40) / 100,
+            backgroundColor: proposal.coverOverlayColor || '#000000',
+            opacity: (proposal.coverOverlayOpacity ?? 40) / 100,
           }}
         ></div>
       </div>

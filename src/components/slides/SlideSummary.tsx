@@ -105,12 +105,24 @@ export function SlideSummary({ proposal }: { proposal: Proposal }) {
 
         <div className="col-span-8 flex flex-col justify-between">
           <div className="bg-slate-900 text-white p-8 rounded-2xl mb-8 flex-grow relative overflow-hidden shadow-xl">
-            <div className="absolute inset-0 opacity-30">
+            <div
+              className="absolute inset-0 transition-all z-0"
+              style={{
+                opacity: (proposal.summaryOverlayOpacity ?? 30) / 100,
+              }}
+            >
               <img
                 src={proposal.summaryBoxImage || proposal.summaryPageImage}
                 className="w-full h-full object-cover mix-blend-overlay"
                 alt="Summary Box Bg"
               />
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundColor: proposal.summaryOverlayColor || '#000000',
+                  opacity: 0.5,
+                }}
+              ></div>
             </div>
             <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
 
